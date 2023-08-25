@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class STR extends Model
+class UmumStruktural extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
 
     public function asn()

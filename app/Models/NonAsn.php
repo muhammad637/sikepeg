@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class STR extends Model
+class NonAsn extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function asn()
-    {
-        return $this->belongsTo(Asn::class, 'asn_id');
+    public function pegawai(){
+        return $this->belongsTo(Pegawai::class,'pegawai_id');
     }
 }

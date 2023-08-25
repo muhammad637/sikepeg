@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('s_t_r_s', function (Blueprint $table) {
+        Schema::create('non_asns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('no_str');
-            $table->string('tanggal_terbit_str');
-            $table->string('masa_berlaku');
-            $table->string('link_str');
+            $table->string('nippk');
+            $table->string('niPtt_pkThl');
+            $table->string('tanggal_masuk');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('s_t_r_s');
+        Schema::dropIfExists('non_asns');
     }
 };
