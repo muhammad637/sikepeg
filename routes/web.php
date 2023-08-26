@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\STRController;
+use App\Http\Controllers\PegawaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +26,13 @@ Route::get('/dashboard', function () {
 Route::get('/coba', function () {
     $tanggal_pensiun =  "10-12-2022";
     $tanggal_mulai =  "10-12-2022";
-    $parsing_tanggal_pensiun = intval(Carbon::parse($tanggal_pensiun)->format('y'));
-    $parsing_tanggal_mulai = intval(Carbon::parse($tanggal_mulai)->format('y'));
+    // $parsing_tanggal_pensiun = intval(Carbon::parse($tanggal_pensiun)->format('y'));
+    // $parsing_tanggal_mulai = intval(Carbon::parse($tanggal_mulai)->format('y'));
+    // return Carbon\Carbon::parse('10-10-2001')->format('y-m-d');
     // return [$parsing_tanggal_mulai, $parsing_tanggal_pensiun];
-    
+
 });
+
+
+Route::resource('/pegawai', PegawaiController::class);
+Route::resource('/str', STRController::class);

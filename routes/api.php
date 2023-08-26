@@ -27,4 +27,4 @@ use App\Http\Controllers\PegawaiController;
 Route::post('/user', [UserController::class, 'store']);
 // Route::resource('STR', PegawaiController::class);
 // Route::resource('SIP', PegawaiController::class);
-Route::resource('pegawai',PegawaiController::class);
+// Route::resource('pegawai',PegawaiController::class);

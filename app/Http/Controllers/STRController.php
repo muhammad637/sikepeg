@@ -15,6 +15,7 @@ class STRController extends Controller
     public function index()
     {
         //
+        return STR::all();
     }
 
     /**

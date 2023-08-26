@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('no_taspen');
             $table->string('no_npwp');
             $table->string('no_hp');
+            $table->string('email');
+            $table->string('pelatihan');
             $table->timestamps();
         });
     }

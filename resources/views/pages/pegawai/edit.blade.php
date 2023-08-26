@@ -14,7 +14,8 @@
             <div class="card-body">
                 <h1 class="fw-bold mb-4 mt-3 text-uppercase judul-text">Personal File</h1>
                 <hr style="background: black; height:.2rem;" class="mt-3 mb-5">
-                <form action="{{ route('pegawai.store') }}" method="post">
+                <form action="{{ route('pegawai.update', ['pegawai' => $pegawai->id]) }}" method="post">
+                    @method('put')
                     @csrf
                     <div class="row mt-5 judul-text">
                         <div class="col-md-12 col-lg-12 col-xl-6 ">
@@ -30,7 +31,7 @@
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control form-control-user" id="NIK"
                                             aria-describedby="NIK" name="nik" autocomplete="false"
-                                            placeholder="Masukkan NIK ..." required value="{{ old('nik') }}">
+                                            placeholder="Masukkan NIK ..." required value="{{ old('nik', $pegawai->nik) }}">
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +46,7 @@
                                         <input type="text" class="form-control @error('nip_nippk') is-invalid @enderror"
                                             id="nip_nippk" aria-describedby="nip_nippk" name="nip_nippk"
                                             autocomplete="false" placeholder="Masukkan NIP / NIPPK" required
-                                            value="{{ old('nip_nippk') }}">
+                                            value="{{ old('nip_nippk', $pegawai->nip_nippk) }}">
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +61,7 @@
                                         <input type="text"
                                             class="form-control @error('gelar_depan') is-invalid @enderror" id="gelar_depan"
                                             aria-describedby="gelar_depan" name="gelar_depan" autocomplete="false"
-                                            value="{{ old('gelar_depan') }}">
+                                            value="{{ old('gelar_depan', $pegawai->gelar_depan) }}">
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +76,7 @@
                                         <input type="text" class="form-control @error('nama_depan') is-invalid @enderror"
                                             id="nama_depan" aria-describedby="nama_depan" name="nama_depan"
                                             autocomplete="false" placeholder="Masukkan Nama Depan ..." required
-                                            value="{{ old('nama_depan') }}">
+                                            value="{{ old('nama_depan', $pegawai->nama_depan) }}">
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +91,8 @@
                                         <input type="text"
                                             class="form-control @error('nama_belakang') is-invalid @enderror"
                                             id="nama_belakang" aria-describedby="nama_belakang" name="nama_belakang"
-                                            autocomplete="false" value="{{ old('nama_belakang') }}">
+                                            autocomplete="false"
+                                            value="{{ old('nama_belakang', $pegawai->nama_belakang) }}">
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +107,8 @@
                                         <input type="text"
                                             class="form-control @error('gelat_belakang') is-invalid @enderror"
                                             id="gelar_belakang" aria-describedby="gelar_belakang" name="gelar_belakang"
-                                            autocomplete="false" value="{{ old('gelar_belakang') }}">
+                                            autocomplete="false"
+                                            value="{{ old('gelar_belakang', $pegawai->gelar_belakang) }}">
                                     </div>
                                 </div>
                             </div>
@@ -121,10 +124,12 @@
                                             class="form-control @error('jenis_kelamin') is-invalid @enderror">
                                             <option value="">Pilih</option>
                                             <option value="laki-laki"
-                                                {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>Laki Laki
+                                                {{ old('jenis_kelamin', $pegawai->jenis_kelamin) == 'laki-laki' ? 'selected' : '' }}>
+                                                Laki Laki
                                             </option>
                                             <option value="perempuan"
-                                                {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>Perempuan
+                                                {{ old('jenis_kelamin', $pegawai->jenis_kelamin) == 'perempuan' ? 'selected' : '' }}>
+                                                Perempuan
                                             </option>
                                         </select>
                                     </div>
@@ -142,7 +147,7 @@
                                             class="form-control @error('tempat_lahir') is-invalid @enderror"
                                             id="tempat_lahir" aria-describedby="tempat_lahir" name="tempat_lahir"
                                             autocomplete="false" placeholder="Masukkan Tempat Lahir ..."
-                                            value="{{ old('tempat_lahir') }}">
+                                            value="{{ old('tempat_lahir', $pegawai->tempat_lahir) }}">
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +163,7 @@
                                             class="form-control @error('tanggal_lahir') is-invalid @enderror"
                                             id="tanggal_lahir" aria-describedby="tanggal_lahir" name="tanggal_lahir"
                                             autocomplete="false" placeholder="Masukkan Tanggal Lahir ..."
-                                            value="{{ Carbon\Carbon::parse(old('tanggal_lahir'))->format('Y-m-d') }}">
+                                            value="{{ Carbon\Carbon::parse(old('tanggal_lahir', $pegawai->tanggal_lahir))->format('Y-m-d') }}">
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +177,7 @@
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control @error('usia') is-invalid @enderror"
                                             id="usia" aria-describedby="usia" name="usia" autocomplete="false"
-                                            placeholder="Masukkan Usia ..." value="{{ old('usia') }}">
+                                            placeholder="Masukkan Usia ..." value="{{ old('usia', $pegawai->usia) }}">
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +191,8 @@
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control @error('alamat') is-invalid @enderror"
                                             id="alamat" aria-describedby="alamat" name="alamat" autocomplete="false"
-                                            placeholder="Masukkan Alamat ..." value="{{ old('alamat') }}">
+                                            placeholder="Masukkan Alamat ..."
+                                            value="{{ old('alamat', $pegawai->alamat) }}">
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +206,7 @@
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control @error('agama') is-invalid @enderror"
                                             id="agama" aria-describedby="agama" name="agama" autocomplete="false"
-                                            placeholder="Masukkan Agama" value="{{ old('agama') }}">
+                                            placeholder="Masukkan Agama" value="{{ old('agama', $pegawai->agama) }}">
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +220,7 @@
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control @error('no_wa') is-invalid @enderror"
                                             id="no_wa" aria-describedby="no_wa" name="no_wa" autocomplete="false"
-                                            placeholder="Masukkan No WA" value="{{ old('no_wa') }}">
+                                            placeholder="Masukkan No WA" value="{{ old('no_wa', $pegawai->no_wa) }}">
                                     </div>
                                 </div>
                             </div>
@@ -230,14 +236,17 @@
                                             class="form-control @error('status_pegawai') is-invalid @enderror">
                                             <option value="">Pilih</option>
                                             <option value="aktif"
-                                                {{ old('status_pegawai') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'aktif' ? 'selected' : '' }}>
+                                                Aktif</option>
                                             <option value="pensiun"
-                                                {{ old('status_pegawai') == 'pensiun' ? 'selected' : '' }}>Pensiun
+                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'pensiun' ? 'selected' : '' }}>
+                                                Pensiun
                                             </option>
                                             <option value="mutasi"
-                                                {{ old('status_pegawai') == 'mutasi' ? 'selected' : '' }}>Mutasi</option>
+                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'mutasi' ? 'selected' : '' }}>
+                                                Mutasi</option>
                                             <option value="mengundurkan diri"
-                                                {{ old('status_pegawai') == 'mengundurkan diri' ? 'selected' : '' }}>
+                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'mengundurkan diri' ? 'selected' : '' }}>
                                                 Mengundurkan Diri</option>
                                         </select>
                                     </div>
@@ -254,7 +263,7 @@
                                         <input type="text" class="form-control @error('ruangan') is-invalid @enderror"
                                             id="ruangan" aria-describedby="ruangan" name="ruangan"
                                             autocomplete="false" placeholder="Masukkan Ruangan"
-                                            value="{{ old('ruangan') }}">
+                                            value="{{ old('ruangan', $pegawai->ruangan) }}">
                                     </div>
                                 </div>
                             </div>
@@ -270,7 +279,8 @@
                                             class="form-control @error('tahun_pensiun') is-invalid @enderror"
                                             id="tahun_pensiun" aria-describedby="tahun_pensiun" name="tahun_pensiun"
                                             autocomplete="false" placeholder="Masukkan Ruangan" min="1900"
-                                            max="2100" step="1" value="{{ old('tahun_pensiun') }}">
+                                            max="2100" step="1"
+                                            value="{{ old('tahun_pensiun', $pegawai->tahun_pensiun) }}">
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +294,7 @@
                         <div class="col-md-12 col-sm-12 col-lg-12 col-xl-6">
                             <h3 class="judul-text mt-5 mt-xl-0">Pangkat Dan Golongan</h3>
                             <hr style=" height:.1rem;" class="bg-primary">
-                            @livewire('pegawai.pangkat-dan-golongan')
+                            @livewire('pegawai.pangkat-dan-golongan-edit', ['pegawai' => $pegawai])
                         </div>
 
                     </div>
