@@ -22,8 +22,11 @@
 
     <!-- data table -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- carausel style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
     <style>
-        
+
     </style>
 </head>
 
@@ -41,7 +44,7 @@
                     <img src="./img/putihLogo.png" alt="" width="50">
                 </div>
                 <img src="./img/SiKep.svg" alt="" width="100" class="sidebar-brand-text">
-            </a>            
+            </a>
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active bg-white">
@@ -68,17 +71,17 @@
                 <a class="nav-link" href="diklat.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Diklat</span></a>
-            </li>  
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="sip.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>SIP</span></a>
-            </li>  
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="./str.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>STR</span></a>
-            </li>             
+            </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -158,7 +161,7 @@
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>            
+            </div>
 
         </ul>
         <!-- End of Sidebar -->
@@ -285,8 +288,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -297,8 +299,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -309,8 +310,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -342,8 +342,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -375,110 +374,83 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <!-- DataTales Example -->
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                    <!-- carausel -->
+                    
+                        <div class="row">
+                            <div class="col-md-12 bg-white my-4 mx-auto p-3 shadow-sm" style="height: 400px;">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                                        </li>
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>                                    
+                                    </ol>
+                                    <div class="carousel-inner text-center">
+                                        <div class="text-left pt-0"><h6>Reminder</h6></div>                                       
+                                        <div class="carousel-item active pt-4">
+                                            <div class="row">
+                                                <div class="col-md-12 ">
+                                                    <div class="singgle-box">
+                                                        <div class="img-area">
+                                                            <img src="./img/foto-reminder.png" class="rounded-circle" alt="">
+                                                        </div>
+                                                        <div class="img-text">
+                                                            <h2>tes</h2>
+                                                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                                
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item pt-4">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="singgle-box">
+                                                        <div class="img-area">
+                                                            <img src="./img/foto-reminder.png" class="rounded-circle" alt="">
+                                                        </div>
+                                                        <div class="img-text">
+                                                            <h2>tes</h2>
+                                                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr class="text-dark">
-                                            <th scope="col"></th>
-                                            <th scope="col">NIP</th>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Status Tenaga</th>
-                                            <th scope="col">Ruangan</th>
-                                            <th scope="col">Jenis</th>
-                                            <th scope="col">No STR</th>
-                                            <th scope="col">Masa Berlaku</th>
-                                            <th scope="col">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td>198610232017010027</td>
-                                            <td>John Doe</td>
-                                            <td>Laki-laki</td>
-                                            <td>Kepegawaian</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>198610232017010027</td>
-                                            <td>Janne woe</td>
-                                            <td>Perempuan</td>
-                                            <td>Kepegawaian</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                            
-                                        </tr>
-        
-                                        <tr>
-                                            <td></td>
-                                            <td>198610232017010027</td>
-                                            <td>Wu Kong</td>
-                                            <td>Laki-laki</td>
-                                            <td>Kepegawaian</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-        
-                                        <tr>
-                                            <td></td>
-                                            <td>198610232017010027</td>
-                                            <td>Tong sang chong</td>
-                                            <td>Laki-laki</td>
-                                            <td>Kepegawaian</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>                                            
-                                        </tr>
-        
-                                    </tbody>
-                                </table>
+                    
+                    <!-- carausel end -->
+                    <!-- Content Row -->
+                    <!-- Cari Pegawai -->
+                    <div class="container-fluid px-4 pt-4 rounded-2">
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-12 text-center mx-auto">
+                                <div id="plc" class="mb-4 bg-white shadow-sm rounded text-center py-4"
+                                    style="padding-right: 20%; padding-left: 20%;">
+                                    <img src="./img/cariPeg.svg" alt="" class="my-4">
+                                    <h4 for="exampleInputEmail1" class="form-label"> Cari Pegawai - RSUD Blambangan</h4>
+                                    <span>Isi form dibawah ini, untuk mencari pegawai RSUD Blambangan lebih mudah</span>
+                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
+                                        placeholder="Nama Pegawai" aria-describedby="emailHelp">
+                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
+                                        placeholder="NIP" aria-describedby="emailHelp">
+                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
+                                        placeholder="Ruangan" aria-describedby="emailHelp">
+                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
+                                        placeholder="Status Tenaga" aria-describedby="emailHelp">
+                                    <button type="button" class="btn text-white py-1 px-4"
+                                        style="background-color: #009581fa;"><i class="fa fa-search pe-1"
+                                            aria-hidden="true"></i>Cari </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Content Row -->
-                    <!-- Cari Pegawai -->
-            <div class="container-fluid px-4 pt-4 rounded-2">
-                <div class="row">
-                    <div class="col-sm-12 col-xl-12 text-center mx-auto">                        
-                        <div id="plc" class="mb-4 bg-white shadow-sm rounded text-center py-4" style="padding-right: 20%; padding-left: 20%;">
-                            <img src="./img/cariPeg.svg" alt="" class="my-4">
-                            <h4 for="exampleInputEmail1" class="form-label"> Cari Pegawai - RSUD Blambangan</h4>
-                            <span>Isi form dibawah ini, untuk mencari pegawai RSUD Blambangan lebih mudah</span>
-                            <input type="email" class="form-control my-2" id="exampleInputEmail1"
-                                placeholder="Nama Pegawai" aria-describedby="emailHelp">
-                            <input type="email" class="form-control my-2" id="exampleInputEmail1" placeholder="NIP"
-                                aria-describedby="emailHelp">
-                            <input type="email" class="form-control my-2" id="exampleInputEmail1" placeholder="Ruangan"
-                                aria-describedby="emailHelp">
-                            <input type="email" class="form-control my-2" id="exampleInputEmail1"
-                                placeholder="Status Tenaga" aria-describedby="emailHelp">
-                            <button type="button" class="btn text-white py-1 px-4"
-                                style="background-color: #009581fa;"><i class="fa fa-search pe-1"
-                                    aria-hidden="true"></i>Cari </button>
-                        </div>
-                    </div>                    
-                </div>
-            </div>
+                    <!-- Cari Pegawai End -->
 
-            <!-- Cari Pegawai End -->
-                    
 
                 </div>
                 <!-- /.container-fluid -->
@@ -530,6 +502,7 @@
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
