@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('pendidikan_terakhir');
             $table->string('tanggal_lulus');
             $table->string('no_ijazah');
-        $table->string('jabatan_fungsional');
+            $table->string('jabatan_fungsional');
             $table->integer('cuti_tahunan')->default(12);
             $table->integer('sisa_cuti_tahunan')->nullable();
             $table->integer('masa_kerja')->nullable();

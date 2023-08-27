@@ -36,3 +36,4 @@ Route::get('/coba', function () {
 
 Route::resource('/pegawai', PegawaiController::class);
 Route::resource('/str', STRController::class);
+Route::resource('/sip', SIPController::class);

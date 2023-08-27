@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\STR;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class STRController extends Controller
 {
@@ -15,7 +17,10 @@ class STRController extends Controller
     public function index()
     {
         //
-        return STR::all();
+        // return view('pages.str.index',[
+        //     'str' => STR::orderBy('created_at','desc')
+        // ]);
+        return Pegawai::where('status_tenaga', 'asn_pns')->orWhere('status_tenaga', 'asn_pppk')->with(['asn'])->get();
     }
 
     /**

@@ -54,8 +54,8 @@
                 <div id="STRdanSIP" class="collapse {{(Request::is('str*') || Request::is('sip*')) ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Cuti</h6>
-                        <a class="collapse-item {{Request::is('str*') ? 'active' : ''}}" href="buttons.html">STR</a>
-                        <a class="collapse-item {{Request::is('sip*') ? 'active' : ''}}" href="cards.html">SIP</a>
+                        <a class="collapse-item {{Request::is('str*') ? 'active' : ''}}" href="{{route('str.index')}}">STR</a>
+                        <a class="collapse-item {{Request::is('sip*') ? 'active' : ''}}" href="{{route('sip.index')}}">SIP</a>
                     </div>
                 </div>
             </li>              

@@ -3,6 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Asn;
+use App\Models\SIP;
+use App\Models\STR;
+use App\Models\User;
+use App\Models\Pegawai;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +26,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        Pegawai::factory(10)->create();
+        Asn::factory(10)->create();
+        STR::factory(20)->create();
+        SIP::factory(20)->create();
     }
 }
