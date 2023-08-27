@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('non_asns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
             $table->string('niPtt_pkThl');
             $table->string('tanggal_masuk');
             $table->timestamps();
