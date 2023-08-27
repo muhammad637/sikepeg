@@ -9,7 +9,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="card">
+    <div class="card mb-5">
         <div class="px-4">
             <div class="card-body">
                 <h1 class="fw-bold mb-4 mt-3 text-uppercase judul-text">Personal File</h1>

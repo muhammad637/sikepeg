@@ -10345,6 +10345,8 @@ a:focus {
 
 .sidebar .nav-item.active .nav-link {
   font-weight: 700;
+  background-color: white;
+  color: black;
 }
 
 .sidebar .nav-item .collapse {
@@ -10710,11 +10712,11 @@ a:focus {
 }
 
 .sidebar-dark .nav-item.active .nav-link {
-  color: #fff;
+  color: black;
 }
 
 .sidebar-dark .nav-item.active .nav-link i {
-  color: #fff;
+  color: black;
 }
 
 .sidebar-dark #sidebarToggle {

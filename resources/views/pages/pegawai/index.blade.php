@@ -1,9 +1,10 @@
 @extends('main')
 @section('content')
+    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Personal File</h1>
     <!-- Page Heading -->
     <!-- DataTales Example -->
     <div class="card shadow-sm mb-4">
-        <div class="card-header px-3">
+        <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Personal File</h2>
                 <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
@@ -42,10 +43,10 @@
                                     <button class="badge p-2 text-white bg-info border-0">aktif</button>
                                 </td>
                                 <td>
-                                    <a href="#"
-                                        class="badge p-2 text-white bg-info"><i class="fas fa-pen"></i></a>
-                                    <a href="{{ route('pegawai.edit', ['pegawai' => $item->id]) }}" class="badge p-2 text-white bg-warning"><i
-                                            class="fas fa-info-circle"></i></a>
+                                    <a href="{{ route('pegawai.show', ['pegawai' => $item->id]) }}"
+                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
+                                    <a href="{{ route('pegawai.edit', ['pegawai' => $item->id]) }}"
+                                        class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
                         @endforeach

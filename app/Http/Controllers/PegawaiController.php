@@ -175,6 +175,9 @@ class PegawaiController extends Controller
     public function show(Pegawai $pegawai)
     {
         //
+        return view('pages.pegawai.show',[
+            'pegawai' => $pegawai
+        ]);
     }
 
     /**
