@@ -22,9 +22,6 @@
 
     <!-- data table -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-    <!-- carausel style -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
     <style>
 
     </style>
@@ -47,40 +44,35 @@
             </a>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active bg-white">
-                <a class="nav-link text-dark" href="index.html">
-                    <img src="./img/svg/dashboard.svg" alt="" class="text-dark">
+            <li class="nav-item">
+                <a class="nav-link me-4" href="index.html">
+                    <img src="./img/svg/dashboard.svg" alt="">
                     <span>Dashboard</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="personalFile.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-address-card"></i>
                     <span>Personal File</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="Mutasi.html">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Mutasi</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="Cuti.html">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Cuti</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="diklat.html">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Diklat</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="sip.html">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>SIP</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="./str.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>STR</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -366,96 +358,84 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <!-- Page Heading -->                    
-                    <h1>Dashboard</h1>
-                    <!-- carausel -->
-                    <div class="container" style="width: 95%;">
-                        <div class="row">
-                        <div class="col-md-12 bg-white my-4 mx-auto p-2 shadow-sm text-capitalize">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active bg-success ">
-                                    </li>
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="1" class="bg-success"></li>                                    
-                                </ol>
-                                <div class="carousel-inner text-center">
-                                    <div class="text-left pt-0"><h6>Reminder</h6></div>                                       
-                                    <div class="carousel-item active pt-4">
-                                        <div class="row">
-                                            <div class="col-md-12 ">
-                                                <div class="singgle-box">
-                                                    <div class="img-area">
-                                                        <img src="./img/foto-reminder.png" class="rounded-circle" alt="">
-                                                    </div>
-                                                    <div class="img-text">
-                                                        <h2 class="pb-5">Rino Purbasari</h2>
-                                                        <p>pada hari senin 27 agust 1999 berulang tahun.</p>
-                                                    </div>
-                                                </div>
-                                            </div>                                                                                                
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item pt-4">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="singgle-box">
-                                                    <div class="img-area">
-                                                        <img src="./img/foto-reminder.png" class="rounded-circle" alt="">
-                                                    </div>
-                                                    <div class="img-text">
-                                                        <h2 class="pb-5">Kristanto</h2>
-                                                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-                                                    </div>
-                                                </div>
-                                            </div>                                                
-                                        </div>
-                                    </div>
+                <h1 class="ml-2">Mutasi</h1>
+                <div class="card p-4 mx-5 mb-5 ">
+                    <h5 class="fw-bold mb-2">Form Mutasi Tambah</h5>
+                    <hr>
+                    <div class="row mt-2">
+                        <div class="col-sm-12 col-xl-12">
+                            <div class="row mb-2">
+                                <div class="col-sm-4 mb-2  fw-italic text-end">
+                                    <span class="mb-0 text-dark " style="text-decoration: none;">Pegawai</span>
+                                </div>
+                                <div class="col-sm-8 text-secondary">
+                                    <select class="form-control form-select-sm" aria-label=".form-select-sm example">
+                                        <option selected>Pilih NIP</option>
+                                        <option value="1">000</option>
+                                        <option value="2">111</option>
+                                        <option value="3">222</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    </div>
-                    
-                
-                <!-- carausel end -->
-
-                    <!-- Content Row -->
-                    <!-- Cari Pegawai -->
-                    <div class="container-fluid px-4 pt-4 rounded-2">
-                        <div class="row">
-                            <div class="col-sm-12 col-xl-12 text-center mx-auto">
-                                <div id="plc" class="mb-4 bg-white shadow-sm rounded text-center py-4"
-                                    style="padding-right: 20%; padding-left: 20%;">
-                                    <img src="./img/cariPeg.svg" alt="" class="my-4">
-                                    <h4 for="exampleInputEmail1" class="form-label"> Cari Pegawai - RSUD Blambangan</h4>
-                                    <span>Isi form dibawah ini, untuk mencari pegawai RSUD Blambangan lebih mudah</span>
-                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
-                                        placeholder="Nama Pegawai" aria-describedby="emailHelp">
-                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
-                                        placeholder="NIP" aria-describedby="emailHelp">
-                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
-                                        placeholder="Ruangan" aria-describedby="emailHelp">
-                                    <input type="email" class="form-control my-2" id="exampleInputEmail1"
-                                        placeholder="Status Tenaga" aria-describedby="emailHelp">
-                                    <button type="button" class="btn text-white py-1 px-4"
-                                        style="background-color: #009581fa;"><i class="fa fa-search pe-1"
-                                            aria-hidden="true"></i>Cari </button>
+                            <div class="row mb-2">
+                                <div class="col-sm-4 mb-2  fw-italic text-end">
+                                    <span class="mb-0 text-dark " style="text-decoration: none;">Mutasi</span>
                                 </div>
+                                <div class="col-sm-8 text-secondary">
+                                    <select class="form-control form-select-sm" aria-label=".form-select-sm example">
+                                        <option selected>Jenis Mutasi</option>
+                                        <option value="1">Pensiun</option>
+                                        <option value="2">Pindah AntarIn</option>
+                                        <option value="3">222</option>
+                                    </select>
+                                </div>
+                            </div>                            
+                            <div class="row mb-2">
+                                <div class="col-sm-4 mb-2  fw-italic text-end">
+                                    <span class="mb-0 text-dark " style="text-decoration: none;">Tanggal Lulus</span>
+                                </div>
+                                <div class="col-sm-8 text-secondary">
+                                    <div class="input-group date" id="datepicker">
+                                        <input type="text" class="form-control" id="date" />
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="row mb-3">
+                                <label for="noSTR" class="col-sm-4 col-form-label">Instansi Tujuan</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" disabled id="inputPassword3">
+                                </div>
+                            </div>  
+                            <div class="row mb-3">
+                                <label for="noSTR" class="col-sm-4 col-form-label">No. SK</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="inputPassword3">
+                                </div>
+                            </div>  
+                            <div class="row mb-3">
+                                <label for="noSTR" class="col-sm-4 col-form-label">Tanggal SK</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="inputPassword3">
+                                </div>
+                            </div>                                                   
+                            </form>
+                            <div class="text-right">
+                                <a href="str.html" class="btn bg-gradient-warning text-white">Tutup</a>
+                                <a href="str.html" class="btn bg-gradient-success text-white">Simpan</a>
                             </div>
+                            
                         </div>
                     </div>
-
-                    <!-- Cari Pegawai End -->
-
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -506,7 +486,6 @@
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
