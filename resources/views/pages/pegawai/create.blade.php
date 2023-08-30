@@ -275,12 +275,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
                         <div class="col-md-12 col-sm-12 col-lg-12 col-xl-6">
                             <h3 class="judul-text mt-5 mt-xl-0">Pangkat Dan Golongan</h3>
                             <hr style=" height:.1rem;" class="bg-primary">

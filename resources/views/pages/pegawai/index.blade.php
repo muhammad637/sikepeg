@@ -14,9 +14,9 @@
         </div>
         <div class="card-body">
 
-            @if (session()->has('success'))
+            {{-- @if (session()->has('success'))
                 {{ session()->get('success') }}
-            @endif
+            @endif --}}
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
                     cellspacing="0">
@@ -36,7 +36,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nip_nippk }}</td>
-                                <td>{{ $item->nama_depan }}</td>
+                                <td>{{$item->gelar_depan}}. {{ $item->nama_depan }} {{ $item->nama_belakang }} ,{{ $item->gelar_belakang }}</td>
                                 <td>{{ $item->jenis_kelamin }}</td>
                                 <td>{{ $item->ruangan }}</td>
                                 <td>

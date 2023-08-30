@@ -18,7 +18,8 @@
                         style="
                                                                 margin-bottom: -25px;
                                                             ">
-                        {{ $pegawai->gelar_depan }}. {{ $pegawai->nama_depan }} {{ $pegawai->nama_belakang }},
+                        {{ $pegawai->gelar_depan }}. <span class="text-capitalize">{{ $pegawai->nama_depan }}
+                            {{ $pegawai->nama_belakang }}</span>,
                         {{ $pegawai->gelar_belakang }}
                     </h5>
                     <br />
@@ -386,7 +387,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No Karpeg</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum_struktural[0]->no_karpeg }}
+                                        {{ $pegawai->asn[0]->umum[0]->no_karpeg }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -394,7 +395,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No Taspen</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum_struktural[0]->no_taspen }}
+                                        {{ $pegawai->asn[0]->umum[0]->no_taspen }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -403,7 +404,7 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum_struktural[0]->no_npwp }}
+                                        {{ $pegawai->asn[0]->umum[0]->no_npwp }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -411,15 +412,15 @@
                                         <span class="mb-0 text-dark fw-bolder">No HP</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum_struktural[0]->no_hp }}
+                                        {{ $pegawai->asn[0]->umum[0]->no_hp }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                         <span class="mb-0 text-dark fw-bolder">Email</span>
                                     </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum_struktural[0]->email }}
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 text-lowercase">
+                                        {{ $pegawai->asn[0]->umum[0]->email }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -427,7 +428,7 @@
                                         <span class="mb-0 text-dark fw-bolder">Pelatihan</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum_struktural[0]->pelatihan }}
+                                        {{ $pegawai->asn[0]->umum[0]->pelatihan }}
                                     </div>
                                 </div>
                             @elseif (count($pegawai->asn[0]->str) > 0 && count($pegawai->asn[0]->sip) > 0)
@@ -436,9 +437,9 @@
                                         <span class="mb-0 text-dark fw-bolder">STR</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                       lihat Semua <span class="text-uppercase">
+                                        lihat Semua <span class="text-uppercase">
                                             str
-                                            </span> 
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -448,7 +449,7 @@
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
                                         lihat Semua <span class="text-uppercase">
                                             sip
-                                            </span> 
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -456,7 +457,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No Sip</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{$pegawai->asn[0]->SIP[0]->orderByDesc('masa_berlaku_sip')->first()}}
+                                        {{ $pegawai->asn[0]->SIP[0]->orderByDesc('masa_berlaku_sip')->first() }}
                                     </div>
                                 </div>
                             @endif

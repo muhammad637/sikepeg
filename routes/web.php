@@ -35,5 +35,38 @@ Route::get('/coba', function () {
 
 
 Route::resource('/pegawai', PegawaiController::class);
-Route::resource('/str', STRController::class);
-Route::resource('/sip', SIPController::class);
+
+// str
+Route::get('/str', function () {
+    return view('pages.default.maintenance');
+})->name('str.index');
+// sip
+Route::get('/sip', function () {
+    return view('pages.default.maintenance');
+})->name('sip.index');
+
+// cuti
+Route::get('/cuti', function () {
+    return view('pages.default.maintenance');
+})->name('cuti.index');
+
+// histori-cuti
+Route::get('/histori-cuti', function () {
+    return view('pages.default.maintenance');
+})->name('histori-cuti.index');
+
+
+// mutasi
+Route::get('/mutasi', function () {
+    return view('pages.default.maintenance');
+})->name('mutasi.index');
+
+// diklat
+Route::get('/diklat', function () {
+    return view('pages.default.maintenance');
+})->name('diklat.index');
+
+// dashboard
+Route::get('/dashboard', function () {
+    return view('pages.default.maintenance');
+})->name('dashboard.index');

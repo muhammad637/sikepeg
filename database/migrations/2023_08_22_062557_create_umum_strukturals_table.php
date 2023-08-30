@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('umum_strukturals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('asn_id')->constrained('asns')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('no_karpeg');
-            $table->string('no_taspen');
-            $table->string('no_npwp');
-            $table->string('no_hp');
-            $table->string('email');
-            $table->string('pelatihan');
+            $table->string('no_karpeg')->nullable();
+            $table->string('no_taspen')->nullable();
+            $table->string('no_npwp')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('email')->nullable();
+            $table->string('pelatihan')->nullable();
             $table->timestamps();
         });
     }

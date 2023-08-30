@@ -9,8 +9,8 @@
             </a>            
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item {{Request::is('dashboard*') ? 'active' : ''}}">
+                <a class="nav-link " href="{{route('dashboard.index')}}">
                    <i class="fas fa-hamburger"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -19,14 +19,14 @@
                     <i class="fas fa-address-card"></i>
                     <span>Personal File</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="Mutasi.html">
+            <li class="nav-item {{Request::is('mutasi*') ? 'active' : ''}}">
+                <a class="nav-link " href="{{route('mutasi.index')}}">
                     <i class="fas fa-compress-alt"></i>
                     <span>Mutasi</span></a>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link" href="diklat.html">
+            <li class="nav-item  {{Request::is('diklat*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{route('diklat.index')}}">
                    <i class="fas fa-chalkboard-teacher"></i>
                     <span>Diklat</span></a>
             </li> 
@@ -39,8 +39,8 @@
                 <div id="CutiCollapse" class="collapse {{(Request::is('cuti*') || Request::is('histori-cuti*')) ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Cuti</h6>
-                        <a class="collapse-item {{Request::is('cuti*') ? 'active' : ''}}" href="buttons.html">Data Cuti Akif</a>
-                        <a class="collapse-item {{Request::is('histori-cuti*') ? 'active' : ''}}" href="cards.html">Histori Cuti</a>
+                        <a class="collapse-item {{Request::is('cuti*') ? 'active' : ''}}" href="{{route('cuti.index')}}">Data Cuti Akif</a>
+                        <a class="collapse-item {{Request::is('histori-cuti*') ? 'active' : ''}}" href="{{route('histori-cuti.index')}}">Histori Cuti</a>
                     </div>
                 </div>
             </li>

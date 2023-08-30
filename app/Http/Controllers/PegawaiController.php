@@ -19,25 +19,26 @@ class PegawaiController extends Controller
     private $rulesPegawai = [
         'nik' => 'required|unique:pegawais,nik,',
         'nip_nippk' =>  'required|unique:pegawais,nip_nippk',
-        'gelar_depan'  => '',
-        'gelar_belakang'  => '',
-        'nama_depan' => 'required',
-        'nama_belakang' => '',
-        'jenis_kelamin' => 'required',
-        'tempat_lahir' => 'required',
-        'tanggal_lahir' => 'required',
-        'usia' => 'required',
-        'alamat' => 'required',
-        'agama' => 'required',
-        'no_wa' => 'required',
-        'status_pegawai' => 'required',
-        'ruangan' => 'required',
-        'tahun_pensiun' => 'required',
+        // 'gelar_depan'  => '',
+        // 'gelar_belakang'  => '',
+        // 'nama_depan' => 'required',
+        // 'nama_belakang' => '',
+        // 'jenis_kelamin' => 'required',
+        // 'tempat_lahir' => 'required',
+        // 'tanggal_lahir' => 'required',
+        // 'usia' => 'required',
+        // 'alamat' => 'required',
+        // 'agama' => 'required',
+        // 'no_wa' => 'required',
+        // 'status_pegawai' => 'required',
+        // 'ruangan' => 'required',
+        // 'tahun_pensiun' => 'required',
+        // 'pendidikan_terakhir' => 'required',
+        // 'tanggal_lulus' => 'required',
         'status_tenaga' => 'required',
-        'pendidikan_terakhir' => 'required',
-        'tanggal_lulus' => 'required',
-        'no_ijazah' => 'required',
-        'jabatan_fungsional' => 'required'
+        'tipe_tenaga' => 'required',
+        // 'no_ijazah' => 'required',
+        'jabatan' => 'required'
     ];
     private $rulesNonAsn = [
         'tanggal_masuk' => 'required',
@@ -66,12 +67,12 @@ class PegawaiController extends Controller
     ];
     private $rulesUmum = [
         // 'masa_kerja' => 'required',
-        'no_karpeg' => 'required',
-        'no_taspen' => 'required',
-        'no_npwp' => 'required',
-        'no_hp' => 'required',
-        'email' => 'required',
-        'pelatihan' => 'required'
+        // 'no_karpeg' => 'required',
+        // 'no_taspen' => 'required',
+        // 'no_npwp' => 'required',
+        // 'no_hp' => 'required',
+        // 'email' => 'required',
+        // 'pelatihan' => 'required'
     ];
 
     /**
@@ -83,7 +84,7 @@ class PegawaiController extends Controller
     {
         //
         return view('pages.pegawai.index', [
-            'pegawai' => Pegawai::with(['asn', 'non_asn'])->get()
+            'pegawai' => Pegawai::all()
         ]);
         // Pegawai::with(['asn', 'non_asn'])->get();
     }
@@ -113,7 +114,6 @@ class PegawaiController extends Controller
             // return $request->all();
             $validatedData = $request->validate($this->rulesPegawai);
             Pegawai::create($validatedData);
-
 
             $pegawai = Pegawai::where('nik', $request->nik)->first();
             // jika st = non_asn
