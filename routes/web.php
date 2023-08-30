@@ -37,9 +37,7 @@ Route::get('/coba', function () {
 Route::resource('/pegawai', PegawaiController::class);
 
 // str
-Route::get('/str', function () {
-    return view('pages.default.maintenance');
-})->name('str.index');
+Route::resource('/str', STRController::class);
 // sip
 Route::get('/sip', function () {
     return view('pages.default.maintenance');

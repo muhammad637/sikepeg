@@ -16,11 +16,11 @@ class STRController extends Controller
      */
     public function index()
     {
-        //
-        // return view('pages.str.index',[
-        //     'str' => STR::orderBy('created_at','desc')
-        // ]);
-        return Pegawai::where('status_tenaga', 'asn_pns')->orWhere('status_tenaga', 'asn_pppk')->with(['asn'])->get();
+        
+        return view('pages.str.index',[
+            'str' => STR::orderBy('created_at','desc')
+        ]);
+        // return Pegawai::where('status_tenaga', 'asn_pns')->orWhere('status_tenaga', 'asn_pppk')->with(['asn'])->get();
     }
 
     /**
@@ -30,7 +30,7 @@ class STRController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.str.create',);
     }
 
     /**
@@ -52,7 +52,7 @@ class STRController extends Controller
      */
     public function show(STR $sTR)
     {
-        //
+        return view('pages.str.show');
     }
 
     /**
@@ -63,7 +63,7 @@ class STRController extends Controller
      */
     public function edit(STR $sTR)
     {
-        //
+        return view('pages.str.edit');
     }
 
     /**
