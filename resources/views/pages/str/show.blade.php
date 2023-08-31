@@ -1,12 +1,9 @@
 @extends('main')
 
 @section('content')
-<div class="content mb-5">
-    <div class="ml-4">
-        <h2>STR</h2>
-    </div>
-    <div class="card p-5 mx-5 bg-white">
-        <h3>Detail STR</h3>
+    <h1 class="" style="color:black;font-weight:bold;">STR</h1>
+    <div class="card p-4 mx-5 mb-5 ">
+        <h2 class="m-0 font-weight-bold text-dark">Edit Data STR</h2>
         <hr>
         <div class="row g-4">
             <div class="col-sm-12 col-xl-6">
@@ -102,5 +99,4 @@
             <!-- PANGKAT DAN GOLONGAN END -->                            
         </div>
     </div>
-</div>
 @endsection

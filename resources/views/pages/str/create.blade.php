@@ -2,11 +2,11 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="ml-2">STR</h1>
+    <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <div class="card p-4 mx-5 mb-5 ">
-        <h5 class="fw-bold mb-2">Form STR Pegawai</h5>
-        <hr>
-        <div class="row mt-2">
+        <h2 class="m-0 font-weight-bold text-dark">Data STR</h2>
+        <hr class="font-weight-bold">
+        <div class="row">
             <div class="col-sm-12 col-xl-12">
                 <div class="row mb-2">
                     <div class="col-sm-4 mb-2  fw-italic text-end">

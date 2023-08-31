@@ -2,9 +2,9 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="ml-2">STR</h1>
+    <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <div class="card p-4 mx-5 mb-5 ">
-        <h5 class="fw-bold mb-2">Edit STR Pegawai</h5>
+        <h2 class="m-0 font-weight-bold text-dark">Edit Data STR</h2>
         <hr>
         <div class="row mt-2">
             <div class="col-sm-12 col-xl-12">
@@ -13,7 +13,7 @@
                         <span class="mb-0 text-dark " style="text-decoration: none;">NIP</span>
                     </div>
                     <div class="col-sm-8 text-secondary">
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <select class="form-control form-select-sm" aria-label=".form-select-sm example">
                             <option selected>Pilih NIP</option>
                             <option value="1">000</option>
                             <option value="2">111</option>
@@ -26,7 +26,7 @@
                         <span class="mb-0 text-dark " style="text-decoration: none;">Nama</span>
                     </div>
                     <div class="col-sm-8 text-secondary">
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <select class="form-control form-select-sm" aria-label=".form-select-sm example">
                             <option selected>Pilih Nama</option>
                             <option value="1">aaa</option>
                             <option value="2">bbb</option>
@@ -39,7 +39,7 @@
                         <span class="mb-0 text-dark " style="text-decoration: none;">Jenis Tenaga </span>
                     </div>
                     <div class="col-sm-8 text-secondary">
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <select class="form-control form-select-sm" aria-label=".form-select-sm example">
                             <option selected>Pilih Jenis Tenaga</option>
                             <option value="1">NAKES</option>
                             <option value="2">Pegawai</option>
@@ -57,7 +57,7 @@
                     <label for="ttl" class="col-sm-4 col-form-label">Tempat Tanggal
                         Lahir</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPassword3"
+                        <input type="calendar" class="form-control" id="inputPassword3"
                             placeholder="28/01/2024">
                     </div>
                 </div>

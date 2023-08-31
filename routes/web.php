@@ -38,6 +38,7 @@ Route::resource('/pegawai', PegawaiController::class);
 
 // str
 Route::resource('/str', STRController::class);
+
 // sip
 Route::get('/sip', function () {
     return view('pages.default.maintenance');
