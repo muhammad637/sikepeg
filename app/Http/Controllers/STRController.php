@@ -6,6 +6,7 @@ use App\Models\STR;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Dotenv\Util\Str as UtilStr;
 
 class STRController extends Controller
 {
@@ -87,5 +88,11 @@ class STRController extends Controller
     public function destroy(STR $sTR)
     {
         //
+    }
+
+    // history
+    public function history(STR $sTR)
+    {
+        return view('pages.str.history');
     }
 }

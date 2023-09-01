@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">STR</h1>
+    <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <!-- tabel -->
     <div class="card shadow-sm mb-4">
         <div class="card-header" style="background-color: #d9d9d9;">

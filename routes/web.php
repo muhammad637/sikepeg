@@ -39,10 +39,32 @@ Route::resource('/pegawai', PegawaiController::class);
 // str
 Route::resource('/str', STRController::class);
 
-// sip
+// sip //
 Route::get('/sip', function () {
-    return view('pages.default.maintenance');
+    return view('pages.sip.index', );
 })->name('sip.index');
+
+// create
+Route::get('/sip/create', function () {
+    return view('pages.sip.create', );
+})->name('sip.create');
+
+//edit
+Route::get('/sip/edit', function() {
+    return view('pages.sip.edit', );
+})->name('sip.edit');
+
+//show
+Route::get('/sip/show', function() {
+    return view('pages.sip.show',);
+})->name('sip.show');
+
+//history
+Route::get('/sip/history', function() {
+    return view('pages.sip.history',);
+})->name('sip.history');
+
+// sip  end //
 
 // cuti
 Route::get('/cuti', function () {
