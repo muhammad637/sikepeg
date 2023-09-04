@@ -89,5 +89,5 @@ Route::get('/diklat', function () {
 
 // dashboard
 Route::get('/dashboard', function () {
-    return view('pages.default.maintenance');
+    return view('pages.dashboard.index');
 })->name('dashboard.index');
