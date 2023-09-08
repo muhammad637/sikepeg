@@ -1,35 +1,38 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
+// Dapatkan elemen canvas
+var ctx = document.getElementById('myPieChart').getContext('2d');
 
-// Pie Chart Example
-var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: ["Direct", "Referral", "Social"],
+// Data yang akan ditampilkan dalam grafik lingkaran
+var data = {
+    labels: ['PNS', 'PPPK', 'Non ASN'],
     datasets: [{
-      data: [55, 30, 15],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-      hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
-  },
-  options: {
+        data: [30, 40, 30], // Jumlah untuk setiap bagian lingkaran
+        backgroundColor: [
+            'rgba(220, 25, 25, 0.7)',
+            'rgba(246, 194, 62, 0.7)',
+            'rgba(37, 196, 43, 0.7)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(349, 242, 17,1)',
+            'rgba(37, 196, 43, 1)'
+        ],
+        borderWidth: 1
+    }]
+};
+
+// Konfigurasi grafik lingkaran
+var options = {
+    responsive: true,
     maintainAspectRatio: false,
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-    },
     legend: {
-      display: false
-    },
-    cutoutPercentage: 80,
-  },
+      position: 'right',
+    }
+};
+
+// Buat grafik lingkaran
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    options: options
 });
