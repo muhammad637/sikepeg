@@ -21,7 +21,7 @@ class STRFactory extends Factory
             'asn_id' => rand(1, 10),
             'no_str' => fake()->randomNumber(),
             'tanggal_terbit_str' => fake()->dateTimeBetween('-1 week', '+1 week'),
-            'masa_berlaku_str' => fake()->dateTimeThisDecade('+2 years'),
+            'masa_berakhir_str' => fake()->dateTimeThisDecade('+2 years'),
             'link_str' => 'hello world',
         ];
     }

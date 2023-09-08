@@ -8,12 +8,13 @@ class PangkatDanGolonganEdit extends Component
 {
     public $pegawai;
     public $status_tenaga;
+    public $status_tipe;
     // non_asn
     public $niPtt_pkThl;
     public $pendidikan_terakhir;
     public $tanggal_lulus;
     public $no_ijazah;
-    public $jabatan_fungsional;
+    public $jabatan;
     public $tanggal_masuk;
     public $masa_kerja;
     public $cuti_tahunan;
@@ -24,12 +25,12 @@ class PangkatDanGolonganEdit extends Component
     public $tmt_pangkat_terakhir;
     public $pangkat_golongan;
     public $sekolah;
-    public $jabatan_struktural;
+    // public $jabatan;
 
     // nakes
     public $no_str;
     public $tanggal_terbit_str;
-    public $masa_berlaku_str;
+    public $masa_berakhir_str;
     public $no_sip;
     public $tanggal_terbit_sip;
     public $masa_berlaku_sip;
@@ -43,18 +44,19 @@ class PangkatDanGolonganEdit extends Component
     public $no_hp;
     public $email;
     public $pelatihan;
-    public $jenis_tenaga_struktural;
+    public $jenis_tenaga;
 
     public function mount()
     {
 
-        $this->status_tenaga = session('status_tenaga', null);
+        $this->status_tenaga = old('status_tenaga', $this->pegawai->status_tenaga);
+        $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
         // non asn
         $this->niPtt_pkThl = old('niPtt_pkThl', null);
         $this->pendidikan_terakhir = old('pendidikan_terakhir', $this->pegawai->pendidikan_terakhir);
         $this->tanggal_lulus = old('tanggal_lulus', $this->pegawai->tanggal_lulus);
         $this->no_ijazah = old('no_ijazah', $this->pegawai->no_ijazah);
-        $this->jabatan_fungsional = old('jabatan_fungsional', $this->pegawai->jabatan_fungsional);
+        $this->jabatan = old('jabatan', $this->pegawai->jabatan);
         $this->tanggal_masuk = old('tanggal_masuk', null);
         $this->masa_kerja = old('masa_kerja', $this->pegawai->masa_kerja);
         $this->cuti_tahunan = old('cuti_tahunan', $this->pegawai->cuti_tahunan);
@@ -64,7 +66,7 @@ class PangkatDanGolonganEdit extends Component
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
         $this->pangkat_golongan = old('pangkat_golongan', null);
         $this->sekolah = old('sekolah', null);
-        $this->jabatan_struktural = old('jabatan_struktural', null);
+        // // $this->jabatan = old('jabatan', null);
 
         // umum
         $this->no_karpeg = old('no_karpeg', null);
@@ -73,30 +75,31 @@ class PangkatDanGolonganEdit extends Component
         $this->no_hp = old('no_hp', null);
         $this->email = old('email', null);
         $this->pelatihan = old('pelatihan', null);
+        $this->jenis_tenaga = old('jenis_tenaga', null);
 
-        $this->jenis_tenaga_struktural = session('jenis_tenaga_struktural', null);
-        if (count($this->pegawai->non_asn) > 0) {
-            $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->non_asn[0]->niPtt_pkThl);
-            $this->tanggal_masuk = old('tanggal_masuk', $this->pegawai->non_asn[0]->tanggal_masuk);
-        } elseif (count($this->pegawai->asn) > 0) {
-            $this->tmt_cpns = old('tmt_cpns', $this->pegawai->asn[0]->tmt_cpns);
-            $this->tmt_pns = old('tmt_pns', $this->pegawai->asn[0]->tmt_pns);
-            $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->asn[0]->tmt_pangkat_terakhir ? $this->pegawai->asn[0]->tmt_pangkat_terakhir : null);
-            $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->asn[0]->pangkat_golongan ? $this->pegawai->asn[0]->pangkat_golongan : null);
-            $this->sekolah = old('sekolah', $this->pegawai->asn[0]->sekolah ? $this->pegawai->asn[0]->sekolah : null);
-            $this->jabatan_struktural = old('jabatan_struktural', $this->pegawai->asn[0]->jabatan_struktural ? $this->pegawai->asn[0]->jabatan_struktural : null);
-            $this->jenis_tenaga_struktural = old('jenis_tenaga_struktural', $this->pegawai->asn[0]->jenis_tenaga_struktural);
-            if (count($this->pegawai->asn[0]->umum) > 0) {
-                $this->no_karpeg = old('no_karpeg', $this->pegawai->asn[0]->umum[0]->no_karpeg);
-                $this->no_taspen = old('no_taspen', $this->pegawai->asn[0]->umum[0]->no_taspen);
-                $this->no_npwp = old('no_npwp', $this->pegawai->asn[0]->umum[0]->no_npwp);
-                $this->no_hp = old('no_hp', $this->pegawai->asn[0]->umum[0]->no_hp);
-                $this->email = old('email', $this->pegawai->asn[0]->umum[0]->email);
-                $this->pelatihan = old('pelatihan', $this->pegawai->asn[0]->umum[0]->pelatihan);
+
+        if ($this->pegawai->status_tenaga == 'non asn') {
+            $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->nonAsn->niPtt_pkThl);
+            // $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->nonAsn->niPtt_pkThl);
+            $this->tanggal_masuk = old('tanggal_masuk', $this->pegawai->nonAsn->tanggal_masuk);
+        } elseif ($this->pegawai->status_tenaga == 'asn') {
+            $this->tmt_cpns = old('tmt_cpns', $this->pegawai->asn->tmt_cpns);
+            $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
+            $this->tmt_pns = old('tmt_pns', $this->pegawai->asn->tmt_pns);
+            $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->asn->tmt_pangkat_terakhir);
+            $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->asn->pangkat_golongan );
+            $this->sekolah = old('sekolah', $this->pegawai->asn->sekolah);
+            // // // // $this->jabatan = old('jabatan', $this->pegawai->asn->jabatan ? $this->pegawai->asn->jabatan : null);
+            $this->jenis_tenaga = old('jenis_tenaga', $this->pegawai->asn->jenis_tenaga);
+            if ($this->pegawai->asn->umum) {
+                $this->no_karpeg = old('no_karpeg', $this->pegawai->asn->umum->no_karpeg);
+                $this->no_taspen = old('no_taspen', $this->pegawai->asn->umum->no_taspen);
+                $this->no_npwp = old('no_npwp', $this->pegawai->asn->umum->no_npwp);
+                $this->no_hp = old('no_hp', $this->pegawai->asn->umum->no_hp);
+                $this->email = old('email', $this->pegawai->asn->umum->email);
+                $this->pelatihan = old('pelatihan', $this->pegawai->asn->umum->pelatihan);
             }
         }
-        
-
     }
     public function updatedStatusTenaga($value)
     {
@@ -105,8 +108,8 @@ class PangkatDanGolonganEdit extends Component
     }
     public function updatedJenisTenagaStruktural($value)
     {
-        $this->jenis_tenaga_struktural = $value;
-        session(['jenis_tenaga_struktural' => $value]);
+        $this->jenis_tenaga = $value;
+        session(['jenis_tenaga' => $value]);
     }
 
     public function render()

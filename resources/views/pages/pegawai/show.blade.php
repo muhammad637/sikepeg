@@ -14,19 +14,14 @@
         <div class="card mb-3">
             <div class="card-body judul-text">
                 <div class="text-center mb-3">
-                    <h5
-                        style="
-                                                                margin-bottom: -25px;
-                                                            ">
-                        {{ $pegawai->gelar_depan }}. <span class="text-capitalize">{{ $pegawai->nama_depan }}
-                            {{ $pegawai->nama_belakang }}</span>,
-                        {{ $pegawai->gelar_belakang }}
+                    <h5 class="text-uppercase" style="margin-bottom: -25px; ">
+                        {{ $pegawai->nama_lengkap }}
                     </h5>
                     <br />
                     {{-- <span class="badge bg-light fw-italic">Nonaktif</span> --}}
                     <span
                         class="badge {{ $pegawai->status_pegawai == 'aktif' ? 'bg-success' : 'bg-warning' }} text-white">{{ $pegawai->status_pegawai }}</span>
-                    <span class="judul-text">{{ $pegawai->jabatan_fungsional }}</span>
+                    <span class="judul-text">{{ $pegawai->jabatan }}</span>
                 </div>
                 <div class="row">
                     <!-- profie -->
@@ -175,17 +170,17 @@
                                 <span class="mb-0 text-dark fw-bolder">Status Tenaga</span>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                {{ $pegawai->status_tenaga == 'non_asn' ? 'non pns' : ($pegawai->status_tenaga == 'asn_pns' ? 'pns' : 'pppk') }}
+                                {{ $pegawai->status_tenaga }}
                             </div>
                         </div>
-                        @if (count($pegawai->non_asn) > 0 && $pegawai->status_tenaga == 'non_asn')
+                        @if ($pegawai->status_tenaga == 'non asn')
                             <div>
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                         <span class="mb-0 text-dark fw-bolder">NI PTT-PK/THL</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->non_asn[0]->niPtt_pkThl }}
+                                        {{ $pegawai->nonAsn->niPtt_pkThl }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -218,7 +213,7 @@
                                         <span class="mb-0 text-dark fw-bolder">Jabatan</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->jabatan_fungsional }}
+                                        {{ $pegawai->jabatan }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -226,7 +221,7 @@
                                         <span class="mb-0 text-dark fw-bolder">Tanggal Masuk</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ Carbon\Carbon::parse($pegawai->non_asn[0]->tanggal_masuk)->format('d-M-Y') }}
+                                        {{ Carbon\Carbon::parse($pegawai->nonAsn->tanggal_masuk)->format('d-M-Y') }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -243,7 +238,7 @@
                                         <span class="mb-0 text-dark fw-bolder">Masa Kerja</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->masa_kerja }} Tahun
+                                        {{ $pegawai->masa_kerja }}
                                     </div>
                                 </div>
 
@@ -264,7 +259,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn[0]->tmt_cpns }}
+                                    {{ $pegawai->asn->tmt_cpns }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -274,7 +269,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn[0]->tmt_pns }}
+                                    {{ $pegawai->asn->tmt_pns }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -284,7 +279,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn[0]->tmt_pns }}
+                                    {{ $pegawai->asn->tmt_pns }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -294,7 +289,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn[0]->pangkat_golongan }}
+                                    {{ $pegawai->asn->pangkat_golongan }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -304,7 +299,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 text-normal">
-                                    {{ $pegawai->asn[0]->sekolah }}
+                                    {{ $pegawai->asn->sekolah }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -334,18 +329,10 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                    <span class="mb-0 text-dark fw-bolder">Jabatan Struktural</span>
+                                    <span class="mb-0 text-dark fw-bolder">Jabatan</span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn[0]->jabatan_struktural }}
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                    <span class="mb-0 text-dark fw-bolder">Jabatan Fungsional</span>
-                                </div>
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->jabatan_fungsional }}
+                                    {{ $pegawai->jabatan }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -361,7 +348,7 @@
                                     <span class="mb-0 text-dark fw-bolder">Masa Kerja</span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->masa_kerja }} Tahun
+                                    {{ $pegawai->masa_kerja }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -374,20 +361,20 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                    <span class="mb-0 text-dark fw-bolder">Jenis Tenaga Struktural</span>
+                                    <span class="mb-0 text-dark fw-bolder">Jenis Tenaga</span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn[0]->jenis_tenaga_struktural }}
+                                    {{ $pegawai->asn->jenis_tenaga }}
                                 </div>
                             </div>
 
-                            @if ($pegawai->asn[0]->jenis_tenaga_struktural == 'umum')
+                            @if ($pegawai->asn->jenis_tenaga_struktural == 'umum')
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                         <span class="mb-0 text-dark fw-bolder">No Karpeg</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum[0]->no_karpeg }}
+                                        {{ $pegawai->asn->umum->no_karpeg }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -395,7 +382,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No Taspen</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum[0]->no_taspen }}
+                                        {{ $pegawai->asn->umum->no_taspen }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -404,7 +391,7 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum[0]->no_npwp }}
+                                        {{ $pegawai->asn->umum->no_npwp }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -412,7 +399,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No HP</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum[0]->no_hp }}
+                                        {{ $pegawai->asn->umum->no_hp }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -420,7 +407,7 @@
                                         <span class="mb-0 text-dark fw-bolder">Email</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 text-lowercase">
-                                        {{ $pegawai->asn[0]->umum[0]->email }}
+                                        {{ $pegawai->asn->umum->email }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -428,10 +415,10 @@
                                         <span class="mb-0 text-dark fw-bolder">Pelatihan</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->umum[0]->pelatihan }}
+                                        {{ $pegawai->asn->umum->pelatihan }}
                                     </div>
                                 </div>
-                            @elseif (count($pegawai->asn[0]->str) > 0 && count($pegawai->asn[0]->sip) > 0)
+                            @elseif (count($pegawai->asn->str) > 0 && count($pegawai->asn->sip) > 0)
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                         <span class="mb-0 text-dark fw-bolder">STR</span>
@@ -457,7 +444,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No Sip</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn[0]->SIP[0]->orderByDesc('masa_berlaku_sip')->first() }}
+                                        {{ $pegawai->asn->SIP[0]->orderByDesc('masa_berlaku_sip')->first() }}
                                     </div>
                                 </div>
                             @endif

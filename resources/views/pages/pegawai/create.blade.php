@@ -162,20 +162,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-4">
-                                <div class="row gap-5">
-                                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                                        <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Usia</p>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                                        <input type="text" class="form-control @error('usia') is-invalid @enderror"
-                                            id="usia" aria-describedby="usia" name="usia" autocomplete="false"
-                                            placeholder="Masukkan Usia ..." value="{{ old('usia') }}">
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div class="mb-4">
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -231,14 +218,9 @@
                                             <option value="">Pilih</option>
                                             <option value="aktif"
                                                 {{ old('status_pegawai') == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                                            <option value="pensiun"
-                                                {{ old('status_pegawai') == 'pensiun' ? 'selected' : '' }}>Pensiun
-                                            </option>
-                                            <option value="mutasi"
-                                                {{ old('status_pegawai') == 'mutasi' ? 'selected' : '' }}>Mutasi</option>
-                                            <option value="mengundurkan diri"
-                                                {{ old('status_pegawai') == 'mengundurkan diri' ? 'selected' : '' }}>
-                                                Mengundurkan Diri</option>
+                                            <option value="aktif"
+                                                {{ old('status_pegawai') == 'nonaktif' ? 'selected' : '' }}>Non Aktif</option>
+                                          
                                         </select>
                                     </div>
                                 </div>
@@ -269,7 +251,7 @@
                                         <input type="number"
                                             class="form-control @error('tahun_pensiun') is-invalid @enderror"
                                             id="tahun_pensiun" aria-describedby="tahun_pensiun" name="tahun_pensiun"
-                                            autocomplete="false" placeholder="Masukkan Ruangan" min="1900"
+                                            autocomplete="false" placeholder="Masukkan Tahun Pensiun ..." min="2000"
                                             max="2100" step="1" value="{{ old('tahun_pensiun') }}">
                                     </div>
                                 </div>

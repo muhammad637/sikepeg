@@ -12,6 +12,18 @@ class Asn extends Model
 
     public function pegawai()
     {
-        return $this->morphMany(Pegawai::class, 'statusable');
+        return $this->belongsTo(Pegawai::class, 'pegawai_id');
+    }
+
+    public function str(){
+        return $this->hasMany(STR::class);
+    }
+
+    public function sip(){
+        return $this->hasMany(SIP::class);
+    }
+
+    public function umum(){
+        return $this->hasOne(UmumStruktural::class);
     }
 }

@@ -13,6 +13,6 @@ class NonAsn extends Model
 
     public function pegawai()
     {
-        return $this->morphMany(Pegawai::class, 'statusable');
+        return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
 }

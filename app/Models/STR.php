@@ -11,8 +11,8 @@ class STR extends Model
 
     protected $guarded = ['id'];
 
-    public function pegawai()
+    public function asn()
     {
-        return $this->belongsTo(Pegawai::class, 'asn_id');
+        return $this->belongsTo(Asn::class, 'asn_id');
     }
 }
