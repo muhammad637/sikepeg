@@ -35,6 +35,7 @@ Route::get('/coba', function () {
 
 
 Route::resource('/pegawai', PegawaiController::class);
+Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
 
 // str
 Route::resource('/str', STRController::class);

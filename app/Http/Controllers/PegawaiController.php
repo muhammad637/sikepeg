@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PegawaiImport;
 use Carbon\Carbon;
 use App\Models\Asn;
 use App\Models\SIP;
@@ -11,6 +12,8 @@ use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Models\UmumStruktural;
 use Illuminate\Routing\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class PegawaiController extends Controller
@@ -19,25 +22,26 @@ class PegawaiController extends Controller
     private $rulesPegawai = [
         'nik' => 'required|unique:pegawais,nik,',
         'nip_nippk' =>  'required|unique:pegawais,nip_nippk',
-        // 'gelar_depan'  => '',
-        // 'gelar_belakang'  => '',
-        // 'nama_depan' => 'required',
-        // 'nama_belakang' => '',
-        // 'jenis_kelamin' => 'required',
-        // 'tempat_lahir' => 'required',
-        // 'tanggal_lahir' => 'required',
-        // 'usia' => 'required',
-        // 'alamat' => 'required',
-        // 'agama' => 'required',
-        // 'no_wa' => 'required',
-        // 'status_pegawai' => 'required',
-        // 'ruangan' => 'required',
-        // 'tahun_pensiun' => 'required',
-        // 'pendidikan_terakhir' => 'required',
-        // 'tanggal_lulus' => 'required',
+        'gelar_depan'  => '',
+        'gelar_belakang'  => '',
+        'nama_depan' => 'required',
+        'nama_belakang' => '',
+        'jenis_kelamin' => 'required',
+        'tempat_lahir' => 'required',
+        'tanggal_lahir' => 'required',
+        'usia' => 'required',
+        'alamat' => 'required',
+        'agama' => 'required',
+        'no_wa' => 'required',
+        'status_pegawai' => 'required',
+        'ruangan' => 'required',
+        'tahun_pensiun' => 'required',
+        'pendidikan_terakhir' => 'required',
+        'tanggal_lulus' => 'required',
         'status_tenaga' => 'required',
         'tipe_tenaga' => 'required',
-        // 'no_ijazah' => 'required',
+        'no_ijazah' => 'required',
+        'jabatan_fungsional' => 'required',
         'jabatan' => 'required'
     ];
     private $rulesNonAsn = [
@@ -66,13 +70,13 @@ class PegawaiController extends Controller
         'link_sip' => 'required'
     ];
     private $rulesUmum = [
-        // 'masa_kerja' => 'required',
-        // 'no_karpeg' => 'required',
-        // 'no_taspen' => 'required',
-        // 'no_npwp' => 'required',
-        // 'no_hp' => 'required',
-        // 'email' => 'required',
-        // 'pelatihan' => 'required'
+        'masa_kerja' => 'required',
+        'no_karpeg' => 'required',
+        'no_taspen' => 'required',
+        'no_npwp' => 'required',
+        'no_hp' => 'required',
+        'email' => 'required',
+        'pelatihan' => 'required'
     ];
 
     /**
@@ -304,4 +308,33 @@ class PegawaiController extends Controller
         //
         return $pegawai->delete();
     }
+    public function import_excel(Request $request) 
+	{
+        // return $request->all();\
+
+		// validasi
+		// $this->validate($request, [
+		// 	'file' => 'required|mimes:csv,xls,xlsx'
+		// ]);
+        $request->validate([
+			'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+ 
+		// menangkap file excel
+		$file = $request->file('file');
+ 
+		// membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+ 
+		// upload ke folder file_siswa di dalam folder public
+		$file->move('file_pegawai',$nama_file);
+ 
+		// import data
+        Excel::import(new PegawaiImport, public_path('/file_pegawai/'.$nama_file));
+ 
+		// notifikasi dengan session
+ 
+		// alihkan halaman kembali
+		return redirect()->back();
+	}
 }
