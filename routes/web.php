@@ -24,13 +24,15 @@ Route::get('/dashboard', function () {
 });
 
 Route::get('/coba', function () {
-    $tanggal_pensiun =  "10-12-2022";
-    $tanggal_mulai =  "10-12-2022";
-    // $parsing_tanggal_pensiun = intval(Carbon::parse($tanggal_pensiun)->format('y'));
+    $tanggal_pensiun =  "10-12-2001";
+    // $tanggal_mulai =  "10-12-2022";
+    $parsing_tanggal_pensiun = Carbon::parse($tanggal_pensiun);
     // $parsing_tanggal_mulai = intval(Carbon::parse($tanggal_mulai)->format('y'));
     // return Carbon\Carbon::parse('10-10-2001')->format('y-m-d');
     // return [$parsing_tanggal_mulai, $parsing_tanggal_pensiun];
-
+    $tahun = $parsing_tanggal_pensiun->diffInYears(now());
+    $bulan = $parsing_tanggal_pensiun->diffInMonths(now()) % 12;
+    return "masa kerja $bulan bulan $tahun tahun";
 });
 
 
@@ -39,6 +41,7 @@ Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])
 
 // str
 Route::resource('/str', STRController::class);
+Route::get('/str/{asn:id}/history',[STRController::class,'history'])->name('str.history');
 
 // sip //
 Route::get('/sip', function () {

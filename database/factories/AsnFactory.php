@@ -18,14 +18,14 @@ class AsnFactory extends Factory
     {
         return [
             //
-            'pegawai_id' => fake()->numberBetween(1, 10),
+            'pegawai_id' => rand(1,700),
             'tmt_cpns' => fake()->randomNumber(),
             'tmt_pns' => fake()->randomNumber(),
             'tmt_pangkat_terakhir' => fake()->randomNumber(),
             'pangkat_golongan' => fake()->word(),
             'sekolah' => fake()->words(3, true),
-            'jenis_tenaga_struktural' => 'nakes',
-            'jabatan_struktural' => fake()->word(),
+            'jenis_tenaga' => 'nakes',
+            // 'jabatan_struktural' => fake()->word(),
         ];
     }
 }

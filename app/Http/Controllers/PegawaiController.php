@@ -11,6 +11,7 @@ use App\Models\NonAsn;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Models\UmumStruktural;
+use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Routing\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -29,7 +30,6 @@ class PegawaiController extends Controller
         'jenis_kelamin' => 'required',
         'tempat_lahir' => 'required',
         'tanggal_lahir' => 'required',
-        'usia' => 'required',
         'alamat' => 'required',
         'agama' => 'required',
         'no_wa' => 'required',
@@ -39,9 +39,7 @@ class PegawaiController extends Controller
         'pendidikan_terakhir' => 'required',
         'tanggal_lulus' => 'required',
         'status_tenaga' => 'required',
-        'tipe_tenaga' => 'required',
         'no_ijazah' => 'required',
-        'jabatan_fungsional' => 'required',
         'jabatan' => 'required'
     ];
     private $rulesNonAsn = [
@@ -54,13 +52,13 @@ class PegawaiController extends Controller
         'tmt_pns' => 'required',
         'tmt_pangkat_terakhir' => 'required',
         'pangkat_golongan' => 'required',
-        'jenis_tenaga_struktural' => 'required',
-        'jabatan_struktural' => 'required'
+        'jenis_tenaga' => 'required',
+        // 'jabatan' => 'required'
     ];
     private $rulesStr = [
         'no_str' => 'required',
         'tanggal_terbit_str' => 'required',
-        'masa_berlaku_str' => 'required',
+        'masa_berakhir_str' => 'required',
         'link_str' => 'required'
     ];
     private $rulesSip = [
@@ -87,6 +85,7 @@ class PegawaiController extends Controller
     public function index()
     {
         //
+        // return Asn::all();   
         return view('pages.pegawai.index', [
             'pegawai' => Pegawai::all()
         ]);
@@ -112,42 +111,42 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
+
+        //
+        // return $request->all();
         try {
-
-            //
-            // return $request->all();
+            // $tahun_ini = Carbon::parse(now())->format('Y');
+            $usia = $this->lama($request->tanggal_lahir);
+            // return $request->tanggalMasuk;
             $validatedData = $request->validate($this->rulesPegawai);
-            Pegawai::create($validatedData);
-
-            $pegawai = Pegawai::where('nik', $request->nik)->first();
-            // jika st = non_asn
-            if ($request->status_tenaga == 'non_asn') {
-                $request->masa_kerja != null ? $pegawai->update(['masa_kerja' => intval($request->masa_kerja)]) : null;
-                $request->cuti_tahunan != null ? $pegawai->update(['cuti_tahunan' => intval($request->cuti_tahunan)]) : null;
-                $pegawai->update(['sisa_cuti_tahunan' => $pegawai->cuti_tahunan]);
-                // $masa_kerja = 
+            $pegawai = Pegawai::create(array_merge(['usia' => $usia], $validatedData));
+            $nama_lengkap = $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang;
+            $pegawai->update(['nama_lengkap' => $nama_lengkap]);
+            if ($request->status_tenaga == 'non asn') {
+                // $tahun
+                $masa_kerja = $this->lama($request->tanggal_masuk);
+                $pegawai->update(
+                    [
+                        'cuti_tahunan' => $request->cuti_tahunan,
+                        'sisa_cuti_tahunan' => $request->cuti_tahunan,
+                        'masa_kerja' => $masa_kerja,
+                        'status_tipe' => $pegawai->status_tenaga
+                    ]
+                );
                 $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
                 $non_asn =  NonAsn::create(array_merge(['pegawai_id' => $pegawai->id], $validatedDataNonAsn));
-                // jika masa_kerja non asn null
-                if ($pegawai->masa_kerja == null) {
-                    $tanggal_masuk = intval(Carbon::parse($non_asn->tanggal_masuk)->format('Y'));
-                    $tahun_pensiun = intval(Carbon::parse($pegawai->tahun_pensiun)->format('Y'));
-                    $masa_kerja = $tahun_pensiun - $tanggal_masuk;
-                    $pegawai->update(['masa_kerja' => $masa_kerja]);
-                }
                 return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
             }
-            $validatedDataAsn = $request->validate($this->rulesAsn);
-            Asn::create(array_merge(['pegawai_id' => $pegawai->id], $validatedDataAsn));
-            $asn = Asn::where('pegawai_id', $pegawai->id)->first();
-            $masa_kerja =  $pegawai->tahun_pensiun - Carbon::parse($asn->tmt_pns)->format('Y');
-            // return $pegawai->cuti_tahunan;
+            $masa_kerja = $this->lama($request->tmt_pns);
+            $sisaCutiTahunan = isset($request->cuti_tahunan) ? $request->cuti_tahunan : 12;
             $pegawai->update([
-                'sisa_cuti_tahunan' => $pegawai->cuti_tahunan,
-                'masa_kerja' => $masa_kerja
+                'sisa_cuti_tahunan' => $sisaCutiTahunan,
+                'masa_kerja' => $masa_kerja,
+                'status_tipe' => $request->status_tipe
             ]);
-            if ($request->jenis_tenaga_struktural == 'nakes') {
-                if ($request->no_str != null && $request->tanggal_terbit_str != null && $request->masa_berlaku_str != null && $request->link_str != null) {
+            $asn = $this->CreateAsn($request, $pegawai->id);
+            if ($request->jenis_tenaga == 'nakes') {
+                if ($request->no_str != null && $request->tanggal_terbit_str != null && $request->masa_berakhir_str != null && $request->link_str != null) {
                     # code...
                     $validatedDataStr = $request->validate($this->rulesStr);
                     $createSTR = array_merge(['asn_id' => $asn->id], $validatedDataStr);
@@ -159,12 +158,19 @@ class PegawaiController extends Controller
                     SIP::create($createSIP);
                 }
                 return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
-            } else if ($request->jenis_tenaga_struktural == 'umum') {
-                $validatedDataUmum = $request->validate($this->rulesUmum);
-                $createUmum = array_merge(['asn_id' => $asn->id], $validatedDataUmum);
-                UmumStruktural::create($createUmum);
+            } else if ($request->jenis_tenaga == 'umum') {
+                UmumStruktural::created([
+                    'pegawai_id' => $pegawai->id,
+                    'no_karpeg' => $request->no_karpeg,
+                    'no_taspen' => $request->no_taspen,
+                    'no_npwp' => $request->no_npwp,
+                    'no_hp' => $request->no_hp,
+                    'email' => $request->email,
+                    'pelatihan' => $request->pelatihan,
+                ]);
                 return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
-            }     //code...
+            }
+            return "ada yang salah nih logic mu ini";   //code...
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
@@ -179,7 +185,7 @@ class PegawaiController extends Controller
     public function show(Pegawai $pegawai)
     {
         //
-        return view('pages.pegawai.show',[
+        return view('pages.pegawai.show', [
             'pegawai' => $pegawai
         ]);
     }
@@ -208,7 +214,8 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
 
-
+        //code...
+        // return $request->all();
         // proses validasi
         $validatedData = $request->validate([
             'nik' => 'required|unique:pegawais,nik,' . $pegawai->id,
@@ -220,76 +227,93 @@ class PegawaiController extends Controller
             'jenis_kelamin' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
-            'usia' => 'required',
+            // 'usia' => 'required',
             'alamat' => 'required',
             'agama' => 'required',
             'no_wa' => 'required',
             'status_pegawai' => 'required',
+            'status_tipe' => 'required',
             'ruangan' => 'required',
             'tahun_pensiun' => 'required',
             'pendidikan_terakhir' => 'required',
             'tanggal_lulus' => 'required',
             'no_ijazah' => 'required',
-            'jabatan_fungsional' => 'required'
+            'jabatan' => 'required'
         ]);
         $pegawai->update($validatedData);
+
         # jika status tenaga tidak sama dengan request status_tenaga
         if ($pegawai->status_tenaga != $request->status_tenaga) {
             #jika request->status tenaga == non asn
-            if ($request->status_tenaga == 'non_asn') {
+            if ($request->status_tenaga == 'non asn') {
+                #buat pegawai non asn
+                $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
+                NonAsn::create(array_merge(['pegawai_id' => $pegawai->id], $validatedDataNonAsn));
                 # update status tenaga nya menjadi non_asn
-                $pegawai->update(['status_tenaga' => $request->status_tenaga]);
                 $pegawaiAsn = Asn::where('pegawai_id', $pegawai->id)->first();
                 $pegawaiAsn->delete(); #delete asn nya
-                # jika masa kerja ada, update masa kerja nya
-                $request->masa_kerja != null ? $pegawai->update(['masa_kerja' => intval($request->masa_kerja)]) : null;
+                // update masa kerja nya sesuai tanggal masuk nya
+                $tanggalMasuk = Carbon::parse($request->tanggal_masuk);
+                // $masaKerja = 
+                $pegawai->update([
+                    'status_tenaga' => $request->status_tenaga,
+                    'status_tipe' => $request->status_tipe
+                ]);
                 # jika izin cuti di edit maka edit izin cuti nya
                 $request->cuti_tahunan != null ? $pegawai->update(['cuti_tahunan' => intval($request->cuti_tahunan)]) : null;
-                $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-                #buat pegawai non asn
-                NonAsn::create(array_merge(['pegawai_id' => $pegawai->id], $validatedDataNonAsn));
                 return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
-            }
-            // {{count($pegawai->)}}
-            if (count($pegawai->asn) > 0) {
-                $validatedDataAsn = $request->validate($this->rulesAsn);
-                $pegawai->asn[0]->update($validatedDataAsn);
             } else {
-                $validatedDataAsn = $request->validate($this->rulesAsn);
-                count($pegawai->non_asn) > 0 ? NonAsn::findOrFail($pegawai->non_asn[0]->id)->delete() : null;
-                Asn::create(array_merge([
-                    'pegawai_id' => $pegawai->id,
-                ], $validatedDataAsn));
+                // $pegawaiNonAsn = Pegawai::find($pegawai->id);
+                $pegawai->nonAsn->delete();
+                // $validateDataAsn = $request->validate($this->rulesAsn);
+                // $mergingAsn = array_merge(['pegawai_id' => $pegawai->id], $validateDataAsn);
+                return $this->CreateAsn($request, $pegawai->id);
             }
-            $pegawai->update(['status_tenaga' => $request->status_tenaga]);
-            if (
-                $request->jenis_tenaga_struktural == 'umum'
-            ) {
-                count($pegawai->asn[0]->str) > 0 ? STR::destroy($pegawai->asn[0]->str->pluck('id')->toArray()) : null;
-                count($pegawai->asn[0]->sip) > 0 ? SIP::destroy($pegawai->asn[0]->sip->pluck('id')->toArray()) : null;
-                $validatedDataUmum = $request->validate($this->rulesUmum);
-                count($pegawai->asn[0]->umum) > 0 ? $pegawai->asn[0]->umum[0]->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn[0]->id], $validatedDataUmum));
-                return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
-                // return 'testing';
-            }
+
+
+            // {{count($pegawai->)}}
+            // if (count($pegawai->asn) > 0) {
+            //     $validatedDataAsn = $request->validate($this->rulesAsn);
+            //     $pegawai->asn->update($validatedDataAsn);
+            // } else {
+            //     $validatedDataAsn = $request->validate($this->rulesAsn);
+            //     count($pegawai->non_asn) > 0 ? NonAsn::findOrFail($pegawai->non_asn[0]->id)->delete() : null;
+            //     Asn::create(array_merge([
+            //         'pegawai_id' => $pegawai->id,
+            //     ], $validatedDataAsn));
+            // }
+            // $pegawai->update(['status_tenaga' => $request->status_tenaga]);
+            // if (
+            //     $request->jenis_tenaga == 'umum'
+            // ) {
+            //     count($pegawai->asn[0]->str) > 0 ? STR::destroy($pegawai->asn[0]->str->pluck('id')->toArray()) : null;
+            //     count($pegawai->asn[0]->sip) > 0 ? SIP::destroy($pegawai->asn[0]->sip->pluck('id')->toArray()) : null;
+            //     $validatedDataUmum = $request->validate($this->rulesUmum);
+            //     count($pegawai->asn[0]->umum) > 0 ? $pegawai->asn[0]->umum[0]->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn[0]->id], $validatedDataUmum));
+            //     return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
+            //     // return 'testing';
+            // }
+
+
             return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
         }
+        // end request
+
         // jika status tenaga sama dengan pegawai->status_tenaga
-        if ($request->status_tenaga == 'non_asn') {
+        if ($request->status_tenaga == 'non asn') {
             $validatedDataNonAsn = $this->rulesNonAsn;
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-            count($pegawai->non_asn) > 0 ? $pegawai->non_asn[0]->update($validatedDataNonAsn) : NonAsn::create(array_merge(['pegawai_id' => $pegawai->id], $validatedDataNonAsn));
+            $pegawai->nonAsn->update($validatedDataNonAsn);
             return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil diupdate');
-        } else if ($request->status_tenaga == 'asn_pns' || $request->status_tenaga == 'asn_pppk') {
+        } else if ($request->status_tenaga == 'asn') {
             $validatedDataAsn = $request->validate($this->rulesAsn);
-            $pegawai->asn[0]->update($validatedDataAsn);
+            $pegawai->asn->update($validatedDataAsn);
         }
-
-        if ($request->jenis_tenaga_struktural == 'umum') {
-            count($pegawai->asn[0]->str) > 0 ? STR::destroy($pegawai->asn[0]->str->pluck('id')->toArray()) : null;
-            count($pegawai->asn[0]->sip) > 0 ? SIP::destroy($pegawai->asn[0]->sip->pluck('id')->toArray()) : null;
+        if ($request->jenis_tenaga == 'umum') {
+            count($pegawai->asn->str) > 0 ? STR::destroy($pegawai->asn->str->pluck('id')->toArray()) : null;
+            count($pegawai->asn->sip) > 0 ? SIP::destroy($pegawai->asn->sip->pluck('id')->toArray()) : null;
             $validatedDataUmum = $request->validate($this->rulesUmum);
-            count($pegawai->asn[0]->umum) > 0 ? $pegawai->asn[0]->umum[0]->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn[0]->id], $validatedDataUmum));
+            count($pegawai->asn->umum) > 0 ? $pegawai->asn->umum->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn->id], $validatedDataUmum));
             return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
             // return 'testing';
         }
@@ -305,9 +329,9 @@ class PegawaiController extends Controller
      */
     public function destroy(Pegawai $pegawai)
     {
-        //
         return $pegawai->delete();
     }
+
     public function import_excel(Request $request) 
 	{
         // return $request->all();\
@@ -337,4 +361,19 @@ class PegawaiController extends Controller
 		// alihkan halaman kembali
 		return redirect()->back();
 	}
+    private function CreateAsn($request, $pegawai_id)
+    {
+        $validateDataAsn = $request->validate($this->rulesAsn);
+        $mergingAsn = array_merge(['pegawai_id' => $pegawai_id], $validateDataAsn);
+        return Asn::create($mergingAsn);
+    }
+
+    public function lama($tanggalMulai)
+    {
+        $parseTanggalMulai = Carbon::parse($tanggalMulai);
+        $tahun = $parseTanggalMulai->diffInYears();
+        $bulan = $parseTanggalMulai->diffInMonths() % 12;
+        $lama = "$tahun tahun, $bulan bulan";
+        return $lama;
+    }
 }

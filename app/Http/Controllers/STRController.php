@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asn;
 use App\Models\STR;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Dotenv\Util\Str as UtilStr;
+use App\Http\Controllers\Controller;
 
 class STRController extends Controller
 {
@@ -17,11 +18,15 @@ class STRController extends Controller
      */
     public function index()
     {
-        
-        return view('pages.str.index',[
-            'str' => STR::orderBy('created_at','desc')
+        $asn = Asn::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
+            $query->orderBy('masa_berakhir_str', 'desc');
+        })->get();
+        // $asn = Asn::with('str')->get();
+        // return $asn;
+        return view('pages.str.index', [
+            'asn' => $asn,
+            'i' => 0
         ]);
-        // return Pegawai::where('status_tenaga', 'asn_pns')->orWhere('status_tenaga', 'asn_pppk')->with(['asn'])->get();
     }
 
     /**
@@ -31,7 +36,7 @@ class STRController extends Controller
      */
     public function create()
     {
-        return view('pages.str.create',);
+        return view('pages.str.create');
     }
 
     /**
@@ -43,6 +48,25 @@ class STRController extends Controller
     public function store(Request $request)
     {
         //
+        // return $request->all();
+        $validatedData = $request->validate([
+            'no_str' => 'required',
+            'tanggal_terbit_str' => 'required',
+            'no_sertikom' => 'required',
+            'masa_berakhir_str' => 'required',
+            'link_str' => 'required',
+        ]);
+
+        $str = STR::create([
+            'asn_id' => $request->asn_id,
+            'no_str' => $request->no_str,
+            'no_sertikom' => $request->no_sertikom,
+            'tanggal_terbit_str' => $request->tanggal_terbit_str,
+            'masa_berakhir_str' => $request->masa_berakhir_str,
+            'link_str' => $request->link_str
+        ]);
+        // return $str;
+        return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
     }
 
     /**
@@ -51,9 +75,13 @@ class STRController extends Controller
      * @param  \App\Models\STR  $sTR
      * @return \Illuminate\Http\Response
      */
-    public function show(STR $sTR)
+    public function show(STR $str)
     {
-        return view('pages.str.show');
+
+        // return $str;
+        return view('pages.str.show', [
+            'str' => $str
+        ]);
     }
 
     /**
@@ -62,9 +90,11 @@ class STRController extends Controller
      * @param  \App\Models\STR  $sTR
      * @return \Illuminate\Http\Response
      */
-    public function edit(STR $sTR)
+    public function edit(STR $str)
     {
-        return view('pages.str.edit');
+        return view('pages.str.edit', [
+            'str' => $str
+        ]);
     }
 
     /**
@@ -74,9 +104,26 @@ class STRController extends Controller
      * @param  \App\Models\STR  $sTR
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, STR $sTR)
+    public function update(Request $request, STR $str)
     {
         //
+        // return $request->all();
+        $validatedData = $request->validate([
+            'no_str' => 'required',
+            'no_sertikom' => 'required',
+            'tanggal_terbit_str' => 'required',
+            'masa_berakhir_str' => 'required',
+            'link_str' => 'required',
+        ]);
+        $strCreate = $str->update([
+            'no_str' => $request->no_str,
+            'no_sertikom' => $request->no_sertikom,
+            'tanggal_terbit_str' => $request->tanggal_terbit_str,
+            'masa_berakhir_str' => $request->masa_berakhir_str,
+            'link_str' => $request->link_str
+        ]);
+        // return $str;
+        return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
     }
 
     /**
@@ -91,8 +138,10 @@ class STRController extends Controller
     }
 
     // history
-    public function history(STR $sTR)
+    public function history(Asn $asn)
     {
-        return view('pages.str.history');
+        return view('pages.str.history',[
+            'asn' => $asn
+        ]);
     }
 }

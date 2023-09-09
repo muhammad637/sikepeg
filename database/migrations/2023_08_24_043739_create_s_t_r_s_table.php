@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('asn_id')->constrained('asns')->onUpdate('cascade')->onDelete('cascade');
             $table->string('no_str');
+            $table->string('no_sertikom')->nullable();
             $table->string('tanggal_terbit_str');
-            $table->string('masa_berlaku_str');
+            $table->string('masa_berakhir_str');
             $table->string('link_str');
             $table->timestamps();
         });

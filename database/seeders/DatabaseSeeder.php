@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Pegawai::factory(10)->create();
-        Asn::factory(10)->create();
-        STR::factory(20)->create();
-        SIP::factory(20)->create();
+        Pegawai::factory(700)->create();
+        Asn::factory(700)->create();
+        // STR::factory(20)->create();
+        // SIP::factory(20)->create();
     }
 }

@@ -12,24 +12,14 @@ class Pegawai extends Model
     protected $guarded = ['id'];
 
 
-    public function statusable()
+    public function asn()
     {
-        return $this->morphTo();
+        return $this->hasOne(Asn::class);
+    }
+    public function nonAsn()
+    {
+        return $this->hasOne(NonAsn::class);
     }
 
-    public function umumStruktural()
-    {
-        return $this->hasOne(UmumStruktural::class, 'asn_id');
-    }
-
-    public function str()
-    {
-        return $this->hasMany(STR::class, 'asn_id');
-    }
-
-    public function sip()
-    {
-        return $this->hasMany(SIP::class, 'asn_id');
-    }
   
 }
