@@ -21,7 +21,7 @@
                             <span class="mb-0 text-dark ">Nama</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input type="text" value="{{ $str->asn->pegawai->nama_depan }}" class="form-control"
+                            <input type="text" value="{{ $str->pegawai->nama_depan }}" class="form-control"
                                 placeholder="NIP" readonly>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                             <span class="mb-0 text-dark ">NIK</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input type="text" value="{{ $str->asn->pegawai->nik }}" class="form-control" placeholder="NIK"
+                            <input type="text" value="{{ $str->pegawai->nik }}" class="form-control" placeholder="NIK"
                                 readonly>
                         </div>
                     </div>
@@ -39,14 +39,14 @@
                             <span class="mb-0 text-dark ">NIP</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input type="text" value="{{ $str->asn->pegawai->nip_nippk }}" class="form-control"
+                            <input type="text" value="{{ $str->pegawai->nip_nippk }}" class="form-control"
                                 placeholder="NIP" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="Ruangan" class="col-sm-4 col-form-label">Ruangan</label>
                         <div class="col-sm-8">
-                            <input type="text" value="{{ $str->asn->pegawai->ruangan }}" class="form-control"
+                            <input type="text" value="{{ $str->pegawai->ruangan }}" class="form-control"
                                 id="inputPassword3" readonly placeholder="ruangan">
                         </div>
                     </div>
@@ -56,21 +56,21 @@
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3" readonly
                                 placeholder="tempat tanggal lahir"
-                                value="{{ $str->asn->pegawai->tempat_lahir . ', ' . Carbon\Carbon::parse($str->asn->pegawai->tanggal_lahir)->format('d-M-Y') }}">
+                                value="{{ $str->pegawai->tempat_lahir . ', ' . Carbon\Carbon::parse($str->pegawai->tanggal_lahir)->format('d-M-Y') }}">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="jenisKelamin" class="col-sm-4 col-form-label">Jenis Kelamin</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3" readonly placeholder="jenis kelamin"
-                                {{ $str->asn->pegawai->jenis_kelamin }}>
+                                {{ $str->pegawai->jenis_kelamin }}>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="noIjasah" class="col-sm-4 col-form-label">No Ijazah </label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control" id="inputPassword3" readonly placeholder="no ijazah"
-                                {{ $str->asn->pegawai->no_ijazah }}>
+                                {{ $str->pegawai->no_ijazah }}>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -80,14 +80,14 @@
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group date" id="datepicker">
                                 <input type="date" class="form-control" readonly placeholder="tanggal lulus"
-                                    value="{{ $str->asn->pegawai->tanggal_lulus }}">
+                                    value="{{ $str->pegawai->tanggal_lulus }}">
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="perguruanTinggi" class="col-sm-4 col-form-label">Perguruan Tinggi</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" value="{{ $str->asn->sekolah }}"
+                            <input type="text" class="form-control" id="inputPassword3" value="{{ $str->sekolah }}"
                                 readonly placeholder="perguruan tinggi">
                         </div>
                     </div>

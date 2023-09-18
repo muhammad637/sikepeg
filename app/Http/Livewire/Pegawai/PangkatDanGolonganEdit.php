@@ -79,25 +79,25 @@ class PangkatDanGolonganEdit extends Component
 
 
         if ($this->pegawai->status_tenaga == 'non asn') {
-            $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->nonAsn->niPtt_pkThl);
-            // $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->nonAsn->niPtt_pkThl);
-            $this->tanggal_masuk = old('tanggal_masuk', $this->pegawai->nonAsn->tanggal_masuk);
+            $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->niPtt_pkThl);
+            // $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->niPtt_pkThl);
+            $this->tanggal_masuk = old('tanggal_masuk', $this->pegawai->tanggal_masuk);
         } elseif ($this->pegawai->status_tenaga == 'asn') {
-            $this->tmt_cpns = old('tmt_cpns', $this->pegawai->asn->tmt_cpns);
+            $this->tmt_cpns = old('tmt_cpns', $this->pegawai->tmt_cpns);
             $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
-            $this->tmt_pns = old('tmt_pns', $this->pegawai->asn->tmt_pns);
-            $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->asn->tmt_pangkat_terakhir);
-            $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->asn->pangkat_golongan );
-            $this->sekolah = old('sekolah', $this->pegawai->asn->sekolah);
-            // // // // $this->jabatan = old('jabatan', $this->pegawai->asn->jabatan ? $this->pegawai->asn->jabatan : null);
-            $this->jenis_tenaga = old('jenis_tenaga', $this->pegawai->asn->jenis_tenaga);
-            if ($this->pegawai->asn->umum) {
-                $this->no_karpeg = old('no_karpeg', $this->pegawai->asn->umum->no_karpeg);
-                $this->no_taspen = old('no_taspen', $this->pegawai->asn->umum->no_taspen);
-                $this->no_npwp = old('no_npwp', $this->pegawai->asn->umum->no_npwp);
-                $this->no_hp = old('no_hp', $this->pegawai->asn->umum->no_hp);
-                $this->email = old('email', $this->pegawai->asn->umum->email);
-                $this->pelatihan = old('pelatihan', $this->pegawai->asn->umum->pelatihan);
+            $this->tmt_pns = old('tmt_pns', $this->pegawai->tmt_pns);
+            $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->tmt_pangkat_terakhir);
+            $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->pangkat_golongan );
+            $this->sekolah = old('sekolah', $this->pegawai->sekolah);
+            // // // // $this->jabatan = old('jabatan', $this->pegawai->jabatan ? $this->pegawai->jabatan : null);
+            $this->jenis_tenaga = old('jenis_tenaga', $this->pegawai->jenis_tenaga);
+            if ($this->jenis_tenaga == 'umum') {
+                $this->no_karpeg = old('no_karpeg', $this->pegawai->no_karpeg);
+                $this->no_taspen = old('no_taspen', $this->pegawai->no_taspen);
+                $this->no_npwp = old('no_npwp', $this->pegawai->no_npwp);
+                $this->no_hp = old('no_hp', $this->pegawai->no_hp);
+                $this->email = old('email', $this->pegawai->email);
+                $this->pelatihan = old('pelatihan', $this->pegawai->pelatihan);
             }
         }
     }

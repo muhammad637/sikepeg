@@ -180,7 +180,7 @@
                                         <span class="mb-0 text-dark fw-bolder">NI PTT-PK/THL</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->nonAsn->niPtt_pkThl }}
+                                        {{ $pegawai->niPtt_pkThl }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -221,7 +221,7 @@
                                         <span class="mb-0 text-dark fw-bolder">Tanggal Masuk</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ Carbon\Carbon::parse($pegawai->nonAsn->tanggal_masuk)->format('d-M-Y') }}
+                                        {{ Carbon\Carbon::parse($pegawai->tanggal_masuk)->format('d-M-Y') }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -259,7 +259,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn->tmt_cpns }}
+                                    {{ $pegawai->tmt_cpns }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -269,7 +269,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn->tmt_pns }}
+                                    {{ $pegawai->tmt_pns }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -279,7 +279,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn->tmt_pns }}
+                                    {{ $pegawai->tmt_pns }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -289,7 +289,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn->pangkat_golongan }}
+                                    {{ $pegawai->pangkat_golongan }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -299,7 +299,7 @@
                                     </span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 text-normal">
-                                    {{ $pegawai->asn->sekolah }}
+                                    {{ $pegawai->sekolah }}
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -364,17 +364,17 @@
                                     <span class="mb-0 text-dark fw-bolder">Jenis Tenaga</span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                    {{ $pegawai->asn->jenis_tenaga }}
+                                    {{ $pegawai->jenis_tenaga }}
                                 </div>
                             </div>
 
-                            @if ($pegawai->asn->jenis_tenaga_struktural == 'umum')
+                            @if ($pegawai->jenis_tenaga_struktural == 'umum')
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                         <span class="mb-0 text-dark fw-bolder">No Karpeg</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn->umum->no_karpeg }}
+                                        {{ $pegawai->no_karpeg }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -382,7 +382,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No Taspen</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn->umum->no_taspen }}
+                                        {{ $pegawai->no_taspen }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -391,7 +391,7 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn->umum->no_npwp }}
+                                        {{ $pegawai->no_npwp }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -399,7 +399,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No HP</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn->umum->no_hp }}
+                                        {{ $pegawai->no_hp }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -407,7 +407,7 @@
                                         <span class="mb-0 text-dark fw-bolder">Email</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 text-lowercase">
-                                        {{ $pegawai->asn->umum->email }}
+                                        {{ $pegawai->email }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -415,10 +415,10 @@
                                         <span class="mb-0 text-dark fw-bolder">Pelatihan</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn->umum->pelatihan }}
+                                        {{ $pegawai->pelatihan }}
                                     </div>
                                 </div>
-                            @elseif (count($pegawai->asn->str) > 0 && count($pegawai->asn->sip) > 0)
+                            @elseif (count($pegawai->str) > 0 && count($pegawai->sip) > 0)
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                         <span class="mb-0 text-dark fw-bolder">STR</span>
@@ -444,7 +444,7 @@
                                         <span class="mb-0 text-dark fw-bolder">No Sip</span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->asn->SIP[0]->orderByDesc('masa_berlaku_sip')->first() }}
+                                        {{ $pegawai->SIP[0]->orderByDesc('masa_berlaku_sip')->first() }}
                                     </div>
                                 </div>
                             @endif

@@ -47,7 +47,7 @@ return new class extends Migration
             $table->string('tmt_pangkat_terakhir')->nullable();
             $table->string('pangkat_golongan')->nullable();
             $table->string('sekolah')->nullable();
-            $table->enum('jenis_tenaga', ['struktural', 'umum', 'nakes']);
+            $table->enum('jenis_tenaga', ['struktural', 'umum', 'nakes'])->nullable();
             // non asn
             $table->string('niPtt_pkThl')->nullable();
             $table->string('tanggal_masuk')->nullable();
