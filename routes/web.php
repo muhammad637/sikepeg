@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\MutasiController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\STRController;
 use App\Http\Controllers\PegawaiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -82,9 +84,14 @@ Route::get('/histori-cuti', function () {
 
 
 // mutasi
-Route::get('/mutasi', function () {
-    return view('pages.default.maintenance');
-})->name('mutasi.index');
+// Route::get('/mutasi', function () {
+//     return view('pages.mutasi.index');
+// })->name('mutasi.index');
+
+
+Route::resource('/mutasi', MutasiController::class);
+Route::post('mutasi/index', [MutasiController::class, 'mutasiindex'])->name('mutasi');
+// Route::post('mutasi/create' , [MutasiController::class, 'mutasi_create'])->name('mutasi_create');
 
 // diklat
 Route::get('/diklat', function () {
