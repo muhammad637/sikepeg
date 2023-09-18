@@ -41,7 +41,25 @@ return new class extends Migration
             $table->string('masa_kerja')->nullable();
             $table->enum('status_tenaga', ['asn', 'non asn']);
             $table->enum('status_tipe', ['pns', 'pppk', 'non asn'])->nullable(); #tpe tenaga ini memasukkan apakah itu pns ppk atau non asn
+            // asn
+            $table->string('tmt_cpns')->nullable();
+            $table->string('tmt_pns')->nullable();
+            $table->string('tmt_pangkat_terakhir')->nullable();
+            $table->string('pangkat_golongan')->nullable();
+            $table->string('sekolah')->nullable();
+            $table->enum('jenis_tenaga', ['struktural', 'umum', 'nakes']);
+            // non asn
+            $table->string('niPtt_pkThl')->nullable();
+            $table->string('tanggal_masuk')->nullable();
             $table->timestamps();
+
+            // asn umum
+            $table->string('no_karpeg')->nullable();
+            $table->string('no_taspen')->nullable();
+            $table->string('no_npwp')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('email')->nullable();
+            $table->string('pelatihan')->nullable();
         });
     }
 

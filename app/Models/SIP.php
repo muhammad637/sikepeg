@@ -12,8 +12,8 @@ class SIP extends Model
     protected $guarded = ['id'];
 
 
-    public function asn()
+    public function pegawai()
     {
-        return $this->belongsTo(Asn::class, 'asn_id');
+        return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
 }
