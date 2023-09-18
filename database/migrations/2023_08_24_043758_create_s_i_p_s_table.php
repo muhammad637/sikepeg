@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('s_i_p_s', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('asn_id')->constrained('asns')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
             $table->string('no_sip');
             $table->string('tanggal_terbit_sip');
             $table->string('masa_berlaku_sip');
