@@ -171,6 +171,7 @@ class PegawaiController extends Controller
     public function show(Pegawai $pegawai)
     {
         //
+        return $pegawai;
         return view('pages.pegawai.show', [
             'pegawai' => $pegawai
         ]);
@@ -226,8 +227,8 @@ class PegawaiController extends Controller
             'no_ijazah' => 'required',
             'jabatan' => 'required'
         ]);
-        $pegawai->update($validatedData);
-
+        $usia = $this->lama($request->tanggal_lahir);
+        $pegawai->update(array_merge(['usia' => $usia], $validatedData));
         # jika status tenaga tidak sama dengan request status_tenaga
         if ($pegawai->status_tenaga != $request->status_tenaga) {
             #jika request->status tenaga == non asn
@@ -235,43 +236,43 @@ class PegawaiController extends Controller
                 #buat pegawai non asn
                 $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
                 $pegawai->update(
-                    $validatedDataNonAsn
+                    array_merge(
+                        [
+                            'status_tenaga' => $request->status_tenaga,
+                            'status_tipe' => $request->status_tipe,
+                            'masa_kerja' => $this->lama($pegawai->tanggalMasuk),
+                            'no_karpeg' => null,
+                            'no_taspen' => null,
+                            'no_npwp' => null,
+                            'no_hp' => null,
+                            'email' => null,
+                            'pelatihan' => null,
+                            'sekolah' => null,
+                            'tmt_cpns' => null,
+                            'tmt_pns' => null,
+                            'tmt_pangkat_terakhir' => null,
+                            'pangkat_golongan' => null,
+                            'jenis_tenaga' => null,
+                        ],
+                        $validatedDataNonAsn
+                    )
                 );
-                $pegawai->update([
-                    [
-                        'masa_kerja' => $this->lama($pegawai->tanggalMasuk),
-                        'no_karpeg' => '',
-                        'no_taspen' => '',
-                        'no_npwp' => '',
-                        'no_hp' => '',
-                        'email' => '',
-                        'pelatihan' => '',
-                        'sekolah' => '',
-                        'tmt_cpns' => '',
-                        'tmt_pns' => '',
-                        'tmt_pangkat_terakhir' => '',
-                        'pangkat_golongan' => '',
-                        'jenis_tenaga' => '',
-                    ],
-                ]);
                 count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
                 count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
-                // update masa kerja nya sesuai tanggal masuk nya
-                // $tanggalMasuk = Carbon::parse($request->tanggal_masuk);
-                // $masaKerja = 
-                $pegawai->update([
-                    'status_tenaga' => $request->status_tenaga,
-                    'status_tipe' => $request->status_tipe
-                ]);
                 # jika izin cuti di edit maka edit izin cuti nya
                 $request->cuti_tahunan != null ? $pegawai->update(['cuti_tahunan' => intval($request->cuti_tahunan)]) : null;
                 return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
             } else {
-                // $pegawaiNonAsn = Pegawai::find($pegawai->id);
-                $pegawai->nonAsn->delete();
-                // $validateDataAsn = $request->validate($this->rulesAsn);
-                // $mergingAsn = array_merge(['pegawai_id' => $pegawai->id], $validateDataAsn);
-                return $this->CreateAsn($request, $pegawai->id);
+                $validatedDataAsn = $request->validate($this->rulesAsn);
+                $masa_kerja = $this->lama($request->tmt_pns);
+                $pegawai->update(array_merge([
+                    'status_tenaga' => $request->status_tenaga,
+                    'status_tipe' => $request->status_tipe,
+                    'tanggal_masuk' => null,
+                    'niPtt_pkThl' => null,
+                    'masa_kerja' => $masa_kerja
+                ], $validatedDataAsn));
+                // return $this->CreateAsn($request, $pegawai);
             }
 
 
@@ -339,7 +340,6 @@ class PegawaiController extends Controller
     private function CreateAsn($request, $pegawai)
     {
         $validateDataAsn = $request->validate($this->rulesAsn);
-        // $mergingAsn = array_merge(['pegawai_id' => $pegawai_id], $validateDataAsn);
         return $pegawai->update($validateDataAsn);
     }
 

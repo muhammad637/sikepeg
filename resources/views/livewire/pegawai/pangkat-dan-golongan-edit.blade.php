@@ -99,7 +99,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="text" class="form-control @error('jabatan') is-invalid @enderror " id="jabatan"
                         aria-describedby="jabatan" name="jabatan" autocomplete="false"
-                        placeholder="Masukkan Jabatan ..." wire:model='jabatan'>
+                        placeholder="Masukkan Jabatan ..." wire:model='jabatan' required>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="date" class="form-control @error('tanggal_masuk') is-invalid @enderror "
                         id="tanggal_masuk" aria-describedby="tanggal_masuk" name="tanggal_masuk"
-                        autocomplete="false" placeholder="Masukkan Tanggal Masuk ..." wire:model='tanggal_masuk'>
+                        autocomplete="false" placeholder="Masukkan Tanggal Masuk ..." wire:model='tanggal_masuk' required>
                 </div>
             </div>
         </div>
@@ -141,7 +141,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
                         id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan" autocomplete="false"
-                        placeholder="Masukkan izin dalam satu tahun" wire:model='cuti_tahunan'>
+                        placeholder="Masukkan izin dalam satu tahun" wire:model='cuti_tahunan' required>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <select name="status_tipe" id="" wire:model='status_tipe'
-                        class="form-control @error('status_tipe') is-invalid @enderror">
+                        class="form-control @error('status_tipe') is-invalid @enderror" required>
                         <option value="">Pilih</option>
                         <option value="pns" {{ $status_tipe == 'pns' ? 'selected' : '' }}>PNS</option>
                         <option value="pppk" {{ $status_tipe == 'pppk' ? 'selected' : '' }}>PPPK</option>
@@ -173,7 +173,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="date" class="form-control @error('tmt_cpns') is-invalid @enderror "
                         id="tmt_cpns" aria-describedby="tmt_cpns" name="tmt_cpns" autocomplete="false"
-                        placeholder="Masukkan TMT CPNS ..." wire:model='tmt_cpns'>
+                        placeholder="Masukkan TMT CPNS ..." wire:model='tmt_cpns' required>
                 </div>
             </div>
         </div>
@@ -187,7 +187,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="date" class="form-control @error('tmt_pns') is-invalid @enderror "
                         id="tmt_pns" aria-describedby="tmt_pns" name="tmt_pns" autocomplete="false"
-                        placeholder="Masukkan TMT CPNS ..." wire:model='tmt_pns'>
+                        placeholder="Masukkan TMT CPNS ..." wire:model='tmt_pns' required>
                 </div>
             </div>
         </div>
@@ -202,7 +202,7 @@
                     <input type="date" class="form-control @error('tmt_pangkat_terakhir') is-invalid @enderror "
                         id="tmt_pangkat_terakhir" aria-describedby="tmt_pangkat_terakhir" name="tmt_pangkat_terakhir"
                         autocomplete="false" placeholder="Masukkan TMT Pangkat Terakhir ..."
-                        wire:model='tmt_pangkat_terakhir'>
+                        wire:model='tmt_pangkat_terakhir' required>
                 </div>
             </div>
         </div>
@@ -217,7 +217,7 @@
                     <input type="text" class="form-control @error('pangkat_golongan') is-invalid @enderror "
                         id="pangkat_golongan" aria-describedby="pangkat_golongan" name="pangkat_golongan"
                         autocomplete="false" placeholder="Masukkan Pangkat Golongan ..."
-                        wire:model='pangkat_golongan'>
+                        wire:model='pangkat_golongan' required>
                 </div>
             </div>
         </div>
@@ -232,7 +232,7 @@
                     <input type="text" class="form-control @error('pendidikan_terakhir') is-invalid @enderror "
                         id="pendidikan_terakhir" aria-describedby="pendidikan_terakhir" name="pendidikan_terakhir"
                         autocomplete="false" placeholder="Masukkan pendidikan Terakhir ..."
-                        wire:model='pendidikan_terakhir'>
+                        wire:model='pendidikan_terakhir' required>
                 </div>
             </div>
         </div>
@@ -246,7 +246,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="text" class="form-control @error('sekolah') is-invalid @enderror "
                         id="sekolah" aria-describedby="sekolah" name="sekolah" autocomplete="false"
-                        placeholder="Masukkan Sekolah / Perguruan Tinggi ...." wire:model='sekolah'>
+                        placeholder="Masukkan Sekolah / Perguruan Tinggi ...." wire:model='sekolah' required>
                 </div>
             </div>
         </div>
@@ -260,7 +260,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="date" class="form-control @error('tanggal_lulus') is-invalid @enderror "
                         id="tanggal_lulus" aria-describedby="tanggal_lulus" name="tanggal_lulus"
-                        autocomplete="false" placeholder="Masukkan Tanggal Lulus" wire:model='tanggal_lulus'>
+                        autocomplete="false" placeholder="Masukkan Tanggal Lulus" wire:model='tanggal_lulus' required>
                 </div>
             </div>
         </div>
@@ -274,7 +274,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="text" class="form-control @error('no_ijazah') is-invalid @enderror "
                         id="no_ijazah" aria-describedby="no_ijazah" name="no_ijazah" autocomplete="false"
-                        placeholder="Masukkan No Ijazah ...." wire:model='no_ijazah'>
+                        placeholder="Masukkan No Ijazah ...." wire:model='no_ijazah' required>
                 </div>
             </div>
         </div>
@@ -287,7 +287,7 @@
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <select name="jenis_tenaga" id="" wire:model='jenis_tenaga'
-                        class="form-control @error('jenis_tenaga') is-invalid @enderror">
+                        class="form-control @error('jenis_tenaga') is-invalid @enderror" required>
                         <option value="">Pilih</option>
                         <option value="nakes" {{ $jenis_tenaga == 'nakes' ? 'selected' : '' }}>Nakes / Fungsional
                         </option>
@@ -310,11 +310,11 @@
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                         <input type="text" class="form-control @error('jabatan') is-invalid @enderror "
                             id="jabatan" aria-describedby="jabatan" name="jabatan" autocomplete="false"
-                            placeholder="Masukkan Jabatan Fungsional ..." wire:model='jabatan'>
+                            placeholder="Masukkan Jabatan Fungsional ..." wire:model='jabatan' required>
                     </div>
                 </div>
             </div>
-            <div class="mb-4">
+            {{-- <div class="mb-4">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                         <label for="" class="form-label">
@@ -327,7 +327,7 @@
                             placeholder="Masukkan Masa Kerja ..." wire:model='masa_kerja'>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="mb-4">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -423,7 +423,7 @@
                         <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
                             id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan"
                             autocomplete="false" placeholder="Masukkan Cuti Dalam Satu Tahun"
-                            wire:model='cuti_tahunan'>
+                            wire:model='cuti_tahunan' required>
                     </div>
                 </div>
             </div>
@@ -438,7 +438,7 @@
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                         <input type="text" class="form-control @error('jabatan') is-invalid @enderror "
                             id="jabatan" aria-describedby="jabatan" name="jabatan" autocomplete="false"
-                            placeholder="Masukkan Jabatan Fungsional ..." wire:model='jabatan'>
+                            placeholder="Masukkan Jabatan Fungsional ..." wire:model='jabatan' required>
                     </div>
                 </div>
             </div>
