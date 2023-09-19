@@ -339,25 +339,6 @@ class PegawaiController extends Controller
         return $pegawai->delete();
     }
 
-<<<<<<< HEAD
-
-    // private function CreateAsn($request, $pegawai_id)
-    // {
-    //     $validateDataAsn = $request->validate($this->rulesAsn);
-    //     $mergingAsn = array_merge(['pegawai_id' => $pegawai_id], $validateDataAsn);
-    //     return Asn::create($mergingAsn);
-    // }
-
-
-    // public function lama($tanggalMulai)
-    // {
-    //     $parseTanggalMulai = Carbon::parse($tanggalMulai);
-    //     $tahun = $parseTanggalMulai->diffInYears();
-    //     $bulan = $parseTanggalMulai->diffInMonths() % 12;
-    //     $lama = "$tahun tahun, $bulan bulan";
-    //     return $lama;
-    // }
-=======
     private function CreateAsn($request, $pegawai)
     {
         $validateDataAsn = $request->validate($this->rulesAsn);
@@ -373,5 +354,4 @@ class PegawaiController extends Controller
         $lama = "$tahun tahun, $bulan bulan";
         return $lama;
     }
->>>>>>> df04e037f2eceab547a5635e5d12ebf4b26d8c6d
 }
