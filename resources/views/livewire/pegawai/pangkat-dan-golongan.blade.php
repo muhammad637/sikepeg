@@ -141,7 +141,7 @@
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <select name="status_tipe" wire:model='status_tipe' id=""
-                        class="form-control @error('status_tipe')  @enderror">
+                        class="form-control @error('status_tipe')  @enderror" required>
                         <option value=""> Pilih</option>
                         <option value="pns" {{ $status_tipe == 'pns' ? 'selected' : '' }}> PNS</option>
                         <option value="pppk" {{ $status_tipe == 'pppk' ? 'selected' : '' }}> PPPK</option>
@@ -273,7 +273,7 @@
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <select name="jenis_tenaga" id="" wire:model='jenis_tenaga'
-                        class="form-control @error('jenis_tenaga') is-invalid @enderror">
+                        class="form-control @error('jenis_tenaga') is-invalid @enderror" required>
                         <option value="">Pilih</option>
                         <option value="struktural" {{ $jenis_tenaga == 'struktural' ? 'selected' : '' }}>Struktural
                         </option>
@@ -286,21 +286,21 @@
             </div>
         </div>
 
-        @if ($jenis_tenaga == 'nakes')
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Jabatan</p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('jabatan') is-invalid @enderror "
-                            id="jabatan" aria-describedby="jabatan" name="jabatan" autocomplete="false"
-                            placeholder="Masukkan Jabatan ..." wire:model='jabatan'>
-                    </div>
+        <div class="mb-4">
+            <div class="row gap-5">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Jabatan</p>
+                    </label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                    <input type="text" class="form-control @error('jabatan') is-invalid @enderror "
+                        id="jabatan" aria-describedby="jabatan" name="jabatan" autocomplete="false"
+                        placeholder="Masukkan Jabatan ..." wire:model='jabatan'>
                 </div>
             </div>
+        </div>
+        @if ($jenis_tenaga == 'nakes')
             <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti di halaman str atau sip</p>
             <div class="mb-4">
                 <div class="row gap-5">
@@ -421,17 +421,18 @@
                 </div>
             </div>
         @elseif(old('jenis_tenaga', $jenis_tenaga) == 'umum')
-            <div class="mb-4">
+        <div class="mb-4">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                         <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Jabatan</p>
+                            <p class="mb-0 mt-md-2 mt-0">Cuti Dalam Satu Tahun</p>
                         </label>
                     </div>
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('jabatan') is-invalid @enderror "
-                            id="jabatan" aria-describedby="jabatan" name="jabatan" autocomplete="false"
-                            placeholder="Masukkan Jabatan ..." wire:model='jabatan'>
+                        <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
+                            id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan"
+                            autocomplete="false" placeholder="Masukkan Cuti Dalam Satu Tahun"
+                            wire:model='cuti_tahunan' required>
                     </div>
                 </div>
             </div>
@@ -534,21 +535,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Cuti Dalam Satu Tahun</p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
-                            id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan"
-                            autocomplete="false" placeholder="Masukkan Cuti Dalam Satu Tahun"
-                            wire:model='cuti_tahunan' required>
-                    </div>
-                </div>
-            </div>
+            
         @endif
     @endif
 

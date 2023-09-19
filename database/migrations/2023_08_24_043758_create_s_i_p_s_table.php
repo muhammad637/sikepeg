@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::create('s_i_p_s', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('no_str')->nullable();
             $table->string('no_sip');
+            $table->string('no_rekom');
             $table->string('tanggal_terbit_sip');
-            $table->string('masa_berlaku_sip');
+            $table->string('masa_berakhir_sip');
             $table->string('link_sip');
             $table->timestamps();
         });

@@ -3,7 +3,7 @@
 @section('content')
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
-    <div class="card p-4 mx-5 mb-5 ">
+    <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Edit SIP Pegawai</h2>
         <hr class="font-weight-bold">
         <div class="row">

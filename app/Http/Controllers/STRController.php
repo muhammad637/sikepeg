@@ -18,13 +18,13 @@ class STRController extends Controller
      */
     public function index()
     {
-        $asn = Asn::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
+        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
             $query->orderBy('masa_berakhir_str', 'desc');
         })->get();
-        // $asn = Asn::with('str')->get();
-        // return $asn;
+        // $pegawai = pegawai::with('str')->get();
+        // return $pegawai;
         return view('pages.str.index', [
-            'asn' => $asn,
+            'pegawai' => $pegawai,
             'i' => 0
         ]);
     }
@@ -36,7 +36,10 @@ class STRController extends Controller
      */
     public function create()
     {
-        return view('pages.str.create');
+        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+        return view('pages.str.create',[
+            'results' => $results
+        ]);
     }
 
     /**
@@ -48,19 +51,20 @@ class STRController extends Controller
     public function store(Request $request)
     {
         //
-        // return $request->all();
         $validatedData = $request->validate([
             'no_str' => 'required',
             'tanggal_terbit_str' => 'required',
             'no_sertikom' => 'required',
+            'kompetensi' => 'required',
             'masa_berakhir_str' => 'required',
             'link_str' => 'required',
         ]);
 
         $str = STR::create([
-            'asn_id' => $request->asn_id,
+            'pegawai_id' => $request->asn_id,
             'no_str' => $request->no_str,
             'no_sertikom' => $request->no_sertikom,
+            'kompetensi' => $request->kompetensi,
             'tanggal_terbit_str' => $request->tanggal_terbit_str,
             'masa_berakhir_str' => $request->masa_berakhir_str,
             'link_str' => $request->link_str
@@ -108,22 +112,31 @@ class STRController extends Controller
     {
         //
         // return $request->all();
-        $validatedData = $request->validate([
-            'no_str' => 'required',
-            'no_sertikom' => 'required',
-            'tanggal_terbit_str' => 'required',
-            'masa_berakhir_str' => 'required',
-            'link_str' => 'required',
-        ]);
-        $strCreate = $str->update([
-            'no_str' => $request->no_str,
-            'no_sertikom' => $request->no_sertikom,
-            'tanggal_terbit_str' => $request->tanggal_terbit_str,
-            'masa_berakhir_str' => $request->masa_berakhir_str,
-            'link_str' => $request->link_str
-        ]);
-        // return $str;
-        return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
+        try {
+            //code...
+            $validatedData = $request->validate([
+                'no_str' => 'required',
+                'kompetensi' => 'required',
+                'no_sertikom' => 'required',
+                'tanggal_terbit_str' => 'required',
+                'masa_berakhir_str' => 'required',
+                'link_str' => 'required',
+            ]);
+            $strUpdate = $str->update([
+                'no_str' => $request->no_str,
+                'kompetensi' => $request->kompetensi,
+                'no_sertikom' => $request->no_sertikom,
+                'tanggal_terbit_str' => $request->tanggal_terbit_str,
+                'masa_berakhir_str' => $request->masa_berakhir_str,
+                'link_str' => $request->link_str
+            ]);
+            // return $str;
+            return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $th->getMessage();
+        }
+       
     }
 
     /**
@@ -138,10 +151,10 @@ class STRController extends Controller
     }
 
     // history
-    public function history(Asn $asn)
+    public function history(Pegawai $pegawai)
     {
         return view('pages.str.history',[
-            'asn' => $asn
+            'pegawai' => $pegawai
         ]);
     }
 }
