@@ -18,8 +18,10 @@ class STRFactory extends Factory
     {
         return [
             //
-            'asn_id' => rand(1, 10),
+            'pegawai_id' => rand(1, 10),
             'no_str' => fake()->randomNumber(),
+            'no_sertikom' => fake()->randomNumber(),
+            'kompetensi' => 'Ahli Madya Kebinanan',
             'tanggal_terbit_str' => fake()->dateTimeBetween('-1 week', '+1 week'),
             'masa_berakhir_str' => fake()->dateTimeThisDecade('+2 years'),
             'link_str' => 'hello world',

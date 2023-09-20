@@ -19,11 +19,11 @@
                             <span class="mb-0 text-dark ">Nama</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="select2" name="asn_id" required style="max-width:100%;m-width:100%">
+                            <select class="form-control" id="select2" name="pegawai_id" required style="max-width:100%;m-width:100%">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
                                     <option value="{{ $pegawai->id }}"
-                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>{{ $pegawai->nama_lengkap }}
+                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>{{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
                                        
                                     </option>
                                 @endforeach
@@ -40,19 +40,18 @@
                     <div class="row mb-3">
                         <label for="noSIP" class="col-sm-4 col-form-label">No. SIP</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3" name="no_sip"
+                            <input type="text" class="form-control" id="inputPassword3" name="no_sip"
                                 value="{{ old('no_sip') }}" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="noRekom" class="col-sm-4 col-form-label">No. Rekomendasi SIP</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3" name="no_rekom_sip" required
-                                value="{{ old('no_rekom_sip') }}">
+                            <input type="text" class="form-control" id="inputPassword3" name="no_rekom" required
+                                value="{{ old('no_rekom') }}">
                         </div>
                     </div>
                     @livewire('s-i-p.search-str')
-                    
                     <div class="row mb-3">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark " style="text-decoration: none;">Tanggal Terbit SIP</span>
@@ -81,7 +80,7 @@
                         </div>
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group date" id="datepicker">
-                                <input type="text" class="form-control" name="link sip" value="{{ old('link_sip') }}"
+                                <input type="text" class="form-control" name="link_sip" value="{{ old('link_sip') }}"
                                     required>
                             </div>
                         </div>

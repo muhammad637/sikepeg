@@ -23,8 +23,7 @@
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
                                     <option value="{{ $pegawai->id }}"
-                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>{{ $pegawai->nama_depan }}
-                                        
+                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>{{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
                                     </option>
                                 @endforeach
                             </select>

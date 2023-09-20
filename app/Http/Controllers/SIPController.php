@@ -55,26 +55,32 @@ class SIPController extends Controller
     public function store(Request $request)
     {
         //
-        // return $request->all();
-        $validatedData = $request->validate([
-            'no_str' => 'required',
-            'no_sip' => 'required',
-            'tanggal_terbit_sip' => 'required',
-            'no_rekom_sip' => 'required',
-            'masa_berakhir_sip' => 'required',
-            'link_sip' => 'required',
-        ]);
+        try {
+            //code...
+            $validatedData = $request->validate([
+                'no_str' => 'required',
+                'no_sip' => 'required',
+                'tanggal_terbit_sip' => 'required',
+                'no_rekom' => 'required',
+                'masa_berakhir_sip' => 'required',
+                'link_sip' => 'required',
+            ]);
 
-        $sip = SIP::create([
-            'pegawai_id' => $request->asn_id,
-            'no_sip' => $request->no_sip,
-            'no_str' => $request->no_str,
-            'no_rekom_sip' => $request->no_rekom,
-            'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
-            'masa_berakhir_sip' => $request->masa_berakhir_sip,
-            'link_sip' => $request->link_sip
-        ]);
-        return redirect(route('sip.index'))->with('success', 'str berhasil ditambahkan');
+            $sip = SIP::create([
+                'pegawai_id' => $request->pegawai_id,
+                'no_sip' => $request->no_sip,
+                'no_str' => $request->no_str,
+                'no_rekom' => $request->no_rekom,
+                'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
+                'masa_berakhir_sip' => $request->masa_berakhir_sip,
+                'link_sip' => $request->link_sip
+            ]);
+            return redirect(route('sip.index'))->with('success', 'str berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $th->getMessage();
+        }
+       
     }
 
     /**
@@ -116,12 +122,14 @@ class SIPController extends Controller
     public function update(Request $request, SIP $sip)
     {
         //
+        
         $validatedData = $request->validate([
             'no_str' => 'required',
-            'no_sertikom' => 'required',
-            'tanggal_terbit_str' => 'required',
-            'masa_berakhir_str' => 'required',
-            'link_str' => 'required',
+            'no_sip' => 'required',
+            'no_rekom' => 'required',
+            'tanggal_terbit_sip' => 'required',
+            'masa_berakhir_sip' => 'required',
+            'link_sip' => 'required',
         ]);
         $sipCreate = $sip->update([
             'no_sip' => $request->no_sip,
@@ -146,8 +154,10 @@ class SIPController extends Controller
     }
     public function history(Pegawai $pegawai)
     {
-        return view('pages.str.history', [
-            'pegawai' => $pegawai
+       $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->get();
+       
+        return view('pages.sip.history', [
+            'sip' => $sip
         ]);
     }
 }

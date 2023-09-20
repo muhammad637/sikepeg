@@ -25,7 +25,7 @@
                     </thead>
                     <tbody>
                         @foreach ($pegawai->str as $item)
-                        <tr>
+                            <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 {{-- <td></td> --}}
                                 {{-- <td>16 02 5 2 2 23-4767590 </td> --}}
@@ -39,22 +39,19 @@
 
                                 </td>
                                 <td>
-                                   
-                                    <a href="{{ route('str.show', ['str' => $item->id]) }}"
-                                            class="btn btn-info">
-                                            <i class="fas fa-info-circle"></i>
-                                        </a>
-                                        <a href="{{$item->link_str}}"
-                                            class="btn btn-success" target="_blank">
-                                            <i class="fas fa-link"></i>
-                                        </a>
-                                        <a href="{{ route('str.edit', ['str' => $item->id]) }}"
-                                            class="btn btn-warning">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
+
+                                    <a href="{{ route('str.show', ['str' => $item->id]) }}" class="btn btn-info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="{{ $item->link_str }}" class="btn btn-success" target="_blank">
+                                        <i class="fas fa-link"></i>
+                                    </a>
+                                    <a href="{{ route('str.edit', ['str' => $item->id]) }}" class="btn btn-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
                                 </td>
                             </tr>
-                            @endforeach
+                        @endforeach
                     </tbody>
                 </table>
             </div>

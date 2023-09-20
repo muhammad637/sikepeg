@@ -18,10 +18,12 @@ class SIPFactory extends Factory
     {
         return [
             //
-            'asn_id' => rand(1, 10),
+            'pegawai_id' => rand(1, 10),
             'no_sip' => fake()->randomNumber(),
+            'no_str' => fake()->randomNumber(),
+            'no_rekom' => fake()->randomNumber(),
             'tanggal_terbit_sip' => fake()->dateTimeBetween('-1 week', '+1 week'),
-            'masa_berlaku_sip' => fake()->dateTimeThisDecade('+2 years'),
+            'masa_berakhir_sip' => fake()->dateTimeThisDecade('+2 years'),
             'link_sip' => 'hello world',
         ];
     }

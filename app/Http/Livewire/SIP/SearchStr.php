@@ -12,6 +12,10 @@ class SearchStr extends Component
     public $no_str;
     public $select;
 
+    public function mount(){
+        $this->no_str = old('no_str', null);
+    }
+
     public function updatedSelect($value){
         // $str = ::where('');
         $saatIni = Carbon::parse(now())->format('Y-m-d');
