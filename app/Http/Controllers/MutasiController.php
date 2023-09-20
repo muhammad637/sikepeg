@@ -13,9 +13,13 @@ class MutasiController extends Controller
 
 
     public function index(){
+        $pegawai =  Pegawai::whereHas('mutasi', function($q){
+            $q->orderBy('created_at','desc');
+        })->get();
         return view('pages.mutasi.index',
         [
-            'mutasi' => Mutasi::all()
+            'pegawai' => $pegawai,
+            'i' => 0, 
         ]);
     }
     public function create(){

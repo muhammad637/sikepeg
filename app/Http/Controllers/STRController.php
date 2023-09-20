@@ -19,7 +19,7 @@ class STRController extends Controller
     public function index()
     {
         $asn = Asn::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-            $query->orderBy('masa_berakhir_str', 'desc');
+            $query->orderBy('tanggal_sk', 'desc');
         })->get();
         // $asn = Asn::with('str')->get();
         // return $asn;

@@ -34,20 +34,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($mutasi as $index => $item)
+                        @foreach ($pegawai as $index => $item)
                         @php
-                            $data = explode('view',$item->sk[0]->link_sk);
+                            $data = explode('view',$item->mutasi[0]->link_sk);
                         @endphp
                             <tr>
                                 {{-- <td>{{$loop->iteration}}</td> --}}
                           
 
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->pegawai->nama_depan}} {{$item->pegawai->nama_belakang}}</td>
-                                <td>{{ $item->jenis_mutasi}}</td>
-                                <td>{{ $item->tanggal_berlaku }}</td>
-                                <td>{{ $item->instansi_tujuan }}</td>
-                                <td>{{ $item->no_sk}}</td>
+                                <td>{{ $item->nama_depan ?? null}} </td>
+                                <td>{{ $item->mutasi[0]->jenis_mutasi}}</td>
+                                <td>{{ $item->mutasi[0]->tanggal_berlaku }}</td>
+                                <td>{{ $item->mutasi[0]->instansi_tujuan }}</td>
+                                <td>{{ $item->mutasi[0]->no_sk}}</td>
                                 <td><!-- Button trigger modal preview-->
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#modal_str_link-{{ $item->id }}">
