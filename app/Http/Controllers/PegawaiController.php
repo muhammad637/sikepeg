@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PegawaiImport;
 use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\STR;
@@ -9,6 +10,8 @@ use App\Models\Pegawai;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class PegawaiController extends Controller

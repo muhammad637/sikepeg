@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\MutasiController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\STRController;
 use App\Http\Controllers\PegawaiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,7 @@ Route::get('/coba', function () {
 
 
 Route::resource('/pegawai', PegawaiController::class);
+Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
 
 // str
 Route::resource('/str', STRController::class);
@@ -81,9 +84,15 @@ Route::get('/histori-cuti', function () {
 
 
 // mutasi
-Route::get('/mutasi', function () {
-    return view('pages.default.maintenance');
-})->name('mutasi.index');
+// Route::get('/mutasi', function () {
+//     return view('pages.mutasi.index');
+// })->name('mutasi.index');
+
+
+Route::resource('/mutasi', MutasiController::class);
+Route::post('mutasi/index', [MutasiController::class, 'mutasiindex'])->name('mutasi');
+Route::post('mutasi/create' , [MutasiController::class, 'create'])->name('mutasi_create');
+Route::post('/mutasi/stroe', [MutasiController::class, 'store'])->name('mutasi_store');
 
 // diklat
 Route::get('/diklat', function () {

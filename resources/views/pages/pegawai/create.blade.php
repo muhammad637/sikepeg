@@ -17,7 +17,9 @@
                 <form action="{{ route('pegawai.store') }}" method="post">
                     @csrf
                     <div class="row mt-5 judul-text">
+                        
                         <div class="col-md-12 col-lg-12 col-xl-6 ">
+                            
                             <h3 class="judul-text">Biodata Diri</h3>
                             <hr style="height:.1rem;" class="bg-primary">
                             <div class="mt-5 mb-4">
@@ -191,6 +193,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="mb-4">
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
