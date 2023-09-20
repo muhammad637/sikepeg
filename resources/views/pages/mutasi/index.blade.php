@@ -35,6 +35,9 @@
                     </thead>
                     <tbody>
                         @foreach ($mutasi as $index => $item)
+                        @php
+                            $data = explode('view',$item->sk[0]->link_sk);
+                        @endphp
                             <tr>
                                 {{-- <td>{{$loop->iteration}}</td> --}}
                           
@@ -45,7 +48,39 @@
                                 <td>{{ $item->tanggal_berlaku }}</td>
                                 <td>{{ $item->instansi_tujuan }}</td>
                                 <td>{{ $item->no_sk}}</td>
-                                <td>{{ $item->link_sk}}</td>
+                                <td><!-- Button trigger modal preview-->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#modal_str_link-{{ $item->id }}">
+                                        <i class="fas fa-file-alt text-white"></i>
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade bd-example-modal-lg" id="modal_str_link-{{ $item->id }}"
+                                        tabindex="-1" role="dialog"
+                                        aria-labelledby="modal_str_link-{{ $item->id }}Label" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title"
+                                                        id="modal_str_link-{{ $item->id }}Label">Preview Dokumen
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <iframe
+                                                        src="{{$data[0]}}preview"
+                                                        class="w-100" style="height: 40em"></iframe>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div></td>
                                 <td>
                                     <button class="badge p-2 text-white bg-info border-0">aktif</button>
                                 </td>
