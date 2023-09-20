@@ -1,26 +1,6 @@
 <div>
     {{-- The best athlete wants his opponent at his best. --}}
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Pegawai</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <select name="pegawai" id="pegawai"
-                    class="form-control @error('pegawai') is-invalid @enderror" wire:model="select_pegawai">
-                   
-                    <option value="">Pilih Pegawai</option>
-                   @foreach ($result as $item)
-                   <option value="{{$item->id}}"> {{$item->nama_depan}} {{$item->nama_belakang}}
-               </option>   
-                   @endforeach
-                    
-                </select>
-            </div>
-        </div>
-    </div>
+   
 
     <div class="mt-5 mb-4">
         <div class="row gap-5">
@@ -111,6 +91,21 @@
                 </div>
             </div>
         </div>
+        <div class="mb-4">
+            <div class="row gap-5">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Upload Link SK</p>
+                    </label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                    <input type="text" class="form-control @error('link_sk') is-invalid @enderror "
+                        id="link_sk" aria-describedby="link_sk" name="link_sk"
+                        autocomplete="false" placeholder="Masukkan Link Upload SK"
+                        wire:model='link_sk' required>
+                </div>
+            </div>
+        </div>
 
     @elseif($jenis_mutasi == 'eksternal')
         <div class="mb-4">
@@ -186,6 +181,35 @@
                 </div>
             </div>
         </div>
+        <div class="mb-4">
+            <div class="row gap-5">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Upload Link SK</p>
+                    </label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                    <input type="text" class="form-control @error('link_sk') is-invalid @enderror "
+                        id="link_sk" aria-describedby="link_sk" name="link_sk"
+                        autocomplete="false" placeholder="Masukkan Link Upload SK"
+                        wire:model='link_sk' required>
+                </div>
+            </div>
+        </div>
        @endif 
 
 </div>
+@push('script')
+    <script>
+        $(document).ready(function() {
+            // alert('oke')
+            $('#pegawai').select2();
+            $('#pegawai').on('change', function(e) {
+                // console.log(e)
+                var data = $('#pegawai').select2("val")
+                @this.set("select_pegawai", data)
+            });
+            // $('.nip').val('tes')
+        });
+    </script>
+@endpush

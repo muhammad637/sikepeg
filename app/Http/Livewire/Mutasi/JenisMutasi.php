@@ -21,7 +21,7 @@ class JenisMutasi extends Component
     public $no_sk;
     public $tanggal_sk;
     public $select_pegawai;
-    
+    public $link_sk;
     //eksternal
     public $instansi_awal;
     public $instansi_tujuan;
@@ -37,7 +37,7 @@ class JenisMutasi extends Component
         $this->tanggal_sk = old('tanggal_sk', null);
         $this->instansi_awal = old('instansi_awal', null);
         $this->instansi_tujuan = old('instansi_tujuan', null);
-
+        $this->link_sk = old('link_sk', null);
 
 
 

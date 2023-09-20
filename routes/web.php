@@ -91,7 +91,8 @@ Route::get('/histori-cuti', function () {
 
 Route::resource('/mutasi', MutasiController::class);
 Route::post('mutasi/index', [MutasiController::class, 'mutasiindex'])->name('mutasi');
-// Route::post('mutasi/create' , [MutasiController::class, 'mutasi_create'])->name('mutasi_create');
+Route::post('mutasi/create' , [MutasiController::class, 'create'])->name('mutasi_create');
+Route::post('/mutasi/stroe', [MutasiController::class, 'store'])->name('mutasi_store');
 
 // diklat
 Route::get('/diklat', function () {

@@ -9,9 +9,6 @@
                 <h2 class="m-0 font-weight-bold text-dark">Mutasi</h2>
                 <a href="{{ route('mutasi.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
                     class="fas fa-plus-square ml-1"></i></a>
-                    {{-- <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
-                        IMPORT EXCEL
-                    </button> --}}        
             </div>
         </div>
 

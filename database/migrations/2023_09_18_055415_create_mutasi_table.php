@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('tanggal_berlaku');
             $table->string('no_sk');
             $table->date('tanggal_sk');
-            $table->string('sk');
+            $table->string('link_sk');
             $table->timestamps();
         });
         //
