@@ -28,8 +28,7 @@
                             <th scope="col">Tanggal</th>
                             <th scope="col">Instansi Tujuan</th>
                             <th scope="col">No SK</th>
-                            <th scope="col">SK</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Surat</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -44,9 +43,9 @@
 
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama_depan ?? null}} </td>
-                                <td>{{ $item->mutasi[0]->jenis_mutasi}}</td>
-                                <td>{{ $item->mutasi[0]->tanggal_berlaku }}</td>
-                                <td>{{ $item->mutasi[0]->instansi_tujuan }}</td>
+                                <td>{{ $item->mutasi[count($item->mutasi) -1]->jenis_mutasi}}</td>
+                                <td>{{ $item->mutasi[count($item->mutasi) -1]->tanggal_berlaku }}</td>
+                                <td>{{ $item->mutasi[count($item->mutasi) -1]->instansi_tujuan }}</td>
                                 <td>{{ $item->mutasi[0]->no_sk}}</td>
                                 <td><!-- Button trigger modal preview-->
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -81,9 +80,7 @@
                                             </div>
                                         </div>
                                     </div></td>
-                                <td>
-                                    <button class="badge p-2 text-white bg-info border-0">aktif</button>
-                                </td>
+                               
                                 <td>
                                     <a href="{{ route('pegawai.show', ['pegawai' => $item->id]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
