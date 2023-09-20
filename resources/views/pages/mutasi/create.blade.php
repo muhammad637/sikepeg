@@ -1,63 +1,53 @@
 @extends('main')
 @push('style-css')
     @livewireStyles
-    <style>
-        .judul-text {
-            color: black;
-            font-weight: bold;
-        }
-    </style>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
 @endpush
+
 @section('content')
-    <div class="card">
-        <div class="px-4">
-            <div class="card-body">
-                <h1 class="fw-bold mb-4 mt-3 text-uppercase judul-text">Mutasi</h1>
-                <hr style="background: black; height:.2rem;" class="mt-3 mb-5">
-                <form action="{{ route('mutasi.store') }}" method="post">
-                    @csrf
-                    <div class="row mt-5 judul-text">
-                        
-                        <div class="col-md-12 col-lg-12 col-xl-6 ">
-                            
-                            <h3 class="judul-text">Tambah Mutasi Pegawai</h3>
-                            <hr style="background: black; height:.2rem;" class="mt-3 mb-5">
-                            <div class="mb-4">
-                                <div class="row gap-5">
-                                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                                        <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Pegawai</p>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                                        
-                                        <select name="pegawai_id" id="pegawai"
-                                            class="form-control @error('pegawai') is-invalid @enderror">
-                                           
-                                            <option value="">Pilih Pegawai</option>
-                                            @foreach ($pegawai as $item)
-                                           <option value="{{$item->id}}"> {{$item->nama_depan}} {{$item->nama_belakang}}
-                                           </option>   
-                                           @endforeach
-                                            
-                                        </select>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                @livewire('mutasi.jenis-mutasi')   
-                            </div>
+    <!-- Begin Page Content -->
+    <h1 class="" style="color:black;font-weight:bold;">Mutasi</h1>
+    <div class="card p-4 mx-lg-5 mb-5 ">
+        <h2 class="m-0 font-weight-bold text-dark">Tambah Mutasi</h2>
+        <hr class="font-weight-bold">
+        <form action="{{ route('mutasi.store') }}" method="post">
+            @csrf
+            <div class="row">
+                <div class="col-sm-12 col-xl-12">
+                    <div class="row mb-2">
+                        <div class="col-sm-4 mb-2  fw-italic text-end">
+                            <span class="mb-0 text-dark ">Pegawai</span>
+                        </div>
+                        <div class="col-sm-8 text-secondary">
+                            <select class="form-control" id="pegawai" name="asn_id">
+                                <option value="">Pilih Nama Pegawai</option>
+                                @foreach ($pegawai as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                    <hr>
-                    <a href="{{ route('mutasi.index') }}" class="btn btn-secondary mx-auto">kembali</a>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
+                    @livewire('mutasi.jenis-mutasi')  
+                    {{-- <div class="row mb-3">
+                        <label for="noRegister" class="col-sm-4 col-form-label">No Registrasi</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="inputPassword3">
+                        </div>
+                    </div> --}}
+                    
+        </form>
+        <div class="text-right">
+            <a href="{{ route('mutasi.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <button class="btn btn-success" type="submit">Kirim</button>
         </div>
+
     </div>
+    </div>
+    </form>
+    </div>
+    <!-- /.container-fluid -->
 @endsection
 @push('script')
     @livewireScripts
