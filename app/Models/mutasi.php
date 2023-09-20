@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class mutasi extends Model
 {
+    protected $guarded = ['id'];
     use HasFactory;
+
+
+    public function pegawai(){
+        return $this->belongsTo(Pegawai::class,'pegawai_id');
+    }
 }

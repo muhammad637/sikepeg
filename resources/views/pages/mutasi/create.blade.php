@@ -32,7 +32,7 @@
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         
-                                        <select name="pegawai" id="pegawai"
+                                        <select name="pegawai_id" id="pegawai"
                                             class="form-control @error('pegawai') is-invalid @enderror">
                                            
                                             <option value="">Pilih Pegawai</option>

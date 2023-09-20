@@ -17,13 +17,15 @@ return new class extends Migration
 
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('ruangan_awal');
-            $table->string('ruangan_tujuan');
+            $table->string('ruangan_awal')->nullable();
+            $table->string('ruangan_tujuan')->nullable();
+            $table->string('instansi_awal')->nullable();
+            $table->string('instansi_tujuan')->nullable();
             $table->enum('jenis_mutasi', ['internal', 'eksternal']);
-            $table->date('tanggal_berlaku');
-            $table->string('no_sk');
-            $table->date('tanggal_sk');
-            $table->string('link_sk');
+            $table->date('tanggal_berlaku')->nullable();
+            $table->string('no_sk')->nullable();
+            $table->date('tanggal_sk')->nullable();
+            $table->string('link_sk')->nullable();
             $table->timestamps();
         });
         //

@@ -26,23 +26,26 @@
                             <th scope="col">Nama</th>
                             <th scope="col">Jenis Mutasi</th>
                             <th scope="col">Tanggal</th>
-                            <th scope="col">Jenis Tujuan</th>
+                            <th scope="col">Instansi Tujuan</th>
                             <th scope="col">No SK</th>
                             <th scope="col">SK</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($pegawai as $index => $item) --}}
+                        @foreach ($mutasi as $index => $item)
                             <tr>
                                 {{-- <td>{{$loop->iteration}}</td> --}}
                           
 
-                                {{-- <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->nip_nippk }}</td>
-                                <td>{{$item->gelar_depan}}. {{ $item->nama_depan }} {{ $item->nama_belakang }} ,{{ $item->gelar_belakang }}</td>
-                                <td>{{ $item->jenis_kelamin }}</td>
-                                <td>{{ $item->ruangan }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->pegawai->nama_depan}} {{$item->pegawai->nama_belakang}}</td>
+                                <td>{{ $item->jenis_mutasi}}</td>
+                                <td>{{ $item->tanggal_berlaku }}</td>
+                                <td>{{ $item->instansi_tujuan }}</td>
+                                <td>{{ $item->no_sk}}</td>
+                                <td>{{ $item->link_sk}}</td>
                                 <td>
                                     <button class="badge p-2 text-white bg-info border-0">aktif</button>
                                 </td>
@@ -51,9 +54,9 @@
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
                                     <a href="{{ route('pegawai.edit', ['pegawai' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
-                                </td> --}}
+                                </td>
                             </tr>
-                        {{-- @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>

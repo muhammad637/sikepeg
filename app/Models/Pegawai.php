@@ -19,5 +19,9 @@ class Pegawai extends Model
     {
         return $this->hasMany(SIP::class);
     }
+
+    public function mutasi(){
+        return $this->hasMany(Mutasi::class);
+    }
   
 }
