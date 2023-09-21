@@ -10,7 +10,8 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Edit Mutasi Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('mutasi.update') }}" method="post">
+        <form action="{{ route('mutasi.update',['mutasi' => $mutasi->id]) }}" method="post">
+            @method('put')
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -19,7 +20,7 @@
                             <span class="mb-0 text-dark ">Pegawai</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="pegawai" name="asn_id">
+                            {{-- <select class="form-control" id="pegawai" name="asn_id">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
@@ -29,7 +30,7 @@
                             </select>
                         </div>
                     </div>
-                    @livewire('mutasi.jenis-mutasi')  
+                    @livewire('mutasi.jenis-mutasi')   --}}
                     {{-- <div class="row mb-3">
                         <label for="noRegister" class="col-sm-4 col-form-label">No Registrasi</label>
                         <div class="col-sm-8">

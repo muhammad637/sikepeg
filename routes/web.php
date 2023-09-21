@@ -87,13 +87,12 @@ Route::get('/histori-cuti', function () {
 // Route::get('/mutasi', function () {
 //     return view('pages.mutasi.index');
 // })->name('mutasi.index');
-
-
 Route::resource('/mutasi', MutasiController::class);
-Route::post('mutasi/index', [MutasiController::class, 'mutasiindex'])->name('mutasi');
-Route::post('mutasi/create' , [MutasiController::class, 'create'])->name('mutasi_create');
-Route::post('mutasi/stroe', [MutasiController::class, 'store'])->name('mutasi_store');
-Route::post('mutasi/update', [MutasiController::class, 'update'])->name('mutasi_update');
+// Route::post('mutasi/index', [MutasiController::class, 'mutasiindex'])->name('mutasi');
+// Route::post('mutasi/create' , [MutasiController::class, 'create'])->name('mutasi_create');
+// Route::post('mutasi/store', [MutasiController::class, 'store'])->name('mutasi_store');
+// Route::post('mutasi/{mutasi:id}/update', [MutasiController::class, 'update'])->name('mutasi_update');
+// Route::post('mutasi/{mutasi:id}/update', [MutasiController::class, 'update'])->name('mutasi_update');
 
 // diklat
 Route::get('/diklat', function () {
