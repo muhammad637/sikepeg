@@ -158,6 +158,10 @@ class PegawaiController extends Controller
                 $validatedDataUmum = $request->validate($this->rulesUmum);
                 $pegawai->update($validatedDataUmum);
                 return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
+            } else if ($request->jenis_tenaga == 'struktural') {
+                $validatedDataUmum = $request->validate($this->rulesUmum);
+                $pegawai->update($validatedDataUmum);
+                return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
             }
             return "ada yang salah nih logic mu ini";   //code...
         } catch (\Throwable $th) {
@@ -174,7 +178,7 @@ class PegawaiController extends Controller
     public function show(Pegawai $pegawai)
     {
         //
-        return $pegawai;
+        // return $pegawai;
         return view('pages.pegawai.show', [
             'pegawai' => $pegawai
         ]);
@@ -277,32 +281,6 @@ class PegawaiController extends Controller
                 ], $validatedDataAsn));
                 // return $this->CreateAsn($request, $pegawai);
             }
-
-
-            // {{count($pegawai->)}}
-            // if (count($pegawai->asn) > 0) {
-            //     $validatedDataAsn = $request->validate($this->rulesAsn);
-            //     $pegawai->asn->update($validatedDataAsn);
-            // } else {
-            //     $validatedDataAsn = $request->validate($this->rulesAsn);
-            //     count($pegawai->non_asn) > 0 ? NonAsn::findOrFail($pegawai->non_asn[0]->id)->delete() : null;
-            //     Asn::create(array_merge([
-            //         'pegawai_id' => $pegawai->id,
-            //     ], $validatedDataAsn));
-            // }
-            // $pegawai->update(['status_tenaga' => $request->status_tenaga]);
-            // if (
-            //     $request->jenis_tenaga == 'umum'
-            // ) {
-            //     count($pegawai->asn[0]->str) > 0 ? STR::destroy($pegawai->asn[0]->str->pluck('id')->toArray()) : null;
-            //     count($pegawai->asn[0]->sip) > 0 ? SIP::destroy($pegawai->asn[0]->sip->pluck('id')->toArray()) : null;
-            //     $validatedDataUmum = $request->validate($this->rulesUmum);
-            //     count($pegawai->asn[0]->umum) > 0 ? $pegawai->asn[0]->umum[0]->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn[0]->id], $validatedDataUmum));
-            //     return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
-            //     // return 'testing';
-            // }
-
-
             return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
         }
         // end request

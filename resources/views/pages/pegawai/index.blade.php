@@ -7,13 +7,16 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Personal File</h2>
-                <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
-                    class="fas fa-plus-square ml-1"></i></a>
-                    {{-- <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
-                        IMPORT EXCEL
-                    </button> --}}
-                <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize" data-toggle="modal" data-target="#importExcel">import<i
+                <div>
+
+                    <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
                         class="fas fa-plus-square ml-1"></i></a>
+                        {{-- <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
+                            IMPORT EXCEL
+                        </button> --}}
+                    <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize" data-toggle="modal" data-target="#importExcel">import<i
+                            class="fas fa-plus-square ml-1"></i></a>
+                </div>
         
             </div>
         </div>
@@ -21,8 +24,6 @@
 <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form method="post" action="{{route('import_excel')}}" enctype="multipart/form-data">
-            {{-- @method('put') --}}
-            {{-- @csrf --}}
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
