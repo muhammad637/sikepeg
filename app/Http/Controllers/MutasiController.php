@@ -72,4 +72,55 @@ class MutasiController extends Controller
         }
            }
     
-}
+
+
+    public function edit(Mutasi $mutasi){
+        return view('pages.mutasi.edit',[
+            'mutasi' => $mutasi
+        ]);
+    }
+
+    public function update(Request $request, Mutasi $mutasi){
+        try {
+            $pegawai = Pegawai::find($request->pegawai_id);
+            $validatedData='';
+                if($request-> jenis_mutasi == 'internal'){
+                   $pegawai->update(['ruangan' => $request->ruangan_tujuan]);
+                   $validatedData =   $request->validate(
+                    [
+                        'pegawai_id' => '',
+                        'tanggal_berlaku' => 'required|date',
+                        'no_sk' => 'required',
+                        'tanggal_sk' => 'required|date',
+                        'link_sk' => 'required',
+                        'ruangan_awal' => 'required',
+                        'ruangan_awal' => 'required',
+                    ]
+                    );
+                
+                }
+                else{
+                    $pegawai->update(['status_pegawai' => 'nonaktif']);
+                    $validatedData =   $request->validate(
+                        [
+                            'pegawai_id' => '',
+                            'tanggal_berlaku' => 'required|date',
+                            'no_sk' => 'required',
+                            'tanggal_sk' => 'required|date',
+                            'link_sk' => 'required',
+                            'instansi_awal' => 'required',
+                            'instansi_tujuan' => 'required'
+                        ]
+                        );
+                }
+               $mutasi = Mutasi::update(request()->all());
+             
+            return redirect()->back()->with('success', 'data mutasi pegawai berhasil diupdate');
+    
+            //code...
+        } catch (\Throwable $th) {
+        return $th->getMessage();            //throw $th;
+        }
+           }
+    }
+

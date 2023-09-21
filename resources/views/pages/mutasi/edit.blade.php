@@ -8,9 +8,9 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">Mutasi</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Tambah Mutasi Pegawai</h2>
+        <h2 class="m-0 font-weight-bold text-dark">Edit Mutasi Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('mutasi.store') }}" method="post">
+        <form action="{{ route('mutasi.update') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -40,7 +40,7 @@
         </form>
         <div class="text-right">
             <a href="{{ route('mutasi.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
+            <button class="btn btn-success" type="submit">Simpan</button>
         </div>
 
     </div>

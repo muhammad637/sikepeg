@@ -82,9 +82,9 @@
                                     </div></td>
                                
                                 <td>
-                                    <a href="{{ route('pegawai.show', ['pegawai' => $item->id]) }}"
+                                    <a href="{{ route('mutasi.show', ['mutasi' => $item->id]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{ route('pegawai.edit', ['pegawai' => $item->id]) }}"
+                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
