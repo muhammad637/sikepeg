@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\HariBesarController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SIPController;
 use App\Http\Controllers\STRController;
 use App\Http\Controllers\PegawaiController;
 
@@ -43,34 +45,15 @@ Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])
 
 // str
 Route::resource('/str', STRController::class);
-Route::get('/str/{asn:id}/history',[STRController::class,'history'])->name('str.history');
+Route::get('/str/{pegawai:id}/history',[STRController::class,'history'])->name('str.history');
+// sip
+Route::resource('/sip', SIPController::class);
+Route::get('/sip/{pegawai:id}/history',[SIPController::class,'history'])->name('sip.history');
+Route::resource('/hariBesar', HariBesarController::class);
 
-// sip //
-Route::get('/sip', function () {
-    return view('pages.sip.index', );
-})->name('sip.index');
+// 
 
-// create
-Route::get('/sip/create', function () {
-    return view('pages.sip.create', );
-})->name('sip.create');
 
-//edit
-Route::get('/sip/edit', function() {
-    return view('pages.sip.edit', );
-})->name('sip.edit');
-
-//show
-Route::get('/sip/show', function() {
-    return view('pages.sip.show',);
-})->name('sip.show');
-
-//history
-Route::get('/sip/history', function() {
-    return view('pages.sip.history',);
-})->name('sip.history');
-
-// sip  end //
 
 // cuti
 Route::get('/cuti', function () {

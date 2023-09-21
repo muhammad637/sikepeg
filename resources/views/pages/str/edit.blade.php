@@ -6,7 +6,7 @@
     @endpush
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">STR</h1>
-    <div class="card p-4 mx-5 mb-5 ">
+    <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Edit Data STR</h2>
         <hr>
         <form action="{{route('str.update',['str' => $str->id])}}" method="post">
@@ -87,7 +87,7 @@
                     <div class="row mb-3">
                         <label for="perguruanTinggi" class="col-sm-4 col-form-label">Perguruan Tinggi</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" value="{{ $str->sekolah }}"
+                            <input type="text" class="form-control" id="inputPassword3" value="{{ $str->pegawai->sekolah }}"
                                 readonly placeholder="perguruan tinggi">
                         </div>
                     </div>
@@ -96,6 +96,13 @@
                         <div class="col-sm-8">
                             <input type="number" class="form-control" id="inputPassword3"
                                 value="{{ old('no_str', $str->no_str) }}" name="no_str">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="noSTR" class="col-sm-4 col-form-label">Kompetensi</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="inputPassword3"
+                                value="{{ old('kompetensi', $str->kompetensi) }}" name="kompetensi">
                         </div>
                     </div>
                     <div class="row mb-3">

@@ -5,7 +5,7 @@
     <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <!-- tabel -->
     <div class="card shadow-sm mb-4">
-        <h3 class="pt-2 pl-5" style="color:black;font-weight:bold;">History STR {{ $asn->pegawai->nama_depan }}</h3>
+        <h3 class="pt-2 pl-5" style="color:black;font-weight:bold;">History STR {{ $pegawai->nama_lengkap }}</h3>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
@@ -19,12 +19,13 @@
                             <th scope="col">Nomor Surat</th>
                             <th scope="col">Tanggal Terbit</th>
                             <th scope="col">Masa Berakhir</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            @foreach ($asn->str as $item)
+                        @foreach ($pegawai->str as $item)
+                            <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 {{-- <td></td> --}}
                                 {{-- <td>16 02 5 2 2 23-4767590 </td> --}}
@@ -35,9 +36,22 @@
                                 <td>
                                     <button
                                         class="btn rounded-3 py-0 {{ $item->masa_berakhir_str > now() ? 'btn-success' : 'btn-secondary' }}">{{ $item->masa_berakhir_str > now() ? 'active' : 'expired' }}</button>
+
                                 </td>
-                            @endforeach
-                        </tr>
+                                <td>
+
+                                    <a href="{{ route('str.show', ['str' => $item->id]) }}" class="btn btn-info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="{{ $item->link_str }}" class="btn btn-success" target="_blank">
+                                        <i class="fas fa-link"></i>
+                                    </a>
+                                    <a href="{{ route('str.edit', ['str' => $item->id]) }}" class="btn btn-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

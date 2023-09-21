@@ -1,22 +1,9 @@
 <div>
-   
+
 
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-    <input type="hidden" name="asn_id" wire:model='selectId'>
-    <div class="row mb-2">
-        <div class="col-sm-4 mb-2  fw-italic text-end">
-            <span class="mb-0 text-dark ">Nama</span>
-        </div>
-        <div class="col-sm-8 text-secondary">
-            <select wire:model="select" class="form-control" id="select2">
-                <option value="">Pilih Nama Pegawai</option>
-                @foreach ($results as $pegawai)
-                        <option value="{{ $pegawai->id }}">{{ $pegawai->nama_depan }} - {{ $pegawai->id }}
-                        </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
+    {{-- <input type="hidden" name="asn_id" wire:model='selectId'> --}}
+
     <div class="row mb-2">
         <div class="col-sm-4 mb-2  fw-italic text-end">
             <span class="mb-0 text-dark ">NIK</span>
@@ -48,38 +35,49 @@
                 readonly placeholder="tempat tanggal lahir">
         </div>
     </div>
-    <div class="row mb-3">
-        <label for="jenisKelamin" class="col-sm-4 col-form-label">Jenis Kelamin</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" id="inputPassword3" readonly wire:model='selectedjenisKelamin'
-                placeholder="jenis kelamin">
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="noIjasah" class="col-sm-4 col-form-label">No Ijazah </label>
-        <div class="col-sm-8">
-            <input type="number" class="form-control" id="inputPassword3" wire:model='selectedNoIjazah' readonly
-                placeholder="no ijazah">
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-sm-4 mb-2  fw-italic text-end">
-            <span class="mb-0 text-dark ">Tanggal Lulus</span>
-        </div>
-        <div class="col-sm-8 text-secondary">
-            <div class="input-group date" id="datepicker">
-                <input type="text" class="form-control" wire:model='selectedTanggalLulus' readonly
-                    placeholder="tanggal lulus">
+    @if ($dokumen == 'str')
+        <div class="row mb-3">
+            <label for="jenisKelamin" class="col-sm-4 col-form-label">Jenis Kelamin</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputPassword3" readonly
+                    wire:model='selectedjenisKelamin' placeholder="jenis kelamin">
             </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <label for="perguruanTinggi" class="col-sm-4 col-form-label">Perguruan Tinggi</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" id="inputPassword3" wire:model='selectedSekolah' readonly
-                placeholder="perguruan tinggi">
+        <div class="row mb-3">
+            <label for="noIjasah" class="col-sm-4 col-form-label">No Ijazah / Sertifikat Profesi </label>
+            <div class="col-sm-8">
+                <input type="number" class="form-control" id="inputPassword3" wire:model='selectedNoIjazah' readonly
+                    placeholder="no ijazah">
+            </div>
         </div>
-    </div>
+        <div class="row mb-2">
+            <div class="col-sm-4 mb-2  fw-italic text-end">
+                <span class="mb-0 text-dark ">Tanggal Lulus</span>
+            </div>
+            <div class="col-sm-8 text-secondary">
+                <div class="input-group date" id="datepicker">
+                    <input type="text" class="form-control" wire:model='selectedTanggalLulus' readonly
+                        placeholder="tanggal lulus">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="perguruanTinggi" class="col-sm-4 col-form-label">Perguruan Tinggi</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputPassword3" wire:model='selectedSekolah' readonly
+                    placeholder="perguruan tinggi">
+            </div>
+        </div>
+        @elseif($dokumen == 'sip')
+        <div class="row mb-3">
+            <label for="alamat" class="col-sm-4 col-form-label">Alamat</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputPassword3" wire:model='alamat' readonly
+                    placeholder="alamat">
+            </div>
+        </div>
+    @endif
+
     {{-- <div class="row mb-3">
         <label for="kompetensi" class="col-sm-4 col-form-label">Kompetensi</label>
         <div class="col-sm-8">

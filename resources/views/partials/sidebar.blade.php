@@ -19,6 +19,23 @@
                     <i class="fas fa-address-card"></i>
                     <span>Personal File</span></a>
             </li>
+             {{-- masterData --}}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#masterData"
+                    aria-expanded="true" aria-controls="STRdanSIP">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Master Data</span>
+                </a>
+                <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        {{-- <a class="collapse-item" href="#">Pangkat</a>
+                        <a class="collapse-item" href="#">Golongan</a> --}}
+                        <a class="collapse-item" href="#">Ruangan</a>
+                        <a class="collapse-item" href="#">Hari Besar</a>
+                    </div>
+                </div>
+            </li> 
+
             <li class="nav-item {{Request::is('mutasi*') ? 'active' : ''}}">
                 <a class="nav-link " href="{{route('mutasi.index')}}">
                     <i class="fas fa-compress-alt"></i>
@@ -58,13 +75,15 @@
                         <a class="collapse-item {{Request::is('sip*') ? 'active' : ''}}" href="{{route('sip.index')}}">SIP</a>
                     </div>
                 </div>
-            </li>              
+            </li> 
+            {{-- <hr class="sidebar-divider">
+            <div class="sidebar-heading">Master Data</div> --}}
+            
             {{-- <!-- Heading -->
             <div class="sidebar-heading">
                 Addons
             </div> --}}
-
-
+           
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

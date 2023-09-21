@@ -314,6 +314,22 @@
                     </div>
                 </div>
             </div>
+            <div class="mb-4">
+                <div class="row gap-5">
+                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                        <label for="" class="form-label">
+                            <p class="mb-0 mt-md-2 mt-0">Cuti Dalam Satu Tahun</p>
+                        </label>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                        <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
+                            id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan"
+                            autocomplete="false" placeholder="Masukkan Cuti Dalam Satu Tahun"
+                            wire:model='cuti_tahunan' required>
+                    </div>
+                </div>
+            </div>
+            <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti</p>
             {{-- <div class="mb-4">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -412,21 +428,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Cuti Dalam Satu Tahun</p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
-                            id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan"
-                            autocomplete="false" placeholder="Masukkan Cuti Dalam Satu Tahun"
-                            wire:model='cuti_tahunan' required>
-                    </div>
-                </div>
-            </div>
+            
         @elseif($jenis_tenaga == 'nakes')
             <div class="mb-4">
                 <div class="row gap-5">

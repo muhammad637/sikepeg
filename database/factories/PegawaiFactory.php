@@ -42,6 +42,23 @@ class PegawaiFactory extends Factory
             'cuti_tahunan' => 12,
             'sisa_cuti_tahunan' => 12,
             'masa_kerja' => 12,
+             // asn
+             'tmt_cpns' => '2020-10-10',
+             'tmt_cpns' => '2020-10-10',
+             'tmt_pangkat_terakhir' => '2020-10-10',
+             'pangkat_golongan' => fake()->userName(),
+             'sekolah' => 'Politeknik Negeri Banyuwangi',
+             'jenis_tenaga' => 'nakes',
+            //  non asn
+            //  'niPtt_pkThl',
+            //  'tanggal_masuk',
+            // //  asn umum
+            //  'no_karpeg',
+            //  'no_taspen',
+            //  'no_npwp',
+            //  'no_hp',
+            //  'email',
+            //  'pelatihan',
         ];
     }
 }

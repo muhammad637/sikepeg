@@ -30,17 +30,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($asn as $index => $item)
+                        @foreach ($pegawai as $index => $item)
                             @if (count($item->str) > 0)
-                        @php
-                            $data = explode('view',$item->str[0]->link_str);
-                            $i++
-                        @endphp
+                                @php
+                                    $data = explode('view', $item->str[0]->link_str);
+                                    $i++;
+                                @endphp
                                 <tr>
                                     <td>{{ $i }}</td>
-                                    <td>{{ $item->pegawai->nama_depan }}</td>
-                                    <td>{{ $item->pegawai->jabatan }}</td>
-                                    <td>{{ $item->pegawai->ruangan }}</td>
+                                    <td>{{ $item->nama_depan }}</td>
+                                    <td>{{ $item->jabatan }}</td>
+                                    <td>{{ $item->ruangan }}</td>
                                     <td>{{ Carbon\Carbon::parse($item->str[0]->masa_berakhir_str)->format('d-M-Y') }}</td>
                                     <td>
                                         <button
@@ -70,9 +70,8 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <iframe
-                                                            src="{{$data[0]}}preview"
-                                                            class="w-100" style="height: 40em"></iframe>
+                                                        <iframe src="{{ $data[0] }}preview" class="w-100"
+                                                            style="height: 40em"></iframe>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -87,8 +86,7 @@
                                             class="btn btn-info">
                                             <i class="fas fa-info-circle"></i>
                                         </a>
-                                        <a href="{{$data[0]}}view"
-                                            class="btn btn-success">
+                                        <a href="{{ $data[0] }}view" class="btn btn-success">
                                             <i class="fas fa-link"></i>
                                         </a>
                                         <a href="{{ route('str.edit', ['str' => $item->str[0]->id]) }}"

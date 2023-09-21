@@ -5,7 +5,7 @@
     <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
     <!-- tabel -->
     <div class="card shadow-sm mb-4"> 
-        <h3 class="pt-2 pl-5" style="color:black;font-weight:bold;">History SIP</h3>       
+        <h3 class="pt-2 mt-2 pl-5" style="color:black;font-weight:bold;">History SIP {{$sip[0]->pegawai->nama_lengkap ?? $sip[0]->pegawai->nama_depan}}</h3>       
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
@@ -13,7 +13,6 @@
                     <thead>
                         <tr class="text-dark">
                             <th scope="col">no</th>
-                            <th scope="col">Nama</th>
                             <th scope="col">No SIP</th>
                             <th scope="col">No STR</th>
                             <th scope="col">No Rekomendasi</th>
@@ -23,18 +22,32 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($sip as $item)     
                         <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>NAKES</td>
-                            <td>ICU</td>
-                            <td>10-04-2023</td>
-                            <td>10-04-2023</td>
-                            <td>10-04-2023</td>
-                            <td>
-                                <a href="" class="btn btn-info rounded-3 py-0">active</a>
-                            </td>                            
-                        </tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->no_sip }}</td>
+                                <td>{{ $item->no_str }}</td>
+                                <td>{{ $item->tanggal_terbit_sip }}</td>
+                                <td>{{ $item->masa_berakhir_sip }}</td>
+                                <td>
+                                    <button
+                                        class="btn rounded-3 py-0 {{ $item->masa_berakhir_sip > now() ? 'btn-success' : 'btn-secondary' }}">{{ $item->masa_berakhir_sip > now() ? 'active' : 'expired' }}</button>
+
+                                </td>
+                                <td>
+
+                                    <a href="{{ route('sip.show', ['sip' => $item->id]) }}" class="btn btn-info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="{{ $item->link_sip }}" class="btn btn-success" target="_blank">
+                                        <i class="fas fa-link"></i>
+                                    </a>
+                                    <a href="{{ route('sip.edit', ['sip' => $item->id]) }}" class="btn btn-warning">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

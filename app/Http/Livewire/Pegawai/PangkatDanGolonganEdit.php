@@ -48,7 +48,6 @@ class PangkatDanGolonganEdit extends Component
 
     public function mount()
     {
-
         $this->status_tenaga = old('status_tenaga', $this->pegawai->status_tenaga);
         $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
         // non asn

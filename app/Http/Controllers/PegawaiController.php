@@ -309,18 +309,19 @@ class PegawaiController extends Controller
 
         // jika status tenaga sama dengan pegawai->status_tenaga
         if ($request->status_tenaga == 'non asn') {
-            $validatedDataNonAsn = $this->rulesNonAsn;
+            // masukkan rules non asn nya
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-            $pegawai->nonAsn->update($validatedDataNonAsn);
+            $pegawai->update($validatedDataNonAsn);
             return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil diupdate');
         } else if ($request->status_tenaga == 'asn') {
             $validatedDataAsn = $request->validate($this->rulesAsn);
-            $pegawai->asn->update($validatedDataAsn);
+            $pegawai->update($validatedDataAsn);
         }
         if ($request->jenis_tenaga == 'umum') {
-            // count($pegawai->asn->str) > 0 ? STR::destroy($pegawai->asn->str->pluck('id')->toArray()) : null;
-            // count($pegawai->asn->sip) > 0 ? SIP::destroy($pegawai->asn->sip->pluck('id')->toArray()) : null;
-            // $validatedDataUmum = $request->validate($this->rulesUmum);
+            count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
+            count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
+            $validatedDataUmum = $request->validate($this->rulesUmum);
+            $pegawai->update($validatedDataUmum);
             // count($pegawai->asn->umum) > 0 ? $pegawai->asn->umum->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn->id], $validatedDataUmum));
             return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
             // return 'testing';
