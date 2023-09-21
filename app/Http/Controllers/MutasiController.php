@@ -78,25 +78,37 @@ class MutasiController extends Controller
         return view('pages.mutasi.edit',[
             'mutasi' => $mutasi
         ]);
+        
     }
 
     public function update(Request $request, Mutasi $mutasi){
+    //   return request()->all();
         try {
-            $pegawai = Pegawai::find($request->pegawai_id);
+            $pegawai = Pegawai::find($mutasi->pegawai_id);
             $validatedData='';
                 if($request-> jenis_mutasi == 'internal'){
                    $pegawai->update(['ruangan' => $request->ruangan_tujuan]);
                    $validatedData =   $request->validate(
                     [
-                        'pegawai_id' => '',
                         'tanggal_berlaku' => 'required|date',
                         'no_sk' => 'required',
                         'tanggal_sk' => 'required|date',
                         'link_sk' => 'required',
                         'ruangan_awal' => 'required',
-                        'ruangan_awal' => 'required',
+                        'ruangan_tujuan' => 'required',
                     ]
                     );
+                    $mutasi->update([
+
+                        'tanggal_berlaku' => $request-> tanggal_berlaku ,
+                        'no_sk' => $request -> no_sk,
+                        'tanggal_sk' => $request->tanggal_sk,
+                        'link_sk' => $request->link_sk,
+                        'ruangan_awal' => $request->ruangan_awal,
+                        'ruangan_tujuan' => $request->ruangan_tujuan,
+                        'instansi_awal' => null,
+                        'intansi_tujuan' => null
+                    ]);
                 
                 }
                 else{
@@ -112,8 +124,19 @@ class MutasiController extends Controller
                             'instansi_tujuan' => 'required'
                         ]
                         );
+                        $mutasi->update([
+                        
+                            'tanggal_berlaku' => $request-> tanggal_berlaku ,
+                            'no_sk' => $request -> no_sk,
+                            'tanggal_sk' => $request->tanggal_sk,
+                            'link_sk' => $request->link_sk,
+                            'ruangan_awal' => null,
+                            'ruangan_tujuan' => null,
+                            'instansi_awal' => $request->instansi_awal,
+                            'instansi_tujuan' => $request->instansi_tujuan
+                        ]);
                 }
-               $mutasi = Mutasi::update(request()->all());
+             
              
             return redirect()->back()->with('success', 'data mutasi pegawai berhasil diupdate');
     

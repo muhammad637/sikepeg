@@ -84,7 +84,7 @@
                                 <td>
                                     <a href="{{ route('mutasi.show', ['mutasi' => $item->id]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->id]) }}"
+                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->mutasi[count($item->mutasi) -1]]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
