@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HariBesarController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SIPController;
@@ -42,8 +43,12 @@ Route::resource('/pegawai', PegawaiController::class);
 // str
 Route::resource('/str', STRController::class);
 Route::get('/str/{pegawai:id}/history',[STRController::class,'history'])->name('str.history');
+// sip
 Route::resource('/sip', SIPController::class);
 Route::get('/sip/{pegawai:id}/history',[SIPController::class,'history'])->name('sip.history');
+Route::resource('/hariBesar', HariBesarController::class);
+
+// 
 
 
 

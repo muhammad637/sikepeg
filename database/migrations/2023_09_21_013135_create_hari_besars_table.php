@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('hari_besars', function (Blueprint $table) {
             $table->id();
-            $table->string('deskripsi')->nullable();
+            $table->string('keterangan')->nullable();
             $table->string('tanggal')->nullable();
             $table->timestamps();
         });
