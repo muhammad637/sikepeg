@@ -25,7 +25,7 @@ class SIPController extends Controller
         // $pegawai = pegawai::with('str')->get();
         // return $pegawai;
         return view('pages.sip.index', [
-            'pegawai' => $pegawai,
+            'pegawai' => $pegawai ?? [],
             'i' => 0
         ]);
     }
