@@ -8,12 +8,6 @@ use Livewire\Component;
 
 class JenisMutasiEdit extends Component
 {
-
-    // public $result;
-
-
-
-
     public $mutasi;
     public $jenis_mutasi;
     public $ruangan_awal;
@@ -62,7 +56,6 @@ class JenisMutasiEdit extends Component
 
     public function render()
     {
-
         return view('livewire.mutasi.jenis-mutasi-edit');
     }
 }

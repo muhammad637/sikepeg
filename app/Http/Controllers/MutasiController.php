@@ -3,21 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\mutasi;
+use Carbon\Carbon;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class MutasiController extends Controller
 {
     //
-
-
-
     public function index()
     {
-        $pegawai =  Pegawai::whereHas('mutasi', function ($q) {
-            $q->orderBy('created_at', 'desc');
-        })->get();
-        // return $pegawai[0]->mutasi[count($pegawai[0]->mutasi)-1];
+        $mutasi = Mutasi::orderBy('tanggal_sk', 'desc')->with('pegawai')->get();
+        $pegawai =  Pegawai::with(['mutasi' => function ($q) {
+            $q->orderBy('tanggal_sk', 'desc');
+        }])->whereHas('mutasi')->get();
         return view(
             'pages.mutasi.index',
             [
@@ -37,10 +36,14 @@ class MutasiController extends Controller
     {
         try {
             $pegawai = Pegawai::find($request->pegawai_id);
-
+            $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->first();
             $validatedData = '';
             if ($request->jenis_mutasi == 'internal') {
-                $pegawai->update(['ruangan' => '$request->ruangan_tujuan']);
+                if ($mutasi) {
+                    Carbon::parse($mutasi->tanggal_sk) < Carbon::parse($request->tanggal_sk) ? $pegawai->update(['ruangan' => $request->ruangan_tujuan]) : null;
+                } else {
+                    $pegawai->update(['ruangan' => $request->ruangan_tujuan]);
+                }
                 $validatedData =   $request->validate(
                     [
                         'pegawai_id' => '',
@@ -92,7 +95,8 @@ class MutasiController extends Controller
     }
 
 
-    public function history(Pegawai $pegawai){
+    public function history(Pegawai $pegawai)
+    {
         $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->get();
         return view('pages.mutasi.history', [
             'pegawai' => $pegawai,

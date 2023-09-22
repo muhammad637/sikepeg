@@ -60,10 +60,6 @@
         </div>
 
         <div class="card-body">
-
-            {{-- @if (session()->has('success'))
-                {{ session()->get('success') }}
-            @endif --}}
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
                     cellspacing="0">
@@ -91,9 +87,9 @@
                                     <button
                                         class="badge p-2 text-white bg-{{ $item->status_pegawai == 'aktif' ? 'success' : 'secondary' }} border-0">{{ $item->status_pegawai }}</button>
                                 </td>
-                                <td>
+                                <td class="d-flex">
                                     <a href="{{ route('pegawai.show', ['pegawai' => $item->id]) }}"
-                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
+                                        class="badge p-2 text-white bg-info mr-1"><i class="fas fa-info-circle"></i></a>
                                     <a href="{{ route('pegawai.edit', ['pegawai' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
