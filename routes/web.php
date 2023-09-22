@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\HariBesarController;
 use Carbon\Carbon;
@@ -79,9 +80,11 @@ Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class ,'history'])
 // Route::post('mutasi/{mutasi:id}/update', [MutasiController::class, 'update'])->name('mutasi_update');
 
 // diklat
-Route::get('/diklat', function () {
-    return view('pages.default.maintenance');
-})->name('diklat.index');
+// Route::res('/diklat', function () {
+//     return view('pages.diklat.index');
+// })->name('diklat.index');
+
+Route::resource('/diklat', DiklatController::class);
 
 // DASHBOARD //
 Route::get('/dashboard', function () {
