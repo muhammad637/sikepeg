@@ -32,9 +32,10 @@ class MutasiController extends Controller
     public function store(Request $request){
         try {
             $pegawai = Pegawai::find($request->pegawai_id);
+           
             $validatedData='';
                 if($request-> jenis_mutasi == 'internal'){
-                   $pegawai->update(['ruangan' => $request->ruangan_tujuan]);
+                   $pegawai->update(['ruangan' => '$request->ruangan_tujuan']);
                    $validatedData =   $request->validate(
                     [
                         'pegawai_id' => '',
@@ -43,7 +44,7 @@ class MutasiController extends Controller
                         'tanggal_sk' => 'required|date',
                         'link_sk' => 'required',
                         'ruangan_awal' => 'required',
-                        'ruangan_awal' => 'required',
+                        'ruangan_tujuan' => 'required',
                     ]
                     );
                 
@@ -79,6 +80,18 @@ class MutasiController extends Controller
             'mutasi' => $mutasi
         ]);
         
+    }
+
+    public function show(Mutasi $mutasi){
+        return view('pages.mutasi.show', [
+            'mutasi' => $mutasi
+        ]);
+    }
+
+    public function history(Mutasi $mutasi){
+        return view('pages.mutasi.history', [
+            'mutasi' => $mutasi
+        ]);
     }
 
     public function update(Request $request, Mutasi $mutasi){
@@ -146,4 +159,6 @@ class MutasiController extends Controller
         }
            }
     }
+
+
 
