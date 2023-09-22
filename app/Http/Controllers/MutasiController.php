@@ -32,7 +32,6 @@ class MutasiController extends Controller
     public function store(Request $request){
         try {
             $pegawai = Pegawai::find($request->pegawai_id);
-           
             $validatedData='';
                 if($request-> jenis_mutasi == 'internal'){
                    $pegawai->update(['ruangan' => '$request->ruangan_tujuan']);
