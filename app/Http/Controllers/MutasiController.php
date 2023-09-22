@@ -88,8 +88,10 @@ class MutasiController extends Controller
         ]);
     }
 
-    public function history(Mutasi $mutasi){
+    public function history(Pegawai $pegawai){
+        $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->get();
         return view('pages.mutasi.history', [
+            'pegawai' => $pegawai,
             'mutasi' => $mutasi
         ]);
     }
