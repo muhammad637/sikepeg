@@ -225,15 +225,9 @@
                                                 {{ old('status_pegawai', $pegawai->status_pegawai) == 'aktif' ? 'selected' : '' }}>
                                                 Aktif</option>
                                             <option value="pensiun"
-                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'pensiun' ? 'selected' : '' }}>
-                                                Pensiun
+                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'nonaktif' ? 'selected' : '' }}>
+                                                Nonaktif
                                             </option>
-                                            <option value="mutasi"
-                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'mutasi' ? 'selected' : '' }}>
-                                                Mutasi</option>
-                                            <option value="mengundurkan diri"
-                                                {{ old('status_pegawai', $pegawai->status_pegawai) == 'mengundurkan diri' ? 'selected' : '' }}>
-                                                Mengundurkan Diri</option>
                                         </select>
                                     </div>
                                 </div>

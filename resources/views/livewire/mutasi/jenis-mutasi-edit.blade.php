@@ -31,7 +31,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="text" class="form-control @error('ruangan_awal') is-invalid @enderror "
                         id="ruangan_awal" aria-describedby="ruangan_awal" name="ruangan_awal" autocomplete="false"
-                        placeholder="" wire:model='ruangan_awal' readonly>
+                        placeholder="" wire:model='ruangan_awal' >
                 </div>
             </div>
         </div>

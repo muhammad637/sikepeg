@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cuti;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CutiController extends Controller
 {
@@ -15,7 +17,12 @@ class CutiController extends Controller
     public function index()
     {
         //
-        return view('pages.cuti.index');
+        $pegawai = Pegawai::get()->with(['cuti' => function($q){
+            $q->where('status', 'aktif')->first();
+        }]);
+        return view('pages.cuti.index',[
+
+        ]);
     }
 
     /**

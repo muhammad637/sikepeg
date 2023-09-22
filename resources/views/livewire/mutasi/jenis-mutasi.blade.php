@@ -30,7 +30,7 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="text" class="form-control @error('ruangan_awal') is-invalid @enderror "
                         id="ruangan_awal" aria-describedby="ruangan_awal" name="ruangan_awal" autocomplete="false"
-                        placeholder="" wire:model='ruangan_awal' readonly>
+                        placeholder="" wire:model='ruangan_awal' >
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                    <input type="text" class="form-control @error('ruangan_tujuan') is-invalid @enderror "
+                    <input type="text" class="form-control @error('ruangan_tujuan') is-invalid @enderror"
                         id="ruangan_tujuan" aria-describedby="ruangan_tujuan" name="ruangan_tujuan"
                         autocomplete="false" placeholder="Masukkan Pendidikan Terakhir"
                         wire:model='ruangan_tujuan' required>

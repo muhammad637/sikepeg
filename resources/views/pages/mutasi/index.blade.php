@@ -37,6 +37,7 @@
                     </thead>
                     <tbody>
                         @foreach ($pegawai as $index => $item)
+                            
                         @php
                             $data = explode('view',$item->mutasi[0]->link_sk);
                         @endphp
@@ -46,12 +47,12 @@
 
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama_depan ?? null}} </td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->jenis_mutasi}}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->tanggal_berlaku }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->ruangan_awal }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->ruangan_tujuan }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->instansi_awal }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->instansi_tujuan }}</td>
+                                <td>{{ $item->mutasi[0]->jenis_mutasi}}</td>
+                                <td>{{ $item->mutasi[0]->tanggal_berlaku }}</td>
+                                <td>{{ $item->mutasi[0]->ruangan_awal }}</td>
+                                <td>{{ $item->mutasi[0]->ruangan_tujuan }}</td>
+                                <td>{{ $item->mutasi[0]->instansi_awal }}</td>
+                                <td>{{ $item->mutasi[0]->instansi_tujuan }}</td>
                                 <td>{{ $item->mutasi[0]->no_sk}}</td>
                                 <td><!-- Button trigger modal preview-->
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -90,10 +91,11 @@
                                 <td>
                                     <a href="{{ route('mutasi.show', ['mutasi' => $item->id]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->mutasi[count($item->mutasi) -1]]) }}"
+                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->mutasi[0]]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
+                            
                         @endforeach
                     </tbody>
                 </table>

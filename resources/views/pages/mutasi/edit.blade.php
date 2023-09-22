@@ -1,7 +1,7 @@
 @extends('main')
 @push('style-css')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
     @livewireStyles
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -25,12 +25,6 @@
                         </div>
                     </div>
                     @livewire('mutasi.jenis-mutasi-edit',['mutasi' => $mutasi])  
-                    {{-- <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">No Registrasi</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3">
-                        </div>
-                    </div> --}}
                     
         </form>
         <div class="text-right">
@@ -45,6 +39,6 @@
     <!-- /.container-fluid -->
 @endsection
 @push('script')
-    @livewireScripts
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+@livewireScripts
 @endpush
