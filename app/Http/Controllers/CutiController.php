@@ -15,6 +15,7 @@ class CutiController extends Controller
     public function index()
     {
         //
+        return view('pages.cuti.index');
     }
 
     /**
@@ -25,6 +26,7 @@ class CutiController extends Controller
     public function create()
     {
         //
+        return view('pages.cuti.create');
     }
 
     /**
@@ -36,6 +38,7 @@ class CutiController extends Controller
     public function store(Request $request)
     {
         //
+        return $request->all();
     }
 
     /**
@@ -47,6 +50,9 @@ class CutiController extends Controller
     public function show(Cuti $cuti)
     {
         //
+        return view('pages.cuti.create',[
+            'cuti' => $cuti
+        ]);
     }
 
     /**

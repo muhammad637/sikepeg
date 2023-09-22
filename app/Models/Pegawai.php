@@ -23,5 +23,8 @@ class Pegawai extends Model
     public function mutasi(){
         return $this->hasMany(Mutasi::class);
     }
+    public function cuti(){
+        return $this->hasMany(Cuti::class);
+    }
   
 }

@@ -26,12 +26,12 @@
                     <i class="fas fa-calendar-day"></i>
                     <span>Master Data</span>
                 </a>
-                <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="masterData" class="collapse  {{Request::is('hariBesar*') ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         {{-- <a class="collapse-item" href="#">Pangkat</a>
                         <a class="collapse-item" href="#">Golongan</a> --}}
                         <a class="collapse-item" href="#">Ruangan</a>
-                        <a class="collapse-item" href="#">Hari Besar</a>
+                        <a class="collapse-item {{Request::is('hariBesar*') ? 'active' : ''}}" href="{{route('hariBesar.index')}}">Hari Besar</a>
                     </div>
                 </div>
             </li> 

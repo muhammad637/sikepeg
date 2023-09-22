@@ -105,7 +105,7 @@
                                 <span class="mb-0 text-dark fw-bolder">Tanggal Lahir</span>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                {{ $pegawai->tempat_lahir }}
+                                {{ Carbon\Carbon::parse($pegawai->tanggal_lahir)->format('d-m-Y') }}
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -147,6 +147,16 @@
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
                                 {{ $pegawai->status_pegawai }}
+                            </div>
+                        </div>
+                        <hr>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+
                             </div>
                         </div>
                         <div class="row mb-2">
