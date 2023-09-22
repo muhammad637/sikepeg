@@ -20,7 +20,7 @@
                             <span class="mb-0 text-dark ">Pegawai</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai_id" value="{{$mutasi->pegawai->nama_depan}} {{$mutasi->pegawai->nama_belakang}}">
+                            <input class="form-control" id="pegawai" name="pegawai_id" value="{{$mutasi->pegawai->nama_depan}} {{$mutasi->pegawai->nama_belakang}}" readonly>
                             
                         </div>
                     </div>
@@ -29,16 +29,16 @@
                             <span class="mb-0 text-dark ">Jenis Mutasi</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->jenis_mutasi}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->jenis_mutasi}}" readonly>
                         </div>
                     </div>
-                    @if ($mutasi->jenis_mutasi == 'internal')
+                  
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Ruangan Awal</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->ruangan_awal}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->ruangan_awal}}" readonly>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -46,16 +46,16 @@
                             <span class="mb-0 text-dark ">Ruangan Tujuan</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->ruangan_tujuan}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->ruangan_tujuan}}" readonly>
                         </div>
                     </div>    
-                    @else
+                    
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Instansi Awal</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->instansi_awal}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->instansi_awal}}" readonly>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -63,18 +63,15 @@
                             <span class="mb-0 text-dark ">Instansi Tujuan</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->instansi_tujuan}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->instansi_tujuan}}" readonly>
                         </div>
-                    </div>    
-                    @endif
-                    
-                   
+                    </div>               
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Tanggal Berlaku</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->tanggal_berlaku}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->tanggal_berlaku}}" readonly>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -82,7 +79,7 @@
                             <span class="mb-0 text-dark ">No SK</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->no_sk}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->no_sk}}" readonly>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -90,7 +87,7 @@
                             <span class="mb-0 text-dark ">Tanggal SK</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->tanggal_sk}}">
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{$mutasi->tanggal_sk}}" readonly>
                         </div>
                     </div>
                     
@@ -102,13 +99,23 @@
                         </div>
                     </div> --}}
                     
-        </form>
-        <div class="text-right">
-            <a href="{{ route('mutasi.index') }}" class="btn bg-warning text-white">Tutup</a>
-        </div>
-        <div class="text-right">
-            <a  class="btn btn-warning" href="{{route('mutasi.history',['mutasi' => $mutasi->pegawai->id])}}"><i class="fas fa-history"></i>
-                Lihat History Mutasi</a>
+        {{-- <div class="row justify-content-between">
+            <div class="col-md-4">
+                <a class="btn btn-secondary" href="{{route('str.index')}}"> Kembali</a>
+            </div>
+            <div class="text-right">
+                <a  class="btn btn-warning" href="{{route('str.history',['pegawai' => $str->pegawai->id])}}"><i class="fas fa-history"></i>
+                    Lihat History STR</a>
+            </div>
+        </div> --}}
+        <div class="row justify-content-between">
+            <div class="col-md-4">
+                <a class="btn btn-secondary" href="{{route('mutasi.index')}}"> Kembali</a>
+            </div>
+            <div class="text-right">
+                <a  class="btn btn-warning" href="{{route('mutasi.history',['pegawai' => $mutasi->pegawai->id])}}"><i class="fas fa-history"></i>
+                    Lihat History Mutasi</a>
+            </div>
         </div>
 
     </div>

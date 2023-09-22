@@ -71,6 +71,7 @@ Route::get('/histori-cuti', function () {
 //     return view('pages.mutasi.index');
 // })->name('mutasi.index');
 Route::resource('/mutasi', MutasiController::class);
+Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class ,'history'])->name('mutasi.history');
 // Route::post('mutasi/index', [MutasiController::class, 'mutasiindex'])->name('mutasi');
 // Route::post('mutasi/create' , [MutasiController::class, 'create'])->name('mutasi_create');
 // Route::post('mutasi/store', [MutasiController::class, 'store'])->name('mutasi_store');

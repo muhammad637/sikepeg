@@ -2,10 +2,10 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
+    <h1 class="" style="color:black;font-weight:bold;">mutasi</h1>
     <!-- tabel -->
     <div class="card shadow-sm mb-4"> 
-        <h3 class="pt-2 mt-2 pl-5" style="color:black;font-weight:bold;">History SIP {{$sip[0]->pegawai->nama_lengkap ?? $sip[0]->pegawai->nama_depan}}</h3>       
+        <h3 class="pt-2 mt-2 pl-5" style="color:black;font-weight:bold;">History mutasi {{$mutasi[0]->pegawai->nama_depan ?? $mutasi[0]->pegawai->nama_belakang}}</h3>       
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
@@ -15,34 +15,44 @@
                             <th scope="col">no</th>
                             <th scope="col">Pegawai</th>
                             <th scope="col">Jenis Mutasi</th>
+                            @foreach ($mutasi as $item)
+                            @if ($item->jenis_mutasi == 'internal')
                             <th scope="col">Ruangan Awal</th>
                             <th scope="col">Ruangan Tujuan</th>
-                            <th scope="col">Tanggal</th>
+                            @else
+                            <th scope="col">Instansi Awal</th>
+                            <th scope="col">Instansi Tujuan</th>
+                            @endif
+                            @endforeach
+                            <th scope="col">Tanggal Berlaku</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($sip as $item)     
+                        @foreach ($mutasi as $item)     
                         <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->no_sip }}</td>
-                                <td>{{ $item->no_str }}</td>
-                                <td>{{ $item->tanggal_terbit_sip }}</td>
-                                <td>{{ $item->masa_berakhir_sip }}</td>
+                                <td>{{ $item->pegawai->nama_depan }}</td>
+                                <td>{{ $item->jenis_mutasi }}</td>
+                                @if ($item->jenis_mutasi == 'internal')
+                                <td>{{ $item->ruangan_awal }}</td>
+                                <td>{{ $item->ruangan_tujuan }}</td>    
+                                @else
+                                <td>{{ $item->instansi_awal}}</td>
+                                <td>{{ $item->instansi_tujuan}}</td>
+                                @endif
                                 <td>
-                                    <button
-                                        class="btn rounded-3 py-0 {{ $item->masa_berakhir_sip > now() ? 'btn-success' : 'btn-secondary' }}">{{ $item->masa_berakhir_sip > now() ? 'active' : 'expired' }}</button>
-
+                                    {{ $item->tanggal_berlaku}}
                                 </td>
                                 <td>
 
-                                    <a href="{{ route('sip.show', ['sip' => $item->id]) }}" class="btn btn-info">
+                                    <a href="{{ route('mutasi.show', ['mutasi' => $item->id]) }}" class="btn btn-info">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
-                                    <a href="{{ $item->link_sip }}" class="btn btn-success" target="_blank">
+                                    <a href="{{ $item->link_mutasi }}" class="btn btn-success" target="_blank">
                                         <i class="fas fa-link"></i>
                                     </a>
-                                    <a href="{{ route('sip.edit', ['sip' => $item->id]) }}" class="btn btn-warning">
+                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->id]) }}" class="btn btn-warning">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>
