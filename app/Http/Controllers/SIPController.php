@@ -22,7 +22,7 @@ class SIPController extends Controller
             $query->orderBy('masa_berakhir_sip', 'desc');
         })->get();
         return view('pages.sip.index', [
-            'pegawai' => $pegawai,
+            'pegawai' => $pegawai ?? [],
             'i' => 0
         ]);
     }
