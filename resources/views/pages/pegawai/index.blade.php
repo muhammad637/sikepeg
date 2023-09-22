@@ -5,47 +5,59 @@
     <!-- DataTales Example -->
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
-            <div class="d-md-flex justify-content-between d-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark">Personal File</h2>
-                <div>
-
+            <div class="d-md-flex justify-content-between d-sm-block align-items-center">
+                <h2 class=" font-weight-bold text-dark">Personal File</h2>
+                <div class="mt-md-0 mt-sm-2">
                     <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
-                        class="fas fa-plus-square ml-1"></i></a>
-                        {{-- <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
-                            IMPORT EXCEL
-                        </button> --}}
-                    <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize" data-toggle="modal" data-target="#importExcel">import<i
                             class="fas fa-plus-square ml-1"></i></a>
+                    <a href="{{ route('pegawai.index') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize"
+                        data-toggle="modal" data-target="#importExcel">import<i class="fas fa-plus-square ml-1"></i></a>
+                    <a href="{{ route('pegawai.index') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tampilkan
+                        <i class="fas fa-globe"></i></a>
+                    <!-- Example single danger button -->
+                    <div class="btn-group mt-md-2 mt-sm-0">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Filter
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#filterJenisKelamin" data-toggle="modal">Jenis Kelamin</a>
+                            <a class="dropdown-item" href="#filterStatusPegawai" data-toggle="modal">Status Pegawai</a>
+                            <a class="dropdown-item" href="#filterStatusTenaga" data-toggle="modal">Status Tenaga</a>
+                            <a class="dropdown-item" href="#filterStatusTipe" data-toggle="modal">Status Tipe</a>
+                            <a class="dropdown-item" href="#filterJenisTenaga" data-toggle="modal">Jenis Tenaga</a>
+                        </div>
+                    </div>
                 </div>
-        
             </div>
         </div>
-<!-- Import Excel -->
-<div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="post" action="{{route('import_excel')}}" enctype="multipart/form-data">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
-                </div>
-                <div class="modal-body">
+        <!-- Import Excel -->
+        <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form method="post" action="{{ route('import_excel') }}" enctype="multipart/form-data">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                        </div>
+                        <div class="modal-body">
 
-                    {{ csrf_field() }}
+                            {{ csrf_field() }}
 
-                    <label>Pilih file excel</label>
-                    <div class="form-group">
-                        <input type="file" name="file" required="required">
+                            <label>Pilih file excel</label>
+                            <div class="form-group">
+                                <input type="file" name="file" required="required">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
                     </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Import</button>
-                </div>
+                </form>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
 
         <div class="card-body">
 
@@ -71,11 +83,13 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nip_nippk }}</td>
-                                <td>{{$item->gelar_depan}}. {{ $item->nama_depan }} {{ $item->nama_belakang }} ,{{ $item->gelar_belakang }}</td>
+                                <td>{{ $item->gelar_depan }}. {{ $item->nama_depan }} {{ $item->nama_belakang }}
+                                    ,{{ $item->gelar_belakang }}</td>
                                 <td>{{ $item->jenis_kelamin }}</td>
                                 <td>{{ $item->ruangan }}</td>
                                 <td>
-                                    <button class="badge p-2 text-white bg-info border-0">aktif</button>
+                                    <button
+                                        class="badge p-2 text-white bg-{{ $item->status_pegawai == 'aktif' ? 'success' : 'secondary' }} border-0">{{ $item->status_pegawai }}</button>
                                 </td>
                                 <td>
                                     <a href="{{ route('pegawai.show', ['pegawai' => $item->id]) }}"
@@ -87,6 +101,136 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+
+    {{-- modal filter --}}
+    {{-- filter menurut jenis kelamin --}}
+    <div class="modal fade" id="filterJenisKelamin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Pilih Jenis Kelamin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select name="" id="" class="form-control">
+                        <option value="">Pilih</option>
+                        <option value="">Laki - Laki</option>
+                        <option value="">Perempuan</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- filter menurut status tenaga --}}
+    <div class="modal fade" id="filterStatusTenaga" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Pilih Status Tenaga</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select name="" id="" class="form-control">
+                        <option value="">Pilih</option>
+                        <option value="">ASN</option>
+                        <option value="">NON ASN</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- filter menurut tipe status --}}
+    <div class="modal fade" id="filterStatusTipe" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Pilih Status Tipe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select name="" id="" class="form-control">
+                        <option value="">Pilih</option>
+                        <option value="">PNS</option>
+                        <option value="">PPPK</option>
+                        <option value="">Non ASN</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- filter menurut jenis tenga --}}
+    <div class="modal fade" id="filterJenisTenaga" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Pilih Jenis Tenaga</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select name="" id="" class="form-control">
+                        <option value="">Pilih</option>
+                        <option value="">Umum / Administrasi</option>
+                        <option value="">Fungsional / Tenaga Kesehatan</option>
+                        <option value="">Struktural / Jabatan Pimpinan Tinggi</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- filter menurut status pegawai --}}
+    <div class="modal fade" id="filterStatusPegawai" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Pilih Status Pegawai</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select name="" id="" class="form-control">
+                        <option value="">Pilih</option>
+                        <option value="">Aktif</option>
+                        <option value="">Nonaktif</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
     </div>

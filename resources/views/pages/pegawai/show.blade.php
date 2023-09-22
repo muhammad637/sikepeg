@@ -149,16 +149,15 @@
                                 {{ $pegawai->status_pegawai }}
                             </div>
                         </div>
-                        <hr>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                
-                            </div>
-                            <div class="col-md-6 col-sm-12">
 
-                            </div>
-                        </div>
+
+                    </div>
+                    <!-- end isi -->
+                </div>
+                <hr>
+                <br>
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-sm-12">
                         <div class="row mb-2">
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                 <span class="mb-0 text-dark fw-bolder">Ruangan</span>
@@ -218,6 +217,209 @@
                                         {{ $pegawai->no_ijazah }}
                                     </div>
                                 </div>
+                            </div>
+                        @else
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder text-uppercase">
+                                        tmt cpns
+                                    </span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->tmt_cpns }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder text-uppercase">
+                                        tmt pns
+                                    </span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->tmt_pns }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder text-uppercase">
+                                        tmt <span class="text-capitalize">pangkat terakhir</span>
+                                    </span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->tmt_pns }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder text-uppercase">
+                                        <span class="text-capitalize">pangkat / Golongan</span>
+                                    </span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->pangkat_golongan }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder text-uppercas">
+                                        Sekolah / Perguruan Tinggi
+                                    </span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 text-normal">
+                                    {{ $pegawai->sekolah }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">Pendidikan
+                                        sesuai <span class="text-uppercase">SK</span> Terakhir</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->pendidikan_terakhir }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">Tanggal Lulus</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ Carbon\Carbon::parse($pegawai->tanggal_lulus)->format('d-M-Y') }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">No Ijazah</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->no_ijazah }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">Jabatan</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->jabatan }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">Cuti Tahunan</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->cuti_tahunan }} hari
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">Masa Kerja</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->masa_kerja }}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">Sisa Cuti Tahunan</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->sisa_cuti_tahunan }} Hari
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <span class="mb-0 text-dark fw-bolder">Jenis Tenaga</span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    {{ $pegawai->jenis_tenaga }}
+                                </div>
+                            </div>
+
+                            @if ($pegawai->jenis_tenaga_struktural == 'umum')
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">No Karpeg</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        {{ $pegawai->no_karpeg }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">No Taspen</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        {{ $pegawai->no_taspen }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">No NPWP
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        {{ $pegawai->no_npwp }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">No HP</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        {{ $pegawai->no_hp }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">Email</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 text-lowercase">
+                                        {{ $pegawai->email }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">Pelatihan</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        {{ $pegawai->pelatihan }}
+                                    </div>
+                                </div>
+                            @elseif (count($pegawai->str) > 0 && count($pegawai->sip) > 0)
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">STR</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        lihat Semua <span class="text-uppercase">
+                                            str
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">Sip</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        lihat Semua <span class="text-uppercase">
+                                            sip
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                        <span class="mb-0 text-dark fw-bolder">No Sip</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        {{ $pegawai->SIP[0]->orderByDesc('masa_berlaku_sip')->first() }}
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        @if ($pegawai->status_tenaga == 'non asn')
+                            <div>
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                         <span class="mb-0 text-dark fw-bolder">Jabatan</span>
@@ -460,7 +662,6 @@
                             @endif
                         @endif
                     </div>
-                    <!-- end isi -->
                 </div>
             </div>
         </div>
