@@ -26,6 +26,9 @@
                             <th scope="col">Nama</th>
                             <th scope="col">Jenis Mutasi</th>
                             <th scope="col">Tanggal</th>
+                            <th scope="col">Ruangan Awal</th>
+                            <th scope="col">Ruangan Tujuan</th>
+                            <th scope="col">Instansi Awal</th>
                             <th scope="col">Instansi Tujuan</th>
                             <th scope="col">No SK</th>
                             <th scope="col">Surat</th>
@@ -45,6 +48,9 @@
                                 <td>{{ $item->nama_depan ?? null}} </td>
                                 <td>{{ $item->mutasi[count($item->mutasi) -1]->jenis_mutasi}}</td>
                                 <td>{{ $item->mutasi[count($item->mutasi) -1]->tanggal_berlaku }}</td>
+                                <td>{{ $item->mutasi[count($item->mutasi) -1]->ruangan_awal }}</td>
+                                <td>{{ $item->mutasi[count($item->mutasi) -1]->ruangan_tujuan }}</td>
+                                <td>{{ $item->mutasi[count($item->mutasi) -1]->instansi_awal }}</td>
                                 <td>{{ $item->mutasi[count($item->mutasi) -1]->instansi_tujuan }}</td>
                                 <td>{{ $item->mutasi[0]->no_sk}}</td>
                                 <td><!-- Button trigger modal preview-->
