@@ -101,7 +101,7 @@
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">Kompetensi</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3"
+                            <input type="text" class="form-control" id="inputPassword3"
                                 value="{{ old('kompetensi', $str->kompetensi) }}" name="kompetensi">
                         </div>
                     </div>

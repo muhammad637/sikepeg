@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <a href="{{ route('hariBesar.index') }}" class="btn bg-warning text-white">Tutup</a>
+                    <a href="{{ route('data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
                     <button class="btn btn-info" type="submit">Simpan</button>
                 </div>
             </div>

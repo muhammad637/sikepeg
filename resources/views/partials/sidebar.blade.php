@@ -11,9 +11,10 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{Request::is('dashboard*') ? 'active' : ''}}">
                 <a class="nav-link " href="{{route('dashboard.index')}}">
-                   <i class="fas fa-hamburger"></i>
+                  <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+            
             <li class="nav-item {{Request::is('pegawai*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{route('pegawai.index')}}">
                     <i class="fas fa-address-card"></i>
@@ -32,17 +33,22 @@
                    <i class="fas fa-chalkboard-teacher"></i>
                     <span>Diklat</span></a>
             </li> 
+            <li class="nav-item {{Request::is('kenaikanPangkat*') ? 'active' : ''}}">
+                <a class="nav-link " href="#">
+                 <i class="fas fa-calendar-day"></i>
+                    <span>Kenaikan Pangkat</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#CutiCollapse"
                     aria-expanded="true" aria-controls="CuetiCollapse">
-                    <i class="fas fa-calendar-day"></i>
+                   <i class="fas fa-calendar-week"></i>
                     <span>Cuti</span>
                 </a>
                 <div id="CutiCollapse" class="collapse {{(Request::is('cuti*') || Request::is('histori-cuti*')) ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Cuti</h6>
-                        <a class="collapse-item {{Request::is('cuti*') ? 'active' : ''}}" href="{{route('data-cuti-aktif.index')}}">Data Cuti Akif</a>
-                        <a class="collapse-item {{Request::is('histori-cuti*') ? 'active' : ''}}" href="{{route('histori-cuti.index')}}">Histori Cuti</a>
+                        <a class="collapse-item {{Request::is('cuti/data-cuti-aktif*') ? 'active' : ''}}" href="{{route('data-cuti-aktif.index')}}">Data Cuti Akif</a>
+                        <a class="collapse-item {{Request::is('cuti/histori-cuti*') ? 'active' : ''}}" href="{{route('histori-cuti.index')}}">Histori Cuti</a>
                     </div>
                 </div>
             </li>
@@ -50,7 +56,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#STRdanSIP"
                     aria-expanded="true" aria-controls="STRdanSIP">
-                    <i class="fas fa-calendar-day"></i>
+                    <i class="fas fa-folder-plus"></i>
                     <span>STR dan SIP</span>
                 </a>
                 <div id="STRdanSIP" class="collapse {{(Request::is('str*') || Request::is('sip*')) ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -65,7 +71,7 @@
              <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#masterData"
                     aria-expanded="true" aria-controls="STRdanSIP">
-                    <i class="fas fa-calendar-day"></i>
+                    <i class="fas fa-database"></i>
                     <span>Master Data</span>
                 </a>
                 <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

@@ -57,7 +57,7 @@ class CutiController extends Controller
     public function show(Cuti $cuti)
     {
         //
-        return view('pages.cuti.create',[
+        return view('pages.cuti.show',[
             'cuti' => $cuti
         ]);
     }
@@ -71,6 +71,9 @@ class CutiController extends Controller
     public function edit(Cuti $cuti)
     {
         //
+        return view('pages.cuti.edit', [
+            'pegawai' => Pegawai::find(1)
+        ]);
     }
 
     /**
