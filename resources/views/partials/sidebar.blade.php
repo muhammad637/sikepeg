@@ -41,7 +41,7 @@
                 <div id="CutiCollapse" class="collapse {{(Request::is('cuti*') || Request::is('histori-cuti*')) ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Cuti</h6>
-                        <a class="collapse-item {{Request::is('cuti*') ? 'active' : ''}}" href="{{route('cuti.index')}}">Data Cuti Akif</a>
+                        <a class="collapse-item {{Request::is('cuti*') ? 'active' : ''}}" href="{{route('data-cuti-aktif.index')}}">Data Cuti Akif</a>
                         <a class="collapse-item {{Request::is('histori-cuti*') ? 'active' : ''}}" href="{{route('histori-cuti.index')}}">Histori Cuti</a>
                     </div>
                 </div>

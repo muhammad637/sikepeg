@@ -31,7 +31,6 @@ class MutasiController extends Controller
         $pegawai = Pegawai::all();
         return view('pages.mutasi.create', ['pegawai' => $pegawai]);
     }
-
     public function store(Request $request)
     {
         try {

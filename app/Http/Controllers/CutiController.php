@@ -17,11 +17,11 @@ class CutiController extends Controller
     public function index()
     {
         //
-        $pegawai = Pegawai::get()->with(['cuti' => function($q){
-            $q->where('status', 'aktif')->first();
-        }]);
+        $pegawai = Pegawai::with(['cuti' => function($q){
+            $q->where('status', 'aktif');
+        }])->whereHas('cuti')->get();
         return view('pages.cuti.index',[
-
+            'pegawai' => $pegawai
         ]);
     }
 

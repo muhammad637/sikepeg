@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\HariBesarController;
@@ -56,15 +57,22 @@ Route::resource('/hariBesar', HariBesarController::class);
 
 
 
-// cuti
-Route::get('/cuti', function () {
-    return view('pages.default.maintenance');
-})->name('cuti.index');
-
-// histori-cuti
-Route::get('/histori-cuti', function () {
-    return view('pages.default.maintenance');
-})->name('histori-cuti.index');
+// data cuti aktif
+Route::group(['prefix' => 'cuti'], function(){
+    Route::group(['prefix' =>'/data-cuti-aktif'], function(){
+        Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
+        Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');
+        Route::get('/edit/{cuti:id}', [CutiController::class, 'edit'])->name('data-cuti-aktif.edit');
+        Route::post('/store', [CutiController::class, 'store'])->name('data-cuti-aktif.store');
+        Route::put('/update/{cuti:id}', [CutiController::class, 'update'])->name('data-cuti-aktif.update');
+    });
+    Route::group(['prefix' => 'histori-cuti'], function(){
+        // histori-cuti
+        Route::get('/', function () {
+            return view('pages.default.maintenance');
+        })->name('histori-cuti.index');
+    });
+});
 
 
 // mutasi
