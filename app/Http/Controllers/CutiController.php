@@ -46,6 +46,14 @@ class CutiController extends Controller
     {
         //
         return $request->all();
+        $validatedData = $request->validate([
+            'jenis_cuti' => 'required',
+            'alasan_cuti' => 'required',
+            'mulai_cuti' => 'required',
+            'selesai_cuti' => 'required',
+            'jumlah_hari' => 'required',
+            'link_cuti' => 'required',
+        ]);
     }
 
     /**

@@ -21,31 +21,51 @@ class SearchPegawai extends Component
     public $selectedNoIjazah;
     public $selectedSekolah;
     public $selectedTanggalLulus;
+    public $pegawai;
+    public $pegawaiedit;
+
     // public $pegawai;
+
+    public function mount(){ 
+        // $this->pegawaiedit;
+        
+        
+    }
 
     public function updatedSelect($value)
     {
         $this->select = $value;
-        $pegawai = Pegawai::find($this->select);
-        if ($pegawai) {
-            $this->selectId = $pegawai->id;
-            $this->alamat = $pegawai->id;
-            $this->selectedNIK = $pegawai->nik;
-            $this->selectedNIP = $pegawai->nip_nippk;
-            $this->selectedRuangan = $pegawai->ruangan;
-            $this->selectedjenisKelamin = $pegawai->jenis_kelamin;
-            $this->selectedNoIjazah = $pegawai->no_ijazah;
-            $this->selectedTanggalLulus = $pegawai->tanggal_lulus;
-            $this->selectedSekolah = $pegawai->sekolah;
-            $this->selectedTempatTanggalLahir = $pegawai->tempat_lahir . ", " . Carbon::parse($pegawai->tanggal_lahir)->format('d-M-Y');
+        $this->pegawai = Pegawai::find($this->select);
+        if ($this->pegawai) {
+            $this->selectId = $this->pegawai->id;
+            $this->alamat = $this->pegawai->id;
+            $this->selectedNIK = $this->pegawai->nik;
+            $this->selectedNIP = $this->pegawai->nip_nippk;
+            $this->selectedRuangan = $this->pegawai->ruangan;
+            $this->selectedjenisKelamin = $this->pegawai->jenis_kelamin;
+            $this->selectedNoIjazah = $this->pegawai->no_ijazah;
+            $this->selectedTanggalLulus = $this->pegawai->tanggal_lulus;
+            $this->selectedSekolah = $this->pegawai->sekolah;
+            $this->selectedTempatTanggalLahir = $this->pegawai->tempat_lahir . ", " . Carbon::parse($this->pegawai->tanggal_lahir)->format('d-M-Y');
         } else {
             $this->select = '';
         }
     }
     public function render()
     {
-        $this->results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
-        // $this->select = old('pegawai_id');
-        return view('livewire.pegawai.search-pegawai');
+        $this->select = $this->pegawaiedit;
+        $this->pegawai = Pegawai::find($this->select);
+        return view('livewire.pegawai.search-pegawai',[
+            'selectId' => $this->pegawai->id ?? null,
+            'alamat' => $this->pegawai->id ?? null,
+            'selectedNIK' => $this->pegawai->nik ?? null,
+            'selectedNIP' => $this->pegawai->nip_nippk ?? null,
+            'selectedRuangan' => $this->pegawai->ruangan ?? null,
+            'selectedjenisKelamin' => $this->pegawai->jenis_kelamin ?? null,
+            'selectedNoIjazah' => $this->pegawai->no_ijazah ?? null,
+            'selectedTanggalLulus' => $this->pegawai->tanggal_lulus ?? null,
+            'selectedSekolah' => $this->pegawai->sekolah ?? null,
+            'selectedTempatTanggalLahir' => $this->pegawai->tempat_lahir . ", " . Carbon::parse($this->pegawai->tanggal_lahir)->format('d-M-Y') ?? null,
+        ]);
     }
 }
