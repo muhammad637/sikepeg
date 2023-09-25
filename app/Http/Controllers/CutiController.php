@@ -17,11 +17,13 @@ class CutiController extends Controller
     public function index()
     {
         //
-        $pegawai = Pegawai::with(['cuti' => function($q){
-            $q->where('status', 'aktif');
-        }])->whereHas('cuti')->get();
-        return view('pages.cuti.index',[
-            'pegawai' => $pegawai
+        // $pegawai = Pegawai::with(['cuti' => function ($q) {
+        //     $q->where('status', 'aktif');
+        // }])->whereHas('cuti')->get();
+        $cuti = Cuti::where('status', 'aktif')->get();
+        return view('pages.cuti.index', [
+            // 'pegawai' => $pegawai,
+            'cuti' => $cuti,
         ]);
     }
 
@@ -45,15 +47,50 @@ class CutiController extends Controller
     public function store(Request $request)
     {
         //
-        return $request->all();
-        $validatedData = $request->validate([
-            'jenis_cuti' => 'required',
-            'alasan_cuti' => 'required',
-            'mulai_cuti' => 'required',
-            'selesai_cuti' => 'required',
-            'jumlah_hari' => 'required',
-            'link_cuti' => 'required',
-        ]);
+        try {
+            //code...
+            $validatedData = $request->validate([
+                'jenis_cuti' => 'required',
+                'alasan_cuti' => 'required',
+                'mulai_cuti' => 'required',
+                'selesai_cuti' => 'required',
+                'jumlah_hari' => 'required',
+                'link_cuti' => 'required',
+            ]);
+            $cuti = Cuti::where('pegawai_id', $request->pegawai_id)->orderBy('selesai_cuti', 'desc')->first();
+            if ($cuti) {
+                if ($cuti->selesai_cuti >= $request->selesai_cuti) {
+                    return redirect()->back()->with('error', 'periode cuti masuh berlaku');
+                }
+            }
+            if ($request->jenis_cuti == 'cuti tahunan') {
+                if ($cuti->pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
+                    $cuti->pegawai->update(
+                        [
+                            'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan - $request->jumlah_hari
+                        ]
+                    );
+                } else {
+                    return redirect()->back()->with('error', 'cuti tahunan pegawai' . $cuti->pegawai->nama_lengkap ?? $cuti->pegawai->nama_depan . 'telah habis pada tahun ini');
+                }
+            }
+            if ($request->jenis_cuti == 'cuti besar') {
+                if ($cuti->pegawai->sisa_cuti_tahunan  == 0) {
+                    return redirect()->back()->with('error', 'cuti tahunan pegawai' . $cuti->pegawai->nama_lengkap ?? $cuti->pegawai->nama_depan . 'telah habis pada tahun ini');
+                } else {
+                    $cuti->pegawai->update(
+                        [
+                            'sisa_cuti_tahunan' => 0
+                        ]
+                    );
+                }
+            }
+            $create = Cuti::create(array_merge(['status' => 'aktif'], $request->all()));
+            return redirect(route('data-cuti-aktif.index'))->with('success', 'data cuti berhasi ditambahkan');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $th->getMessage();
+        }
     }
 
     /**
@@ -65,7 +102,7 @@ class CutiController extends Controller
     public function show(Cuti $cuti)
     {
         //
-        return view('pages.cuti.show',[
+        return view('pages.cuti.show', [
             'cuti' => $cuti
         ]);
     }
@@ -79,8 +116,10 @@ class CutiController extends Controller
     public function edit(Cuti $cuti)
     {
         //
+        // return $cuti;
         return view('pages.cuti.edit', [
-            'pegawai' => Pegawai::find(1)
+            'pegawai' => Pegawai::all(),
+            'cuti' => $cuti
         ]);
     }
 
@@ -94,6 +133,43 @@ class CutiController extends Controller
     public function update(Request $request, Cuti $cuti)
     {
         //
+        $validatedData = $request->validate([
+            'jenis_cuti' => 'required',
+            'alasan_cuti' => 'required',
+            'mulai_cuti' => 'required',
+            'selesai_cuti' => 'required',
+            'jumlah_hari' => 'required',
+            'link_cuti' => 'required',
+        ]);
+        $cuti->pegawai->update([
+            'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari
+        ]);
+        // if($cuti->pegawai_id != $request->pegawai_id){
+        // }
+        if ($request->jenis_cuti == 'cuti tahunan') {
+            if ($cuti->pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
+                $cuti->pegawai->update(
+                    [
+                        'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan - $request->jumlah_hari
+                    ]
+                );
+            } else {
+                return redirect()->back()->with('error', 'cuti tahunan pegawai' . $cuti->pegawai->nama_lengkap ?? $cuti->pegawai->nama_depan . 'telah habis pada tahun ini');
+            }
+        }
+        if ($request->jenis_cuti == 'cuti besar') {
+            if ($cuti->pegawai->sisa_cuti_tahunan  == 0) {
+                return redirect()->back()->with('error', 'cuti tahunan pegawai' . $cuti->pegawai->nama_lengkap ?? $cuti->pegawai->nama_depan . 'telah habis pada tahun ini');
+            } else {
+                $cuti->pegawai->update(
+                    [
+                        'sisa_cuti_tahunan' => 0
+                    ]
+                );
+            }
+        }
+        $cuti->update($request->all());
+        return redirect(route('data-cuti-aktif.index'))->with('success', 'data cuti berhasil di update');
     }
 
     /**

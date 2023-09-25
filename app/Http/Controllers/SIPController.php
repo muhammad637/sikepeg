@@ -35,7 +35,7 @@ class SIPController extends Controller
     public function create()
     {
         $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
-        return view('pages.sip.create',[
+        return view('pages.sip.create', [
             'results' => $results
         ]);
     }
@@ -74,7 +74,6 @@ class SIPController extends Controller
             //throw $th;
             return $th->getMessage();
         }
-       
     }
 
     /**
@@ -102,7 +101,8 @@ class SIPController extends Controller
     {
         //
         return view('pages.sip.edit', [
-            'sip' => $sip
+            'sip' => $sip,
+            'results' => Pegawai::where('jenis_tenaga', 'nakes')->get()
         ]);
     }
 
@@ -116,7 +116,7 @@ class SIPController extends Controller
     public function update(Request $request, SIP $sip)
     {
         //
-        
+
         $validatedData = $request->validate([
             'no_str' => 'required',
             'no_sip' => 'required',
@@ -148,8 +148,8 @@ class SIPController extends Controller
     }
     public function history(Pegawai $pegawai)
     {
-       $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->get();
-       
+        $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->get();
+
         return view('pages.sip.history', [
             'sip' => $sip
         ]);

@@ -29,40 +29,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($pegawai as $index => $item) --}}
+                        @foreach ($cuti as $index => $item)
                         <tr>
-                            <td>1</td>
-                            <td>Lorem ipsum dolor sit amet.</td>
-                            <td>Cuti Tahunan</td>
-                            <td>Sakit Hati</td>
-                            <td>17-09-2023</td>
-                            <td>19-09-2023</td>
-                            <td><a href="#" target="_blank" class="btn btn-primary"><i class="far fa-file-pdf"></i></a></td>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan}}</td>
+                            <td>{{$item->jenis_cuti}}</td>
+                            <td>{{$item->alasan_cuti}}</td>
+                            <td>{{$item->mulai_cuti}}</td>
+                            <td>{{$item->selesai_cuti}}</td>
+                            <td>
+                             <a target="popup" onclick="window.open(`{{$item->link_cuti}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
+                                              <i class="fas fa-file-alt text-white"></i></a>
+                            </td>
                             <td class="d-flex justify-content-center">
-                                {{-- <a href="#"
-                                    class="badge p-2 text-white bg-info mr-1"><i class="fas fa-info-circle"></i></a> --}}
-                                <a href="{{ route('data-cuti-aktif.edit') }}" class="btn btn-warning"><i
+                                <a href="{{ route('data-cuti-aktif.edit',['cuti' => $item->id]) }}" class="btn btn-warning"><i
                                         class="fas fa-pen "></i></a>
                             </td>
-                            {{-- <td>{{ $loop->iteration }} </td>
-                                <td>{{ Carbon\Carbon::parse($item->->tanggal)->format('d-m-Y') }} </td>
-                                <td>{{ $item->keterangan }}</td>
-                                <td class="">
-                                    <a href="{{ route('hariBesar.show', ['hariBesar' => $item->id]) }}"
-                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{ route('hariBesar.edit', ['hariBesar' => $item->id]) }}"
-                                        class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
-                                    <form action="{{ route('hariBesar.destroy', ['hariBesar' => $item->id]) }}"
-                                        class="d-inline" method="post">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="border-0 badge p-2 text-white bg-danger"><i
-                                                class="fas fa-trash "></i></button>
-                                    </form>
-
-                                </td> --}}
                         </tr>
-                        {{-- @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>
