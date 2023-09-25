@@ -38,7 +38,7 @@ class STRController extends Controller
     public function create()
     {
         $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
-        return view('pages.str.create',[
+        return view('pages.str.create', [
             'results' => $results
         ]);
     }
@@ -84,8 +84,9 @@ class STRController extends Controller
     {
 
         // return $str;
+        // return $results;
         return view('pages.str.show', [
-            'str' => $str
+            'str' => $str,
         ]);
     }
 
@@ -97,8 +98,12 @@ class STRController extends Controller
      */
     public function edit(STR $str)
     {
+        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+
         return view('pages.str.edit', [
-            'str' => $str
+            'str' => $str,
+            'results' => $results
+
         ]);
     }
 
@@ -137,7 +142,6 @@ class STRController extends Controller
             //throw $th;
             return $th->getMessage();
         }
-       
     }
 
     /**
@@ -154,7 +158,7 @@ class STRController extends Controller
     // history
     public function history(Pegawai $pegawai)
     {
-        return view('pages.str.history',[
+        return view('pages.str.history', [
             'pegawai' => $pegawai
         ]);
     }

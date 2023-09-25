@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cuti;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CutiController extends Controller
 {
@@ -15,6 +17,12 @@ class CutiController extends Controller
     public function index()
     {
         //
+        $pegawai = Pegawai::with(['cuti' => function($q){
+            $q->where('status', 'aktif');
+        }])->whereHas('cuti')->get();
+        return view('pages.cuti.index',[
+            'pegawai' => $pegawai
+        ]);
     }
 
     /**
@@ -25,6 +33,7 @@ class CutiController extends Controller
     public function create()
     {
         //
+        return view('pages.cuti.create');
     }
 
     /**
@@ -36,6 +45,15 @@ class CutiController extends Controller
     public function store(Request $request)
     {
         //
+        return $request->all();
+        $validatedData = $request->validate([
+            'jenis_cuti' => 'required',
+            'alasan_cuti' => 'required',
+            'mulai_cuti' => 'required',
+            'selesai_cuti' => 'required',
+            'jumlah_hari' => 'required',
+            'link_cuti' => 'required',
+        ]);
     }
 
     /**
@@ -47,6 +65,9 @@ class CutiController extends Controller
     public function show(Cuti $cuti)
     {
         //
+        return view('pages.cuti.show',[
+            'cuti' => $cuti
+        ]);
     }
 
     /**
@@ -58,6 +79,9 @@ class CutiController extends Controller
     public function edit(Cuti $cuti)
     {
         //
+        return view('pages.cuti.edit', [
+            'pegawai' => Pegawai::find(1)
+        ]);
     }
 
     /**

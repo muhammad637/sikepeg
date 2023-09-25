@@ -18,12 +18,9 @@ class SIPController extends Controller
      */
     public function index()
     {
-        //
         $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
             $query->orderBy('masa_berakhir_sip', 'desc');
         })->get();
-        // $pegawai = pegawai::with('str')->get();
-        // return $pegawai;
         return view('pages.sip.index', [
             'pegawai' => $pegawai ?? [],
             'i' => 0
@@ -37,9 +34,6 @@ class SIPController extends Controller
      */
     public function create()
     {
-        //
-        // return STR::where('pegawai_id',1)->whereDate('masa_berakhir_str', '>=', $saatIni)->orderBy('masa_berakhir_str', 'desc')->first();
-        // return $pegawai;
         $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
         return view('pages.sip.create',[
             'results' => $results

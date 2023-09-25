@@ -6,9 +6,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark">Diklat</h2>
-                <a href="{{ route('diklat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
-                        class="fas fa-plus-square ml-1"></i></a>
+                <h2 class="m-0 font-weight-bold text-dark">Riwayat Diklat</h2>
             </div>
         </div>
 
@@ -25,39 +23,44 @@
                             <th scope="col">No</th>
                             <th scope="col">Nama Pegawai</th>
                             <th scope="col">Nama Diklat</th>
+                            <th scope="col">Jumlah Jam</th>
                             <th scope="col">Penyelenggara</th>
+                            <th scope="col">Tempat</th>
                             <th scope="col">Tahun</th>
-                            <th scope="col">Nomer STTPP</th>
-                            <th scope="col">Sertifikat</th>
+                            <th scope="col">No STTPP</th>
+                            <th scope="col">Tanggal STTPP</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pegawai as $index => $item)
-                            @if (count($item->diklat) > 0)
+                        @foreach ($diklat as $index => $item)
+                            
                                 @php
-                                    $data = explode('view', $item->diklat[0]->link_sttpp);
+                                    $data = explode('view', $item->link_sttpp);
                                 @endphp
 
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama_depan }}</td>
-                                    <td>{{ $item->diklat[0]->nama_diklat }}</td>
-                                    <td>{{ $item->diklat[0]->penyelenggara }}</td>
-                                    <td>{{ $item->diklat[0]->tahun }}</td>
-                                    <td>{{ $item->diklat[0]->no_sttpp }}</td>
+                                    <td>{{ $item->pegawai->nama_depan }}</td>
+                                    <td>{{ $item->nama_diklat }}</td>
+                                    <td>{{ $item->jumlah_jam }}</td>
+                                    <td>{{ $item->penyelenggara }}</td>
+                                    <td>{{ $item->tempat }}</td>
+                                    <td>{{ $item->tahun}}</td>
+                                    <td>{{ $item->no_sttpp}}</td>
+                                    <td>{{ $item->tanggal_sttpp}}</td>
                                     <td>
                                         <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
                                             <i class="fas fa-file-alt text-white"></i></a>
                                             
-                                        <div class="modal fade bd-example-modal-lg" id="modal_str_link-{{ $item->id }}"
+                                        <div class="modal fade bd-example-modal-lg" id="modal_sttpp_link-{{ $item->id }}"
                                             tabindex="-1" role="dialog"
-                                            aria-labelledby="modal_str_link-{{ $item->id }}Label" aria-hidden="true">
+                                            aria-labelledby="modal_sttpp_link-{{ $item->id }}Label" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title"
-                                                            id="modal_str_link-{{ $item->id }}Label">Preview Dokumen
+                                                            id="modal_sttpp_link-{{ $item->id }}Label">Preview Dokumen
                                                         </h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
@@ -77,12 +80,7 @@
                                         </div>
                                     </td>
                                     </td>
-                                    <td>
-                                        <a href="{{ route('diklat.riwayat', ['pegawai' => $item->id])}}" class="badge p-2 text-white bg-info"><i
-                                                class="fas fa-info-circle"></i></a>
-                                        <a href="{{ route('diklat.edit', ['diklat' => $item->diklat[0]])}}" class="badge p-2 text-white bg-warning"><i
-                                                class="fas fa-pen "></i></a>
-                                    </td>
+                
 
                                     {{-- <td>{{$loop->iteration}}</td> --}}
 
@@ -137,7 +135,7 @@
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td> --}}
                                 </tr>
-                            @endif
+                
                         @endforeach
                     </tbody>
                 </table>

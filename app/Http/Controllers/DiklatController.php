@@ -68,6 +68,21 @@ class DiklatController extends Controller
         }
     }
 
+    public function riwayat(Pegawai $pegawai)
+    {
+        $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sttpp', 'desc')->get();
+        return view('pages.diklat.riwayat', [
+            'pegawai' => $pegawai,
+            'diklat' => $diklat
+        ]);
+    }
+
+
+
+
+
+
+
     public function store(Request $request){
         try {
             //code...

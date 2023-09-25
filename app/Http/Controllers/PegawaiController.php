@@ -84,7 +84,7 @@ class PegawaiController extends Controller
         //
         // return Asn::all();   
         return view('pages.pegawai.index', [
-            'pegawai' => Pegawai::all()
+            'pegawai' => Pegawai::orderBy('created_at', 'desc')->get()
         ]);
         // Pegawai::with(['asn', 'non_asn'])->get();
     }
@@ -108,62 +108,108 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
+        // Fungsi untuk menyimpan data pegawai
+      
+            $pegawai = []; // Inisialisasi array pegawai
 
-        //
-        try {
-            // $tahun_ini = Carbon::parse(now())->format('Y');
+            // Menghitung usia berdasarkan tanggal lahir
             $usia = $this->lama($request->tanggal_lahir);
-            // return $request->tanggalMasuk;
+
+            // Validasi data yang diterima dari request sesuai dengan aturan validasi pada $this->rulesPegawai
             $validatedData = $request->validate($this->rulesPegawai);
-            $pegawai = Pegawai::create(array_merge(['usia' => $usia], $validatedData));
+
+            // Menggabungkan nama lengkap dari input
             $nama_lengkap = $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang;
-            $pegawai->update(['nama_lengkap' => $nama_lengkap]);
+
+            // Menggabungkan data-data yang telah divalidasi dengan informasi tambahan seperti usia dan nama lengkap
+            $data = array_merge(['usia' => $usia, 'nama_lengkap' => $nama_lengkap], $validatedData);
+
+            // Jika status tenaga adalah "non asn", maka lakukan langkah-langkah berikut
             if ($request->status_tenaga == 'non asn') {
-                // $tahun
+
+                // Menghitung masa kerja berdasarkan tanggal masuk
                 $masa_kerja = $this->lama($request->tanggal_masuk);
-                $pegawai->update(
-                    [
-                        'cuti_tahunan' => $request->cuti_tahunan,
-                        'sisa_cuti_tahunan' => $request->cuti_tahunan,
-                        'masa_kerja' => $masa_kerja,
-                        'status_tipe' => $pegawai->status_tenaga
-                    ]
-                );
+
+                // Menambahkan data tambahan untuk pegawai non ASN, seperti cuti tahunan dan lainnya
+                $data = array_merge([
+                    'cuti_tahunan' => $request->cuti_tahunan,
+                    'sisa_cuti_tahunan' => $request->cuti_tahunan,
+                    'masa_kerja' => $masa_kerja,
+                    'status_tipe' => $request->status_tenaga
+                ], $data);
+
+                // Validasi data tambahan untuk pegawai non ASN
                 $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-                $pegawai->update($validatedDataNonAsn);
-                return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
+
+                // Menggabungkan data pegawai dengan data tambahan
+                $pegawai = array_merge($data, $validatedDataNonAsn);
+
+                // Membuat pegawai baru dalam database dengan data yang telah dipersiapkan
+                $createPegawai = Pegawai::create($pegawai);
+
+                // Mengarahkan pengguna ke halaman indeks pegawai dengan pesan sukses
+                return redirect(route('pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
             }
+
+            // Menghitung masa kerja berdasarkan TMT PNS
             $masa_kerja = $this->lama($request->tmt_pns);
+
+            // Menetapkan jumlah cuti tahunan default jika tidak ada input
             $sisaCutiTahunan = isset($request->cuti_tahunan) ? $request->cuti_tahunan : 12;
-            $pegawai->update([
+
+            // Validasi data untuk pegawai ASN
+            $validatedAsn = $request->validate($this->rulesAsn);
+
+            // Menggabungkan data dengan data tambahan untuk pegawai ASN
+            $data = array_merge([
                 'sisa_cuti_tahunan' => $sisaCutiTahunan,
                 'masa_kerja' => $masa_kerja,
                 'status_tipe' => $request->status_tipe
-            ]);
-            $asn = $this->CreateAsn($request, $pegawai);
-            if ($request->jenis_tenaga == 'nakes') {
+            ], $validatedAsn, $data);
+
+            // Jika jenis tenaga adalah "umum", lakukan validasi data tambahan
+            if ($request->jenis_tenaga == 'umum') {
+                $validatedDataUmum = $request->validate($this->rulesUmum);
+                $pegawai = array_merge($data, $validatedDataUmum);
+            }
+
+            // Jika jenis tenaga adalah "struktural", lakukan validasi data tambahan
+            else if ($request->jenis_tenaga == 'struktural') {
+                $validatedDataUmum = $request->validate($this->rulesUmum);
+                $pegawai = array_merge($data, $validatedDataUmum);
+            }
+
+            // Jika jenis tenaga adalah "nakes", lakukan langkah-langkah berikut
+            else if ($request->jenis_tenaga == 'nakes') {
+
+                // Membuat pegawai baru dalam database
+                $createPegawai = Pegawai::create($data);
+
+                // Jika terdapat data STR (Surat Tanda Registrasi), lakukan validasi dan simpan data STR
                 if ($request->no_str != null && $request->tanggal_terbit_str != null && $request->masa_berakhir_str != null && $request->link_str != null) {
-                    # code...
                     $validatedDataStr = $request->validate($this->rulesStr);
-                    $createSTR = array_merge(['pegawai_id' => $pegawai->id], $validatedDataStr);
+                    $createSTR = array_merge(['pegawai_id' => $createPegawai->id], $validatedDataStr);
                     STR::create($createSTR);
                 }
+
+                // Jika terdapat data SIP (Surat Izin Praktik), lakukan validasi dan simpan data SIP
                 if ($request->no_sip != null && $request->tanggal_terbit_sip != null && $request->masa_berlaku_sip != null && $request->link_sip != null) {
                     $validatedDataSip = $request->validate($this->rulesSip);
-                    $createSIP = array_merge(['pegawai_id' => $pegawai->id], $validatedDataSip);
+                    $createSIP = array_merge(['pegawai_id' => $createPegawai->id], $validatedDataSip);
                     SIP::create($createSIP);
                 }
-                return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
-            } else if ($request->jenis_tenaga == 'umum') {
-                $validatedDataUmum = $request->validate($this->rulesUmum);
-                $pegawai->update($validatedDataUmum);
-                return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil ditambahkan')->withInput();
+
+                // Mengarahkan pengguna ke halaman indeks pegawai dengan pesan sukses
+                return redirect(route('pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
             }
-            return "ada yang salah nih logic mu ini";   //code...
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
+
+            // Membuat pegawai baru dalam database
+            $createPegawai = Pegawai::create($pegawai);
+
+            // Mengarahkan pengguna ke halaman indeks pegawai dengan pesan sukses
+            return redirect(route('pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
     }
+
 
     /**
      * Display the specified resource.
@@ -174,7 +220,7 @@ class PegawaiController extends Controller
     public function show(Pegawai $pegawai)
     {
         //
-        return $pegawai;
+        // return $pegawai;
         return view('pages.pegawai.show', [
             'pegawai' => $pegawai
         ]);
@@ -203,47 +249,22 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, Pegawai $pegawai)
     {
-
-        //code...
-        // return $request->all();
-        // proses validasi
-        $validatedData = $request->validate([
-            'nik' => 'required|unique:pegawais,nik,' . $pegawai->id,
-            'nip_nippk' => 'required|unique:pegawais,nip_nippk,' . $pegawai->id,
-            'gelar_depan'  => '',
-            'gelar_belakang'  => '',
-            'nama_depan' => 'required',
-            'nama_belakang' => '',
-            'jenis_kelamin' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required',
-            // 'usia' => 'required',
-            'alamat' => 'required',
-            'agama' => 'required',
-            'no_wa' => 'required',
-            'status_pegawai' => 'required',
-            'status_tipe' => 'required',
-            'ruangan' => 'required',
-            'tahun_pensiun' => 'required',
-            'pendidikan_terakhir' => 'required',
-            'tanggal_lulus' => 'required',
-            'no_ijazah' => 'required',
-            'jabatan' => 'required'
+        $validatedData = $request->validate($this->validatedPegawaiEdit($pegawai));
+        $pegawai->update([
+            'nama_lengkap' =>  $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang,
         ]);
         $usia = $this->lama($request->tanggal_lahir);
         $pegawai->update(array_merge(['usia' => $usia], $validatedData));
-        # jika status tenaga tidak sama dengan request status_tenaga
         if ($pegawai->status_tenaga != $request->status_tenaga) {
-            #jika request->status tenaga == non asn
             if ($request->status_tenaga == 'non asn') {
-                #buat pegawai non asn
                 $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
                 $pegawai->update(
                     array_merge(
                         [
                             'status_tenaga' => $request->status_tenaga,
                             'status_tipe' => $request->status_tipe,
-                            'masa_kerja' => $this->lama($pegawai->tanggalMasuk),
+                            'masa_kerja' => $this->lama($request->tanggal_masuk),
+                            'cuti_tahunan' => $request->cuti_tahunan,
                             'no_karpeg' => null,
                             'no_taspen' => null,
                             'no_npwp' => null,
@@ -262,8 +283,7 @@ class PegawaiController extends Controller
                 );
                 count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
                 count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
-                # jika izin cuti di edit maka edit izin cuti nya
-                $request->cuti_tahunan != null ? $pegawai->update(['cuti_tahunan' => intval($request->cuti_tahunan)]) : null;
+                // $request->cuti_tahunan != null ? $pegawai->update(['cuti_tahunan' => intval($request->cuti_tahunan)]) : null;
                 return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
             } else {
                 $validatedDataAsn = $request->validate($this->rulesAsn);
@@ -275,58 +295,29 @@ class PegawaiController extends Controller
                     'niPtt_pkThl' => null,
                     'masa_kerja' => $masa_kerja
                 ], $validatedDataAsn));
-                // return $this->CreateAsn($request, $pegawai);
             }
-
-
-            // {{count($pegawai->)}}
-            // if (count($pegawai->asn) > 0) {
-            //     $validatedDataAsn = $request->validate($this->rulesAsn);
-            //     $pegawai->asn->update($validatedDataAsn);
-            // } else {
-            //     $validatedDataAsn = $request->validate($this->rulesAsn);
-            //     count($pegawai->non_asn) > 0 ? NonAsn::findOrFail($pegawai->non_asn[0]->id)->delete() : null;
-            //     Asn::create(array_merge([
-            //         'pegawai_id' => $pegawai->id,
-            //     ], $validatedDataAsn));
-            // }
-            // $pegawai->update(['status_tenaga' => $request->status_tenaga]);
-            // if (
-            //     $request->jenis_tenaga == 'umum'
-            // ) {
-            //     count($pegawai->asn[0]->str) > 0 ? STR::destroy($pegawai->asn[0]->str->pluck('id')->toArray()) : null;
-            //     count($pegawai->asn[0]->sip) > 0 ? SIP::destroy($pegawai->asn[0]->sip->pluck('id')->toArray()) : null;
-            //     $validatedDataUmum = $request->validate($this->rulesUmum);
-            //     count($pegawai->asn[0]->umum) > 0 ? $pegawai->asn[0]->umum[0]->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn[0]->id], $validatedDataUmum));
-            //     return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
-            //     // return 'testing';
-            // }
-
-
             return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
         }
-        // end request
 
-        // jika status tenaga sama dengan pegawai->status_tenaga
         if ($request->status_tenaga == 'non asn') {
-            // masukkan rules non asn nya
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-            $pegawai->update($validatedDataNonAsn);
+            $pegawai->update(array_merge(['masa_kerja' => $this->lama($request->tanggal_masuk)], $validatedDataNonAsn));
             return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil diupdate');
         } else if ($request->status_tenaga == 'asn') {
             $validatedDataAsn = $request->validate($this->rulesAsn);
-            $pegawai->update($validatedDataAsn);
+            $pegawai->update(array_merge(
+                ['masa_kerja' => $this->lama($request->tmt_pns)],
+                $validatedDataAsn
+            ));
         }
         if ($request->jenis_tenaga == 'umum') {
             count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
             count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
             $validatedDataUmum = $request->validate($this->rulesUmum);
             $pegawai->update($validatedDataUmum);
-            // count($pegawai->asn->umum) > 0 ? $pegawai->asn->umum->update($validatedDataUmum) : UmumStruktural::create(array_merge(['asn_id' => $pegawai->asn->id], $validatedDataUmum));
             return redirect(route('pegawai.index'))->with('success', 'pegawai berhasil di update');
-            // return 'testing';
         }
-        // $pegawai->update($validatedData); 
+       
         return redirect(route('pegawai.index'))->with('success', 'data pegawai berhasil diupdate')->withInput();
     }
 
@@ -338,15 +329,9 @@ class PegawaiController extends Controller
      */
     public function destroy(Pegawai $pegawai)
     {
+
         return $pegawai->delete();
     }
-
-    private function CreateAsn($request, $pegawai)
-    {
-        $validateDataAsn = $request->validate($this->rulesAsn);
-        return $pegawai->update($validateDataAsn);
-    }
-
     public function lama($tanggalMulai)
     {
         $parseTanggalMulai = Carbon::parse($tanggalMulai);
@@ -354,5 +339,30 @@ class PegawaiController extends Controller
         $bulan = $parseTanggalMulai->diffInMonths() % 12;
         $lama = "$tahun tahun, $bulan bulan";
         return $lama;
+    }
+    public function validatedPegawaiEdit($pegawai)
+    {
+        return [
+            'nik' => 'required|unique:pegawais,nik,' . $pegawai->id,
+            'nip_nippk' => 'required|unique:pegawais,nip_nippk,' . $pegawai->id,
+            'gelar_depan'  => '',
+            'gelar_belakang'  => '',
+            'nama_depan' => 'required',
+            'nama_belakang' => '',
+            'jenis_kelamin' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'alamat' => 'required',
+            'agama' => 'required',
+            'no_wa' => 'required',
+            'status_pegawai' => 'required',
+            'status_tipe' => 'required',
+            'ruangan' => 'required',
+            'tahun_pensiun' => 'required',
+            'pendidikan_terakhir' => 'required',
+            'tanggal_lulus' => 'required',
+            'no_ijazah' => 'required',
+            'jabatan' => 'required'
+        ];
     }
 }

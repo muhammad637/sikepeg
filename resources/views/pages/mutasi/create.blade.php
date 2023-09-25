@@ -30,13 +30,7 @@
                             </select>
                         </div>
                     </div>
-                    @livewire('mutasi.jenis-mutasi')  
-                    {{-- <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">No Registrasi</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3">
-                        </div>
-                    </div> --}}
+                    @livewire('mutasi.jenis-mutasi') 
                     
         </form>
         <div class="text-right">

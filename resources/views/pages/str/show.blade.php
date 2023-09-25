@@ -18,7 +18,7 @@
                         <div class="row mb-3">
                             <label for="inputEmail3" class="col-sm-4 col-form-label">Nama</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputEmail3" value="{{ $str->pegawai->nama_lengkap }}"
+                                <input type="text" class="form-control" id="inputEmail3" value="{{ $str->pegawai->nama_lengkap ?? $str->pegawai->nama_depan }}"
                                     readonly>
                             </div>
                         </div>

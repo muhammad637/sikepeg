@@ -1,5 +1,6 @@
 @extends('main')
 @push('style-css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @livewireStyles
     <style>
         .judul-text {
@@ -17,9 +18,9 @@
                 <form action="{{ route('pegawai.store') }}" method="post">
                     @csrf
                     <div class="row mt-5 judul-text">
-                        
+
                         <div class="col-md-12 col-lg-12 col-xl-6 ">
-                            
+
                             <h3 class="judul-text">Biodata Diri</h3>
                             <hr style="height:.1rem;" class="bg-primary">
                             <div class="mt-5 mb-4">
@@ -62,7 +63,7 @@
                                         <input type="text"
                                             class="form-control @error('gelar_depan') is-invalid @enderror" id="gelar_depan"
                                             aria-describedby="gelar_depan" name="gelar_depan" autocomplete="false"
-                                            value="{{ old('gelar_depan') }}" required>
+                                            value="{{ old('gelar_depan') }}">
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +93,7 @@
                                         <input type="text"
                                             class="form-control @error('nama_belakang') is-invalid @enderror"
                                             id="nama_belakang" aria-describedby="nama_belakang" name="nama_belakang"
-                                            autocomplete="false" value="{{ old('nama_belakang') }}" required>
+                                            autocomplete="false" value="{{ old('nama_belakang') }}">
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +108,7 @@
                                         <input type="text"
                                             class="form-control @error('gelat_belakang') is-invalid @enderror"
                                             id="gelar_belakang" aria-describedby="gelar_belakang" name="gelar_belakang"
-                                            autocomplete="false" value="{{ old('gelar_belakang') }}" required>
+                                            autocomplete="false" value="{{ old('gelar_belakang') }}">
                                     </div>
                                 </div>
                             </div>
@@ -160,11 +161,12 @@
                                             class="form-control @error('tanggal_lahir') is-invalid @enderror"
                                             id="tanggal_lahir" aria-describedby="tanggal_lahir" name="tanggal_lahir"
                                             autocomplete="false" placeholder="Masukkan Tanggal Lahir ..."
-                                            value="{{ Carbon\Carbon::parse(old('tanggal_lahir'))->format('Y-m-d') }}" required>
+                                            value="{{ Carbon\Carbon::parse(old('tanggal_lahir'))->format('Y-m-d') }}"
+                                            required>
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div class="mb-4">
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -182,18 +184,34 @@
                             <div class="mb-4">
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                                        <label for="" class="form-label">
+                                        <label for="agama" class="form-label">
                                             <p class="mb-0 mt-md-2 mt-0">Agama</p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                                        <input type="text" class="form-control @error('agama') is-invalid @enderror"
-                                            id="agama" aria-describedby="agama" name="agama" autocomplete="false"
-                                            placeholder="Masukkan Agama" value="{{ old('agama') }}" required>
+                                        <select name="agama" id="agama" required
+                                            class="form-control @error('agama') is-invalid @enderror">
+                                            <option value="">Pilih</option>
+                                            <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam
+                                            </option>
+                                            <option value="Protestan" {{ old('agama') == 'Protestan' ? 'selected' : '' }}>
+                                                Kristen-Protestan
+                                            </option>
+                                            <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>
+                                                Kristen-Katolik
+                                            </option>
+                                            <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu
+                                            </option>
+                                            <option value="Budha" {{ old('agama') == 'Budha' ? 'selected' : '' }}>Budha
+                                            </option>
+                                            <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>
+                                                Konghucu
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="mb-4">
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -222,8 +240,9 @@
                                             <option value="aktif"
                                                 {{ old('status_pegawai') == 'aktif' ? 'selected' : '' }}>Aktif</option>
                                             <option value="aktif"
-                                                {{ old('status_pegawai') == 'nonaktif' ? 'selected' : '' }}>Non Aktif</option>
-                                          
+                                                {{ old('status_pegawai') == 'nonaktif' ? 'selected' : '' }}>Non Aktif
+                                            </option>
+
                                         </select>
                                     </div>
                                 </div>
@@ -277,5 +296,6 @@
     </div>
 @endsection
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @livewireScripts
 @endpush

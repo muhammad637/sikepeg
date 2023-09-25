@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('cutis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pegawai_id')->constrained('pegawais')->constrained('pegawai_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('jenis_cuti');
-            $table->string('alasan_cuti');
-            $table->string('mulai_cuti');
-            $table->string('selesai_cuti');
-            $table->integer('jumlah_hari');
-            $table->string('status');
-           
+            $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('jenis_cuti')->nullable();
+            $table->string('alasan_cuti')->nullable();
+            $table->string('mulai_cuti')->nullable();
+            $table->string('selesai_cuti')->nullable();
+            $table->integer('jumlah_hari')->nullable();
+            $table->enum('status',['aktif', 'nonaktif'])->nullable();
+            $table->string('link_cuti')->nullable();   
             $table->timestamps();
         });
     }
