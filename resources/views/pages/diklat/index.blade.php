@@ -8,7 +8,7 @@
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Diklat</h2>
                 <a href="{{ route('diklat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
-                    class="fas fa-plus-square ml-1"></i></a>
+                        class="fas fa-plus-square ml-1"></i></a>
             </div>
         </div>
 
@@ -33,34 +33,62 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($pegawai as $index => $item)
-                        @php
-                            $data = explode('view',$item->mutasi[0]->link_sk);
-                        @endphp --}}
-                            <tr>
-                                <td>1</td>
-                                <td>Douglas McGee</td>
-                                <td>Diklat Kepegawaian</td>
-                                <td>RSUD Blambangan</td>
-                                <td>2023</td>
-                                <td>17.8/PII/897.3</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#modal_str_link-#">
-                                    <i class="fas fa-file-alt text-white"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <a href=""
-                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="#"
-                                        class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
-                                </td>
-                                
-                                {{-- <td>{{$loop->iteration}}</td> --}}
-                          
+                        @foreach ($pegawai as $index => $item)
+                            @if (count($item->diklat) > 0)
+                                @php
+                                    $data = explode('view', $item->diklat[0]->link_sttpp);
+                                @endphp
 
-                                {{-- <td>{{ $loop->iteration }}</td>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->nama_depan }}</td>
+                                    <td>{{ $item->diklat[0]->nama_diklat }}</td>
+                                    <td>{{ $item->diklat[0]->penyelenggara }}</td>
+                                    <td>{{ $item->diklat[0]->tahun }}</td>
+                                    <td>{{ $item->diklat[0]->no_sttpp }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#modal_str_link-#">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </button>
+                                        <div class="modal fade bd-example-modal-lg" id="modal_str_link-{{ $item->id }}"
+                                            tabindex="-1" role="dialog"
+                                            aria-labelledby="modal_str_link-{{ $item->id }}Label" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="modal_str_link-{{ $item->id }}Label">Preview Dokumen
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <iframe src="{{ $data[0] }}preview" class="w-100"
+                                                            style="height: 40em"></iframe>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    </td>
+                                    <td>
+                                        <a href="" class="badge p-2 text-white bg-info"><i
+                                                class="fas fa-info-circle"></i></a>
+                                        <a href="{{ route('diklat.edit', ['diklat' => $item->diklat[0]])}}" class="badge p-2 text-white bg-warning"><i
+                                                class="fas fa-pen "></i></a>
+                                    </td>
+
+                                    {{-- <td>{{$loop->iteration}}</td> --}}
+
+
+                                    {{-- <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama_depan ?? null}} </td>
                                 <td>{{ $item->mutasi[count($item->mutasi) -1]->jenis_mutasi}}</td>
                                 <td>{{ $item->mutasi[count($item->mutasi) -1]->tanggal_berlaku }}</td>
@@ -109,8 +137,9 @@
                                     <a href="{{ route('mutasi.edit', ['mutasi' => $item->mutasi[count($item->mutasi) -1]]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td> --}}
-                            </tr>
-                        {{-- @endforeach --}}
+                                </tr>
+                            @endif
+                        @endforeach
                     </tbody>
                 </table>
             </div>

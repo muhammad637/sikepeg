@@ -10,8 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Tambah Diklat Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="#" method="post">
-            
+        <form action="{{ route('diklat.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -22,53 +21,60 @@
                         <div class="col-sm-8 text-secondary">
                             <select class="form-control" id="pegawai" name="pegawai_id">
                                 <option value="">Pilih Nama Pegawai</option>
-                                {{-- @foreach ($pegawai as $item) --}}
-                                    <option value="Douglas McGee">
+                                @foreach ($pegawai as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
                                     </option>
-                                {{-- @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">Nama Diklat</label>
+                        <label for="nama_diklat" class="col-sm-4 col-form-label">Nama Diklat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3">
+                            <input type="text" class="form-control" id="inputPassword3" name="nama_diklat">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">Jumlah Jam</label>
+                        <label for="jumlah_jam" class="col-sm-4 col-form-label">Jumlah Jam</label>
                         <div class="col-sm-8">
-                            <input type="int" class="form-control" id="inputPassword3">
+                            <input type="int" class="form-control" id="inputPassword3" name="jumlah_jam">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">Penyelenggara</label>
+                        <label for="penyelenggara" class="col-sm-4 col-form-label">Penyelenggara</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3">
+                            <input type="text" class="form-control" id="inputPassword3" name="penyelenggara">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">Tempat</label>
+                        <label for="tempat" class="col-sm-4 col-form-label">Tempat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3">
+                            <input type="text" class="form-control" id="inputPassword3" name="tempat">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">Tahun</label>
+                        <label for="tahun" class="col-sm-4 col-form-label">Tahun</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3">
+                            <input type="text" class="form-control" id="inputPassword3" name="tahun">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">No STTPP</label>
+                        <label for="no_sttpp" class="col-sm-4 col-form-label">No STTPP</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3">
+                            <input type="text" class="form-control" id="inputPassword3" name="no_sttpp">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">Tanggal STTPP</label>
+                        <label for="tanggal_sttpp" class="col-sm-4 col-form-label">Tanggal STTPP</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="inputPassword3">
+                            <input type="date" class="form-control" id="inputPassword3" name="tanggal_sttpp">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="link_sttpp" class="col-sm-4 col-form-label">Link STTPP</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputPassword3" name="link_sttpp">
                         </div>
                     </div>
         </form>
@@ -86,4 +92,5 @@
 @push('script')
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 @endpush

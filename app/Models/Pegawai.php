@@ -23,5 +23,9 @@ class Pegawai extends Model
     public function mutasi(){
         return $this->hasMany(Mutasi::class);
     }
+
+    public function diklat(){
+        return $this->hasMany(Diklat::class);
+    }
   
 }
