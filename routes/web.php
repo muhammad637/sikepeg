@@ -4,6 +4,7 @@ use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\HariBesarController;
+use App\Http\Controllers\KenaikanPangkatController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SIPController;
@@ -95,6 +96,11 @@ Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class ,'history'])
 
 Route::resource('/diklat', DiklatController::class);
 Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
+
+
+Route::resource('/kenaikan_pangkat', KenaikanPangkatController::class);
+
+
 
 // DASHBOARD //
 Route::get('/dashboard', function () {

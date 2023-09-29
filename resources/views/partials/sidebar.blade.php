@@ -34,7 +34,7 @@
                     <span>Diklat</span></a>
             </li> 
             <li class="nav-item {{Request::is('kenaikanPangkat*') ? 'active' : ''}}">
-                <a class="nav-link " href="#">
+                <a class="nav-link " href="{{route('kenaikan_pangkat.index')}}">
                  <i class="fas fa-calendar-day"></i>
                     <span>Kenaikan Pangkat</span></a>
             </li>

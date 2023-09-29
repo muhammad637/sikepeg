@@ -30,5 +30,9 @@ class Pegawai extends Model
         return $this->hasMany(Cuti::class);
 
     }
+
+    public function kenaikanpangkat(){
+        return $this->hasMany(KenaikanPangkat::class);
+    }
   
 }
