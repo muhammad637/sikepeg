@@ -79,7 +79,7 @@
                         <a class="collapse-item" href="#">Pangkat</a>
                         <a class="collapse-item" href="#">Golongan</a>
                         <a class="collapse-item" href="#">Ruangan</a>
-                        <a class="collapse-item" href="#">Hari Besar</a>
+                        <a class="collapse-item" href="{{route('hariBesar.index')}}">Hari Besar</a>
                     </div>
                 </div>
             </li> 

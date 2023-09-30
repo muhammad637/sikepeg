@@ -38,7 +38,7 @@ class CutiFormCreate extends Component
     public function updatedMulaiCuti()
     {
         $tahun = Carbon::parse(now())->format('Y');
-        if ($this->jumlah_hari == null) {
+        
             if ($this->mulai_cuti != null && $this->selesai_cuti != null) {
                 // Contoh penggunaan
                 $tanggalMulai = Carbon::parse($this->mulai_cuti);
@@ -47,13 +47,12 @@ class CutiFormCreate extends Component
                 // $hariBesar = HariBesar::all()->; // Tanggal Hari Natal sebagai contoh hari besar    
                 $jumlahHariCuti = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
                 $this->jumlah_hari = $jumlahHariCuti;
-            }
+
         }
     }
     public function updatedSelesaiCuti()
     {
         $tahun = Carbon::parse(now())->format('Y');
-        if ($this->jumlah_hari == null) {
             if ($this->mulai_cuti != null && $this->selesai_cuti != null) {
                 // Contoh penggunaan
                 $tanggalMulai = Carbon::parse($this->mulai_cuti);
@@ -62,7 +61,6 @@ class CutiFormCreate extends Component
                 // $hariBesar = HariBesar::all()->; // Tanggal Hari Natal sebagai contoh hari besar    
                 $jumlahHariCuti = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
                 $this->jumlah_hari = $jumlahHariCuti;
-            }
         }
     }
 

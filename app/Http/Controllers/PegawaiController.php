@@ -107,7 +107,7 @@ class PegawaiController extends Controller
         $file->move('file_pegawai', $nama_file);
 
         // import data
-        Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
+    Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
 
         // notifikasi dengan session
         // Session::flash('sukses', 'Data Siswa Berhasil Diimport!');

@@ -2,8 +2,10 @@
 
 namespace App\Imports;
 
+use Carbon\Carbon;
 use App\Models\Pegawai;
 use Maatwebsite\Excel\Concerns\ToModel;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class PegawaiImport implements ToModel, WithHeadingRow
@@ -15,6 +17,7 @@ class PegawaiImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+        
         if($row['nik'] !== null){
             return new Pegawai([
                 'nik' => $row['nik'],
@@ -26,7 +29,7 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 'nama_lengkap' => $row['gelar_depan']. ' '. $row['nama_depan'] .' ' . $row['nama_belakang'] . ' ' . $row['gelar_belakang'],
                 'jenis_kelamin' => $row['jenis_kelamin'],
                 'tempat_lahir' => $row['tempat_lahir'],
-                'tanggal_lahir' => $row['tanggal_lahir'],
+                'tanggal_lahir' => Date::excelToDateTimeObject($row['tanggal_lahir'])->format('Y-m-d'),
                 'usia' => $row['usia'],
                 'alamat' => $row['alamat'],
                 'agama' => $row['agama'],
@@ -36,7 +39,7 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 'tahun_pensiun' => $row['tahun_pensiun'],
                 'status_tenaga' => $row['status_tenaga'],
                 'pendidikan_terakhir' => $row['pendidikan_terakhir'],
-                'tanggal_lulus' => $row['tanggal_lulus'],
+                'tanggal_lulus' =>  Date::excelToDateTimeObject($row['tanggal_lulus'])->format('Y-m-d'),
                 'no_ijazah' => $row['no_ijazah'],
                 'status_tipe' => $row['status_tipe'],
                 'jabatan' => $row['jabatan'],

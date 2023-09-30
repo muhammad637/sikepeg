@@ -38,7 +38,6 @@
                                 @php
                                     $data = explode('view', $item->diklat[0]->link_sttpp);
                                 @endphp
-
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->nama_depan }}</td>

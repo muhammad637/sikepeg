@@ -15,15 +15,12 @@
                             <th scope="col">no</th>
                             <th scope="col">Pegawai</th>
                             <th scope="col">Jenis Mutasi</th>
-                            @foreach ($mutasi as $item)
-                            @if ($item->jenis_mutasi == 'internal')
+                         
+                            
                             <th scope="col">Ruangan Awal</th>
                             <th scope="col">Ruangan Tujuan</th>
-                            @else
                             <th scope="col">Instansi Awal</th>
                             <th scope="col">Instansi Tujuan</th>
-                            @endif
-                            @endforeach
                             <th scope="col">Tanggal Berlaku</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -34,13 +31,10 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->pegawai->nama_depan }}</td>
                                 <td>{{ $item->jenis_mutasi }}</td>
-                                @if ($item->jenis_mutasi == 'internal')
                                 <td>{{ $item->ruangan_awal }}</td>
                                 <td>{{ $item->ruangan_tujuan }}</td>    
-                                @else
                                 <td>{{ $item->instansi_awal}}</td>
                                 <td>{{ $item->instansi_tujuan}}</td>
-                                @endif
                                 <td>
                                     {{ $item->tanggal_berlaku}}
                                 </td>

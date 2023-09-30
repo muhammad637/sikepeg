@@ -55,7 +55,7 @@
                                 <td>{{ $item->mutasi[0]->instansi_tujuan }}</td>
                                 <td>{{ $item->mutasi[0]->no_sk}}</td>
                                 <td><!-- Button trigger modal preview-->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#modal_str_link-{{ $item->id }}">
                                         <i class="fas fa-file-alt text-white"></i>
                                     </button>
@@ -87,7 +87,9 @@
                                             </div>
                                         </div>
                                     </div></td>
-                               
+                                --}}
+                                  <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
+                                              <i class="fas fa-file-alt text-white"></i></a>
                                 <td>
                                     <a href="{{ route('mutasi.show', ['mutasi' => $item->mutasi[0]]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>

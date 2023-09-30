@@ -224,7 +224,7 @@
                                             <option value="aktif"
                                                 {{ old('status_pegawai', $pegawai->status_pegawai) == 'aktif' ? 'selected' : '' }}>
                                                 Aktif</option>
-                                            <option value="pensiun"
+                                            <option value="nonaktif"
                                                 {{ old('status_pegawai', $pegawai->status_pegawai) == 'nonaktif' ? 'selected' : '' }}>
                                                 Nonaktif
                                             </option>
