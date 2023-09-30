@@ -3,9 +3,9 @@
 
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     {{-- <input type="hidden" name="asn_id" wire:model='selectId'> --}}
-<div class="row mb-2">
-    <h1>{{ $select ?? $pegawaiedit}}</h1>
-</div>
+{{-- <div class="row mb-2">
+    <h1>{{$pegawaiEdit ?? $select}}</h1>
+</div> --}}
     <div class="row mb-2">
         <div class="col-sm-4 mb-2  fw-italic text-end">
             <span class="mb-0 text-dark ">NIK</span>

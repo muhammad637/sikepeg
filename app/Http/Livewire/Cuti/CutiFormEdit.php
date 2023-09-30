@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire\Cuti;
 
-use DateTime;
-use DateInterval;
 use Carbon\Carbon;
 use App\Models\Pegawai;
 use Livewire\Component;
 use Carbon\CarbonPeriod;
 use App\Models\HariBesar;
 
-class CutiFormCreate extends Component
+class CutiFormEdit extends Component
 {
+    public $result;
+    public $cuti;
     public $pegawai;
     public $status_tipe;
     public $jenis_cuti;
@@ -20,20 +20,18 @@ class CutiFormCreate extends Component
     public $selesai_cuti;
     public $jumlah_hari;
     public $link_cuti;
-
-
     public function mount()
     {
-        $this->jenis_cuti = old('jenis_cuti');
-        $this->alasan_cuti = old('alasan_cuti');
-        $this->mulai_cuti = old('mulai_cuti');
-        $this->selesai_cuti = old('selesai_cuti');
-        $this->jumlah_hari = old('jumlah_hari');
-        $this->link_cuti = old('link_cuti');
         $pegawai = Pegawai::find($this->pegawai);
         if ($pegawai) {
             $this->status_tipe = old('status_tipe', $pegawai->status_tipe);
         }
+        $this->jenis_cuti = old('jenis_cuti', $this->cuti['jenis_cuti']);
+        $this->alasan_cuti = old('alasan_cuti', $this->cuti['alasan_cuti']);
+        $this->mulai_cuti = old('mulai_cuti', $this->cuti['mulai_cuti']);
+        $this->selesai_cuti = old('selesai_cuti', $this->cuti['selesai_cuti']);
+        $this->jumlah_hari = old('jumlah_hari', $this->cuti['jumlah_hari']);
+        $this->link_cuti = old('link_cuti', $this->cuti['link_cuti']);
     }
     public function updatedMulaiCuti()
     {
@@ -93,6 +91,6 @@ class CutiFormCreate extends Component
     }
     public function render()
     {
-        return view('livewire.cuti.cuti-form-create');
+        return view('livewire.cuti.cuti-form-edit',);
     }
 }

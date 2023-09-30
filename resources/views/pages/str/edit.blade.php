@@ -17,63 +17,7 @@
 
             <div class="row mt-2">
                 <div class="col-sm-12 col-xl-12">
-                    {{-- <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark ">Nama</span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <input type="text" value="{{ $str->pegawai->nama_depan }}" class="form-control"
-                                placeholder="NIP" readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark ">NIK</span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <input type="text" value="{{ $str->pegawai->nik }}" class="form-control" placeholder="NIK"
-                                readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark ">NIP</span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <input type="text" value="{{ $str->pegawai->nip_nippk }}" class="form-control"
-                                placeholder="NIP" readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="Ruangan" class="col-sm-4 col-form-label">Ruangan</label>
-                        <div class="col-sm-8">
-                            <input type="text" value="{{ $str->pegawai->ruangan }}" class="form-control"
-                                id="inputPassword3" readonly placeholder="ruangan">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="ttl" class="col-sm-4 col-form-label">Tempat Tanggal
-                            Lahir</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" readonly
-                                placeholder="tempat tanggal lahir"
-                                value="{{ $str->pegawai->tempat_lahir . ', ' . Carbon\Carbon::parse($str->pegawai->tanggal_lahir)->format('d-M-Y') }}">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="jenisKelamin" class="col-sm-4 col-form-label">Jenis Kelamin</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" readonly placeholder="jenis kelamin"
-                                {{ $str->pegawai->jenis_kelamin }}>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="noIjasah" class="col-sm-4 col-form-label">No Ijazah </label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3" readonly placeholder="no ijazah"
-                                {{ $str->pegawai->no_ijazah }}>
-                        </div>
-                    </div> --}}
+                   
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Nama</span>
@@ -90,37 +34,20 @@
                             </select>
                         </div>
                     </div>
-                    @livewire('pegawai.search-pegawai', ['dokumen' => 'str', 'pegawaiedit' => $str->pegawai_id])
-                    {{-- <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark ">Tanggal Lulus</span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <div class="input-group date" id="datepicker">
-                                <input type="date" class="form-control" readonly placeholder="tanggal lulus"
-                                    value="{{ $str->pegawai->tanggal_lulus }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="perguruanTinggi" class="col-sm-4 col-form-label">Perguruan Tinggi</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ $str->pegawai->sekolah }}" readonly placeholder="perguruan tinggi">
-                        </div>
-                    </div> --}}
+                    @livewire('pegawai.search-pegawai', ['dokumen' => 'str', 'pegawaiEdit' => $str->pegawai_id])
+                  
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">No. STR</label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control" id="inputPassword3"
-                                value="{{ old('no_str', $str->no_str) }}" name="no_str">
+                                value="{{ old('no_str', $str->no_str) }}" name="no_str" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">Kompetensi</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ old('kompetensi', $str->kompetensi) }}" name="kompetensi">
+                                value="{{ old('kompetensi', $str->kompetensi) }}" name="kompetensi" required>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -137,8 +64,8 @@
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group date" id="datepicker">
                                 <input type="date" class="form-control" id="date" style="height: 90%;"
-                                    value="{{ old('tanggal_terbit_str', $str->tanggal_terbit_str) }}"
-                                    name="tanggal_terbit_str">
+                                    value="{{ old('tanggal_terbit_str', Carbon\Carbon::parse( $str->tanggal_terbit_str)->format('Y-m-d')) }}"
+                                    name="tanggal_terbit_str" required>
 
                             </div>
                         </div>
@@ -150,8 +77,8 @@
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group date" id="datepicker">
                                 <input type="date" class="form-control" id="date" style="height: 90%;"
-                                    value="{{ old('masa_berakhir_str', $str->masa_berakhir_str) }}"
-                                    name="masa_berakhir_str">
+                                    value="{{ old('masa_berakhir_str',  Carbon\Carbon::parse( $str->masa_berakhir_str)->format('Y-m-d')) }}"
+                                    name="masa_berakhir_str" required>
 
                             </div>
                         </div>
@@ -163,7 +90,7 @@
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group date" id="datepicker">
                                 <input type="text" class="form-control" name="link str"
-                                    value="{{ old('link_str', $str->link_str) }}">
+                                    value="{{ old('link_str', $str->link_str) }}" required>
                             </div>
                         </div>
                     </div>

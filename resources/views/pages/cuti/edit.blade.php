@@ -1,5 +1,7 @@
 @extends('main')
 @push('style-css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+    @livewireStyles
 @endpush
 @section('content')
     <!-- Begin Page Content -->
@@ -7,75 +9,34 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Detail Cuti Pegawai</h2>
         <hr class="font-weight-bold">
-       <div>
-    <form action="#" method="get">
-        <div class="row">
-            <div class="col-sm-12 col-xl-12">
-                <div class="row mb-3">
+        <form action="{{ route('data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
+            @method('put')
+            @csrf
+            <div class="row">
+                <div class="col-sm-12 col-xl-12">
+                    <div class="row mb-3">
+                        <label for="select2" class="col-sm-4 col-form-label">Pegawai</label>
+                        <div class="col-sm-8">
+                            <select name="pegawai_id" class="form-control" id="select2">
+                                @foreach ($pegawai as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $cuti->pegawai_id === $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_lengkap ?? $item->nama_depan }}
+                                        {{ $item->status_tipe }}
+                                    </option>
+                                @endforeach
+                            </select>
 
-                    <label for="noSIP" class="col-sm-4 col-form-label">Pegawai</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" value="{{$pegawai->nama_lengkap ?? $pegawai->nama_depan}}" readonly>
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="noSIP" class="col-sm-4 col-form-label">Jenis Cuti</label>
-                    <div class="col-sm-8">
-                        <select name="jenis_cuti" id="" class="form-control">
-                            <option value="" >Pilih </option>
-                            @if ($pegawai->status_tipe == 'pns')
-                                <option value="cuti tahunan" selected>Cuti tahunan</option>
-                                <option value="cuti besat">Cuti Besar</option>
-                                <option value="cuti sakit">Cuti Sakit</option>
-                                <option value="cuti melahirkan">Cuti Melahirkan</option>
-                            @elseif ($pegawai->status_tipe == 'pppk')
-                                <option value="cuti tahunan" selected>Cuti tahunan</option>
-                                <option value="cuti besat">Cuti Besar</option>
-                                <option value="cuti sakit">Cuti Sakit</option>
-                            @else
-                                <option value="cuti tahunan" selected >Cuti tahunan</option>
-                                <option value="cuti sakit">Cuti Sakit</option>
-                            @endif
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="noSIP" class="col-sm-4 col-form-label">Alasan Cuti</label>
-                    <div class="col-sm-8">
-                        <textarea name="" class="form-control" id="" cols="30" rows="3"> sakit hati
-                        </textarea>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="noSIP" class="col-sm-4 col-form-label">Periode Cuti</label>
-                    <div class="col-sm-4">
-                        <input type="date" class="form-control" id="inputPassword3" name="keterangan"
-                            value="2023-09-17" required value="2023-09-15">
-                    </div>
-                    <div class="col-sm-4">
-                        <input type="date" class="form-control" name="keterangan"
-                            value="2023-09-19" required >
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="noSIP" class="col-sm-4 col-form-label">Jumlah Hari</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputPassword3" name="keterangan"
-                            value="3" required >
-                    </div>
-                </div>
-                <div class="text-right">
-                    <a href="{{ route('data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
-                    <button class="btn btn-info" type="submit">Simpan</button>
+                    @livewire('cuti.cuti-form-edit', ['cuti' => $cuti, 'pegawai' => $cuti->pegawai_id])
                 </div>
             </div>
-        </div>
-    </form>
-</div>
-
-
+        </form>
     </div>
     <!-- /.container-fluid -->
 @endsection
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    @livewireScripts
 @endpush

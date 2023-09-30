@@ -13,51 +13,21 @@
                 <div class="col-sm-12 col-xl-12">
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark " style="text-decoration: none;">NIP</span>
+                            <span class="mb-0 text-dark ">Nama</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input type="text" class="form-control" value="{{ $sip->pegawai->nip_nippk }}" readonly>
+                            <select class="form-control" id="select2" name="asn_id">
+                                <option value="">Pilih Nama Pegawai</option>
+                                @foreach ($results as $pegawai)
+                                    <option value="{{$pegawai->id}}"
+                                        {{  $sip->pegawai->id  == $pegawai->id ? 'selected' : '' }}>
+                                        {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark " style="text-decoration: none;">Nama</span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <input type="text" class="form-control" value="{{ $sip->pegawai->nama_depan }}" readonly>
-
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark " style="text-decoration: none;">Jenis Tenaga </span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <input type="text" class="form-control" value="{{ $sip->pegawai->jenis_tenaga }}" readonly>
-
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="Ruangan" class="col-sm-4 col-form-label">Ruangan</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" value="{{ $sip->pegawai->ruangan }}" readonly>
-
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="ttl" class="col-sm-4 col-form-label">Tempat Tanggal
-                            Lahir</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control"
-                                value="{{ $sip->pegawai->tempat_lahir }}, {{ $sip->pegawai->tanggal_lahir }}" readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="jenisKelamin" class="col-sm-4 col-form-label">Alamat</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" value="{{ $sip->pegawai->alamat }}" readonly>
-                        </div>
-                    </div>
+                    @livewire('pegawai.search-pegawai', ['dokumen' => 'sip', 'pegawaiEdit' => $sip->pegawai_id])
                     <div class="row mb-3">
                         <label for="noIjasah" class="col-sm-4 col-form-label">No SIP</label>
                         <div class="col-sm-8">

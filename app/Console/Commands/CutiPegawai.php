@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Cuti;
+use App\Models\Pegawai;
 use Illuminate\Console\Command;
 
 class CutiPegawai extends Command
@@ -11,7 +13,7 @@ class CutiPegawai extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'cuti:pegawai';
 
     /**
      * The console command description.
@@ -27,6 +29,19 @@ class CutiPegawai extends Command
      */
     public function handle()
     {
+        // Ambil semua cuti yang sudah selesai
+        $cutiSelesai = Cuti::where('status', 'aktif')
+            ->whereDate('selesai_cuti', '<', now())
+            ->get();
+        $cutiMulai = Cuti::where('status', 'pending')->get();
+        foreach ($cutiSelesai as $cuti) {
+            $cuti->update(['status' => 'nonaktif']);
+            $cuti->pegawai->update(['status' => 'aktif']);
+        }
+        foreach ($cutiMulai as $cuti) {
+            $cuti->update(['status' => 'nonaktif']);
+            $cuti->pegawai->update(['status' => 'aktif']);
+        }
         return Command::SUCCESS;
     }
 }
