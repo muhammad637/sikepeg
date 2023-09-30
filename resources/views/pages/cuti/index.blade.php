@@ -25,27 +25,34 @@
                             <th scope="col">Mulai Cuti</th>
                             <th scope="col">Akhir Cuti</th>
                             <th scope="col">Surat</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($cuti as $index => $item)
-                        <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan}}</td>
-                            <td>{{$item->jenis_cuti}}</td>
-                            <td>{{$item->alasan_cuti}}</td>
-                            <td>{{$item->mulai_cuti}}</td>
-                            <td>{{$item->selesai_cuti}}</td>
-                            <td>
-                             <a target="popup" onclick="window.open(`{{$item->link_cuti}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
-                                              <i class="fas fa-file-alt text-white"></i></a>
-                            </td>
-                            <td class="d-flex justify-content-center">
-                                <a href="{{ route('data-cuti-aktif.edit',['cuti' => $item->id]) }}" class="btn btn-warning"><i
-                                        class="fas fa-pen "></i></a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan }}</td>
+                                <td>{{ $item->jenis_cuti }}</td>
+                                <td>{{ $item->alasan_cuti }}</td>
+                                <td>{{ $item->mulai_cuti }}</td>
+                                <td>{{ $item->selesai_cuti }}</td>
+                                <td>
+                                    <a target="popup"
+                                        onclick="window.open(`{{ $item->link_cuti }}`,'name','width=600,height=400')"
+                                        class="btn btn-primary" style="cursor: pointer">
+                                        <i class="fas fa-file-alt text-white"></i></a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
+                                        {{ $item->status }}</button>
+                                </td>
+                                <td class="d-flex justify-content-center">
+                                    <a href="{{ route('data-cuti-aktif.edit', ['cuti' => $item->id]) }}"
+                                        class="btn btn-warning"><i class="fas fa-pen "></i></a>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

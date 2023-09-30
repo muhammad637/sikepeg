@@ -20,18 +20,20 @@ class CutiFormCreate extends Component
     public $selesai_cuti;
     public $jumlah_hari;
     public $link_cuti;
+
+
     public function mount()
     {
+        $this->jenis_cuti = old('jenis_cuti');
+        $this->alasan_cuti = old('alasan_cuti');
+        $this->mulai_cuti = old('mulai_cuti');
+        $this->selesai_cuti = old('selesai_cuti');
+        $this->jumlah_hari = old('jumlah_hari');
+        $this->link_cuti = old('link_cuti');
         $pegawai = Pegawai::find($this->pegawai);
         if ($pegawai) {
             $this->status_tipe = old('status_tipe', $pegawai->status_tipe);
         }
-        $this->jenis_cuti = old('jenis_cuti', null);
-        $this->alasan_cuti = old('alasan_cuti', null);
-        $this->mulai_cuti = old('mulai_cuti', null);
-        $this->selesai_cuti = old('selesai_cuti', null);
-        $this->jumlah_hari = old('jumlah_hari', null);
-        $this->link_cuti = old('link_cuti', null);
     }
     public function updatedMulaiCuti()
     {
@@ -69,7 +71,7 @@ class CutiFormCreate extends Component
         $pegawai = Pegawai::find($value);
         $this->status_tipe = $pegawai->status_tipe;
     }
-   
+
     function hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar)
     {
         $jumlahHariCuti = 0;
@@ -91,8 +93,6 @@ class CutiFormCreate extends Component
     }
     public function render()
     {
-        return view('livewire.cuti.cuti-form-create', [
-            'result' => Pegawai::all()
-        ]);
+        return view('livewire.cuti.cuti-form-create');
     }
 }
