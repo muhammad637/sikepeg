@@ -76,8 +76,8 @@
                 </a>
                 <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        {{-- <a class="collapse-item" href="#">Pangkat</a>
-                        <a class="collapse-item" href="#">Golongan</a> --}}
+                        <a class="collapse-item" href="#">Pangkat</a>
+                        <a class="collapse-item" href="#">Golongan</a>
                         <a class="collapse-item" href="#">Ruangan</a>
                         <a class="collapse-item" href="#">Hari Besar</a>
                     </div>

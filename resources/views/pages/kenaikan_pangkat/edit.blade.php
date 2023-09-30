@@ -10,26 +10,11 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Update Kenaikan Pangkat Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('kenaikanpangkat.update', ['kenaikanpangkat' => $kenaikanpangkat->id]) }}" method="post">
+        <form action="{{ route('kenaikan_pangkat.update', ['kenaikan_pangkat' => $kenaikan_pangkat->id]) }}" method="post">
             @method('put')
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
-                    {{-- <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark ">Pegawai</span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="pegawai" name="pegawai_id">
-                                <option value="">Pilih Nama Pegawai</option>
-                                @foreach ($pegawai as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Pegawai</span>
@@ -39,12 +24,28 @@
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
-                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
+                                        {{ old('pegawai_id', $kenaikan_pangkat->pegawai_id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
+                    {{-- <div class="row mb-2">
+                        <div class="col-sm-4 mb-2  fw-italic text-end">
+                            <span class="mb-0 text-dark ">Pegawai</span>
+                        </div>
+                        <div class="col-sm-8 text-secondary">
+                            <select class="form-control" id="pegawai" name="pegawai_id">
+                                
+                                @foreach ($pegawai as $item)
+                                <input type="date" class="form-control" name="tmt_pangkat_dari"
+                                required>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                    </div> --}}
+                
                     <div class="row mb-3">
                         <label for="pangkat" class="col-sm-4 col-form-label">Pangkat</label>
                         <div class="col-sm-8">
@@ -94,7 +95,7 @@
                     <div class="row mb-3">
                         <label for="penerbit_sk" class="col-sm-4 col-form-label">Penerbit SK</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="inputPassword3" name="penerbit_sk">
+                            <input type="text" class="form-control" id="inputPassword3" name="penerbit_sk">
                         </div>
                     </div>
                     <div class="row mb-3">

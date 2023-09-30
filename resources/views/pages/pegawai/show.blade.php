@@ -247,7 +247,7 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                                        {{ $pegawai->tmt_pns }}
+                                        {{ $pegawai->tmt_pangkat_terakhir }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -461,9 +461,9 @@
                                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                                             <span class="mb-0 text-dark fw-bolder">No Sip</span>
                                         </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                        {{-- <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
                                             {{ $pegawai->SIP[0]->orderByDesc('masa_berlaku_sip')->first() }}
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 @endif
                             @endif

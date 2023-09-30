@@ -93,7 +93,7 @@
                     <div class="row mb-3">
                         <label for="penerbit_sk" class="col-sm-4 col-form-label">Penerbit SK</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="inputPassword3" name="penerbit_sk">
+                            <input type="text" class="form-control" id="inputPassword3" name="penerbit_sk">
                         </div>
                     </div>
                     <div class="row mb-3">

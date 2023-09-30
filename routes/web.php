@@ -99,6 +99,8 @@ Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])
 
 
 Route::resource('/kenaikan_pangkat', KenaikanPangkatController::class);
+Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [KenaikanPangkatController::class, 'riwayat'])->name('kenaikan_pangkat.riwayat');
+
 
 
 

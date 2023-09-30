@@ -41,16 +41,17 @@ class KenaikanPangkatController extends Controller
         try {
             //code...
             $pegawai = Pegawai::find($request->pegawai_id);
-            $kenaikanpangkat = KenaikanPangkat::where('pegawai_id', $pegawai->status_tenaga == 'asn')->orderBy('tanggal_sk', 'desc')->first();
-
             $pegawai->update([
-                'pangkat' => $request->pangkat,
-                'golongan' => $request->golongan,
+                'pangkat_golongan' => $request->pangkat. ' ' . $request->golongan,
+                'tmt_pangkat_terakhir' => $request->tmt_pangkat_sampai
+                
             ]);
             $validatedData = $request->validate(
                 [
                     'pegawai_id' => '',
                     'jenis_pangkat' => 'required',
+                    'pangkat' => 'required',
+                    'golongan' => 'required',
                     'tmt_pangkat_dari' => 'required|date',
                     'tmt_pangkat_sampai' => 'required|date' ,
                     'no_sk' => 'required',
@@ -79,9 +80,11 @@ class KenaikanPangkatController extends Controller
     }
 
 
-    public function edit(KenaikanPangkat $kenaikanpangkat){
+    public function edit(KenaikanPangkat $kenaikan_pangkat){
+
         return view('pages.kenaikan_pangkat.edit', [
-            'kenaikan_pangkat' => $kenaikanpangkat
+            'kenaikan_pangkat' => $kenaikan_pangkat,
+            'pegawai' => Pegawai::all(),
         ]);
     }
 
@@ -142,10 +145,11 @@ class KenaikanPangkatController extends Controller
 
     
 
-    public function update(Request $request, KenaikanPangkat $kenaikanpangkat){
+    public function update(Request $request, KenaikanPangkat $kenaikan_pangkat){
         try {
-
+            // return request()->all();
             $validatedData = $request->validate([
+                'pegawai_id' => '',
                 'pangkat' => 'required',
                 'golongan' => 'required',
                 'jenis_pangkat' => 'required',
@@ -156,8 +160,13 @@ class KenaikanPangkatController extends Controller
                 'penerbit_sk' => 'required',
                 'link_sk' => 'required'
             ]);
-
-            $kenaikanpangkat->update([
+            $kenaikan_pangkat->pegawai->update([
+                'pangkat_golongan' => $request->pangkat. ' ' . $request->golongan,
+                'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari
+                
+            ]);
+            $kenaikan_pangkat->update([
+                'pegawai' => $request->pegawai_id,
                 'pangkat' => $request->pangkat,
                 'golongan' => $request->golongan,
                 'jenis_pangkat' => $request->jenis_pangkat,
@@ -176,6 +185,15 @@ class KenaikanPangkatController extends Controller
 
             return $th->getMessage();
         }
+    }
+
+
+    public function riwayat(Pegawai $pegawai, KenaikanPangkat $kenaikan_pangkat){
+        $kenaikan_pangkat = KenaikanPangkat::where('pegawai_id' , $pegawai->id)->orderBy('tanggal_sk', 'desc')->get();
+        return view('pages.kenaikan_pangkat.riwayat', [
+            'pegawai' => $pegawai,
+            'kenaikan_pangkat' => $kenaikan_pangkat
+        ]);
     }
     //
 }
