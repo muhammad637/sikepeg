@@ -84,9 +84,35 @@ class PegawaiController extends Controller
         //
         // return Asn::all();   
         return view('pages.pegawai.index', [
-            'pegawai' => Pegawai::orderBy('created_at', 'desc')->get()
+            'pegawai' => Pegawai::orderBy('created_at', 'desc')->get(),
+            // 'heading' => ''
         ]);
         // Pegawai::with(['asn', 'non_asn'])->get();
+    }
+
+    public function import_excel(Request $request){
+        // $this->validate($request, [
+        //     'file' => 'required|mimes:csv,xls,xlsx'
+        // ]);
+            $request->validate([
+                'file' => 'required|mimes:csv,xls,xlsx'
+            ]);
+        // menangkap file excel
+        $file = $request->file('file');
+
+        // membuat nama file unik
+        $nama_file = rand() . $file->getClientOriginalName();
+
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('file_pegawai', $nama_file);
+
+        // import data
+        Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
+
+        // notifikasi dengan session
+        // Session::flash('sukses', 'Data Siswa Berhasil Diimport!');
+
+        return redirect()->route('pegawai.index')->with('success','data pegawai berhasil di import');
     }
 
     /**
@@ -364,5 +390,43 @@ class PegawaiController extends Controller
             'no_ijazah' => 'required',
             'jabatan' => 'required'
         ];
+    }
+
+
+    public function statusTenaga(Request $request){
+        $pegawai = Pegawai::where('status_tenaga', $request->status_tenaga)->orderBy('created_at','desc')->get();
+        return view('pages.pegawai.index', [
+            'pegawai' => $pegawai,
+            'heading' => 'filterby : status Tenaga ' . $request->status_tenaga
+        ]);
+        
+    }
+    public function statusTipe(Request $request){
+        $pegawai = Pegawai::where('status_tipe', $request->status_tipe)->orderBy('created_at', 'desc')->get();
+        return view('pages.pegawai.index', [
+            'pegawai' => $pegawai,
+            'heading' => 'filterby : status Tipe ' . $request->status_tipe
+        ]);
+    }
+    public function jenisTenaga(Request $request){
+        $pegawai = Pegawai::where('jenis_tenaga', $request->jenis_tenaga)->orderBy('created_at', 'desc')->get();
+        return view('pages.pegawai.index', [
+            'pegawai' => $pegawai,
+            'heading' => 'filterby : jenis tenaga ' . $request->jenis_tenaga
+        ]);
+    }
+    public function jenisKelamin(Request $request){
+        $pegawai = Pegawai::where('jenis_kelamin', $request->jenis_kelamin)->orderBy('created_at', 'desc')->get();
+        return view('pages.pegawai.index', [
+            'pegawai' => $pegawai,
+            'heading' => 'filterby : jenis kelamin ' . $request->jenis_kelamin
+        ]);
+    }
+    public function statusPegawai(Request $request){
+        $pegawai = Pegawai::where('status_pegawai', $request->status_pegawai)->orderBy('created_at', 'desc')->get();
+        return view('pages.pegawai.index', [
+            'pegawai' => $pegawai,
+            'heading' => 'filterby : Status Pegawai ' . $request->status_pegawai
+        ]);
     }
 }

@@ -1,7 +1,7 @@
 @extends('main')
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Cuti</h1>
- 
+
     <!-- Page Heading -->
     <!-- DataTales Example -->
     <div class="card shadow-sm mb-4">
@@ -30,20 +30,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Lorem ipsum dolor sit amet.</td>
-                            <td>Cuti Tahunan</td>
-                            <td>Sakit Hati</td>
-                            <td>17-09-2023</td>
-                            <td>19-09-2023</td>
-                            <td>3</td>
-                            <td>9</td>
-                            <td class="d-flex justify-content-center">
-                                <a href="#" class="btn btn-info">
-                                    Lihat</a>
-                            </td>
-                        </tr>
+                        @foreach ($historiCuti as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan }}</td>
+                                <td>{{ $item->jenis_cuti }}</td>
+                                <td>{{ $item->alasan_cuti }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->mulai_cuti)->format('d-M-Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->mulai_cuti)->format('d-M-Y') }}</td>
+                                <td>{{ $item->jumlah_hari }}</td>
+                                <td>{{ $item->pegawai->sisa_cuti_tahunan }}</td>
+                                <td class="d-flex justify-content-center">
+                                    <a href="#" class="btn btn-info">
+                                        Lihat</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

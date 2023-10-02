@@ -90,6 +90,7 @@
     {{-- script vendor --}}
     @include('partials.script')
     @stack('script')
+    @include('sweetalert::alert')
    
 </body>
 
