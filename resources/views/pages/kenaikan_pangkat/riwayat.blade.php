@@ -24,7 +24,7 @@
                             <th scope="col">Nama Pegawai</th>
                             <th scope="col">Pangkat</th>
                             <th scope="col">Golongan</th>
-                            <th scope="col">Jenis Pangkat</th>
+                            <th scope="col">Nama Jabatan Fungsional</th>
                             <th scope="col">TMT Pangkat</th>
                             <th scope="col">NO SK Pejabat</th>
                             <th scope="col">Tanggal SK</th>
@@ -41,9 +41,9 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->pegawai->nama_depan }}</td>
-                                    <td>{{ $item->pangkat }}</td>
-                                    <td>{{ $item->golongan }}</td>
-                                    <td>{{ $item->jenis_pangkat }}</td>
+                                    <td>{{ $item->pangkat->nama_pangkat }}</td>
+                                    <td>{{ $item->golongan->nama_golongan }}</td>
+                                    <td>{{ $item->nama_jabatan_fungsional }}</td>
                                     <td>{{ $item->tmt_pangkat_dari }} / {{$item->tmt_pangkat_sampai}}</td>
                                     <td>{{ $item->no_sk}}</td>
                                     <td>{{ $item->tanggal_sk}}</td>

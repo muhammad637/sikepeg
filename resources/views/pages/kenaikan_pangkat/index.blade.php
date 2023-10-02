@@ -44,8 +44,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->nama_depan }}</td>
                                     <td>{{ $item->ruangan }}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->pangkat }}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->golongan }}</td>
+                                    <td>{{ $item->kenaikanpangkat[0]->pangkat->nama_pangkat }}</td>
+                                    <td>{{ $item->kenaikanpangkat[0]->golongan->nama_golongan }}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->no_sk }}</td>
                                     <td>{{$item->kenaikanpangkat[0]->penerbit_sk}}</td>
                                     <td>

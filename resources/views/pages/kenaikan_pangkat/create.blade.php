@@ -37,42 +37,24 @@
                             <select class="form-control" id="pegawai" name="pegawai_id">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($pegawai as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_depan ?? $item->nama_belakang }}
+                                    <option value="{{ $item->id }}" {{ old($item->id) == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_depan ?? $item->nama_belakang }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
+                    @livewire('kenaikan-pangkat.jenis-pangkat-golongan')
                     <div class="row mb-3">
-                        <label for="pangkat" class="col-sm-4 col-form-label">Pangkat</label>
+                        <label for="nama_jabatan_fungsional" class="col-sm-4 col-form-label">Nama Jabatan Fungsional</label>
                         <div class="col-sm-8">
-                            <select name="pangkat" class="form-control" id="" name="pangkat">
-                                <option value="">Pilih</option>
-                                <option value="Pembina Utama" {{'pangkat' == 'pembina_utama' ? 'selected' : ''}}>Pembina Utama</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="golongan" class="col-sm-4 col-form-label">Golongan</label>
-                        <div class="col-sm-8">
-                            <select name="golongan" class="form-control" id="" name="golongan">
-                                <option value="">Pilih</option>
-                                <option value="I/C" {{'golongan' == 'I/C' ? 'selected' : ''}}>I/C</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="jenis_pangkat" class="col-sm-4 col-form-label">Jenis Pangkat</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" name="jenis_pangkat">
+                            <input type="text" class="form-control" id="inputPassword3" name="nama_jabatan_fungsional">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
                         <div class="col-sm-4">
-                            <input type="date" class="form-control" name="tmt_pangkat_dari"
-                                 required>
+                            <input type="date" class="form-control" name="tmt_pangkat_dari" required>
                         </div>
                         <div class="col-sm-4">
                             <input type="date" class="form-control" name="tmt_pangkat_sampai" required>
@@ -115,13 +97,13 @@
     <!-- /.container-fluid -->
 @endsection
 @push('script')
-    @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script>
+    @livewireScripts
+    {{-- <script>
         $(document).ready(function() {
             // alert('oke')
             $('#pegawai').select2();
             // $('.nip').val('tes')
         });
-    </script>
+    </script> --}}
 @endpush

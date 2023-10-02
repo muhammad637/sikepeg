@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\KenaikanPangkat;
 use App\Models\Pegawai;
+use App\Models\Golongan;
+use App\Models\Pangkat;
 use Illuminate\Http\Request;
 
 class KenaikanPangkatController extends Controller
@@ -13,10 +15,10 @@ class KenaikanPangkatController extends Controller
 
         $kenaikanpangkat = KenaikanPangkat::orderBy('tanggal_sk', 'desc')->with('pegawai')->get();
         // return $kenaikanpangkat;
-        $pegawai = Pegawai::with(['KenaikanPangkat' => function ($q) {
+        $pegawai = Pegawai::with(['kenaikanpangkat' => function ($q) {
             $q->orderBy('tanggal_sk', 'desc');
-        }])->whereHas('KenaikanPangkat')->get();
-        // return $pegawai;
+        }])->get();
+        // return $pegawai[0]->kenaikanpangkat[0];
         return view(
             'pages.kenaikan_pangkat.index',
             [
@@ -31,7 +33,7 @@ class KenaikanPangkatController extends Controller
 
     public function create(){
         $pegawai = Pegawai::where('status_tenaga','asn')->get();
-        return view('pages.kenaikan_pangkat.create', ['pegawai' => $pegawai]);
+        return view('pages.kenaikan_pangkat.create', ['pegawai' => $pegawai ,]);
 
     }
 
@@ -41,26 +43,58 @@ class KenaikanPangkatController extends Controller
         try {
             //code...
             $pegawai = Pegawai::find($request->pegawai_id);
-            $pegawai->update([
-                'pangkat_golongan' => $request->pangkat. ' ' . $request->golongan,
-                'tmt_pangkat_terakhir' => $request->tmt_pangkat_sampai
+            // return $request->all();
+            // $pegawai->update([
+            //     'pangkat_golongan' => $request->pangkat. ' ' . $request->golongan,
+            //     'tmt_pangkat_terakhir' => $request->tmt_pangkat_sampai
                 
-            ]);
+            // ]);
+            if ($pegawai->status_tipe == 'pppk' && $request->golongan == 'lainnya'){
+                $golongan = Golongan::create(['nama_golongan' => $request->nama_golongan , 'jenis' => $pegawai->status_tipe]);
+             }
+             elseif($pegawai->status_tipe == 'pns' && $request->golongan == 'lainnya'){
+                 $golongan = Golongan::create(['nama_golongan' => $request->nama_golongan , 'jenis' => $pegawai->status_tipe]);
+             }
+             else{
+                 $golongan = Golongan::find($request->golongan);
+             }
+             
+             if($request->pangkat == 'lainnya' ){
+              $pangkat = Pangkat::create(['nama_pangkat' => $request->nama_pangkat]);
+             
+             }
+             else{
+                 $pangkat = Pangkat::find($request->pangkat);
+             }
+            
             $validatedData = $request->validate(
                 [
                     'pegawai_id' => '',
-                    'jenis_pangkat' => 'required',
-                    'pangkat' => 'required',
-                    'golongan' => 'required',
+                    'nama_jabatan_fugnsional' => 'required',
+                    'pangkat_id' => '',
+                    'golongan_id' => '',
                     'tmt_pangkat_dari' => 'required|date',
                     'tmt_pangkat_sampai' => 'required|date' ,
                     'no_sk' => 'required',
-                    'tanggal_sk' => 'required'
+                    'tanggal_sk' => 'required',
+                    'penerbit_sk' => 'required'
 
                 ]
                 );
-
-                $kenaikanpangkat = KenaikanPangkat::create(request()->all());
+                $kenaikanpangkat = KenaikanPangkat::create(
+                    [
+                        'pegawai_id' => $request->pegawai_id,
+                        'pangkat_id' => $pangkat->id,
+                        'golongan_id' => $golongan->id,
+                        'tmt_pangkat_dari' => $request->tmt_pangkat_dari,
+                        'tmt_pangkat_sampai' => $request->tmt_pangkat_sampai ,
+                        'no_sk' => $request->no_sk,
+                        'tanggal_sk' => $request->tanggal_sk,
+                        'penerbit_sk' => $request->penerbit_sk
+    
+                    ]   
+                );
+              
                 return redirect(route('kenaikan_pangkat.index'))->with('success', 'data kenaikan pangkat pegawai berhasil ditambahkan');
 
 
@@ -152,7 +186,7 @@ class KenaikanPangkatController extends Controller
                 'pegawai_id' => '',
                 'pangkat' => 'required',
                 'golongan' => 'required',
-                'jenis_pangkat' => 'required',
+                'nama_jabatan_fungsional' => 'required',
                 'tmt_pangkat_dari' => 'required',
                 'tmt_pangkat_sampai' => 'required',
                 'no_sk' => 'required',
@@ -169,7 +203,7 @@ class KenaikanPangkatController extends Controller
                 'pegawai' => $request->pegawai_id,
                 'pangkat' => $request->pangkat,
                 'golongan' => $request->golongan,
-                'jenis_pangkat' => $request->jenis_pangkat,
+                'nama_jabatan_fungsional' => $request->nama_jabatan_fungsional,
                 'tmt_pangkat_dari' => $request->tmt_pangkat_dari,
                 'tmt_pangkat_sampai' => $request->tmt_pangkat_sampai,
                 'no_sk' => $request->no_sk,

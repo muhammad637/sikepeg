@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('golongans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_golongan_pns');
-            $table->string('nama_golongan_pppk');
+            $table->string('nama_golongan')->nullable();
+            $table->enum('jenis',['pns','pppk'])     ->nullable();
             $table->timestamps();
         });
     }
