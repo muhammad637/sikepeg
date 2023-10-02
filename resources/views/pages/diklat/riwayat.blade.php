@@ -27,8 +27,8 @@
                             <th scope="col">Penyelenggara</th>
                             <th scope="col">Tempat</th>
                             <th scope="col">Tahun</th>
-                            <th scope="col">No STTPP</th>
-                            <th scope="col">Tanggal STTPP</th>
+                            <th scope="col">No Sertifikat</th>
+                            <th scope="col">Tanggal Sertifikat</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -36,7 +36,7 @@
                         @foreach ($diklat as $index => $item)
                             
                                 @php
-                                    $data = explode('view', $item->link_sttpp);
+                                    $data = explode('view', $item->link_sertifikat);
                                 @endphp
 
                                 <tr>
@@ -47,8 +47,8 @@
                                     <td>{{ $item->penyelenggara }}</td>
                                     <td>{{ $item->tempat }}</td>
                                     <td>{{ $item->tahun}}</td>
-                                    <td>{{ $item->no_sttpp}}</td>
-                                    <td>{{ $item->tanggal_sttpp}}</td>
+                                    <td>{{ $item->no_sertifikat}}</td>
+                                    <td>{{ $item->tanggal_sertifikat}}</td>
                                     <td>
                                         <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
                                             <i class="fas fa-file-alt text-white"></i></a>

@@ -11,7 +11,7 @@ class DiklatController extends Controller
     //
     public function index(){
         $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
-            $query->orderBy('tanggal_sttpp', 'desc');
+            $query->orderBy('tanggal_sertifikat', 'desc');
         }])->get();
         // return $pegawai;
         // $pegawai = Pegawai::where('jenis_tenaga', 'umum')->with('diklat', function ($query) {
@@ -45,9 +45,9 @@ class DiklatController extends Controller
                 'penyelenggara' => 'required',
                 'tempat' => 'required',
                 'tahun' => 'required',
-                'no_sttpp' => 'required',
-                'tanggal_sttpp' => 'required',
-                'link_sttpp' => 'required'
+                'no_sertifikat' => 'required',
+                'tanggal_sertifikat' => 'required',
+                'link_sertifikat' => 'required'
             ]);
 
 
@@ -57,9 +57,9 @@ class DiklatController extends Controller
                 'penyelenggara' => $request->penyelenggara,
                 'tempat' => $request->tempat,
                 'tahun' => $request->tahun,
-                'no_sttpp' => $request->no_sttpp,
-                'tanggal_sttpp' => $request->tanggal_sttpp,
-                'link_sttpp' => $request->link_sttpp
+                'no_sertifikat' => $request->no_sertifikat,
+                'tanggal_sertifikat' => $request->tanggal_sertifikat,
+                'link_sertifikat' => $request->link_sertifikat
             ]);
             return redirect(route('diklat.index'))->with('success', 'diklat berhasil diupdate');
         } catch (\Throwable $th) {
@@ -70,7 +70,7 @@ class DiklatController extends Controller
 
     public function riwayat(Pegawai $pegawai)
     {
-        $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sttpp', 'desc')->get();
+        $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc')->get();
         return view('pages.diklat.riwayat', [
             'pegawai' => $pegawai,
             'diklat' => $diklat
@@ -92,9 +92,9 @@ class DiklatController extends Controller
                 'penyelenggara' => 'required',
                 'tempat' => 'required',
                 'tahun' => 'required',
-                'no_sttpp' => 'required',
-                'tanggal_sttpp' => 'required|date',
-                'link_sttpp' => 'required'
+                'no_sertifikat' => 'required',
+                'tanggal_sertifikat' => 'required|date',
+                'link_sertifikat' => 'required'
             ]);
 
 
@@ -105,9 +105,9 @@ class DiklatController extends Controller
                 'penyelenggara' => $request->penyelenggara,
                 'tempat' => $request->tempat,
                 'tahun' => $request->tahun,
-                'no_sttpp' => $request->no_sttpp,
-                'tanggal_sttpp' => $request->tanggal_sttpp,
-                'link_sttpp' => $request->link_sttpp
+                'no_sertifikat' => $request->no_sertifikat,
+                'tanggal_sertifikat' => $request->tanggal_sertifikat,
+                'link_sertifikat' => $request->link_sertifikat
             ]);
             return redirect(route('diklat.index'))->with('success', 'diklat berhasil ditambahkan');
         } catch (\Throwable $th) {

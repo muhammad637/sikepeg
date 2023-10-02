@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('penyelenggara')->nullable();
             $table->string('tempat')->nullable();
             $table->string('tahun')->nullable();
-            $table->string('no_sttpp')->nullable();
-            $table->date('tanggal_sttpp')->nullable();
-            $table->string('link_sttpp')->nullable();
+            $table->string('no_sertifikat')->nullable();
+            $table->date('tanggal_sertifikat')->nullable();
+            $table->string('link_sertifikat')->nullable();
             $table->timestamps();
         });
     }

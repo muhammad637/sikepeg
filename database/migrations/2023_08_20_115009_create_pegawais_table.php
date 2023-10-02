@@ -59,7 +59,6 @@ return new class extends Migration
             $table->string('no_npwp')->nullable();
             $table->string('no_hp')->nullable();
             $table->string('email')->nullable();
-            $table->string('pelatihan')->nullable();
         });
     }
 
