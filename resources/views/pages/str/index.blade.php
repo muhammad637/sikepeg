@@ -8,9 +8,35 @@
         <div class="card-header" style="background-color: #d9d9d9;">
             <div class="d-md-flex justify-content-between s-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Data STR</h2>
-                <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
-                    create <i class="fas fa-plus-square ml-1"></i>
-                </a>
+                <div class="d-flex">
+                    <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mx-1">
+                        create <i class="fas fa-plus-square ml-1"></i>
+                    </a>
+                    <a href="#apa" data-toggle="modal" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
+                        Export <i class="fas fa-file-excel"></i>
+                    </a>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="apa" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -48,9 +74,11 @@
                                         </button>
                                     </td>
                                     <td>
-                                    
-                                          <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
-                                              <i class="fas fa-file-alt text-white"></i></a>
+
+                                        <a target="popup"
+                                            onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
+                                            class="btn btn-primary" style="cursor: pointer">
+                                            <i class="fas fa-file-alt text-white"></i></a>
                                     </td>
                                     <td>
                                         <a href="{{ route('str.show', ['str' => $item->str[0]->id]) }}"

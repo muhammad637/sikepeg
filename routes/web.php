@@ -57,7 +57,10 @@ Route::group(['prefix' => 'pegawai'], function () {
 
 // str
 Route::resource('/str', STRController::class);
-Route::get('/str/{pegawai:id}/history', [STRController::class, 'history'])->name('str.history');
+Route::group(['prefix' => 'str'], function(){
+    Route::get('/{pegawai:id}/history', [STRController::class, 'history'])->name('str.history');
+    Route::get('/export', [STRController::class, 'export'])->name('str.export');
+});
 // sip
 Route::resource('/sip', SIPController::class);
 Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');
