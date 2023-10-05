@@ -15,7 +15,7 @@ class KenaikanPangkatController extends Controller
 
         $kenaikanpangkat = KenaikanPangkat::orderBy('tanggal_sk', 'desc')->with('pegawai')->get();
         // return $kenaikanpangkat;
-        $pegawai = Pegawai::with(['kenaikanpangkat' => function ($q) {
+        $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['kenaikanpangkat' => function ($q) {
             $q->orderBy('tanggal_sk', 'desc');
         }])->get();
         // return $pegawai[0]->kenaikanpangkat[0];
@@ -70,7 +70,7 @@ class KenaikanPangkatController extends Controller
             $validatedData = $request->validate(
                 [
                     'pegawai_id' => '',
-                    'nama_jabatan_fugnsional' => 'required',
+                    'nama_jabatan_fungsional' => 'required',
                     'pangkat_id' => '',
                     'golongan_id' => '',
                     'tmt_pangkat_dari' => 'required|date',

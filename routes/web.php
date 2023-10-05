@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\STRExport;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
@@ -57,7 +58,9 @@ Route::group(['prefix' => 'pegawai'], function () {
 
 // str
 Route::resource('/str', STRController::class);
+Route::get('/exportSTR', [STRController::class, 'export_excel'])->name('str_export');
 Route::get('/str/{pegawai:id}/history', [STRController::class, 'history'])->name('str.history');
+
 // sip
 Route::resource('/sip', SIPController::class);
 Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');

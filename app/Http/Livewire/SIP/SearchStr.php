@@ -19,7 +19,7 @@ class SearchStr extends Component
     public function updatedSelect($value){
         // $str = ::where('');
         $saatIni = Carbon::parse(now())->format('Y-m-d');
-        $str =  STR::where('pegawai_id', 1)->whereDate('masa_berakhir_str', '>=', $saatIni)->orderBy('masa_berakhir_str', 'desc')->first();
+        $str =  STR::where('pegawai_id', $value)->whereDate('masa_berakhir_str', '>=', $saatIni)->orderBy('masa_berakhir_str', 'desc')->first();
         if($str){
             $this->no_str = $str->no_str;
         }

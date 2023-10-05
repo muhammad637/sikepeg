@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('s_t_r_s', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('no_sip')->nullable();
             $table->string('no_str');
             $table->string('kompetensi')->nullable();
             $table->string('no_sertikom')->nullable();

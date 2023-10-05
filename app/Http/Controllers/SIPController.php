@@ -55,7 +55,7 @@ class SIPController extends Controller
                 'no_str' => 'required',
                 'no_sip' => 'required',
                 'tanggal_terbit_sip' => 'required',
-                'no_rekom' => 'required',
+              
                 'masa_berakhir_sip' => 'required',
                 'link_sip' => 'required',
             ]);
@@ -64,7 +64,7 @@ class SIPController extends Controller
                 'pegawai_id' => $request->pegawai_id,
                 'no_sip' => $request->no_sip,
                 'no_str' => $request->no_str,
-                'no_rekom' => $request->no_rekom,
+                
                 'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
                 'masa_berakhir_sip' => $request->masa_berakhir_sip,
                 'link_sip' => $request->link_sip
@@ -120,14 +120,14 @@ class SIPController extends Controller
         $validatedData = $request->validate([
             'no_str' => 'required',
             'no_sip' => 'required',
-            'no_rekom' => 'required',
+         
             'tanggal_terbit_sip' => 'required',
             'masa_berakhir_sip' => 'required',
             'link_sip' => 'required',
         ]);
         $sipCreate = $sip->update([
             'no_sip' => $request->no_sip,
-            'no_rekom' => $request->no_rekom,
+
             'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
             'masa_berakhir_sip' => $request->masa_berakhir_sip,
             'link_sip' => $request->link_sip

@@ -11,6 +11,9 @@
                 <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
                     create <i class="fas fa-plus-square ml-1"></i>
                 </a>
+                <a href="{{ route('str_export') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
+                    Export Excel <i class="fa fa-download ml-1"></i>
+                </a>
             </div>
         </div>
         <div class="card-body">

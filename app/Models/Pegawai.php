@@ -34,5 +34,11 @@ class Pegawai extends Model
     public function kenaikanpangkat(){
         return $this->hasMany(KenaikanPangkat::class);
     }
+    public function golongan(){
+        return $this->hasMany(Golongan::class);
+    }
+    public function pangkat(){
+        return $this->hasMany(Pangkat::class);
+    }
   
 }

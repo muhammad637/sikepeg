@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
+
+use Carbon\Carbon;
+use App\Exports\STRExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Asn;
 use App\Models\STR;
 use App\Models\Pegawai;
@@ -9,7 +14,7 @@ use Illuminate\Http\Request;
 use Dotenv\Util\Str as UtilStr;
 use App\Http\Controllers\Controller;
 
-class STRController extends Controller
+class   STRController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -162,4 +167,36 @@ class STRController extends Controller
             'pegawai' => $pegawai
         ]);
     }
+    
+    private function dataLaporan($pegawais){
+        $dataLaporan = [];
+        foreach ($pegawais as $pegawai) { 
+            $str = STR::where('pegawai_id' , $pegawai->id)->orderBy('masa_berakhir_str', 'desc')->first();
+            array_push($dataLaporan, [
+                'Nama Pegawai' => $pegawai->nama_lengkap ?? $pegawai->nama_depan,
+                'Jabatan' => $pegawai->jabatan,
+                'Ruangan' => $pegawai->ruangan,
+                'Masa Berakhir' => $str->masa_berakhir_str ?? null,
+                // 'Status' => ,
+                'Status' =>  isset($str->masa_berakhir_str) ?( $str->masa_berakhir_str >= Carbon::parse(now())->format('Y-m-d') ? 'active' : 'expired') : null ,
+                // 'Status' =>  $str->masa_berakhir_str ?? null,
+                'Link STR' => $str->link_str ?? null
+            ]);
+        }
+        $laporan = new STRExport([
+            ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Link STR'],
+            [...$dataLaporan]
+        ]);
+        return Excel::download($laporan, 'order.xlsx');
+    }
+
+    public function export_excel(){
+        // return 'testing';
+        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
+            $query->orderBy('masa_berakhir_str', 'desc');
+        })->get();
+        return $this->dataLaporan($pegawai);
+    }
+
+
 }

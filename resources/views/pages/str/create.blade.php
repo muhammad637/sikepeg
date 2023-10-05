@@ -43,6 +43,8 @@
                                 value="{{ old('no_str') }}" required>
                         </div>
                     </div>
+
+                    @livewire('s-t-r.search-sip')
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">Kompetensi</label>
                         <div class="col-sm-8">

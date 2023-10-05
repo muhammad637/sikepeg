@@ -44,16 +44,29 @@
             </div>
         @endif
     @elseif($status_tipe == 'pppk')
-        <div class="row mb-3">
-            <label for="golongan" class="col-sm-4 col-form-label">Golongan</label>
-            <div class="col-sm-8">
-                <select name="golongan" class="form-control" id="" name="golongan">
-                    <option value="">Pilih</option>
-                    <option value="I/C" {{ 'golongan' == 'I/C' ? 'selected' : '' }}>I/C</option>
-                </select>
-            </div>
+    <div class="row mb-3">
+        <label for="golongan" class="col-sm-4 col-form-label">Golongan</label>
+        <div class="col-sm-8">
+            <select name="golongan" class="form-control" id="" name="golongan" wire:model='golongan'>
+                <option value="">Pilih</option>
+                @foreach ($resultGolongan as $item)
+                    <option value="{{ $item->id }}" {{ old('golongan') == $item->id ? 'selected' : '' }}>
+                        {{ $item->nama_golongan }}</option>
+                @endforeach
+                <option value="lainnya">Lainnya ....</option>
+            </select>
         </div>
+    </div>
+    @if ($golongan == 'lainnya')
+            <div class="row mb-3">
+                <label for="nama_golongan" class="col-sm-4 col-form-label">Jenis Golongan Lainnya</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="nama_golongan">
+                </div>
+            </div>
+        @endif
     @endif
+      
 
 </div>
 
