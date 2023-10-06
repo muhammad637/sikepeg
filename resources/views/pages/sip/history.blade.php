@@ -4,12 +4,13 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
     <!-- tabel -->
-    <div class="card shadow-sm mb-4"> 
-        <h3 class="pt-2 mt-2 pl-5" style="color:black;font-weight:bold;">History SIP {{$sip[0]->pegawai->nama_lengkap ?? $sip[0]->pegawai->nama_depan}}</h3>       
+    <div class="card shadow-sm mb-4">
+        <h3 class="pt-2 mt-2 pl-5" style="color:black;font-weight:bold;">History SIP
+            {{ $sip[0]->pegawai->nama_lengkap ?? $sip[0]->pegawai->nama_depan }}</h3>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
-                cellspacing="0">
+                    cellspacing="0">
                     <thead>
                         <tr class="text-dark">
                             <th scope="col">no</th>
@@ -22,8 +23,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($sip as $item)     
-                        <tr>
+                        @foreach ($sip as $item)
+                            <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->no_sip }}</td>
                                 <td>{{ $item->no_str }}</td>
@@ -36,13 +37,13 @@
                                 </td>
                                 <td>
 
-                                    <a href="{{ route('sip.show', ['sip' => $item->id]) }}" class="btn btn-info">
+                                    <a href="{{ route('admin.sip.show', ['sip' => $item->id]) }}" class="btn btn-info">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
                                     <a href="{{ $item->link_sip }}" class="btn btn-success" target="_blank">
                                         <i class="fas fa-link"></i>
                                     </a>
-                                    <a href="{{ route('sip.edit', ['sip' => $item->id]) }}" class="btn btn-warning">
+                                    <a href="{{ route('admin.sip.edit', ['sip' => $item->id]) }}" class="btn btn-warning">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>

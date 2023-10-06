@@ -7,8 +7,8 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Mutasi</h2>
-                <a href="{{ route('mutasi.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
-                    class="fas fa-plus-square ml-1"></i></a>
+                <a href="{{ route('admin.mutasi.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
+                        class="fas fa-plus-square ml-1"></i></a>
             </div>
         </div>
 
@@ -37,23 +37,22 @@
                     </thead>
                     <tbody>
                         @foreach ($pegawai as $index => $item)
-                            
-                        @php
-                            $data = explode('view',$item->mutasi[0]->link_sk);
-                        @endphp
+                            @php
+                                $data = explode('view', $item->mutasi[0]->link_sk);
+                            @endphp
                             <tr>
                                 {{-- <td>{{$loop->iteration}}</td> --}}
-                          
+
 
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->nama_depan ?? null}} </td>
-                                <td>{{ $item->mutasi[0]->jenis_mutasi}}</td>
+                                <td>{{ $item->nama_depan ?? null }} </td>
+                                <td>{{ $item->mutasi[0]->jenis_mutasi }}</td>
                                 <td>{{ $item->mutasi[0]->tanggal_berlaku }}</td>
                                 <td>{{ $item->mutasi[0]->ruangan_awal }}</td>
                                 <td>{{ $item->mutasi[0]->ruangan_tujuan }}</td>
                                 <td>{{ $item->mutasi[0]->instansi_awal }}</td>
                                 <td>{{ $item->mutasi[0]->instansi_tujuan }}</td>
-                                <td>{{ $item->mutasi[0]->no_sk}}</td>
+                                <td>{{ $item->mutasi[0]->no_sk }}</td>
                                 <td><!-- Button trigger modal preview-->
                                     {{-- <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#modal_str_link-{{ $item->id }}">
@@ -88,16 +87,17 @@
                                         </div>
                                     </div></td>
                                 --}}
-                                  <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
-                                              <i class="fas fa-file-alt text-white"></i></a>
+                                    <a target="popup"
+                                        onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
+                                        class="btn btn-primary" style="cursor: pointer">
+                                        <i class="fas fa-file-alt text-white"></i></a>
                                 <td>
-                                    <a href="{{ route('mutasi.show', ['mutasi' => $item->mutasi[0]]) }}"
+                                    <a href="{{ route('admin.mutasi.show', ['mutasi' => $item->mutasi[0]]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->mutasi[0]]) }}"
+                                    <a href="{{ route('admin.mutasi.edit', ['mutasi' => $item->mutasi[0]]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
-                            
                         @endforeach
                     </tbody>
                 </table>

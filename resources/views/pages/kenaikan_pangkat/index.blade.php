@@ -7,8 +7,8 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Kenaikan Pangkat Pegawai</h2>
-                <a href="{{ route('kenaikan_pangkat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
-                        class="fas fa-plus-square ml-1"></i></a>
+                <a href="{{ route('admin.kenaikan_pangkat.create') }}"
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i class="fas fa-plus-square ml-1"></i></a>
             </div>
         </div>
 
@@ -47,11 +47,13 @@
                                     <td>{{ $item->kenaikanpangkat[0]->pangkat }}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->golongan }}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->no_sk }}</td>
-                                    <td>{{$item->kenaikanpangkat[0]->penerbit_sk}}</td>
+                                    <td>{{ $item->kenaikanpangkat[0]->penerbit_sk }}</td>
                                     <td>
-                                        <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
+                                        <a target="popup"
+                                            onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
+                                            class="btn btn-primary" style="cursor: pointer">
                                             <i class="fas fa-file-alt text-white"></i></a>
-                                            
+
                                         <div class="modal fade bd-example-modal-lg" id="modal_str_link-{{ $item->id }}"
                                             tabindex="-1" role="dialog"
                                             aria-labelledby="modal_str_link-{{ $item->id }}Label" aria-hidden="true">
@@ -80,10 +82,10 @@
                                     </td>
                                     {{-- </td> --}}
                                     <td>
-                                        <a href="{{ route('kenaikan_pangkat.riwayat', ['pegawai' => $item->id])}}" class="badge p-2 text-white bg-info"><i
-                                                class="fas fa-info-circle"></i></a>
-                                        <a href="{{ route('kenaikan_pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id])}}" class="badge p-2 text-white bg-warning"><i
-                                                class="fas fa-pen "></i></a> 
+                                        <a href="{{ route('admin.kenaikan_pangkat.riwayat', ['pegawai' => $item->id]) }}"
+                                            class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
+                                        <a href="{{ route('admin.kenaikan_pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
+                                            class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                     </td>
 
                                     {{-- <td>{{$loop->iteration}}</td> --}}
@@ -133,9 +135,9 @@
                                     </div></td>
                                
                                 <td>
-                                    <a href="{{ route('mutasi.show', ['mutasi' => $item->id]) }}"
+                                    <a href="{{route('admin.mutasi.show', ['mutasi' => $item->id]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{ route('mutasi.edit', ['mutasi' => $item->mutasi[count($item->mutasi) -1]]) }}"
+                                    <a href="{{route('admin.mutasi.edit', ['mutasi' => $item->mutasi[count($item->mutasi) -1]]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td> --}}
                                 </tr>

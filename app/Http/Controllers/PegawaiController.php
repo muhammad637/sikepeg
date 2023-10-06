@@ -2,20 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\PegawaiImport;
 use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\STR;
 use App\Models\Pegawai;
-
 use Illuminate\Http\Request;
+
+use App\Imports\PegawaiImport;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 
 
 class PegawaiController extends Controller
 {
+
+    public function loginHandler(Request $request){
+        $request->validate([
+            'nip_nippk' => 'required|exists:pegawais,nip_nippk',
+            'password' => 'required',
+        ],[
+            'nip_nippk.required' => 'nip / nippk harus ada isinya',
+            'nip_nippk.exists' => 'nip / nippk tidak ada di database',
+            'password.required' => 'password harus di isi',
+        ]);
+
+        $cred = array(
+            'nip_nippk' => $request->nip_nippk,
+            'password' => $request->password,
+        );
+         if(Auth::guard('pegawai')->attempt($cred)){
+            return redirect()->route('pegawai.home');
+         }else{
+            session()->flash('fail','data yang anda masukkan salah, coba lagi');
+            return redirect()->back();
+         }
+    }
 
     private $rulesPegawai = [
         'nik' => 'required|unique:pegawais,nik,',

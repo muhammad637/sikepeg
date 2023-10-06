@@ -9,7 +9,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Detail Cuti Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
+        <form action="{{ route('admin.data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
             @method('put')
             @csrf
             <div class="row">

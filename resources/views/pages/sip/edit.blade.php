@@ -6,7 +6,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Edit SIP Pegawai {{ $sip->pegawai->nama_depan }}</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('sip.update', ['sip' => $sip->id]) }}" method="post">
+        <form action="{{ route('admin.sip.update', ['sip' => $sip->id]) }}" method="post">
             @csrf
             @method('put')
             <div class="row">
@@ -19,8 +19,8 @@
                             <select class="form-control" id="select2" name="asn_id">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
-                                    <option value="{{$pegawai->id}}"
-                                        {{  $sip->pegawai->id  == $pegawai->id ? 'selected' : '' }}>
+                                    <option value="{{ $pegawai->id }}"
+                                        {{ $sip->pegawai->id == $pegawai->id ? 'selected' : '' }}>
                                         {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
                                     </option>
                                 @endforeach
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('sip.index') }}" class="btn btn-warning text-white">Tutup</a>
+                        <a href="{{ route('admin.sip.index') }}" class="btn btn-warning text-white">Tutup</a>
                         <button class="btn btn-success text-white" type="submit">Simpan</button>
                     </div>
 

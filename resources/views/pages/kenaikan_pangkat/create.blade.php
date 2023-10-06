@@ -10,7 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Tambah Kenaikan Pangkat Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('kenaikan_pangkat.store') }}" method="post">
+        <form action="{{ route('admin.kenaikan_pangkat.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -37,8 +37,8 @@
                             <select class="form-control" id="pegawai" name="pegawai_id">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($pegawai as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_depan ?? $item->nama_belakang }}
+                                    <option value="{{ $item->id }}" {{ old($item->id) == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_depan ?? $item->nama_belakang }}
                                     </option>
                                 @endforeach
                             </select>
@@ -49,7 +49,8 @@
                         <div class="col-sm-8">
                             <select name="pangkat" class="form-control" id="" name="pangkat">
                                 <option value="">Pilih</option>
-                                <option value="Pembina Utama" {{'pangkat' == 'pembina_utama' ? 'selected' : ''}}>Pembina Utama</option>
+                                <option value="Pembina Utama" {{ 'pangkat' == 'pembina_utama' ? 'selected' : '' }}>Pembina
+                                    Utama</option>
                             </select>
                         </div>
                     </div>
@@ -58,7 +59,7 @@
                         <div class="col-sm-8">
                             <select name="golongan" class="form-control" id="" name="golongan">
                                 <option value="">Pilih</option>
-                                <option value="I/C" {{'golongan' == 'I/C' ? 'selected' : ''}}>I/C</option>
+                                <option value="I/C" {{ 'golongan' == 'I/C' ? 'selected' : '' }}>I/C</option>
                             </select>
                         </div>
                     </div>
@@ -71,8 +72,7 @@
                     <div class="row mb-3">
                         <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
                         <div class="col-sm-4">
-                            <input type="date" class="form-control" name="tmt_pangkat_dari"
-                                 required>
+                            <input type="date" class="form-control" name="tmt_pangkat_dari" required>
                         </div>
                         <div class="col-sm-4">
                             <input type="date" class="form-control" name="tmt_pangkat_sampai" required>
@@ -104,7 +104,7 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('kenaikan_pangkat.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <a href="{{ route('admin.kenaikan_pangkat.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>
         </div>
 

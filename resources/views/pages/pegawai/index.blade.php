@@ -7,14 +7,15 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block align-items-center">
-                <h2 class=" font-weight-bold text-dark">Personal File  {{$heading ?? null}}</h2>
+                <h2 class=" font-weight-bold text-dark">Personal File {{ $heading ?? null }}</h2>
                 {{-- <h2 class=" font-weight-bold text-dark"></h2> --}}
                 <div class="mt-md-0 mt-sm-2">
-                    <a href="{{ route('pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
-                            class="fas fa-plus-square ml-1"></i></a>
-                    <a href="{{ route('pegawai.index') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize"
+                    <a href="{{ route('admin.pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create
+                        <i class="fas fa-plus-square ml-1"></i></a>
+                    <a href="{{ route('admin.pegawai.index') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize"
                         data-toggle="modal" data-target="#importExcel">import<i class="fas fa-plus-square ml-1"></i></a>
-                    <a href="{{ route('pegawai.index') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tampilkan
+                    <a href="{{ route('admin.pegawai.index') }}"
+                        class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tampilkan
                         <i class="fas fa-globe"></i></a>
                     <!-- Example single danger button -->
                     <div class="btn-group mt-md-2 mt-sm-0">
@@ -37,7 +38,7 @@
         <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form method="post" action="{{ route('import_excel') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('admin.import_excel') }}" enctype="multipart/form-data">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
@@ -90,9 +91,9 @@
                                         class="badge p-2 text-white bg-{{ $item->status_pegawai == 'aktif' ? 'success' : 'secondary' }} border-0">{{ $item->status_pegawai }}</button>
                                 </td>
                                 <td class="d-flex">
-                                    <a href="{{ route('pegawai.show', ['pegawai' => $item->id]) }}"
+                                    <a href="{{ route('admin.pegawai.show', ['pegawai' => $item->id]) }}"
                                         class="badge p-2 text-white bg-info mr-1"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{ route('pegawai.edit', ['pegawai' => $item->id]) }}"
+                                    <a href="{{ route('admin.pegawai.edit', ['pegawai' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
@@ -110,7 +111,7 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="{{ route('pegawai.filter.jenisKelamin') }}" method="get">
+                <form action="{{ route('admin.pegawai.filter.jenisKelamin') }}" method="get">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Pilih Jenis Kelamin</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -137,7 +138,7 @@
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="{{route('pegawai.filter.statusTenaga')}}" method="get">
+                <form action="{{ route('admin.pegawai.filter.statusTenaga') }}" method="get">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Pilih Status Tenaga</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -164,25 +165,25 @@
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="{{route('pegawai.filter.statusTipe')}}" method="get">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Pilih Status Tipe</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <select name="status_tipe" id="" class="form-control">
-                        <option value="">Pilih</option>
-                        <option value="pns">PNS</option>
-                        <option value="pppk">PPPK</option>
-                        <option value="non asn">Non ASN</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="cubmit" class="btn btn-primary">Save changes</button>
-                </div>
+                <form action="{{ route('admin.pegawai.filter.statusTipe') }}" method="get">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Pilih Status Tipe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <select name="status_tipe" id="" class="form-control">
+                            <option value="">Pilih</option>
+                            <option value="pns">PNS</option>
+                            <option value="pppk">PPPK</option>
+                            <option value="non asn">Non ASN</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="cubmit" class="btn btn-primary">Save changes</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -192,7 +193,7 @@
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="{{route('pegawai.filter.jenisTenaga')}}">
+                <form action="{{ route('admin.pegawai.filter.jenisTenaga') }}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Pilih Jenis Tenaga</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -220,7 +221,7 @@
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="{{route('pegawai.filter.statuspegawai')}}">
+                <form action="{{ route('admin.pegawai.filter.statuspegawai') }}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Pilih Status Pegawai</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

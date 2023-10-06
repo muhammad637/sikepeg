@@ -10,7 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Data STR</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('str.store') }}" method="post">
+        <form action="{{ route('admin.str.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -23,13 +23,14 @@
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
                                     <option value="{{ $pegawai->id }}"
-                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>{{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
+                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>
+                                        {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    @livewire('pegawai.search-pegawai',['dokumen' => 'str'])
+                    @livewire('pegawai.search-pegawai', ['dokumen' => 'str'])
                     {{-- <div class="row mb-3">
                         <label for="noRegister" class="col-sm-4 col-form-label">No Registrasi</label>
                         <div class="col-sm-8">
@@ -92,7 +93,7 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('str.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <a href="{{ route('admin.str.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>
         </div>
 

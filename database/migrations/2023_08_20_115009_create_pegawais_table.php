@@ -60,6 +60,8 @@ return new class extends Migration
             $table->string('no_hp')->nullable();
             $table->string('email')->nullable();
             $table->string('pelatihan')->nullable();
+
+            $table->string('password')->nullable();
         });
     }
 

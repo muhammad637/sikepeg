@@ -9,7 +9,7 @@
             <div class="d-md-flex justify-content-between s-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Data STR</h2>
                 <div class="d-flex">
-                    <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mx-1">
+                    <a href="{{ route('admin.str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mx-1">
                         create <i class="fas fa-plus-square ml-1"></i>
                     </a>
                     <a href="#apa" data-toggle="modal" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
@@ -81,14 +81,14 @@
                                             <i class="fas fa-file-alt text-white"></i></a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('str.show', ['str' => $item->str[0]->id]) }}"
+                                        <a href="{{ route('admin.str.show', ['str' => $item->str[0]->id]) }}"
                                             class="btn btn-info">
                                             <i class="fas fa-info-circle"></i>
                                         </a>
                                         <a href="{{ $data[0] }}view" class="btn btn-success">
                                             <i class="fas fa-link"></i>
                                         </a>
-                                        <a href="{{ route('str.edit', ['str' => $item->str[0]->id]) }}"
+                                        <a href="{{ route('admin.str.edit', ['str' => $item->str[0]->id]) }}"
                                             class="btn btn-warning">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>

@@ -14,7 +14,7 @@
             <div class="card-body">
                 <h1 class="fw-bold mb-4 mt-3 text-uppercase judul-text">Personal File</h1>
                 <hr style="background: black; height:.2rem;" class="mt-3 mb-5">
-                <form action="{{ route('pegawai.update', ['pegawai' => $pegawai->id]) }}" method="post">
+                <form action="{{ route('admin.pegawai.update', ['pegawai' => $pegawai->id]) }}" method="post">
                     @method('put')
                     @csrf
                     <div class="row mt-5 judul-text">
@@ -280,7 +280,7 @@
                     </div>
 
                     <hr>
-                    <a href="{{ route('pegawai.index') }}" class="btn btn-secondary">kembali</a>
+                    <a href="{{ route('admin.pegawai.index') }}" class="btn btn-secondary">kembali</a>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

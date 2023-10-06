@@ -31,14 +31,15 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow py-5" style="z-index: 9">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow py-5"
+                    style="z-index: 9">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
                     <!-- Topbar Navbar -->
-                   @include('partials.navbar')
+                    @include('partials.navbar')
 
                 </nav>
                 <!-- End of Topbar -->
@@ -72,17 +73,21 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
+                <form action="{{ Auth::guard('admin') ? route('admin.logout') : route('pegawai.logout') }}"
+                    method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -91,7 +96,7 @@
     @include('partials.script')
     @stack('script')
     @include('sweetalert::alert')
-   
+
 </body>
 
 </html>

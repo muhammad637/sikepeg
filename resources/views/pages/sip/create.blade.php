@@ -10,7 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Data SIP</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('sip.store') }}" method="post">
+        <form action="{{ route('admin.sip.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -19,12 +19,14 @@
                             <span class="mb-0 text-dark ">Nama</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="select2" name="pegawai_id" required style="max-width:100%;m-width:100%">
+                            <select class="form-control" id="select2" name="pegawai_id" required
+                                style="max-width:100%;m-width:100%">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
                                     <option value="{{ $pegawai->id }}"
-                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>{{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
-                                       
+                                        {{ old($pegawai->id) == $pegawai->id ? 'selected' : '' }}>
+                                        {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
+
                                     </option>
                                 @endforeach
                             </select>
@@ -87,7 +89,7 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('str.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <a href="{{ route('admin.str.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>
         </div>
 

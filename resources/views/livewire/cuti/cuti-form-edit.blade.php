@@ -1,5 +1,5 @@
 <div>
-    <form action="{{ route('data-cuti-aktif.store') }}" method="post">
+    <form action="{{ route('admin.data-cuti-aktif.store') }}" method="post">
         @csrf
         <div class="row">
             <div class="col-sm-12 col-xl-12">
@@ -9,12 +9,20 @@
                         <select name="jenis_cuti" id="jenis_cuti" class="form-control" wire:model='jenis_cuti'>
                             <option value="">Pilih </option>
                             @if ($status_tipe == 'pns')
-                                <option value="cuti tahunan" {{$jenis_cuti == 'cuti tahunan' ? 'selected' : ''}}>Cuti tahunan</option>
-                                <option value="cuti besar" {{$jenis_cuti == 'cuti besar' ? 'selected' : ''}}>Cuti Besar</option>
-                                <option value="cuti sakit" {{$jenis_cuti == 'cuti sakit' ? 'selected' : ''}}>Cuti Sakit</option>
-                                <option value="cuti melahirkan" {{$jenis_cuti == 'cuti melahirkan' ? 'selected' : ''}}>Cuti Melahirkan</option>
-                                <option value="cuti alasan penting" {{$jenis_cuti == 'cuti alasan penting' ? 'selected' : ''}}>Cuti Karerana Alasan Penting</option>
-                                <option value="cuti di luar tanggungan negara" {{$jenis_cuti == 'cuti di luar tanggungan negara' ? 'selected' : ''}}>Cuti di Luar Tanggungan Negara</option>
+                                <option value="cuti tahunan" {{ $jenis_cuti == 'cuti tahunan' ? 'selected' : '' }}>Cuti
+                                    tahunan</option>
+                                <option value="cuti besar" {{ $jenis_cuti == 'cuti besar' ? 'selected' : '' }}>Cuti
+                                    Besar</option>
+                                <option value="cuti sakit" {{ $jenis_cuti == 'cuti sakit' ? 'selected' : '' }}>Cuti
+                                    Sakit</option>
+                                <option value="cuti melahirkan"
+                                    {{ $jenis_cuti == 'cuti melahirkan' ? 'selected' : '' }}>Cuti Melahirkan</option>
+                                <option value="cuti alasan penting"
+                                    {{ $jenis_cuti == 'cuti alasan penting' ? 'selected' : '' }}>Cuti Karerana Alasan
+                                    Penting</option>
+                                <option value="cuti di luar tanggungan negara"
+                                    {{ $jenis_cuti == 'cuti di luar tanggungan negara' ? 'selected' : '' }}>Cuti di Luar
+                                    Tanggungan Negara</option>
                             @elseif ($status_tipe == 'pppk')
                                 <option value="cuti tahunan" {{ $jenis_cuti == 'cuti tahunan' ? 'selected' : '' }}>Cuti
                                     tahunan</option>
@@ -28,8 +36,10 @@
                                 <option value="cuti sakit" {{ $jenis_cuti == 'cuti sakit' ? 'selected' : '' }}>Cuti
                                     Sakit</option>
                                 <option value="cuti alasan penting"
-                                    {{ $jenis_cuti == 'cuti alasan penting' ? 'selected' : '' }}>Cuti Alasan Penting</option>
-                                <option value="cuti melahirkan" {{ $jenis_cuti == 'cuti melahirkan' ? 'selected' : '' }}>
+                                    {{ $jenis_cuti == 'cuti alasan penting' ? 'selected' : '' }}>Cuti Alasan Penting
+                                </option>
+                                <option value="cuti melahirkan"
+                                    {{ $jenis_cuti == 'cuti melahirkan' ? 'selected' : '' }}>
                                     Cuti Melahirkan</option>
                             @endif
                         </select>
@@ -38,18 +48,19 @@
                 <div class="row mb-3">
                     <label for="alasanCuti" class="col-sm-4 col-form-label">Alasan Cuti</label>
                     <div class="col-sm-8">
-                        <textarea name="alasan_cuti" wire:model='alasan_cuti' class="form-control" id="alasanCuti" cols="30" rows="3" wire:model='alasan_cuti'>
+                        <textarea name="alasan_cuti" wire:model='alasan_cuti' class="form-control" id="alasanCuti" cols="30" rows="3"
+                            wire:model='alasan_cuti'>
                         </textarea>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="" class="col-sm-4 col-form-label">Periode Cuti</label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti'
-                             required>
+                        <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti' required>
                     </div>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti' required>
+                        <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti'
+                            required>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -67,7 +78,7 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <a href="{{ route('data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
+                    <a href="{{ route('admin.data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
                     <button class="btn btn-info" type="submit">Simpan</button>
                 </div>
             </div>

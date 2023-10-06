@@ -437,14 +437,14 @@
                                             {{ $pegawai->pelatihan }}
                                         </div>
                                     </div>
-                                @endif  
+                                @endif
                                 @if (count($pegawai->str) > 0 && count($pegawai->sip) > 0)
                                     <div class="row mb-2">
                                         <div class="col-sm-12 col-md-12 col-lg-12 ">
                                             <span class="mb-0 text-dark fw-bolder">STR</span>
                                         </div>
                                         <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <a href="{{route('str.history',['pegawai' => $pegawai->id])}}">
+                                            <a href="{{ route('admin.str.history', ['pegawai' => $pegawai->id]) }}">
                                                 lihat Semua <span class="text-uppercase">
                                                     str
                                                 </span>
@@ -456,12 +456,12 @@
                                             <span class="mb-0 text-dark fw-bolder text-uppercase">Sip</span>
                                         </div>
                                         <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                                <a href="{{route('sip.history',['pegawai' => $pegawai->id])}}">
+                                            <a href="{{ route('admin.sip.history', ['pegawai' => $pegawai->id]) }}">
                                                 lihat Semua <span class="text-uppercase">
                                                     sip
                                                 </span>
                                             </a>
-                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-sm-12 col-md-12 col-lg-12">

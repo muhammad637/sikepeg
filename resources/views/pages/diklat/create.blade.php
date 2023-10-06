@@ -10,7 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Tambah Diklat Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('diklat.store') }}" method="post">
+        <form action="{{ route('admin.diklat.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -37,8 +37,8 @@
                             <select class="form-control" id="pegawai" name="pegawai_id">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($pegawai as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
+                                    <option value="{{ $item->id }}" {{ old($item->id) == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_lengkap ?? $item->nama_depan }}
                                     </option>
                                 @endforeach
                             </select>
@@ -94,7 +94,7 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>
         </div>
 

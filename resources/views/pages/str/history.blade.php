@@ -40,13 +40,13 @@
                                 </td>
                                 <td>
 
-                                    <a href="{{ route('str.show', ['str' => $item->id]) }}" class="btn btn-info">
+                                    <a href="{{ route('admin.str.show', ['str' => $item->id]) }}" class="btn btn-info">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
                                     <a href="{{ $item->link_str }}" class="btn btn-success" target="_blank">
                                         <i class="fas fa-link"></i>
                                     </a>
-                                    <a href="{{ route('str.edit', ['str' => $item->id]) }}" class="btn btn-warning">
+                                    <a href="{{ route('admin.str.edit', ['str' => $item->id]) }}" class="btn btn-warning">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>

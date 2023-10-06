@@ -10,7 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Hari Besar</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('hariBesar.update', ['hariBesar' => $hariBesar->id]) }}" method="post">
+        <form action="{{ route('admin.hariBesar.update', ['hariBesar' => $hariBesar->id]) }}" method="post">
             @method('put')
             @csrf
             <div class="row">
@@ -31,7 +31,7 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('hariBesar.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <a href="{{ route('admin.hariBesar.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>
         </div>
     </div>
