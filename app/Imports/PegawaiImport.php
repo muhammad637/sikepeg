@@ -3,7 +3,9 @@
 namespace App\Imports;
 
 use Carbon\Carbon;
+use App\Models\Pangkat;
 use App\Models\Pegawai;
+use App\Models\Golongan;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -17,7 +19,34 @@ class PegawaiImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        
+        // $pangkatDefault = 'juru muda';
+        $pangkat = Pangkat::where('nama_pangkat',strtolower($row['pangkat']))->first();
+        $golongan = Golongan::where('nama_golongan',strtolower($row['golongan']))->first();
+        if($pangkat == null && $row['status_tipe'] == 'pns'){
+            if($row['pangkat']){
+              $updatedPangkat =  Pangkat::create([
+                    'nama_pangkat' => strtolower($row['pangkat'])
+                ]);
+              
+            }else{
+                $updatedPangkat = Pangkat::find(1);
+            }
+        }
+        $pangkat_id =  $updatedPangkat ? $updatedPangkat->id : null; 
+        if($golongan == null && $row['status_tenaga'] == 'asn'){
+            if($row['golongan']){
+                $updatedGolongan = Golongan::create([
+                    'nama_golongan' => $row['golongan'],
+                    'jenis' => $row['status_tipe']
+                ]);
+                $updatedGolongan;
+            }else{
+                $updatedGolongan = Golongan::where('jenis',strtolower($row['status_tipe']))->first();
+            }
+        }
+
+        $golongan_id = $updatedGolongan ? $updatedGolongan->id : null;
+
         if($row['nik'] !== null){
             return new Pegawai([
                 'nik' => $row['nik'],
@@ -41,14 +70,15 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 'pendidikan_terakhir' => $row['pendidikan_terakhir'],
                 'tanggal_lulus' =>  Date::excelToDateTimeObject($row['tanggal_lulus'])->format('Y-m-d'),
                 'no_ijazah' => $row['no_ijazah'],
-                'status_tipe' => $row['status_tipe'],
+                'status_tipe' => strtolower($row['status_tipe']),
                 'jabatan' => $row['jabatan'],
                 'cuti_tahunan' => $row['cuti_tahunan'] ?? 12,
                 'masa_kerja' => $row['masa_kerja'],
+                'pangkat_id' => $pangkat_id,
+                'golongan_id' => $golongan_id,
                 //
             ]);
         }
-
         return null;
     }
 }

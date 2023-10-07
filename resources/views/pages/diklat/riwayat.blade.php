@@ -27,13 +27,14 @@
                             <th scope="col">Penyelenggara</th>
                             <th scope="col">Tempat</th>
                             <th scope="col">Tahun</th>
-                            <th scope="col">No STTPP</th>
-                            <th scope="col">Tanggal STTPP</th>
+                            <th scope="col">No Sertifikat</th>
+                            <th scope="col">Tanggal Sertifikat</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($diklat as $index => $item)
+<<<<<<< HEAD
                             @php
                                 $data = explode('view', $item->link_sttpp);
                             @endphp
@@ -75,6 +76,49 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Close</button>
+=======
+                            
+                                @php
+                                    $data = explode('view', $item->link_sertifikat);
+                                @endphp
+
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->pegawai->nama_depan }}</td>
+                                    <td>{{ $item->nama_diklat }}</td>
+                                    <td>{{ $item->jumlah_jam }}</td>
+                                    <td>{{ $item->penyelenggara }}</td>
+                                    <td>{{ $item->tempat }}</td>
+                                    <td>{{ $item->tahun}}</td>
+                                    <td>{{ $item->no_sertifikat}}</td>
+                                    <td>{{ $item->tanggal_sertifikat}}</td>
+                                    <td>
+                                        <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
+                                            <i class="fas fa-file-alt text-white"></i></a>
+                                            
+                                        <div class="modal fade bd-example-modal-lg" id="modal_sttpp_link-{{ $item->id }}"
+                                            tabindex="-1" role="dialog"
+                                            aria-labelledby="modal_sttpp_link-{{ $item->id }}Label" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="modal_sttpp_link-{{ $item->id }}Label">Preview Dokumen
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <iframe src="{{ $data[0] }}preview" class="w-100"
+                                                            style="height: 40em"></iframe>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                    </div>
+>>>>>>> sikepeg-2.0
                                                 </div>
                                             </div>
                                         </div>

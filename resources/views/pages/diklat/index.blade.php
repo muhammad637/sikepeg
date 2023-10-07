@@ -27,7 +27,7 @@
                             <th scope="col">Nama Diklat</th>
                             <th scope="col">Penyelenggara</th>
                             <th scope="col">Tahun</th>
-                            <th scope="col">Nomer STTPP</th>
+                            <th scope="col">Nomer Sertifikat</th>
                             <th scope="col">Sertifikat</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -36,7 +36,7 @@
                         @foreach ($pegawai as $index => $item)
                             @if (count($item->diklat) > 0)
                                 @php
-                                    $data = explode('view', $item->diklat[0]->link_sttpp);
+                                    $data = explode('view', $item->diklat[0]->link_sertifikat);
                                 @endphp
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -44,7 +44,7 @@
                                     <td>{{ $item->diklat[0]->nama_diklat }}</td>
                                     <td>{{ $item->diklat[0]->penyelenggara }}</td>
                                     <td>{{ $item->diklat[0]->tahun }}</td>
-                                    <td>{{ $item->diklat[0]->no_sttpp }}</td>
+                                    <td>{{ $item->diklat[0]->no_sertifikat }}</td>
                                     <td>
                                         <a target="popup"
                                             onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"

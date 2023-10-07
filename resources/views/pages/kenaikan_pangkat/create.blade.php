@@ -44,9 +44,11 @@
                             </select>
                         </div>
                     </div>
+                    @livewire('kenaikan-pangkat.jenis-pangkat-golongan')
                     <div class="row mb-3">
-                        <label for="pangkat" class="col-sm-4 col-form-label">Pangkat</label>
+                        <label for="nama_jabatan_fungsional" class="col-sm-4 col-form-label">Nama Jabatan Fungsional</label>
                         <div class="col-sm-8">
+<<<<<<< HEAD
                             <select name="pangkat" class="form-control" id="" name="pangkat">
                                 <option value="">Pilih</option>
                                 <option value="Pembina Utama" {{ 'pangkat' == 'pembina_utama' ? 'selected' : '' }}>Pembina
@@ -67,6 +69,9 @@
                         <label for="jenis_pangkat" class="col-sm-4 col-form-label">Jenis Pangkat</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3" name="jenis_pangkat">
+=======
+                            <input type="text" class="form-control" id="inputPassword3" name="nama_jabatan_fungsional">
+>>>>>>> sikepeg-2.0
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -115,13 +120,13 @@
     <!-- /.container-fluid -->
 @endsection
 @push('script')
-    @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script>
+    @livewireScripts
+    {{-- <script>
         $(document).ready(function() {
             // alert('oke')
             $('#pegawai').select2();
             // $('.nip').val('tes')
         });
-    </script>
+    </script> --}}
 @endpush

@@ -24,7 +24,7 @@
                             <th scope="col">Nama Pegawai</th>
                             <th scope="col">Pangkat</th>
                             <th scope="col">Golongan</th>
-                            <th scope="col">Jenis Pangkat</th>
+                            <th scope="col">Nama Jabatan Fungsional</th>
                             <th scope="col">TMT Pangkat</th>
                             <th scope="col">NO SK Pejabat</th>
                             <th scope="col">Tanggal SK</th>
@@ -37,6 +37,7 @@
                                 $data = explode('view', $item->link_sk);
                             @endphp
 
+<<<<<<< HEAD
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->pegawai->nama_depan }}</td>
@@ -73,6 +74,43 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Close</button>
+=======
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->pegawai->nama_depan }}</td>
+                                    <td>{{ $item->pangkat->nama_pangkat }}</td>
+                                    <td>{{ $item->golongan->nama_golongan }}</td>
+                                    <td>{{ $item->nama_jabatan_fungsional }}</td>
+                                    <td>{{ $item->tmt_pangkat_dari }} / {{$item->tmt_pangkat_sampai}}</td>
+                                    <td>{{ $item->no_sk}}</td>
+                                    <td>{{ $item->tanggal_sk}}</td>
+                                    <td>
+                                        <a  target="popup" onclick="window.open(`{{$data[0]}}`,'name','width=600,height=400')" class="btn btn-primary" style="cursor: pointer"> 
+                                            <i class="fas fa-file-alt text-white"></i></a>
+                                            
+                                        <div class="modal fade bd-example-modal-lg" id="modal_sttpp_link-{{ $item->id }}"
+                                            tabindex="-1" role="dialog"
+                                            aria-labelledby="modal_sttpp_link-{{ $item->id }}Label" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="modal_sttpp_link-{{ $item->id }}Label">Preview Dokumen
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <iframe src="{{ $data[0] }}preview" class="w-100"
+                                                            style="height: 40em"></iframe>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                    </div>
+>>>>>>> sikepeg-2.0
                                                 </div>
                                             </div>
                                         </div>

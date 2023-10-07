@@ -23,7 +23,8 @@ class PangkatDanGolongan extends Component
     public $tmt_cpns;
     public $tmt_pns;
     public $tmt_pangkat_terakhir;
-    public $pangkat_golongan;
+    public $pangkat_id; #pns saja
+    public $golongan_id; #pns atau pppk
     public $sekolah;
     public $jenis_tenaga;
 
@@ -62,7 +63,8 @@ class PangkatDanGolongan extends Component
         $this->status_tipe = old('status_tipe', null);
         $this->tmt_pns = old('tmt_pns', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
-        $this->pangkat_golongan = old('pangkat_golongan', null);
+        $this->pangkat_id = old('pangkat_id', null);
+        $this->golongan_id = old('golongan_id', null);
         $this->sekolah = old('sekolah', null);
         // nakes
         $this->tanggal_terbit_str = old('tanggal_terbit_str', null);

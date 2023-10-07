@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Golongan extends Model
 {
     use HasFactory;
+    public $guarded = ['id'];
+
+
+
+
+
+    public function kenaikanpangkat(){
+        return $this->hasMany(KenaikanPangkat::class);
+    }
+
+    public function pegawai(){
+        return $this->hasMany(Pegawai::class);
+    }
 }

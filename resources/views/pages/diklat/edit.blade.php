@@ -63,24 +63,34 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="no_sttpp" class="col-sm-4 col-form-label">No STTPP</label>
+                        <label for="no_sertifikat" class="col-sm-4 col-form-label">No Sertifikat</label>
                         <div class="col-sm-8">
+{{-- <<<<<<< HEAD
                             <input type="text" class="form-control" id="inputPassword3" value="{{ $diklat->no_sttpp }}"
                                 name="no_sttpp">
+======= --}}
+                            <input type="text" class="form-control" id="inputPassword3" value="{{$diklat->no_sertifikat}}" name="no_sertifikat">
+{{-- >>>>>>> sikepeg-2.0 --}}
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="tanggal_sttpp" class="col-sm-4 col-form-label">Tanggal STTPP</label>
+                        <label for="tanggal_sertifikat" class="col-sm-4 col-form-label">Tanggal Sertifikat</label>
                         <div class="col-sm-8">
+{{-- <<<<<<< HEAD
                             <input type="date" class="form-control" id="inputPassword3"
                                 value="{{ $diklat->tanggal_sttpp }}" name="tanggal_sttpp">
+======= --}}
+                            <input type="date" class="form-control" id="inputPassword3" value="{{$diklat->tanggal_sertifikat}}" name="tanggal_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="link_sttpp" class="col-sm-4 col-form-label">Link STTPP</label>
+                        <label for="link_sertifikat" class="col-sm-4 col-form-label">Link Sertifikat</label>
                         <div class="col-sm-8">
+{{-- <<<<<<< HEAD
                             <input type="text" class="form-control" id="inputPassword3"
                                 value="{{ $diklat->link_sttpp }}" name="link_sttpp">
+======= --}}
+                            <input type="text" class="form-control" id="inputPassword3" value="{{$diklat->link_sertifikat}}" name="link_sertifikat">
                         </div>
                     </div>
 

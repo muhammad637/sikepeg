@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 class Pegawai extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -35,12 +36,13 @@ class Pegawai extends Authenticatable
 
         'tanggal_masuk',
         'niPtt_pkThl',
- 
+
         'sekolah',
         'tmt_cpns',
         'tmt_pns',
         'tmt_pangkat_terakhir',
-        'pangkat_golongan',
+        'pangkat_id',
+        'golongan_id',
         'jenis_tenaga',
         'no_str',
         'tanggal_terbit_str',
@@ -69,19 +71,29 @@ class Pegawai extends Authenticatable
         return $this->hasMany(SIP::class);
     }
 
-    public function mutasi(){
+    public function mutasi()
+    {
         return $this->hasMany(Mutasi::class);
     }
-    public function diklat(){
+    public function diklat()
+    {
         return $this->hasMany(Diklat::class);
     }
-    public function cuti(){
+    public function cuti()
+    {
         return $this->hasMany(Cuti::class);
-
     }
 
-    public function kenaikanpangkat(){
+    public function kenaikanpangkat()
+    {
         return $this->hasMany(KenaikanPangkat::class);
     }
-  
+    public function golongan()
+    {
+        return $this->belongsTo(Golongan::class, 'golongan_id');
+    }
+    public function pangkat()
+    {
+        return $this->belongsTo(Pangkat::class, 'pangkat_id');
+    }
 }

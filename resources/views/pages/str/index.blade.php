@@ -8,6 +8,7 @@
         <div class="card-header" style="background-color: #d9d9d9;">
             <div class="d-md-flex justify-content-between s-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Data STR</h2>
+<<<<<<< HEAD
                 <div class="d-flex">
                     <a href="{{ route('admin.str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mx-1">
                         create <i class="fas fa-plus-square ml-1"></i>
@@ -37,6 +38,14 @@
                         </div>
                     </div>
                 </div>
+=======
+                <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
+                    create <i class="fas fa-plus-square ml-1"></i>
+                </a>
+                <a href="{{ route('str_export') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
+                    Export Excel <i class="fa fa-download ml-1"></i>
+                </a>
+>>>>>>> sikepeg-2.0
             </div>
         </div>
         <div class="card-body">

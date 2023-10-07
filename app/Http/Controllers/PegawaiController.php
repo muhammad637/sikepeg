@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\STR;
 use App\Models\Pegawai;
+use App\Models\Pangkat;
 use Illuminate\Http\Request;
 
 use App\Imports\PegawaiImport;
@@ -71,7 +72,8 @@ class PegawaiController extends Controller
         'tmt_cpns' => 'required',
         'tmt_pns' => 'required',
         'tmt_pangkat_terakhir' => 'required',
-        'pangkat_golongan' => 'required',
+        'pangkat_id' => '',
+        'golongan_id' => 'required',
         'jenis_tenaga' => 'required',
         // 'jabatan' => 'required'
     ];
@@ -202,6 +204,13 @@ class PegawaiController extends Controller
 
             // Menghitung masa kerja berdasarkan TMT PNS
             $masa_kerja = $this->lama($request->tmt_pns);
+            
+            if($request->pangkat_id == 'lainnya'){
+                $pangkat = Pangkat::create([
+                    'nama_pangkat' => $request->nama_pangkat,
+                ]);
+            }
+            
 
             // Menetapkan jumlah cuti tahunan default jika tidak ada input
             $sisaCutiTahunan = isset($request->cuti_tahunan) ? $request->cuti_tahunan : 12;

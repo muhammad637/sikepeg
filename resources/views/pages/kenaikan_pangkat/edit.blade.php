@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">Kenaikan Pangkat</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Update Kenaikan Pangkat Pegawai</h2>
+        <h2 class="m-0 font-weight-bold text-dark">Edit Kenaikan Pangkat Pegawai</h2>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.kenaikan_pangkat.update', ['kenaikan_pangkat' => $kenaikan_pangkat->id]) }}"
             method="post">
@@ -16,7 +16,7 @@
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
-                    <div class="row mb-2">
+                    {{-- <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Pegawai</span>
                         </div>
@@ -25,26 +25,32 @@
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
+<<<<<<< HEAD
                                         {{ old('pegawai_id', $kenaikan_pangkat->pegawai_id) == $item->id ? 'selected' : '' }}>
                                         {{ $item->nama_lengkap ?? $item->nama_depan }}
+=======
+                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
+>>>>>>> sikepeg-2.0
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    {{-- <div class="row mb-2">
+                    </div> --}}
+                    <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Pegawai</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
                             <select class="form-control" id="pegawai" name="pegawai_id">
-                                
+                                <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($pegawai as $item)
-                                <input type="date" class="form-control" name="tmt_pangkat_dari"
-                                required>
+                                    <option value="{{ $item->id }}" {{ old($item->id) == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama_depan ?? $item->nama_belakang }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
+<<<<<<< HEAD
                         
                     </div> --}}
 
@@ -57,10 +63,14 @@
                                     Utama</option>
                             </select>
                         </div>
+=======
+>>>>>>> sikepeg-2.0
                     </div>
+                    @livewire('kenaikan-pangkat.edit-jenis-golongan')
                     <div class="row mb-3">
-                        <label for="golongan" class="col-sm-4 col-form-label">Golongan</label>
+                        <label for="nama_jabatan_fungsional" class="col-sm-4 col-form-label">Nama Jabatan Fungsional</label>
                         <div class="col-sm-8">
+<<<<<<< HEAD
                             <select name="golongan" class="form-control" id="" name="golongan">
                                 <option value="">Pilih</option>
                                 <option value="I/C" {{ 'golongan' == 'I/C' ? 'selected' : '' }}>I/C</option>
@@ -71,6 +81,9 @@
                         <label for="jenis_pangkat" class="col-sm-4 col-form-label">Jenis Pangkat</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3" name="jenis_pangkat">
+=======
+                            <input type="text" class="form-control" id="inputPassword3" name="nama_jabatan_fungsional">
+>>>>>>> sikepeg-2.0
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -119,13 +132,13 @@
     <!-- /.container-fluid -->
 @endsection
 @push('script')
-    @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script>
+    @livewireScripts
+    {{-- <script>
         $(document).ready(function() {
             // alert('oke')
             $('#pegawai').select2();
             // $('.nip').val('tes')
         });
-    </script>
+    </script> --}}
 @endpush

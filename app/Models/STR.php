@@ -14,4 +14,5 @@ class STR extends Model
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
+    
 }

@@ -75,21 +75,21 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="no_sttpp" class="col-sm-4 col-form-label">No STTPP</label>
+                        <label for="no_sertifikat" class="col-sm-4 col-form-label">No Sertifikat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" name="no_sttpp">
+                            <input type="text" class="form-control" id="inputPassword3" name="no_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="tanggal_sttpp" class="col-sm-4 col-form-label">Tanggal STTPP</label>
+                        <label for="tanggal_sertifikat" class="col-sm-4 col-form-label">Tanggal Sertifikat</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="inputPassword3" name="tanggal_sttpp">
+                            <input type="date" class="form-control" id="inputPassword3" name="tanggal_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="link_sttpp" class="col-sm-4 col-form-label">Link STTPP</label>
+                        <label for="link_sertifikat" class="col-sm-4 col-form-label">Link Sertifikat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" name="link_sttpp">
+                            <input type="text" class="form-control" id="inputPassword3" name="link_sertifikat">
                         </div>
                     </div>
         </form>
