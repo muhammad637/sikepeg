@@ -10,11 +10,11 @@
              class="sidebar-brand-text">
      </a>
      <!-- Nav Item - Dashboard -->
-     <li class="nav-item {{ Request::is('pegawai/home') ? 'active' : '' }}">
-         <a class="nav-link " href="{{ route('pegawai.home') }}">
+     {{-- <li class="nav-item {{ Request::is('pegawai/home') ? 'active' : '' }}">
+         <a class="nav-link " href="{{ route('pegawai.home',) }}">
              <i class="fas fa-tachometer-alt"></i>
              <span>Dashboard</span></a>
-     </li>
+     </li> --}}
      <li class="nav-item">
      {{-- <li class="nav-item {{ Request::is('pegawai/personalfile') ? 'active' : '' }}"> --}}
             <a class="nav-link" href="#">

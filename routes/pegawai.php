@@ -15,5 +15,5 @@ Route::prefix('pegawai')->name('pegawai.')->group(function () {
         Route::get('/logout', [PegawaiController::class, 'logoutHandler'])->name('logout');
     });
 //  Route::view('/home', 'pages.dashboard.dashboardpegawai')->name('home');
-Route::get('/home', [DashboardPegawaiController::class, 'index'])->name('home');
+Route::get('/home/{pegawai:nip_nippk}', [DashboardPegawaiController::class, 'index'])->name('home');
 });
