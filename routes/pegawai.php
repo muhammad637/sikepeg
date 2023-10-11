@@ -17,5 +17,5 @@ Route::prefix('pegawai')->name('pegawai.')->group(function () {
 //  Route::view('/home', 'pages.dashboard.dashboardpegawai')->name('home');
 Route::get('/home/{pegawai:nip_nippk}', [DashboardPegawaiController::class, 'index'])->name('home');
 Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [DashboardPegawaiController::class, 'riwayatKenaikanPangkat'])->name('kenaikanpangkat.riwayat');
-Route::get('/mutasi/history/{pegawai:id}', [DashboardPegawaiController::class, 'history'])->name('mutasi.history');
+Route::get('/mutasi/history/{pegawai:id}', [DashboardPegawaiController::class, 'historyMutasiPegawai'])->name('mutasi.history');
 });

@@ -87,7 +87,7 @@
              <div class="bg-white py-2 collapse-inner rounded">
                  <a class="collapse-item" href="#">Pangkat</a>
                  <a class="collapse-item" href="#">Golongan</a>
-                 <a class="collapse-item" href="#">Ruangan</a>
+                 <a class="collapse-item" href="/ruangan">Ruangan</a>
                  <a class="collapse-item" href="{{ route('admin.hariBesar.index') }}">Hari Besar</a>
              </div>
          </div>

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Ruangan;
 
 class MutasiController extends Controller
 {
@@ -20,6 +21,7 @@ class MutasiController extends Controller
         return view(
             'pages.mutasi.index',
             [
+    
                 'pegawai' => $pegawai,
                 'i' => 0,
             ]
