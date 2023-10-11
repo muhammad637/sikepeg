@@ -27,12 +27,32 @@
                         <p class="mb-0 mt-md-2 mt-0">Ruangan Awal</p>
                     </label>
                 </div>
+             
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="text" class="form-control @error('ruangan_awal') is-invalid @enderror "
                         id="ruangan_awal" aria-describedby="ruangan_awal" name="ruangan_awal" autocomplete="false"
-                        placeholder="" wire:model='ruangan_awal' >
+                        placeholder="" wire:model='ruangan_awal'>
                 </div>
+
+                
             </div>
+            {{-- <div class="mb-4">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Awal</p>
+                    </label>
+                </div>
+                <div class="col-sm-8 text-secondary">
+                    <select class="form-control" id="pegawai" name="ruangan">
+                        <option value="">Pilih Ruangan Awal</option>
+                        @foreach ($pegawai as $item)
+                            <option value="{{ $item->id }}" {{ old($item->id) == $item->id ? 'selected' : '' }}>
+                                {{ $item->nama_lengkap ?? $item->nama_depan }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div> --}}
         </div>
         <div class="mb-4">
             <div class="row gap-5">

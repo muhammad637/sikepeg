@@ -54,7 +54,7 @@
                                     Ruangan Saat Ini</h5>
                             </div>
                             <div class="col">
-                                <a href="" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
+                                <a href="{{ route('pegawai.mutasi.history', ['pegawai' => $pegawai->id]) }}" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
                                     View All
                                 </a> 
                                     
@@ -64,7 +64,7 @@
                         <div class="text-center">
 
                             <p>
-                                {{ $pegawai->ruangan }}
+                                {{ $Mutasi ? $Mutasi->ruangan_tujuan : ($pegawai->mutasi_id ? $pegawai->mutasi->ruangan_tujuan : 'tidak ada') }}
                             </p>
 
 
