@@ -1,4 +1,5 @@
-@extends('main')
+@extends('mainpegawai')
+
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Data Kenaikan Pangkat</h1>
     <!-- Page Heading -->
@@ -32,7 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($kenaikan_pangkat as $index => $item)
+                        @foreach ($kenaikanpangkat as $index => $item)
                             @php
                                 $data = explode('view', $item->link_sk);
                             @endphp

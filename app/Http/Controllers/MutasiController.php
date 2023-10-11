@@ -71,7 +71,7 @@ class MutasiController extends Controller
                 );
             }
             $mutasi = Mutasi::create(request()->all());
-            return redirect(route('mutasi.index'))->with('success', 'data mutasi pegawai berhasil ditambahkan');
+            return redirect()->back()->with('success', 'data mutasi pegawai berhasil ditambahkan');
 
             //code...
         } catch (\Throwable $th) {

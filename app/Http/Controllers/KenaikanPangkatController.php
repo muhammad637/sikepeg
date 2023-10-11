@@ -40,7 +40,7 @@ class KenaikanPangkatController extends Controller
 
     public function store(Request $request){
 
-        try {
+        // try {
             //code...
             $pegawai = Pegawai::find($request->pegawai_id);
             // return $request->all();
@@ -49,6 +49,8 @@ class KenaikanPangkatController extends Controller
             //     'tmt_pangkat_terakhir' => $request->tmt_pangkat_sampai
                 
             // ]);
+            $golongan = Golongan::where('nama_golongan',$request->golongan)->first();
+            $pangkat = Pangkat::where('nama_pangkat',$request->pangkat)->first();
             if ($pegawai->status_tipe == 'pppk' && $request->golongan == 'lainnya'){
                 $golongan = Golongan::create(['nama_golongan' => $request->nama_golongan , 'jenis' => $pegawai->status_tipe]);
              }
@@ -84,8 +86,8 @@ class KenaikanPangkatController extends Controller
                 $kenaikanpangkat = KenaikanPangkat::create(
                     [
                         'pegawai_id' => $request->pegawai_id,
-                        'pangkat_id' => $pangkat->id,
-                        'golongan_id' => $golongan->id,
+                        'pangkat_id' => $pangkat->id ?? null,
+                        'golongan_id' => $golongan->id ,
                         'tmt_pangkat_dari' => $request->tmt_pangkat_dari,
                         'tmt_pangkat_sampai' => $request->tmt_pangkat_sampai ,
                         'no_sk' => $request->no_sk,
@@ -100,11 +102,11 @@ class KenaikanPangkatController extends Controller
 
 
 
-        } catch (\Throwable $th) {
+        // } catch (\Throwable $th) {
 
-            return $th->getMessage();
-            //throw $th;
-        }
+        //     return $th->getMessage();
+        //     //throw $th;
+        // }
         
 
 
