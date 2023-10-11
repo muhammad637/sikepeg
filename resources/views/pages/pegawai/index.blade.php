@@ -88,7 +88,7 @@
                                 <td> <span class="text-uppercase">{{ $item->ruangan ? $item->ruangan->nama_ruangan : '' }}</span></td>
                                 <td>
                                     <button
-                                        class="badge p-2 text-white bg-{{ $item->status_pegawai == 'aktif' ? 'success' : 'secondary' }} border-0">{{ $item->status_pegawai }}</button>
+                                        class="badge p-2 text-white bg-{{ $item->status_pegawai == 'aktif' ? 'success' : 'secondary' }} border-0">{{ $item->status_pegawai }} </button>
                                 </td>
                                 <td class="d-flex">
                                     <a href="{{ route('admin.pegawai.show', ['pegawai' => $item->id]) }}"
