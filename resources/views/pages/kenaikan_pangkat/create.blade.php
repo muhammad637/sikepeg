@@ -48,7 +48,7 @@
                     <div class="row mb-3">
                         <label for="nama_jabatan_fungsional" class="col-sm-4 col-form-label">Nama Jabatan Fungsional</label>
                         <div class="col-sm-8">
-<<<<<<< HEAD
+
                             <select name="pangkat" class="form-control" id="" name="pangkat">
                                 <option value="">Pilih</option>
                                 <option value="Pembina Utama" {{ 'pangkat' == 'pembina_utama' ? 'selected' : '' }}>Pembina
@@ -68,10 +68,9 @@
                     <div class="row mb-3">
                         <label for="jenis_pangkat" class="col-sm-4 col-form-label">Jenis Pangkat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" name="jenis_pangkat">
-=======
+
                             <input type="text" class="form-control" id="inputPassword3" name="nama_jabatan_fungsional">
->>>>>>> sikepeg-2.0
+
                         </div>
                     </div>
                     <div class="row mb-3">

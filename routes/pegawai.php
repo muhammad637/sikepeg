@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardPegawaiController;
 use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,7 +11,11 @@ Route::prefix('pegawai')->name('pegawai.')->group(function () {
         Route::post('/login_handler', [PegawaiController::class, 'loginHandler'])->name('login_handler');
     });
     Route::middleware('auth:pegawai')->group(function () {
-        Route::view('/home', 'pages.dahsboard.index')->name('home');
+       
         Route::get('/logout', [PegawaiController::class, 'logoutHandler'])->name('logout');
     });
+//  Route::view('/home', 'pages.dashboard.dashboardpegawai')->name('home');
+Route::get('/home/{pegawai:nip_nippk}', [DashboardPegawaiController::class, 'index'])->name('home');
+Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [DashboardPegawaiController::class, 'riwayatKenaikanPangkat'])->name('kenaikanpangkat.riwayat');
+Route::get('/mutasi/history/{pegawai:id}', [DashboardPegawaiController::class, 'history'])->name('mutasi.history');
 });
