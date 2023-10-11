@@ -12,7 +12,7 @@
                     required wire:model='ruangan_id' wire:ignore>
                     <option value="">Pilih</option>
                     @foreach ($ruangans as $item)
-                    <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
+                    <option value="{{ $item->id }}" {{ $ruangan_id == $item->id ? 'selected' : ''}}>{{ $item->nama_ruangan }}</option>
                     @endforeach
                     <option value="ruangan_lainnya">Lainnya</option>
                 </select>

@@ -1,5 +1,5 @@
 @push('link-css')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 <div>
     <div class="mt-5 mb-4">
@@ -201,8 +201,8 @@
                 <label for="pangkat_id" class="form-label">Pilih Pangkat</label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                <select class="form-control font-weight-normal pangkat-id " name='pangkat_id' wire:model='pangkat_id' wire:ignore
-                    >
+                <select class="form-control font-weight-normal pangkat-id " name='pangkat_id' wire:model='pangkat_id'
+                    wire:ignore>
                     <option value="">Pilih</option>
                     @foreach ($pangkats as $item)
                     <option value="{{ $item->id }}">{{ $item->nama_pangkat }}</option>
@@ -228,14 +228,15 @@
             </div>
         </div>
     </div>
-    
+
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="golongan_id" class="form-label">Pilih Golongan</label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                <select class="form-control text-uppercase golongan-id" name='golongan_id' wire:model='golongan_id' wire:ignore>
+                <select class="form-control text-uppercase golongan-id" name='golongan_id' wire:model='golongan_id'
+                    wire:ignore>
                     <option value="" class="text-capitalize">Pilih</option>
                     @foreach ($golongans as $item)
                     <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
@@ -312,8 +313,8 @@
             </div>
         </div>
     </div>
-<script>
-    let livewire = new Livewire()
+    <script>
+        let livewire = new Livewire()
             // console.log(pangkat.hook('message.processe'))
             $(document).ready(function() {
                        
@@ -327,7 +328,7 @@
                             @this.set('golongan_id', data)
                         })
                     })
-</script>
+    </script>
     @endif
 
     <div class="mb-4">
@@ -539,7 +540,7 @@
             </div>
         </div>
     </div>
-    @elseif(old('jenis_tenaga', $jenis_tenaga) == 'umum')
+    @elseif(old('jenis_tenaga', $jenis_tenaga) == 'umum' || old('jenis_tenaga', $jenis_tenaga) == 'struktural' )
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -550,25 +551,11 @@
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                 <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror " id="cuti_tahunan"
                     aria-describedby="cuti_tahunan" name="cuti_tahunan" autocomplete="false"
-                    placeholder="Masukkan Cuti Dalam Satu Tahun" wire:model='cuti_tahunan' required>
+                    placeholder="Masukkan Cuti Dalam Satu Tahun" wire:model='cuti_tahunan' required value="12">
             </div>
         </div>
     </div>
     <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti</p>
-    {{-- <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Masa Kerja</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('masa_kerja') is-invalid @enderror " id="masa_kerja"
-                    aria-describedby="masa_kerja" name="masa_kerja" autocomplete="false"
-                    placeholder="Masukkan Masa Kerja ..." wire:model='masa_kerja'>
-            </div>
-        </div>
-    </div> --}}
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
