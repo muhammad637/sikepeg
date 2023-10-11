@@ -5,6 +5,7 @@ use App\Http\Controllers\CutiController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\HariBesarController;
+use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\KenaikanPangkatController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,7 @@ Route::get('/str/{pegawai:id}/history', [STRController::class, 'history'])->name
 Route::resource('/sip', SIPController::class);
 Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');
 Route::resource('/hariBesar', HariBesarController::class);
+Route::resource('/ruangan', RuanganController::class);
 // >>>>>>> sikepeg-2.0
 
 // // 
