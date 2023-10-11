@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('kenaikan_pangkats', function (Blueprint $table){
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('pangkat_id')->constrained('pangkats')->onUpdate('cascade')->onDelete('cascade')->nullable();
+            // $table->foreignId('pangkat_id')->constrained('pangkats')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->foreignId('golongan_id')->constrained('golongans')->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('pangkat_id')->nullable();
+            $table->foreign('pangkat_id')->references('id')->on('pangkats');
             $table->string('nama_jabatan_fungsional')->nullable();
             $table->date('tmt_pangkat_dari')->nullable();
             $table->date('tmt_pangkat_sampai')->nullable();

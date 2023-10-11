@@ -17,8 +17,12 @@ return new class extends Migration
 
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('ruangan_awal')->nullable();
-            $table->string('ruangan_tujuan')->nullable();
+            $table->unsignedBigInteger('ruangan_awal_id')->nullable();
+            $table->foreign('ruangan_awal_id')->references('id')->on('ruangans');
+            $table->unsignedBigInteger('ruangan_tujuan_id')->nullable();
+            $table->foreign('ruangan_tujuan_id')->references('id')->on('ruangans');
+            // $table->string('ruangan_awal')->nullable();
+            // $table->string('ruangan_tujuan')->nullable();
             $table->string('instansi_awal')->nullable();
             $table->string('instansi_tujuan')->nullable();
             $table->enum('jenis_mutasi', ['internal', 'eksternal']);

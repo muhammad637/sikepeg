@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Pegawai;
 
+use App\Models\Pangkat;
 use Livewire\Component;
+use App\Models\Golongan;
 
 
 class PangkatDanGolongan extends Component
@@ -23,8 +25,12 @@ class PangkatDanGolongan extends Component
     public $tmt_cpns;
     public $tmt_pns;
     public $tmt_pangkat_terakhir;
+    public $pangkats = []; #pns saja
     public $pangkat_id; #pns saja
+    public $golongans = []; #pns atau pppk
     public $golongan_id; #pns atau pppk
+    public $nama_pangkat; #jika memilih pangkat lainnya
+    public $nama_golongan; #jika memilih golongan lainnya
     public $sekolah;
     public $jenis_tenaga;
 
@@ -63,8 +69,17 @@ class PangkatDanGolongan extends Component
         $this->status_tipe = old('status_tipe', null);
         $this->tmt_pns = old('tmt_pns', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
+        if(old('status_tipe') == 'pns'){
+            $this->pangkats = Pangkat::orderBy('nama_pangkat','asc')->get();
+            $this->golongans = Golongan::where('jenis', 'pns')->orderBy('nama_golongan', 'asc')->get(); 
+        }
+        elseif(old('status_tpe') == 'pppk'){
+            $this->golongans = Golongan::where('jenis','pppk')->orderBy('nama_golongan','asc')->get(); 
+        }
         $this->pangkat_id = old('pangkat_id', null);
         $this->golongan_id = old('golongan_id', null);
+        // $this->nama_pangkat = old('nama_pangkat', null);
+        // $this->nama_golongan = old('nama_golongan', null);
         $this->sekolah = old('sekolah', null);
         // nakes
         $this->tanggal_terbit_str = old('tanggal_terbit_str', null);
@@ -82,13 +97,21 @@ class PangkatDanGolongan extends Component
         $this->no_hp = old('no_hp', null);
         $this->email = old('email', null);
         $this->pelatihan = old('pelatihan', null);
-
         $this->jenis_tenaga = old('jenis_tenaga', null);
     }
     public function updatedStatusTenaga($value)
     {
-        $this->status_tenaga = $value;
+        // $this->status_tenaga = $value;
+        if($this->status_tenaga == 'non asn'){
+            $this->status_tipe = 'non asn';
+        }
         // old(['status_tenaga' => $value]);
+    }
+    public function updatedStatusTipe($value)
+    {
+            $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
+            $this->golongans = Golongan::where('jenis', $value)->orderBy('nama_golongan', 'asc')->get();
+      
     }
     public function updatedJenisTenagaStruktural($value)
     {

@@ -166,7 +166,7 @@
                                     <span class="mb-0 text-dark fw-bolder">Ruangan</span>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                    {{ $pegawai->ruangan }}
+                                    {{ $pegawai->ruangan ? $pegawai->ruangan->nama_ruangan : '' }}
                                 </div>
                             </div>
                             <div class="row mb-2">

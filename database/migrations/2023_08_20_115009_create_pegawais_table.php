@@ -30,7 +30,9 @@ return new class extends Migration
             $table->string('agama')->nullable();
             $table->string('no_wa')->nullable();
             $table->string('status_pegawai')->nullable();
-            $table->string('ruangan')->nullable();
+            // $table->string('ruangan')->nullable();
+            $table->unsignedBigInteger('ruangan_id')->nullable();
+            $table->foreign('ruangan_id')->references('id')->on('ruangans');
             $table->string('tahun_pensiun')->nullable();
             $table->string('pendidikan_terakhir')->nullable();
             $table->string('tanggal_lulus')->nullable();

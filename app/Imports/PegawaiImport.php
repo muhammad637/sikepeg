@@ -27,7 +27,6 @@ class PegawaiImport implements ToModel, WithHeadingRow
               $updatedPangkat =  Pangkat::create([
                     'nama_pangkat' => strtolower($row['pangkat'])
                 ]);
-              
             }else{
                 $updatedPangkat = Pangkat::find(1);
             }

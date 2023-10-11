@@ -85,7 +85,7 @@
                                 <td>{{ $item->gelar_depan }}. {{ $item->nama_depan }} {{ $item->nama_belakang }}
                                     ,{{ $item->gelar_belakang }}</td>
                                 <td>{{ $item->jenis_kelamin }}</td>
-                                <td>{{ $item->ruangan }}</td>
+                                <td> <span class="text-uppercase">{{ $item->ruangan ? $item->ruangan->nama_ruangan : '' }}</span></td>
                                 <td>
                                     <button
                                         class="badge p-2 text-white bg-{{ $item->status_pegawai == 'aktif' ? 'success' : 'secondary' }} border-0">{{ $item->status_pegawai }}</button>
