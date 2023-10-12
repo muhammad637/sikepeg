@@ -43,6 +43,11 @@ class PegawaiController extends Controller
             return redirect()->back();
         }
     }
+    public function logoutHandler(){
+        Auth::guard('pegawai')->logout();
+        session()->flash('fail','anda sudah logout di sistem');
+        return redirect()->route('pegawai.login');
+    }
 
     private $rulesPegawai = [
         'nik' => 'required|unique:pegawais,nik,',
@@ -87,7 +92,7 @@ class PegawaiController extends Controller
     private $rulesSip = [
         'no_sip' => 'required',
         'tanggal_terbit_sip' => 'required',
-        'masa_berlaku_sip' => 'required',
+        'masa_berakhir_sip' => 'required',
         'link_sip' => 'required'
     ];
     private $rulesUmum = [

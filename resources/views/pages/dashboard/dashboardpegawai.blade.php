@@ -9,7 +9,9 @@
 
         </div>
         <div class="row mt-5">
-
+            @if ($pegawai->status_tenaga == 'asn')
+                
+            
             <div class="col-xl-4">
                 <div class="flex-fill card shadow-sm my-auto mx-2">
                     <div class="card-body p-3" style="color: #2d7430;">
@@ -45,6 +47,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             <div class="col-xl-4">
                 <div class="flex-fill card shadow-sm my-2 mx-2">
                     <div class="card-body p-3" style="color: #2d7430">
@@ -64,7 +67,7 @@
                         <div class="text-center">
 
                             <p>
-                                {{ $Mutasi ? $Mutasi->ruangan_tujuan : ($pegawai->mutasi_id ? $pegawai->mutasi->ruangan_tujuan : 'tidak ada') }}
+                           {{$pegawai->ruangan->nama_ruangan}}
                             </p>
 
 
@@ -81,7 +84,7 @@
                                     Diklat Saat Ini</h5>
                             </div>
                             <div class="col">
-                                <a href="" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
+                                <a href="{{ route('pegawai.diklat.history', ['pegawai' => $pegawai->id]) }}" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
                                     View All
                                 </a> 
                                     
@@ -105,11 +108,11 @@
                     <div class="row align-items-center">
                         <div class="col-xl-8 col-md-12">
                             <h5 class="text-sm mb-0 font-weight-bold">
-                                Reminder STR Expired</h5>
+                              Masa Berlaku STR Saat Ini</h5>
     
                         </div>
                         <div class="col">
-                            <a href="" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
+                            <a href="{{ route('pegawai.str.history', ['pegawai' => $pegawai->id]) }}" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
                                 View All
                             </a> 
                                 
@@ -118,7 +121,7 @@
                     </div>
                     <div class="text-center">
                         <p>
-                            -
+                            {{$str->masa_berakhir_str}}
                         </p>
                     </div>
                 </div>
@@ -130,10 +133,10 @@
                                 <div class="row align-items-center">
                                     <div class="col-xl-8 col-md-12">
                                         <h5 class="text-sm mb-0 font-weight-bold">
-                                            Reminder SIP Expired</h5>
+                                            Masa Berlaku SIP Saat Ini</h5>
                                     </div>
                                     <div class="col">
-                                        <a href="" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
+                                        <a href="{{ route('pegawai.sip.history', ['pegawai' => $pegawai->id]) }}" class="text-right mx-auto font-weight-bold d-block" style="color: #459AFF;">
                                             View All
                                         </a> 
                                             
@@ -141,7 +144,7 @@
                                 </div>
                                 <div class="text-center">
                                     <p>
-                                        -
+                                        {{$sip->masa_berakhir_sip}}      
                                     </p>
                                 </div>
                             </div>

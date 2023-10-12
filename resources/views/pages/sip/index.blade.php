@@ -40,7 +40,7 @@
                                     <td>{{ $i }}</td>
                                     <td>{{ $item->nama_depan }}</td>
                                     <td>{{ $item->jabatan }}</td>
-                                    <td>{{ $item->ruangan }}</td>
+                                    <td>{{ $item->ruangan->nama_ruangan }}</td>
                                     <td>{{ Carbon\Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-M-Y') }}</td>
                                     <td>
 
