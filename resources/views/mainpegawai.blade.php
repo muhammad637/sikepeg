@@ -73,7 +73,7 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{{ Auth::guard('admin') ? route('admin.logout') : route('pegawai.logout') }}"
+                <form action="{{ route('pegawai.logout') }}"
                     method="post">
                     @csrf
                     <div class="modal-header">
