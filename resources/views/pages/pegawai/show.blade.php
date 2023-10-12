@@ -222,6 +222,7 @@
                                     </div>
                                 </div>
                             @else
+                            @if ($pegawai->status_tipe == 'pns')
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 ">
                                         <span class="mb-0 text-dark fw-bolder text-uppercase">
@@ -242,6 +243,19 @@
                                         {{ $pegawai->tmt_pns }}
                                     </div>
                                 </div>
+                            @elseif($pegawai->status_tipe == 'pppk')
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
+                                        <span class="mb-0 text-dark fw-bolder text-uppercase">
+                                            tmt pppk
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
+                                        {{ $pegawai->tmt_pppk }}
+                                    </div>
+                                </div>
+                            @endif
+                                
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 ">
                                         <span class="mb-0 text-dark fw-bolder text-uppercase">
@@ -259,7 +273,7 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->pangkat_golongan }}
+                                        {{ $pegawai->pangkat_id  ? $pegawai->pangkat->nama_pangkat .' / '. $pegawai->golongan->nama_golongan : $pegawai->golongan->nama_golongan }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">

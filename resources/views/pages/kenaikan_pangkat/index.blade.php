@@ -42,104 +42,24 @@
 
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama_depan }}</td>
-                                    <td>{{ $item->ruangan }}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->pangkat->nama_pangkat }}</td>
+                                    <td>{{ $item->nama_lengkap ?? $item->nama_depan }}</td>
+                                    <td>{{ $item->ruangan->nama_ruangan }}</td>
+                                    <td>{{ $item->kenaikanpangkat[0]->pangkat->nama_pangkat  ?? '-'}}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->golongan->nama_golongan }}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->no_sk }}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->penerbit_sk }}</td>
                                     <td>
                                         <a target="popup"
                                             onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
-                                            class="btn btn-primary" style="cursor: pointer">
-                                            <i class="fas fa-file-alt text-white"></i></a>
-
-                                        <div class="modal fade bd-example-modal-lg" id="modal_str_link-{{ $item->id }}"
-                                            tabindex="-1" role="dialog"
-                                            aria-labelledby="modal_str_link-{{ $item->id }}Label" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title"
-                                                            id="modal_str_link-{{ $item->id }}Label">Preview Dokumen
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <iframe src="{{ $data[0] }}preview" class="w-100"
-                                                            style="height: 40em"></iframe>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            class="badge bg-primary p-2" style="cursor: pointer">
+                                            <i class="fas fa-file-alt text-white"></i></a> 
                                     </td>
-                                    {{-- </td> --}}
                                     <td>
                                         <a href="{{ route('admin.kenaikan-pangkat.riwayat', ['pegawai' => $item->id]) }}"
                                             class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
                                         <a href="{{ route('admin.kenaikan-pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
                                             class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                     </td>
-
-                                    {{-- <td>{{$loop->iteration}}</td> --}}
-
-
-                                    {{-- <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->nama_depan ?? null}} </td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->jenis_mutasi}}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->tanggal_berlaku }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->ruangan_awal }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->ruangan_tujuan }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->instansi_awal }}</td>
-                                <td>{{ $item->mutasi[count($item->mutasi) -1]->instansi_tujuan }}</td>
-                                <td>{{ $item->mutasi[0]->no_sk}}</td>
-                                <td><!-- Button trigger modal preview-->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#modal_str_link-{{ $item->id }}">
-                                        <i class="fas fa-file-alt text-white"></i>
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade bd-example-modal-lg" id="modal_str_link-{{ $item->id }}"
-                                        tabindex="-1" role="dialog"
-                                        aria-labelledby="modal_str_link-{{ $item->id }}Label" aria-hidden="true">
-                                        <div class="modal-dialog modal-xl" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title"
-                                                        id="modal_str_link-{{ $item->id }}Label">Preview Dokumen
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <iframe
-                                                        src="{{$data[0]}}preview"
-                                                        class="w-100" style="height: 40em"></iframe>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div></td>
-                               
-                                <td>
-                                    <a href="{{route('admin.mutasi.show', ['mutasi' => $item->id]) }}"
-                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                    <a href="{{route('admin.mutasi.edit', ['mutasi' => $item->mutasi[count($item->mutasi) -1]]) }}"
-                                        class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
-                                </td> --}}
                                 </tr>
                             @endif
                         @endforeach

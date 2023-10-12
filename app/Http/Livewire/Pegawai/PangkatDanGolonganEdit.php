@@ -24,6 +24,7 @@ class PangkatDanGolonganEdit extends Component
     // asn
     public $tmt_cpns;
     public $tmt_pns;
+    public $tmt_pppk;
     public $tmt_pangkat_terakhir;
     public $pangkats = []; #pns saja
     public $pangkat_id; #pns saja
@@ -68,10 +69,10 @@ class PangkatDanGolonganEdit extends Component
         // asn
         $this->tmt_cpns = old('tmt_cpns', null);
         $this->tmt_pns = old('tmt_pns', null);
+        $this->tmt_pppk = old('tmt_pppk', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
         $this->pangkat_golongan = old('pangkat_golongan', null);
         $this->sekolah = old('sekolah', null);
-        // // $this->jabatan = old('jabatan', null);
 
         // umum
         $this->no_karpeg = old('no_karpeg', null);
@@ -91,6 +92,7 @@ class PangkatDanGolonganEdit extends Component
             $this->tmt_cpns = old('tmt_cpns', $this->pegawai->tmt_cpns);
             $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
             $this->tmt_pns = old('tmt_pns', $this->pegawai->tmt_pns);
+            $this->tmt_pppk = old('tmt_pppk', $this->pegawai->tmt_pppk);
             $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->tmt_pangkat_terakhir);
             $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->pangkat_golongan );
             if($this->pegawai->status_tipe == 'pns'){
@@ -103,9 +105,8 @@ class PangkatDanGolonganEdit extends Component
             $this->pangkat_id = old('pangkat_id', $this->pegawai->pangkat_id);
             $this->golongan_id = old('golongan_id', $this->pegawai->golongan_id);
             $this->sekolah = old('sekolah', $this->pegawai->sekolah);
-            // // // // $this->jabatan = old('jabatan', $this->pegawai->jabatan ? $this->pegawai->jabatan : null);
             $this->jenis_tenaga = old('jenis_tenaga', $this->pegawai->jenis_tenaga);
-            if ($this->jenis_tenaga == 'umum') {
+            if ($this->jenis_tenaga == 'umum' || $this->jenis_tenaga == 'struktural') {
                 $this->no_karpeg = old('no_karpeg', $this->pegawai->no_karpeg);
                 $this->no_taspen = old('no_taspen', $this->pegawai->no_taspen);
                 $this->no_npwp = old('no_npwp', $this->pegawai->no_npwp);

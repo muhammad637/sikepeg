@@ -254,7 +254,7 @@
                 <label for="golongan_id" class="form-label">Pilih Golongan</label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                <select class="form-control text-uppercase golongan-id" name='golongan_id' wire:model='golongan_id'
+                <select class="form-control text-uppercase golongan-id" name='golongan_id' 
                     wire:ignore>
                     <option value="" class="text-capitalize">Pilih</option>
                     @foreach ($golongans as $item)

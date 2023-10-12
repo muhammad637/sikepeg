@@ -75,7 +75,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){
             Route::get('/', [KenaikanPangkatController::class,'index'])->name('index');
             Route::get('/create',[KenaikanPangkatController::class,'create'])->name('create');
-            Route::get('/{kenaikan_pangkat}/edit',[KenaikanPangkat::class,'edit'])->name('edit');
+            Route::get('/{kenaikan_pangkat}/edit',[KenaikanPangkatController::class,'edit'])->name('edit');
             Route::post('/store',[KenaikanPangkatController::class,'store'])->name('store');
             Route::put('/{kenaikan_pangkat}/update',[KenaikanPangkatController::class,'update'])->name('update');
             Route::get('/riwayat/{pegawai:id}',[KenaikanPangkatCOntroller::class,'riwayat'])->name('riwayat');

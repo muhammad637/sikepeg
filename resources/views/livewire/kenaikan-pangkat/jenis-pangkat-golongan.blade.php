@@ -1,4 +1,5 @@
 <div>
+   
     @if ($status_tipe == 'pns')
     <div class="row mb-3">
         <label for="pangkat" class="col-sm-4 col-form-label">Pangkat</label>
@@ -6,7 +7,7 @@
             <select name="pangkat_id" class="form-control" id="pangkat" wire:ignore wire:model="pangkat_id">
                 <option value="">Pilih</option>
                 @foreach ($resultPangkat as $item)
-                <option value="{{ $item->id }}" {{ old('pangkat')==$item->id ? 'selected' : '' }}>
+                <option value="{{ $item->id }}" {{ $pangkat_id==$item->id ? 'selected' : '' }}>
                     {{ $item->nama_pangkat }}</option>
                 @endforeach
                 <option value="lainnya">Lainnya ....</option>
@@ -34,11 +35,17 @@
             </select>
         </div>
     </div>
+    {{$nama_golongan}}
     <div class="row mb-3 {{$golongan_id == 'lainnya' ? '' : 'd-none'}}">
         <label for="nama_golongan" class="col-sm-4 col-form-label">Jenis Golongan Lainnya</label>
         <div class="col-sm-8">
             <input type="text" class="form-control" name="nama_golongan" wire:model='nama_golongan'
                 {{$golongan_id=='lainnya' ? 'required' : '' }}>
+            @error('nama_golongan')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
         </div>
     </div>
     <script>
@@ -72,12 +79,18 @@
                 @endforeach
                 <option value="lainnya">Lainnya ....</option>
             </select>
+           
         </div>
     </div>
-    <div class="row mb-3 {{$golongan_id == 'lainnya'}}">
+    <div class="row mb-3 {{$golongan_id == 'lainnya' ? '' : 'd-none'}}">
         <label for="nama_golongan" class="col-sm-4 col-form-label">Jenis Golongan Lainnya</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" name="nama_golongan">
+            <input type="text" class="form-control" name="nama_golongan" wire:model='nama_golongan'>
+            @error('nama_golongan')
+                <div class="text-danger">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
     </div>
 
@@ -100,8 +113,9 @@
     <div class="row mb-3">
         <label for="jabatan" class="col-sm-4 col-form-label">Jabatan</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" placeholder="Masukkan jabatan" required name="jabatan" wire:model='jabatan'
-               >
+            <input type="text" class="form-control" placeholder="Masukkan jabatan" required name="jabatan"
+                wire:model='jabatan'>    
+                   
         </div>
     </div>
 
@@ -110,13 +124,17 @@
 @push('script')
 <script>
     $(document).ready(function() {
+                   
             $('#pegawai').select2();
-           
             $('#pegawai').on('change', function(e) {
                 // console.log(e)
                 var data = $('#pegawai').select2("val")
                 @this.set("pegawai", data)
             });
+            var data = $('#pegawai').select2("val")
+            if (data){
+            @this.set('pegawai',data)
+            }
         });
 </script>
 @endpush

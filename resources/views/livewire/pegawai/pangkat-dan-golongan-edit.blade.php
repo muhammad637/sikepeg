@@ -284,7 +284,7 @@
                     wire:ignore>
                     <option value="" class="text-capitalize">Pilih</option>
                     @foreach ($golongans as $item)
-                    <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
+                    <option value="{{ $item->id }}" {{$pegawai->golongan_id == $item->id ? 'selected' : ''}}>{{ $item->nama_golongan }}</option>
                     @endforeach
                     <option value="golongan_lainnya" class="text-capitalize">Lainnya</option>
                 </select>
@@ -335,7 +335,7 @@
                 <select class="golongan-id form-control " name='golongan_id' wire:model='golongan_id' >
                     <option value="">Pilih</option>
                     @foreach ($golongans as $item)
-                    <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
+                    <option value="{{ $item->id }}" {{$item->id == $pegawai->golongan_id ? 'selected' : ''}}>{{ $item->nama_golongan }}</option>
                     @endforeach
                     <option value="golongan_lainnya">Lainnya</option>
                 </select>
@@ -373,21 +373,7 @@
                             })
     </script>
     @endif
-    {{-- <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Pangkat / Golongan</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('pangkat_golongan') is-invalid @enderror "
-                    id="pangkat_golongan" aria-describedby="pangkat_golongan" name="pangkat_golongan"
-                    autocomplete="false" placeholder="Masukkan Pangkat Golongan ..." wire:model='pangkat_golongan'
-                    required>
-            </div>
-        </div>
-    </div> --}}
+
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -498,20 +484,6 @@
         </div>
     </div>
     <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti</p>
-    {{-- <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Masa Kerja</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('masa_kerja') is-invalid @enderror " id="masa_kerja"
-                    aria-describedby="masa_kerja" name="masa_kerja" autocomplete="false"
-                    placeholder="Masukkan Masa Kerja ..." wire:model='masa_kerja'>
-            </div>
-        </div>
-    </div> --}}
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -551,48 +523,6 @@
                 <input type="text" class="form-control @error('no_npwp') is-invalid @enderror " id="no_npwp"
                     aria-describedby="no_npwp" name="no_npwp" autocomplete="false" placeholder="Masukkan No NPWP ..."
                     wire:model='no_npwp'>
-            </div>
-        </div>
-    </div>
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No HP</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('no_hp') is-invalid @enderror " id="no_hp"
-                    aria-describedby="no_hp" name="no_hp" autocomplete="false" placeholder="Masukkan No HP ..."
-                    wire:model='no_hp'>
-            </div>
-        </div>
-    </div>
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Email</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="email" class="form-control @error('email') is-invalid @enderror " id="email"
-                    aria-describedby="email" name="email" autocomplete="false" placeholder="Masukkan Email ..."
-                    wire:model='email'>
-            </div>
-        </div>
-    </div>
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Pelatihan</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('pelatihan') is-invalid @enderror " id="pelatihan"
-                    aria-describedby="pelatihan" name="pelatihan" autocomplete="false"
-                    placeholder="Masukkan Pelatihan ..." wire:model='pelatihan'>
             </div>
         </div>
     </div>
