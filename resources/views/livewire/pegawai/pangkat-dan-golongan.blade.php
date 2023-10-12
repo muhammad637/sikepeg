@@ -306,8 +306,8 @@
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="golongan_id" class="form-label">Pilih Golongan</label>
             </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <select class="golongan-select form-control" name='golongan_id' wire:model='golongan_id' wire:ignore>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
+                <select class="golongan-id form-control" name='golongan_id' wire:model='golongan_id' wire:ignore>
                     <option value="">Pilih</option>
                     @foreach ($golongans as $item)
                     <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>

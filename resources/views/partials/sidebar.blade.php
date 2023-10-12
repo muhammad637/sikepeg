@@ -35,8 +35,8 @@
              <i class="fas fa-chalkboard-teacher"></i>
              <span>Diklat</span></a>
      </li>
-     <li class="nav-item {{ Request::routeIs('kenaikanPangkat*') ? 'active' : '' }}">
-         <a class="nav-link " href="{{ route('admin.kenaikan_pangkat.index') }}">
+     <li class="nav-item  {{ Request::routeIs('admin.kenaikan-pangkat.*') ? 'active' : '' }}">
+         <a class="nav-link " href="{{ route('admin.kenaikan-pangkat.index') }}">
              <i class="fas fa-calendar-day"></i>
              <span>Kenaikan Pangkat</span></a>
      </li>
@@ -85,8 +85,8 @@
          </a>
          <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item" href="#">Pangkat</a>
-                 <a class="collapse-item" href="#">Golongan</a>
+                 <a class="collapse-item" href="/pangkat">Pangkat</a>
+                 <a class="collapse-item" href="/golongan">Golongan</a>
                  <a class="collapse-item" href="/ruangan">Ruangan</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.hari-besar.*') ? 'active' : ''}}" href="{{ route('admin.master-data.hari-besar.index') }}">Hari Besar</a>
              </div>

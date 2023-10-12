@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('golongan_id')->constrained('golongans')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->unsignedBigInteger('pangkat_id')->nullable();
             $table->foreign('pangkat_id')->references('id')->on('pangkats');
-            $table->string('nama_jabatan_fungsional')->nullable();
+            $table->string('jabatan')->nullable();
             $table->date('tmt_pangkat_dari')->nullable();
             $table->date('tmt_pangkat_sampai')->nullable();
             $table->string('no_sk')->nullable();

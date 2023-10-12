@@ -116,6 +116,20 @@
             </div>
         </div>
     </div>
+    <div class="mb-4">
+        <div class="row gap-5">
+            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                <label for="" class="form-label">
+                    <p class="mb-0 mt-md-2 mt-0">Jabatan</p>
+                </label>
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                <input type="text" class="form-control @error('jabatan') is-invalid @enderror " id="jabatan"
+                    aria-describedby="jabatan" name="jabatan" autocomplete="false"
+                    placeholder="Masukkan Jabatan Fungsional ..." wire:model='jabatan' required>
+            </div>
+        </div>
+    </div>
     {{-- <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -317,8 +331,8 @@
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="golongan_id" class="form-label">Pilih Golongan</label>
             </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <select class="golongan-select form-control" name='golongan_id' wire:model='golongan_id' wire:ignore>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
+                <select class="golongan-id form-control " name='golongan_id' wire:model='golongan_id' >
                     <option value="">Pilih</option>
                     @foreach ($golongans as $item)
                     <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
@@ -344,15 +358,14 @@
         </div>
     </div>
     <script>
-        let livewire = new Livewire()
+        console.log('oke') 
+        // let livewire = new Livewire()
                     // console.log(pangkat.hook('message.processe'))
                     $(document).ready(function() {
-                               
                                 $('.golongan-id').select2()
-                                livewire.hook('message.processed', (message, component) => {
+                                Livewire.hook('message.processed', (message, component) => {
                                     $('.golongan-id').select2()
                                 })
-                              
                                 $('.golongan-id').on('change', function() {
                                     var data = $('.golongan-id').select2('val')
                                     @this.set('golongan_id', data)
@@ -443,17 +456,17 @@
                 <select name="jenis_tenaga" id="" wire:model='jenis_tenaga'
                     class="form-control @error('jenis_tenaga') is-invalid @enderror" required>
                     <option value="">Pilih</option>
+                    <option value="struktural" {{ $jenis_tenaga=='struktural' ? 'selected' : '' }}>Struktural
+                    </option>
                     <option value="nakes" {{ $jenis_tenaga=='nakes' ? 'selected' : '' }}>Nakes / Fungsional
                     </option>
                     <option value="umum" {{ $jenis_tenaga=='umum' ? 'selected' : '' }}>Umum / Administrasi
                     </option>
-                    <option value="struktural" {{ $jenis_tenaga=='struktural' ? 'selected' : '' }}>Umum
-                    </option>
+                    
                 </select>
             </div>
         </div>
     </div>
-    @if (old('jenis_tenaga', $jenis_tenaga) == 'umum')
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -468,6 +481,8 @@
             </div>
         </div>
     </div>
+    @if (old('jenis_tenaga', $jenis_tenaga) == 'umum' || old('jenis_tenaga', $jenis_tenaga) == 'struktural')
+    
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -578,22 +593,6 @@
                 <input type="text" class="form-control @error('pelatihan') is-invalid @enderror " id="pelatihan"
                     aria-describedby="pelatihan" name="pelatihan" autocomplete="false"
                     placeholder="Masukkan Pelatihan ..." wire:model='pelatihan'>
-            </div>
-        </div>
-    </div>
-
-    @elseif($jenis_tenaga == 'nakes')
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Jabatan</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('jabatan') is-invalid @enderror " id="jabatan"
-                    aria-describedby="jabatan" name="jabatan" autocomplete="false"
-                    placeholder="Masukkan Jabatan Fungsional ..." wire:model='jabatan' required>
             </div>
         </div>
     </div>

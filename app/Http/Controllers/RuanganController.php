@@ -38,7 +38,7 @@ class RuanganController extends Controller
     }
     public function update(Request $request,Ruangan $ruangan){
         $validatedData = $request->validate([
-            'nama_ruangan' => 'required'
+            'nama_ruangan' => 'required',
         ]);
         // return $validatedData;
         $ruangan->update($validatedData);

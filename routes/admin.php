@@ -10,6 +10,7 @@ use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\KenaikanPangkatController;
+use App\Models\KenaikanPangkat;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,8 +70,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class, 'history'])->name('mutasi.history');
         Route::resource('/diklat', DiklatController::class);
         Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
-        Route::resource('/kenaikan_pangkat', KenaikanPangkatController::class);
-        Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [KenaikanPangkatController::class, 'riwayat'])->name('kenaikan_pangkat.riwayat');
+
+        // kenaikan pangkat
+        Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){
+            Route::get('/', [KenaikanPangkatController::class,'index'])->name('index');
+            Route::get('/create',[KenaikanPangkatController::class,'create'])->name('create');
+            Route::get('/{kenaikan_pangkat}/edit',[KenaikanPangkat::class,'edit'])->name('edit');
+            Route::post('/store',[KenaikanPangkatController::class,'store'])->name('store');
+            Route::put('/{kenaikan_pangkat}/update',[KenaikanPangkatController::class,'update'])->name('update');
+            Route::get('/riwayat/{pegawai:id}',[KenaikanPangkatCOntroller::class,'riwayat'])->name('riwayat');
+        });
+        // Route::resource('/kenaikan_pangkat', KenaikanPangkatController::class);
+        // Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [KenaikanPangkatController::class, 'riwayat'])->name('kenaikan_pangkat.riwayat');
         // master-data
         Route::prefix('master-data')->name('master-data.')->group(function () {
             // hari-besar

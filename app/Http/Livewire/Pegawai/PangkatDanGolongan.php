@@ -70,11 +70,12 @@ class PangkatDanGolongan extends Component
         $this->status_tipe = old('status_tipe', null);
         $this->tmt_pns = old('tmt_pns', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
-        if(old('status_tipe') == 'pns'){
+        $this->status_tipe = old('status_tipe',null);
+        if($this->status_tipe == 'pns'){
             $this->pangkats = Pangkat::orderBy('nama_pangkat','asc')->get();
             $this->golongans = Golongan::where('jenis', 'pns')->orderBy('nama_golongan', 'asc')->get(); 
         }
-        elseif(old('status_tpe') == 'pppk'){
+        elseif($this->status_tipe == 'pppk'){
             $this->golongans = Golongan::where('jenis','pppk')->orderBy('nama_golongan','asc')->get(); 
         }
         $this->pangkat_id = old('pangkat_id', null);

@@ -14,7 +14,10 @@ class PangkatController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.master_data.pangkat.index',[
+            'pangkat' => Pangkat::orderBy('nama_pangkat', 'desc')->get()
+        ]);
+        
     }
 
     /**
@@ -24,7 +27,7 @@ class PangkatController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.master_data.pangkat.create');
     }
 
     /**
@@ -35,7 +38,14 @@ class PangkatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate(
+            [
+                'nama_pangkat' => 'required',
+            ]
+        );
+        // return $validatedData;
+        Pangkat::create($validatedData);
+        return redirect(route('pangkat.index'))->with('success','data berhasil ditambahkan');
     }
 
     /**
@@ -57,7 +67,9 @@ class PangkatController extends Controller
      */
     public function edit(Pangkat $pangkat)
     {
-        //
+        return view('pages.master_data.pangkat.edit',[
+            'pangkat' => $pangkat
+        ]);
     }
 
     /**
@@ -69,7 +81,12 @@ class PangkatController extends Controller
      */
     public function update(Request $request, Pangkat $pangkat)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_pangkat' => 'required',
+        ]);
+        // return $validatedData;
+        $pangkat->update($validatedData);
+        return redirect(route('pangkat.index'))->with('success', 'data berhasil diupdate');
     }
 
     /**
@@ -80,6 +97,7 @@ class PangkatController extends Controller
      */
     public function destroy(Pangkat $pangkat)
     {
-        //
+        $pangkat->delete();
+        return redirect(route('pangkat.index'))->with('success', 'data berhasil dihapus');
     }
 }
