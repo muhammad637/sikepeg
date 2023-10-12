@@ -82,7 +82,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nip_nippk }}</td>
-                                <td>{{ $item->gelar_depan }}. {{ $item->nama_depan }} {{ $item->nama_belakang }}
+                                <td>{{ $item->gelar_depan }} {{ $item->nama_depan }} {{ $item->nama_belakang }}
                                     ,{{ $item->gelar_belakang }}</td>
                                 <td>{{ $item->jenis_kelamin }}</td>
                                 <td> <span class="text-uppercase">{{ $item->ruangan ? $item->ruangan->nama_ruangan : '' }}</span></td>
