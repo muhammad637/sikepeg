@@ -11,7 +11,10 @@ use Illuminate\Http\Request;
 class DashboardPegawaiController extends Controller
 {
 
-    public function index(Pegawai $pegawai){
+    public function index(Pegawai $pegawai)
+    {
+
+        return auth()->guard('pegawai')->user();
         $mutasi = Mutasi::where('pegawai_id', $pegawai->id);
         $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc')->first();
         $kenaikanpangkat = KenaikanPangkat::where('pegawai_id', $pegawai->id)->orderBy('tmt_pangkat_dari', 'desc')->first();
@@ -25,8 +28,9 @@ class DashboardPegawaiController extends Controller
 
 
 
-    public function riwayatKenaikanPangkat(Pegawai $pegawai, KenaikanPangkat $kenaikanpangkat){
-        $kenaikanpangkat = KenaikanPangkat::where('pegawai_id' , $pegawai->id)->orderBy('tanggal_sk', 'desc')->get();
+    public function riwayatKenaikanPangkat(Pegawai $pegawai, KenaikanPangkat $kenaikanpangkat)
+    {
+        $kenaikanpangkat = KenaikanPangkat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->get();
         return view('pages.kenaikan_pangkat.riwayatpegawai', [
             'pegawai' => $pegawai,
             'kenaikanpangkat' => $kenaikanpangkat

@@ -11,11 +11,10 @@ Route::prefix('pegawai')->name('pegawai.')->group(function () {
         Route::post('/login_handler', [PegawaiController::class, 'loginHandler'])->name('login_handler');
     });
     Route::middleware('auth:pegawai')->group(function () {
-       
         Route::get('/logout', [PegawaiController::class, 'logoutHandler'])->name('logout');
+        Route::get('/home', [DashboardPegawaiController::class, 'index'])->name('home');
     });
 //  Route::view('/home', 'pages.dashboard.dashboardpegawai')->name('home');
-Route::get('/home/{pegawai:nip_nippk}', [DashboardPegawaiController::class, 'index'])->name('home');
 Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [DashboardPegawaiController::class, 'riwayatKenaikanPangkat'])->name('kenaikanpangkat.riwayat');
 Route::get('/mutasi/history/{pegawai:id}', [DashboardPegawaiController::class, 'historyMutasiPegawai'])->name('mutasi.history');
 });

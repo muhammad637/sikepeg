@@ -25,7 +25,7 @@ class HariBesarController extends Controller
         ]);
         // return $validatedData;
         HariBesar::create($validatedData);
-        return redirect(route('hariBesar.index'))->with('success','data berhasil ditambahkan');
+        return redirect()->route('admin.master-data.hari-besar.index')->with('success','data berhasil ditambahkan');
     }
     public function show(HariBesar $hariBesar){
         
@@ -42,10 +42,10 @@ class HariBesarController extends Controller
         ]);
         // return $validatedData;
         $hariBesar->update($validatedData);
-        return redirect(route('hariBesar.index'))->with('success', 'data berhasil diupdate');
+        return redirect()->route('admin.master-data.hari-besar.index')->with('success', 'data berhasil diupdate');
     }
     public function destroy(HariBesar $hariBesar){
         $hariBesar->delete();
-        return redirect(route('hariBesar.index'))->with('success', 'data berhasil dihapus');
+        return redirect()->route('admin.master-data.hari-besar.index')->with('success', 'data berhasil dihapus');
     }
 }

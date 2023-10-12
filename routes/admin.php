@@ -51,8 +51,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // sip
         Route::resource('/sip', SIPController::class);
         Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');
-        Route::resource('/hariBesar', HariBesarController::class);
-        Route::group(['prefix' => 'cuti'], function () {
+
+        Route::prefix('cuti')->name('cuti.')->group(function () {
             Route::group(['prefix' => '/data-cuti-aktif'], function () {
                 Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
                 Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');
@@ -71,6 +71,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
         Route::resource('/kenaikan_pangkat', KenaikanPangkatController::class);
         Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [KenaikanPangkatController::class, 'riwayat'])->name('kenaikan_pangkat.riwayat');
+        // master-data
+        Route::prefix('master-data')->name('master-data.')->group(function () {
+            // hari-besar
+            Route::prefix('hari-besar')->name('hari-besar.')->group(function () {
+                Route::get('/', [HariBesarController::class, 'index'])->name('index');
+                Route::get('/create', [HariBesarController::class, 'create'])->name('create');
+                Route::post('/store', [HariBesarController::class, 'store'])->name('store');
+                Route::get('/{hariBesar}/edit', [HariBesarController::class, 'edit'])->name('edit');
+                Route::put('/{hariBesar}', [HariBesarController::class, 'update'])->name('update');
+                Route::delete('/{hariBesar}/delete', [HariBesarController::class, 'destroy'])->name('destroy');
+            });
+        });
         Route::post('/logout', [AdminController::class, 'logoutHandler'])->name('logout');
     });
 });

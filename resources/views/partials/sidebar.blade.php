@@ -11,50 +11,50 @@
      </a>
 
      <!-- Nav Item - Dashboard -->
-     <li class="nav-item {{ Request::is('admin/dashboard*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('admin/dashboard*') ? 'active' : '' }}">
          <a class="nav-link " href="{{ route('admin.dashboard.index') }}">
              <i class="fas fa-tachometer-alt"></i>
              <span>Dashboard</span></a>
      </li>
 
-     <li class="nav-item {{ Request::is('pegawai*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('pegawai*') ? 'active' : '' }}">
          <a class="nav-link" href="{{ route('admin.pegawai.index') }}">
              <i class="fas fa-address-card"></i>
              <span>Personal File</span></a>
      </li>
 
 
-     <li class="nav-item {{ Request::is('mutasi*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('mutasi*') ? 'active' : '' }}">
          <a class="nav-link " href="{{ route('admin.mutasi.index') }}">
              <i class="fas fa-compress-alt"></i>
              <span>Mutasi</span></a>
      </li>
 
-     <li class="nav-item  {{ Request::is('diklat*') ? 'active' : '' }}">
+     <li class="nav-item  {{ Request::routeIs('diklat*') ? 'active' : '' }}">
          <a class="nav-link" href="{{ route('admin.diklat.index') }}">
              <i class="fas fa-chalkboard-teacher"></i>
              <span>Diklat</span></a>
      </li>
-     <li class="nav-item {{ Request::is('kenaikanPangkat*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('kenaikanPangkat*') ? 'active' : '' }}">
          <a class="nav-link " href="{{ route('admin.kenaikan_pangkat.index') }}">
              <i class="fas fa-calendar-day"></i>
              <span>Kenaikan Pangkat</span></a>
      </li>
      <li class="nav-item">
-         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#CutiCollapse"
+         <a class="nav-link collapsed {{ Request::routeIs('admin.cuti.*') || Request::routeIs('admin.histori-cuti.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#CutiCollapse"
              aria-expanded="true" aria-controls="CuetiCollapse">
-             <i class="fas fa-calendar-week"></i>
+             <i class="fas fa-calendar-week {{ Request::routeIs('admin.cuti*') || Request::routeIs('admin.histori-cuti*') ? 'text-white' : '' }}"></i>
              <span>Cuti</span>
          </a>
          <div id="CutiCollapse"
-             class="collapse {{ Request::is('cuti*') || Request::is('histori-cuti*') ? 'show' : '' }}"
+             class="collapse "
              aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
                  <h6 class="collapse-header">Menu Cuti</h6>
-                 <a class="collapse-item {{ Request::is('cuti/data-cuti-aktif*') ? 'active' : '' }}"
-                     href="{{ route('admin.data-cuti-aktif.index') }}">Data Cuti Akif</a>
-                 <a class="collapse-item {{ Request::is('cuti/histori-cuti*') ? 'active' : '' }}"
-                     href="{{ route('admin.histori-cuti.index') }}">Histori Cuti</a>
+                 <a class="collapse-item {{ Request::routeIs('admin.cuti.data-cuti-aktif.*') ? 'active' : '' }}"
+                     href="{{ route('admin.cuti.data-cuti-aktif.index') }}">Data Cuti Akif</a>
+                 <a class="collapse-item {{ Request::routeIs('admin.cuti.histori-cuti.*') ? 'active' : '' }}"
+                     href="{{ route('admin.cuti.histori-cuti.index') }}">Histori Cuti</a>
              </div>
          </div>
      </li>
@@ -65,30 +65,30 @@
              <i class="fas fa-folder-plus"></i>
              <span>STR dan SIP</span>
          </a>
-         <div id="STRdanSIP" class="collapse {{ Request::is('str*') || Request::is('sip*') ? 'show' : '' }}"
+         <div id="STRdanSIP" class="collapse {{ Request::routeIs('admin.str.*') || Request::routeIs('admin.sip.*') ? 'show' : '' }}"
              aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
                  <h6 class="collapse-header">Menu Cuti</h6>
-                 <a class="collapse-item {{ Request::is('str*') ? 'active' : '' }}"
+                 <a class="collapse-item {{ Request::routeIs('str*') ? 'active' : '' }}"
                      href="{{ route('admin.str.index') }}">STR</a>
-                 <a class="collapse-item {{ Request::is('sip*') ? 'active' : '' }}"
+                 <a class="collapse-item {{ Request::routeIs('sip*') ? 'active' : '' }}"
                      href="{{ route('admin.sip.index') }}">SIP</a>
              </div>
          </div>
      </li>
      {{-- masterData --}}
-     <li class="nav-item">
-         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#masterData"
+     <li class="nav-item ">
+         <a class="nav-link collapsed {{Request::routeIs('admin.master-data.*') ? 'font-weight-bold text-white' : ''}}" href="#" data-toggle="collapse" data-target="#masterData"
              aria-expanded="true" aria-controls="STRdanSIP">
-             <i class="fas fa-database"></i>
-             <span>Master Data</span>
+             <i class="fas fa-database {{Request::routeIs('admin.master-data.*') ? 'font-weight-bold text-white' : ''}}"></i>
+             <span class="">Master Data</span>
          </a>
          <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
                  <a class="collapse-item" href="#">Pangkat</a>
                  <a class="collapse-item" href="#">Golongan</a>
                  <a class="collapse-item" href="/ruangan">Ruangan</a>
-                 <a class="collapse-item" href="{{ route('admin.hariBesar.index') }}">Hari Besar</a>
+                 <a class="collapse-item {{Request::routeIs('admin.master-data.hari-besar.*') ? 'active' : ''}}" href="{{ route('admin.master-data.hari-besar.index') }}">Hari Besar</a>
              </div>
          </div>
      </li>

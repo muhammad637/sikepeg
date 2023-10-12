@@ -7,7 +7,7 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Hari Besar</h2>
-                <a href="{{ route('admin.hariBesar.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
+                <a href="{{ route('admin.master-data.hari-besar.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
                         class="fas fa-plus-square ml-1"></i></a>
 
             </div>
@@ -35,11 +35,11 @@
                                 <td>{{ Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }} </td>
                                 <td>{{ $item->keterangan }}</td>
                                 <td class="">
-                                    <a href="{{ route('admin.hariBesar.show', ['hariBesar' => $item->id]) }}"
+                                    <a href="{{ route('admin.master-data.hari-besar.show', ['hariBesar' => $item->id]) }}"
                                         class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
                                     <a href="{{ route('admin.hariBesar.edit', ['hariBesar' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
-                                    <form action="{{ route('admin.hariBesar.destroy', ['hariBesar' => $item->id]) }}"
+                                    <form action="{{ route('admin.master-data.hari-besar.destroy', ['hariBesar' => $item->id]) }}"
                                         class="d-inline" method="post">
                                         @method('delete')
                                         @csrf
