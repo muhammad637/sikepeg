@@ -14,7 +14,9 @@ class GolonganController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.master_data.golongan.index',[
+            'golongan' => Golongan::orderBy('nama_golongan', 'desc')->get()
+        ]);
     }
 
     /**
@@ -24,7 +26,7 @@ class GolonganController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.master_data.golongan.create');
     }
 
     /**
@@ -35,7 +37,15 @@ class GolonganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate(
+            [
+                'nama_golongan' => 'required',
+                'jenis' => 'required'
+            ]
+        );
+        // return $validatedData;
+        Golongan::create($validatedData);
+        return redirect(route('golongan.index'))->with('success','data berhasil ditambahkan');
     }
 
     /**
@@ -57,7 +67,9 @@ class GolonganController extends Controller
      */
     public function edit(Golongan $golongan)
     {
-        //
+        return view('pages.master_data.golongan.edit',[
+            'golongan' => $golongan
+        ]);
     }
 
     /**
@@ -69,7 +81,13 @@ class GolonganController extends Controller
      */
     public function update(Request $request, Golongan $golongan)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_golongan' => 'required',
+            'jenis' => 'required'
+        ]);
+        // return $validatedData;
+        $golongan->update($validatedData);
+        return redirect(route('golongan.index'))->with('success', 'data berhasil diupdate');
     }
 
     /**
@@ -80,6 +98,7 @@ class GolonganController extends Controller
      */
     public function destroy(Golongan $golongan)
     {
-        //
+        $golongan->delete();
+        return redirect(route('golongan.index'))->with('success', 'data berhasil dihapus');
     }
 }
