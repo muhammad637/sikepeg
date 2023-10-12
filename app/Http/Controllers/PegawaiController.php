@@ -77,6 +77,7 @@ class PegawaiController extends Controller
     private $rulesAsn = [
         'sekolah' => 'required',
         'tmt_cpns' => 'required',
+        'tmt_pppk' => 'required',
         'tmt_pns' => 'required',
         'tmt_pangkat_terakhir' => 'required',
         'golongan_id' => 'required',
@@ -411,6 +412,7 @@ class PegawaiController extends Controller
                         'sekolah' => null,
                         'tmt_cpns' => null,
                         'tmt_pns' => null,
+                        'tmt_pppk' => null,
                         'tmt_pangkat_terakhir' => null,
                         'pangkat_id' => null,
                         'golongan_id' => null,

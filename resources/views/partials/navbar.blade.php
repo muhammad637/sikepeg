@@ -148,7 +148,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> {{ auth()->guard('pegawai')->user()->nama_lengkap }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> {{ auth()->guard('pegawai')->user()->nama_depan ?? auth()->guard('admin')->user()->name }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{asset('./tampilan-sikepeg/img/foto.png')}}">
                             </a>

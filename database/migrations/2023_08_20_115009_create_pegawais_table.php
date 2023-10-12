@@ -46,6 +46,7 @@ return new class extends Migration
             // asn
             $table->string('tmt_cpns')->nullable();
             $table->string('tmt_pns')->nullable();
+            $table->string('tmt_pppk')->nullable();
             $table->string('tmt_pangkat_terakhir')->nullable();
             $table->unsignedBigInteger('pangkat_id')->nullable();
             $table->foreign('pangkat_id')->references('id')->on('pangkats');

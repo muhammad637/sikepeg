@@ -151,6 +151,22 @@
             </div>
         </div>
     </div>
+    @if ($status_tipe== 'pppk' )
+    <div class="mb-4">
+        <div class="row gap-5">
+            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                <label for="" class="form-label">
+                    <p class="mb-0 mt-md-2 mt-0">TMT PPPK</p>
+                </label>
+            </div>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                <input type="date" class="form-control @error('tmt_pppk') is-invalid @enderror " id="tmt_pns"
+                    aria-describedby="tmt_pppk" name="tmt_pppk" autocomplete="false" placeholder="Masukkan TMT PPPK ..."
+                    wire:model='tmt_pppk' required>
+            </div>
+        </div>
+    </div>
+    @elseif($status_tipe == 'pns')
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -179,6 +195,9 @@
             </div>
         </div>
     </div>
+    @endif
+    
+   
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
