@@ -77,9 +77,9 @@ class PegawaiController extends Controller
     ];
     private $rulesAsn = [
         'sekolah' => 'required',
-        'tmt_cpns' => 'required',
-        'tmt_pppk' => 'required',
-        'tmt_pns' => 'required',
+        // 'tmt_cpns' => 'required',
+        // 'tmt_pppk' => 'required',
+        // 'tmt_pns' => 'required',
         'tmt_pangkat_terakhir' => 'required',
         // 'golongan_id' => 'required',
         'jenis_tenaga' => 'required',
@@ -169,6 +169,7 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         // Fungsi untuk menyimpan data pegawai
         $pegawai = []; // Inisialisasi array pegawai
 
@@ -241,23 +242,22 @@ class PegawaiController extends Controller
                 ]);
                 $golongan_id = $golongan->id;
             }
-
             if ($request->status_tipe == 'pns') {
-                $dataPangkatGolongan = [
+                $status_tipe = [
                     'pangkat_id' => $pangkat_id,
-                    'golongan_id' => $golongan_id
+                    'golongan_id' => $golongan_id,
+                    'tmt_pns' => $request->tmt_pns,
+                    'tmt_cpns' => $request->tmt_cpns,
                 ];
             } elseif ($request->status_tipe == 'pppk') {
-                $dataPangkatGolongan = [
-                    'golongan_id' => $golongan_id
+                $status_tipe = [
+                    'golongan_id' => $golongan_id,
+                    'tmt_pppk' => $request->tmt_pppk,
                 ];
             }
-            $data = array_merge($dataPangkatGolongan, $data);
-
-
+            $data = array_merge($status_tipe, $data);
             // Menetapkan jumlah cuti tahunan default jika tidak ada input
             $sisaCutiTahunan = isset($request->cuti_tahunan) ? $request->cuti_tahunan : 12;
-
             // Validasi data untuk pegawai ASN
             $validatedAsn = $request->validate($this->rulesAsn);
             // Menggabungkan data dengan data tambahan untuk pegawai ASN

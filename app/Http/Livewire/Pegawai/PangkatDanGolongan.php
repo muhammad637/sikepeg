@@ -70,13 +70,12 @@ class PangkatDanGolongan extends Component
         $this->status_tipe = old('status_tipe', null);
         $this->tmt_pns = old('tmt_pns', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
-        $this->status_tipe = old('status_tipe',null);
-        if($this->status_tipe == 'pns'){
-            $this->pangkats = Pangkat::orderBy('nama_pangkat','asc')->get();
-            $this->golongans = Golongan::where('jenis', 'pns')->orderBy('nama_golongan', 'asc')->get(); 
-        }
-        elseif($this->status_tipe == 'pppk'){
-            $this->golongans = Golongan::where('jenis','pppk')->orderBy('nama_golongan','asc')->get(); 
+        $this->status_tipe = old('status_tipe', null);
+        if ($this->status_tipe == 'pns') {
+            $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
+            $this->golongans = Golongan::where('jenis', 'pns')->orderBy('nama_golongan', 'asc')->get();
+        } elseif ($this->status_tipe == 'pppk') {
+            $this->golongans = Golongan::where('jenis', 'pppk')->orderBy('nama_golongan', 'asc')->get();
         }
         $this->pangkat_id = old('pangkat_id', null);
         $this->golongan_id = old('golongan_id', null);
@@ -104,16 +103,15 @@ class PangkatDanGolongan extends Component
     public function updatedStatusTenaga($value)
     {
         // $this->status_tenaga = $value;
-        if($this->status_tenaga == 'non asn'){
+        if ($this->status_tenaga == 'non asn') {
             $this->status_tipe = 'non asn';
         }
         // old(['status_tenaga' => $value]);
     }
     public function updatedStatusTipe($value)
     {
-            $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
-            $this->golongans = Golongan::where('jenis', $value)->orderBy('nama_golongan', 'asc')->get();
-      
+        $this->golongans = Golongan::where('jenis', $value)->orderBy('nama_golongan', 'asc')->get();
+        $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
     }
     public function updatedJenisTenagaStruktural($value)
     {
