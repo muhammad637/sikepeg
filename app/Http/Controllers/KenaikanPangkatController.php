@@ -43,7 +43,7 @@ class KenaikanPangkatController extends Controller
         // try {
             //code...
             $pegawai = Pegawai::find($request->pegawai_id);
-            // return $request->all();
+            return $request->all();
             // $pegawai->update([
             //     'pangkat_golongan' => $request->pangkat. ' ' . $request->golongan,
             //     'tmt_pangkat_terakhir' => $request->tmt_pangkat_sampai
@@ -97,7 +97,7 @@ class KenaikanPangkatController extends Controller
                     ]   
                 );
               
-                return redirect(route('kenaikan_pangkat.index'))->with('success', 'data kenaikan pangkat pegawai berhasil ditambahkan');
+                return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'data kenaikan pangkat pegawai berhasil ditambahkan');
 
 
 
@@ -117,7 +117,6 @@ class KenaikanPangkatController extends Controller
 
 
     public function edit(KenaikanPangkat $kenaikan_pangkat){
-
         return view('pages.kenaikan_pangkat.edit', [
             'kenaikan_pangkat' => $kenaikan_pangkat,
             'pegawai' => Pegawai::all(),
@@ -158,25 +157,12 @@ class KenaikanPangkatController extends Controller
     //             'tmt_pangkat_sampai' => $request->tmpt_pangkat_sampai,
     //             'no_sk' => $request->no_sk,
     //             'tanggal_sk' => $request->tanggal_sk
-    //         ]);
-
-               
-    //             return redirect(route('kenaikan_pangkat.index'))->with('success', 'data kenaikan pangkat pegawai berhasil diupdate');
-
-
-
-
+    //         ]);            
+    //             return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'data kenaikan pangkat pegawai berhasil diupdate');
     //     } catch (\Throwable $th) {
-
     //         return $th->getMessage();
     //         //throw $th;
     //     }
-        
-
-
-
-
-
     // }
 
     
@@ -214,7 +200,7 @@ class KenaikanPangkatController extends Controller
                 'link_sk' => $request->link_sk
             ]);
 
-            return redirect(route('kenaikan_pangkat.index'))->with('success', 'kenaikan pangkat pegawai berhasil diupdate');
+            return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'kenaikan pangkat pegawai berhasil diupdate');
             //code...
         } catch (\Throwable $th) {
             //throw $th;

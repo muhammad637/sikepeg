@@ -35,8 +35,8 @@
              <i class="fas fa-chalkboard-teacher"></i>
              <span>Diklat</span></a>
      </li>
-     <li class="nav-item {{ Request::routeIs('kenaikanPangkat*') ? 'active' : '' }}">
-         <a class="nav-link " href="{{ route('admin.kenaikan_pangkat.index') }}">
+     <li class="nav-item  {{ Request::routeIs('admin.kenaikan-pangkat.*') ? 'active' : '' }}">
+         <a class="nav-link " href="{{ route('admin.kenaikan-pangkat.index') }}">
              <i class="fas fa-calendar-day"></i>
              <span>Kenaikan Pangkat</span></a>
      </li>

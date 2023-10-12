@@ -7,7 +7,7 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Kenaikan Pangkat Pegawai</h2>
-                <a href="{{ route('admin.kenaikan_pangkat.create') }}"
+                <a href="{{ route('admin.kenaikan-pangkat.create') }}"
                     class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i class="fas fa-plus-square ml-1"></i></a>
             </div>
         </div>
@@ -82,9 +82,9 @@
                                     </td>
                                     {{-- </td> --}}
                                     <td>
-                                        <a href="{{ route('admin.kenaikan_pangkat.riwayat', ['pegawai' => $item->id]) }}"
+                                        <a href="{{ route('admin.kenaikan-pangkat.riwayat', ['pegawai' => $item->id]) }}"
                                             class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
-                                        <a href="{{ route('admin.kenaikan_pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
+                                        <a href="{{ route('admin.kenaikan-pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
                                             class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                     </td>
 

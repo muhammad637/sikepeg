@@ -87,7 +87,7 @@ class PegawaiController extends Controller
     private $rulesSip = [
         'no_sip' => 'required',
         'tanggal_terbit_sip' => 'required',
-        'masa_berlaku_sip' => 'required',
+        'masa_berakhir_sip' => 'required',
         'link_sip' => 'required'
     ];
     private $rulesUmum = [
@@ -184,6 +184,9 @@ class PegawaiController extends Controller
 
             ]);
         }
+        // try {
+            //code...
+        
         // Menggabungkan data-data yang telah divalidasi dengan informasi tambahan seperti usia dan nama lengkap
         $data = array_merge(['usia' => $usia, 'nama_lengkap' => $nama_lengkap, 'ruangan_id' => $ruangan->id ?? $ruangan, 'password' => $password], $validatedData);
         // Jika status tenaga adalah "non asn", maka lakukan langkah-langkah berikut
@@ -299,6 +302,9 @@ class PegawaiController extends Controller
 
         // Mengarahkan pengguna ke halaman indeks pegawai dengan pesan sukses
         return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
+        // } catch (\Throwable $th) {
+        //     return $th->getMessage();
+        // }
     }
 
 
@@ -340,6 +346,9 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, Pegawai $pegawai)
     {
+        try {
+            //code...
+       
         $ruangan = $request->ruangan_id;
         $password = bcrypt(Carbon::parse($request->tanggal_lahir)->format('dmY'));
         if ($request->ruangan_id == 'ruangan_lainnya') {
@@ -388,6 +397,9 @@ class PegawaiController extends Controller
                 ];
             }
         }
+        if(isset($request->cuti_tahunan)){
+            $pegawai->update(['cuti_tahunan' => $request->cuti_tahunan]);
+        }
         if ($pegawai->status_tenaga != $request->status_tenaga && $request->status_tenaga == 'non asn') {
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
             $pegawai->update(
@@ -416,7 +428,6 @@ class PegawaiController extends Controller
             );
             count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
             count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
-            // $request->cuti_tahunan != null ? $pegawai->update(['cuti_tahunan' => intval($request->cuti_tahunan)]) : null;
             return redirect(route('admin.pegawai.index'))->with('success', 'pegawai berhasil di update')->withInput();
         } elseif ($pegawai->status_tenaga != $request->status_tenaga && $request->status_tenaga == 'asn') {
             $validatedDataAsn = $request->validate($this->rulesAsn);
@@ -442,7 +453,7 @@ class PegawaiController extends Controller
                 $validatedDataAsn, $dataPangkatGolongan
             ));
         }
-        if ($request->jenis_tenaga == 'umum') {
+        if ($request->jenis_tenaga == 'umum' || $request->jenis_tenaga == 'struktural') {
             count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
             count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
             $validatedDataUmum = $request->validate($this->rulesUmum);
@@ -451,6 +462,9 @@ class PegawaiController extends Controller
         }
 
         return redirect(route('admin.pegawai.index'))->with('success', 'data pegawai berhasil diupdate')->withInput();
+        } catch (\Throwable $th) {
+            return  $th->getMessage();
+        }
     }
 
     /**
