@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Ruangan</h1>
+    <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Master Data</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Tambah Ruangan</h2>
         <hr class="font-weight-bold">
@@ -19,7 +19,7 @@
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3" name="nama_ruangan"
                                 value="{{ old('nama_ruangan') }}" required>
-                        </div>
+                        </div>                        
                     </div>
         </form>
         <div class="text-right">

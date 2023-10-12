@@ -85,8 +85,8 @@
          </a>
          <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item" href="#">Pangkat</a>
-                 <a class="collapse-item" href="#">Golongan</a>
+                 <a class="collapse-item" href="/pangkat">Pangkat</a>
+                 <a class="collapse-item" href="/golongan">Golongan</a>
                  <a class="collapse-item" href="/ruangan">Ruangan</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.hari-besar.*') ? 'active' : ''}}" href="{{ route('admin.master-data.hari-besar.index') }}">Hari Besar</a>
              </div>

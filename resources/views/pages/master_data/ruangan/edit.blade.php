@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Ruangan</h1>
+    <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Master Data</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Edit Ruangan</h2>
         <hr class="font-weight-bold">

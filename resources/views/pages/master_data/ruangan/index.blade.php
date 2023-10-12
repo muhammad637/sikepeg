@@ -24,6 +24,7 @@
                         <tr class="text-dark">
                             <th scope="col">No</th>
                             <th scope="col">Nama Ruangan</th>
+                            <th scope="col">Jumlah Pegawai</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -32,6 +33,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }} </td>
                                 <td>{{ $item->nama_ruangan }}</td>
+                                <td>{{ $item->pegawai->count() }}</td>
                                 <td class="">
                                     <a href="{{ route('ruangan.edit', ['ruangan' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>

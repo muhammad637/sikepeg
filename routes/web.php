@@ -6,6 +6,8 @@ use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\KenaikanPangkatController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +81,8 @@ Route::resource('/sip', SIPController::class);
 Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');
 Route::resource('/hariBesar', HariBesarController::class);
 Route::resource('/ruangan', RuanganController::class);
+Route::resource('/pangkat', PangkatController::class);
+Route::resource('/golongan', GolonganController::class);
 // >>>>>>> sikepeg-2.0
 
 // // 
