@@ -24,6 +24,7 @@ class PangkatDanGolongan extends Component
     // asn
     public $tmt_cpns;
     public $tmt_pns;
+    public $tmt_pppk;
     public $tmt_pangkat_terakhir;
     public $pangkats = []; #pns saja
     public $pangkat_id; #pns saja

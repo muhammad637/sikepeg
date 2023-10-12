@@ -78,6 +78,7 @@ class PegawaiController extends Controller
     private $rulesAsn = [
         'sekolah' => 'required',
         'tmt_cpns' => 'required',
+        'tmt_pppk' => 'required',
         'tmt_pns' => 'required',
         'tmt_pangkat_terakhir' => 'required',
         // 'golongan_id' => 'required',
@@ -352,6 +353,7 @@ class PegawaiController extends Controller
     {
         try {
             //code...
+
 
             $ruangan_id = $request->ruangan_id;
             $password = bcrypt(Carbon::parse($request->tanggal_lahir)->format('dmY'));
