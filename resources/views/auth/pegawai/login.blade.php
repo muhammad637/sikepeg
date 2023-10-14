@@ -1,112 +1,58 @@
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>SB Admin 2 - Login</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('tampilan-sikepeg/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet"
-        type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('tampilan-sikepeg/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{ asset('tampilan-sikepeg/css/style.css') }}">
 </head>
 
-<body class="bg-gradient-primary">
-
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                                    </div>
-                                    @if (session()->get('fail'))
-                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            {{ session()->get('fail') }}
-                                            <button type="button" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    @endif
-                                    <form class="user" action="{{ route('pegawai.login_handler') }}" method="post">
-                                        @csrf
-
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Masukkan Username anda" name="nip_nippk"
-                                                value="{{ old('nip_nippk') }}">
-                                        </div>
-                                        @error('nip_nippk')
-                                            <div class="text-center d-block text-danger" style="margin-top:-15px">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password" name="password"
-                                                value="{{ old('password') }}">
-                                        </div>
-                                        @error('password')
-                                            <div class=" text-center d-block text-danger" style="margin-top:-15px;">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+<body>
+    <div class="login-clean">
+        <form method="post">
+            <div class="illustration">
+                <img src="{{ asset('image/logo.svg') }}" alt="">
             </div>
-
-        </div>
-
+            @if (session()->get('fail'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ session()->get('fail') }}
+                <button type="button" class="close" data-dismiss="alert"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+            <div>
+                <h2 class="text-center" style="font-family: Nunito;">Login</h2>
+            </div>
+            <br>
+            <form class="user" action="{{ route('pegawai.login_handler') }}" method="post">
+                @csrf
+                @method('get')
+            <div class="form-group">
+                <input class="form-control" type="text" name="username" placeholder="Masukan Username Anda"  value="{{ old('username') }}">
+            </div>
+            @error('username')
+            <div class="text-center d-block text-danger" style="margin-top:-15px">
+                {{ $message }}
+            </div>
+             @enderror
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}">
+            </div>
+            @error('password')
+            <div class=" text-center d-block text-danger" style="margin-top:-15px;">
+                {{ $message }}
+            </div>
+        @enderror
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button>
+            </form>
     </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('tampilan-sikepeg/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ 'tampilan-sikepeg/vendor/bootstrap/js/bootstrap.bundle.min.js' }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('tampilan-sikepeg/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
