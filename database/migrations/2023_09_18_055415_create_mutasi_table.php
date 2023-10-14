@@ -25,7 +25,7 @@ return new class extends Migration
             // $table->string('ruangan_tujuan')->nullable();
             $table->string('instansi_awal')->nullable();
             $table->string('instansi_tujuan')->nullable();
-            $table->enum('jenis_mutasi', ['internal', 'eksternal']);
+            $table->enum('jenis_mutasi', ['internal', 'eksternal'])->default('internal');
             $table->date('tanggal_berlaku')->nullable();
             $table->string('no_sk')->nullable();
             $table->date('tanggal_sk')->nullable();

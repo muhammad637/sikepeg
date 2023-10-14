@@ -16,8 +16,6 @@
                             <th scope="col">no</th>
                             <th scope="col">Pegawai</th>
                             <th scope="col">Jenis Mutasi</th>
-
-
                             <th scope="col">Ruangan Awal</th>
                             <th scope="col">Ruangan Tujuan</th>
                             <th scope="col">Instansi Awal</th>
@@ -32,10 +30,10 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->pegawai->nama_depan }}</td>
                                 <td>{{ $item->jenis_mutasi }}</td>
-                                <td>{{ $item->ruangan_awal }}</td>
-                                <td>{{ $item->ruangan_tujuan }}</td>
-                                <td>{{ $item->instansi_awal }}</td>
-                                <td>{{ $item->instansi_tujuan }}</td>
+                                <td>{{ $item->ruanganAwal->nama_ruangan ?? '-' }}</td>
+                                <td>{{ $item->ruanganTujuan->nama_ruangan ?? '-' }}</td>
+                                <td>{{ $item->instansi_awal ?? '-' }}</td>
+                                <td>{{ $item->instansi_tujuan ?? '-' }}</td>
                                 <td>
                                     {{ $item->tanggal_berlaku }}
                                 </td>
@@ -45,9 +43,10 @@
                                         class="btn btn-info">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
-                                    <a href="{{ $item->link_mutasi }}" class="btn btn-success" target="_blank">
-                                        <i class="fas fa-link"></i>
-                                    </a>
+                                    <a target="popup" onclick="window.open(`{{ $item->link_sk }}`,'name','width=600,height=400')" class="btn btn-primary"
+                                        style="cursor: pointer">
+                                        <i class="fas fa-file-alt text-white"></i></a>
+                                   
                                     <a href="{{ route('admin.mutasi.edit', ['mutasi' => $item->id]) }}"
                                         class="btn btn-warning">
                                         <i class="fas fa-pencil-alt"></i>

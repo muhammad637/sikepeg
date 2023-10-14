@@ -19,38 +19,24 @@ class JenisMutasi extends Component
     public $select_pegawai;
     public $link_sk;
     //eksternal
-    public $instansi_awal;
+    public $instansi_awal = 'rsud blambangan';
     public $instansi_tujuan;
 
 
     public function mount(){
         $this->jenis_mutasi = old('jenis_mutasi', null);
-        $this->ruangan_awal_id = old('ruangan_awal', null);
-        $this->ruangan_tujuan_id = old('ruangan_tujuan', null);
-        $this->tanggal_berlaku = old('tanggal_berlaku', null);
-        $this->no_sk = old('no_sk', null);
-        $this->tanggal_sk = old('tanggal_sk', null);
-        $this->instansi_awal = old('instansi_awal', null);
+        $this->ruangan_awal_id = old('ruangan_awal_id', null);
+        $this->ruangan_tujuan_id = old('ruangan_tujuan_id', null);
+        $this->instansi_awal = old('instansi_awal', 'rsud blambangan');
         $this->instansi_tujuan = old('instansi_tujuan', null);
-        $this->link_sk = old('link_sk', null);
         $this->ruangans = Ruangan::orderBy('nama_ruangan', 'asc')->get();
     }
-
-
-    public function updatedJenisMustasi($value)
-    {
-        $this->jenis_mutasi = $value;
-        // old(['status_tenaga' => $value]);
-    }
-
     public function updatedSelectPegawai($value){
         $pegawai = Pegawai::find($value);
         if ($pegawai) {
             $this->ruangan_awal_id = $pegawai->ruangan->id;
         }
     }
-
-
     public function render()
     {
 

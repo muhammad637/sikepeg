@@ -10,7 +10,6 @@ use App\Models\Pangkat;
 use App\Models\Golongan;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
-
 use App\Imports\PegawaiImport;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +37,7 @@ class PegawaiController extends Controller
         );
         if (Auth::guard('pegawai')->attempt($cred)) {
             return redirect()->route('pegawai.home');
-        } else {
+        } else {    
             session()->flash('fail', 'data yang anda masukkan salah, coba lagi');
             return redirect()->back();
         }

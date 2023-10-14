@@ -30,7 +30,7 @@
              <span>Mutasi</span></a>
      </li>
 
-     <li class="nav-item  {{ Request::routeIs('diklat*') ? 'active' : '' }}">
+     <li class="nav-item  {{ Request::routeIs('admin.diklat.*') ? 'active' : '' }}">
          <a class="nav-link" href="{{ route('admin.diklat.index') }}">
              <i class="fas fa-chalkboard-teacher"></i>
              <span>Diklat</span></a>

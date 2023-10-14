@@ -42,62 +42,28 @@
                             @endphp
                             <tr>
                                 {{-- <td>{{$loop->iteration}}</td> --}}
-
-
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->nama_depan ?? null }} </td>
+                                <td>{{ $item->nama_lengkat ?? $item->nama_depan }} </td>
                                 <td>{{ $item->mutasi[0]->jenis_mutasi }}</td>
-                                <td>{{ $item->mutasi[0]->tanggal_berlaku }}</td>
-                                <td>{{ $item->mutasi[0]->ruangan_awal }}</td>
-                                <td>{{ $item->mutasi[0]->ruangan_tujuan }}</td>
-                                <td>{{ $item->mutasi[0]->instansi_awal }}</td>
-                                <td>{{ $item->mutasi[0]->instansi_tujuan }}</td>
+                                <td>{{ Carbon\carbon::parse($item->mutasi[0]->tanggal_berlaku)->format('d-m-Y') }}</td>
+                                <td>{{ $item->mutasi[0]->ruanganAwal->nama_ruangan ?? '-'}}</td>
+                                <td>{{ $item->mutasi[0]->ruanganTujuan->nama_ruangan ?? ' - ' }}</td>
+                                <td>{{ $item->mutasi[0]->instansi_awal ?? ' - ' }}</td>
+                                <td>{{ $item->mutasi[0]->instansi_tujuan ??' - '}}</td>
                                 <td>{{ $item->mutasi[0]->no_sk }}</td>
-                                <td><!-- Button trigger modal preview-->
-                                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#modal_str_link-{{ $item->id }}">
-                                        <i class="fas fa-file-alt text-white"></i>
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade bd-example-modal-lg" id="modal_str_link-{{ $item->id }}"
-                                        tabindex="-1" role="dialog"
-                                        aria-labelledby="modal_str_link-{{ $item->id }}Label" aria-hidden="true">
-                                        <div class="modal-dialog modal-xl" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title"
-                                                        id="modal_str_link-{{ $item->id }}Label">Preview Dokumen
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <iframe
-                                                        src="{{$data[0]}}preview"
-                                                        class="w-100" style="height: 40em"></iframe>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div></td>
-                                --}}
+                                <td>
                                     <a target="popup"
                                         onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
                                         class="btn btn-primary" style="cursor: pointer">
                                         <i class="fas fa-file-alt text-white"></i></a>
+                                </td>
                                 <td>
                                     <a href="{{ route('admin.mutasi.show', ['mutasi' => $item->mutasi[0]]) }}"
-                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
+                                        class="btn btn-info text-white "><i class="fas fa-info-circle"></i></a>
                                     <a href="{{ route('admin.mutasi.edit', ['mutasi' => $item->mutasi[0]]) }}"
-                                        class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
+                                        class="btn btn-warning text-white"><i class="fas fa-pen "></i></a>
                                 </td>
-                            </tr>
+                            </tr> 
                         @endforeach
                     </tbody>
                 </table>

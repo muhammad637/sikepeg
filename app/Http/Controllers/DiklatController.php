@@ -13,10 +13,7 @@ class DiklatController extends Controller
         $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
             $query->orderBy('tanggal_sertifikat', 'desc');
         }])->get();
-        // return $pegawai;
-        // $pegawai = Pegawai::where('jenis_tenaga', 'umum')->with('diklat', function ($query) {
-        //     $query->orderBy('created_at', 'desc');
-        // })->get();
+        
         return view('pages.diklat.index', ['pegawai' => $pegawai]);
     }
 
@@ -26,9 +23,6 @@ class DiklatController extends Controller
         return view('pages.diklat.create', ['pegawai' => $pegawai]);
     }
     public function edit(Diklat $diklat){
-        // $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
-        //     $query->orderBy('created_at', 'desc');
-        // }])->get();
         return view('pages.diklat.edit', [
             'diklat' => $diklat
         ]);
@@ -36,9 +30,7 @@ class DiklatController extends Controller
 
     public function update(Request $request, Diklat $diklat){
         try {
-            // return request()->all();
-            //code...
-            // $pegawai = Pegawai::find($diklat->pegawai_id);
+           
             $validatedData = $request->validate([
                 'nama_diklat' => 'required',
                 'jumlah_jam' => 'required',
@@ -96,8 +88,6 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => 'required|date',
                 'link_sertifikat' => 'required'
             ]);
-
-
             $diklat = Diklat::create([
                 'pegawai_id' => $request->pegawai_id,
                 'nama_diklat' => $request->nama_diklat,
@@ -109,7 +99,7 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => $request->tanggal_sertifikat,
                 'link_sertifikat' => $request->link_sertifikat
             ]);
-            return redirect(route('diklat.index'))->with('success', 'diklat berhasil ditambahkan');
+            return redirect()->route('admin.diklat.index')->with('success', 'diklat berhasil ditambahkan');
         } catch (\Throwable $th) {
             //throw $th;
             return $th->getMessage();

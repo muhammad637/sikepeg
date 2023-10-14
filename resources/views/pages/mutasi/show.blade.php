@@ -41,7 +41,7 @@
                             <span class="mb-0 text-dark ">Ruangan Awal</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->ruangan_awal }}"
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->ruanganAwal->nama_ruangan ?? '-' }}"
                                 readonly>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                             <span class="mb-0 text-dark ">Ruangan Tujuan</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->ruangan_tujuan }}"
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->ruanganTujuan->nama_ruangan ?? '-' }}"
                                 readonly>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                             <span class="mb-0 text-dark ">Instansi Awal</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->instansi_awal }}"
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->instansi_awal ?? '- ' }}"
                                 readonly>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                             <span class="mb-0 text-dark ">Instansi Tujuan</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->instansi_tujuan }}"
+                            <input class="form-control" id="pegawai" name="pegawai" value="{{ $mutasi->instansi_tujuan ?? '-' }}"
                                 readonly>
                         </div>
                     </div>

@@ -21,7 +21,7 @@ class MutasiController extends Controller
         return view(
             'pages.mutasi.index',
             [
-    
+
                 'pegawai' => $pegawai,
                 'i' => 0,
             ]
@@ -35,47 +35,47 @@ class MutasiController extends Controller
     }
     public function store(Request $request)
     {
-        try {
-            $pegawai = Pegawai::find($request->pegawai_id);
-            $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->first();
-            $validatedData = '';
-            if ($request->jenis_mutasi == 'internal') {
+        // return $request->all();
+        $pegawai = Pegawai::find($request->pegawai_id);
+        $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->first();
+        if ($request->jenis_mutasi == 'internal') {
                 if ($mutasi) {
-                    Carbon::parse($mutasi->tanggal_sk) < Carbon::parse($request->tanggal_sk) ? $pegawai->update(['ruangan' => $request->ruangan_tujuan]) : null;
+                    Carbon::parse($mutasi->tanggal_sk) <= Carbon::parse($request->tanggal_sk) ? $pegawai->update(['ruangan_id' => $request->ruangan_tujuan_id]) : null;
                 } else {
-                    $pegawai->update(['ruangan' => $request->ruangan_tujuan]);
+                    $bandingkan = Carbon::parse($pegawai->created_at)->format('Y-m-d') <= Carbon::parse($request->tanggal_sk)->format('Y-m-d');
+                    $bandingkan ?  $pegawai->update(['ruangan_id' => $request->ruangan_tujuan_id]) : null;
                 }
-                $validatedData =   $request->validate(
+                // return $pegawai->created_at;
+                $request->validate(
                     [
                         'pegawai_id' => '',
                         'tanggal_berlaku' => 'required|date',
-                        'no_sk' => 'required',
-                        'tanggal_sk' => 'required|date',
-                        'link_sk' => 'required',
                         'ruangan_awal_id' => 'required',
                         'ruangan_tujuan_id' => 'required',
-                    ]
-                );
-            } else {
-                $pegawai->update(['status_pegawai' => 'nonaktif']);
-                $validatedData =   $request->validate(
-                    [
-                        'pegawai_id' => '',
-                        'tanggal_berlaku' => 'required|date',
                         'no_sk' => 'required',
                         'tanggal_sk' => 'required|date',
                         'link_sk' => 'required',
-                        'instansi_awal_id' => 'required',
-                        'instansi_tujuan_id' => 'required'
                     ]
                 );
-            }
-            $mutasi = Mutasi::create(request()->all());
-            return redirect()->back()->with('success', 'data mutasi pegawai berhasil ditambahkan');
-            //code...
-        } catch (\Throwable $th) {
-            return $th->getMessage();            //throw $th;
+           
+        } else {
+            $pegawai->update(['status_pegawai' => 'nonaktif']);
+            $validatedData =   $request->validate(
+                [
+                    'pegawai_id' => '',
+                    'tanggal_berlaku' => 'required|date',
+                    'no_sk' => 'required',
+                    'tanggal_sk' => 'required|date',
+                    'link_sk' => 'required',
+                    'instansi_awal_id' => 'required',
+                    'instansi_tujuan_id' => 'required'
+                ]
+            );
         }
+        $mutasi = Mutasi::create(request()->all());
+        return redirect()->route('admin.mutasi.index')->with('success', 'data mutasi pegawai berhasil ditambahkan');
+        //code...
+
     }
 
 
@@ -83,7 +83,8 @@ class MutasiController extends Controller
     public function edit(Mutasi $mutasi)
     {
         return view('pages.mutasi.edit', [
-            'mutasi' => $mutasi
+            'mutasi' => $mutasi,
+            'pegawai' => Pegawai::orderBy('nama_lengkap','asc')->get()
         ]);
     }
 
@@ -109,9 +110,17 @@ class MutasiController extends Controller
         //   return request()->all();
         try {
             $pegawai = Pegawai::find($mutasi->pegawai_id);
-            $validatedData = '';
+            $mutasiTerbaru = Mutasi::orderBy('tanggal_sk','desc')->first();
+            $perbandinganMutasi = Carbon::parse($mutasi->tanggal_sk) >= Carbon::parse($mutasiTerbaru->tanggal_sk);
+            $validatedData = [];
             if ($request->jenis_mutasi == 'internal') {
-                $pegawai->update(['ruangan' => $request->ruangan_tujuan]);
+                if($perbandinganMutasi){
+                    $perbandinganPegawai = Carbon::parse($request->tanggal_sk) >= Carbon::parse($pegawai->created_at);
+                    $perbandinganPegawai ? $pegawai->update([ 'ruangan_id' => $request->ruangan_tujuan_id ]) : $pegawai->update(['ruangan_id' => $mutasi->ruangan_awal_id]);
+                }else{
+                    $perbandinganPegawai = Carbon::parse($mutasiTerbaru->tanggal_sk) >= Carbon::parse($pegawai->created_at);
+                    $perbandinganPegawai ? $pegawai->update(['ruangan_id' => $mutasiTerbaru->ruangan_tujuan_id]) : $pegawai->update(['ruangan_id' => $mutasiTerbaru->ruangan_awal_id]);
+                }
                 $validatedData =   $request->validate(
                     [
                         'tanggal_berlaku' => 'required|date',
@@ -123,7 +132,6 @@ class MutasiController extends Controller
                     ]
                 );
                 $mutasi->update([
-
                     'tanggal_berlaku' => $request->tanggal_berlaku,
                     'no_sk' => $request->no_sk,
                     'tanggal_sk' => $request->tanggal_sk,
@@ -134,6 +142,7 @@ class MutasiController extends Controller
                     'intansi_tujuan' => null
                 ]);
             } else {
+                
                 $pegawai->update(['status_pegawai' => 'nonaktif']);
                 $validatedData =   $request->validate(
                     [
@@ -147,7 +156,6 @@ class MutasiController extends Controller
                     ]
                 );
                 $mutasi->update([
-
                     'tanggal_berlaku' => $request->tanggal_berlaku,
                     'no_sk' => $request->no_sk,
                     'tanggal_sk' => $request->tanggal_sk,
@@ -160,7 +168,7 @@ class MutasiController extends Controller
             }
 
 
-            return redirect('mutasi.index')->with('success', 'data mutasi pegawai berhasil diupdate');
+            return redirect()->route('admin.mutasi.index')->with('success', 'data mutasi pegawai berhasil diupdate');
 
             //code...
         } catch (\Throwable $th) {

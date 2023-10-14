@@ -12,8 +12,9 @@
 
 <body>
     <div class="login-clean">
-        <form method="post">
-            <div class="illustration">
+        <form action="{{ route('admin.login_handler') }}" method="post">
+             @csrf
+                <div class="illustration">
                 <img src="{{ asset('image/logo.svg') }}" alt="">
             </div>
             @if (session()->get('fail'))
@@ -29,9 +30,7 @@
                 <h2 class="text-center" style="font-family: Nunito;">Login</h2>
             </div>
             <br>
-            <form class="user" action="{{ route('admin.login_handler') }}" method="post">
-                @csrf
-                @method('get')
+            {{-- <form class="user"  method="post"> --}}
             <div class="form-group">
                 <input class="form-control" type="text" name="username" placeholder="Masukan Username Anda"  value="{{ old('username') }}">
             </div>
