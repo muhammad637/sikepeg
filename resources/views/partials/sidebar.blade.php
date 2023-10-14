@@ -11,20 +11,20 @@
      </a>
 
      <!-- Nav Item - Dashboard -->
-     <li class="nav-item {{ Request::routeIs('admin/dashboard*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('admin.dashboard.*') ? 'active' : '' }}">
          <a class="nav-link " href="{{ route('admin.dashboard.index') }}">
              <i class="fas fa-tachometer-alt"></i>
              <span>Dashboard</span></a>
      </li>
 
-     <li class="nav-item {{ Request::routeIs('pegawai*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('admin.pegawai.*') ? 'active' : '' }}">
          <a class="nav-link" href="{{ route('admin.pegawai.index') }}">
              <i class="fas fa-address-card"></i>
              <span>Personal File</span></a>
      </li>
 
 
-     <li class="nav-item {{ Request::routeIs('mutasi*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('admin.mutasi.*') ? 'active' : '' }}">
          <a class="nav-link " href="{{ route('admin.mutasi.index') }}">
              <i class="fas fa-compress-alt"></i>
              <span>Mutasi</span></a>

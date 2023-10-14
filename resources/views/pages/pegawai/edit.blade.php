@@ -261,23 +261,15 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-6">
                         <h3 class="judul-text mt-5 mt-xl-0">Pangkat Dan Golongan</h3>
                         <hr style=" height:.1rem;" class="bg-primary">
                         @livewire('pegawai.pangkat-dan-golongan-edit', ['pegawai' => $pegawai])
                     </div>
-
                 </div>
-
-                <hr>
-                <a href="{{ route('admin.pegawai.index') }}" class="btn btn-secondary">kembali</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                 <hr>
+                     <a href="{{ route('admin.pegawai.index') }}" class="btn btn-secondary">kembali</a>
+                     <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

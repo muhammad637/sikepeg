@@ -35,7 +35,6 @@
             </select>
         </div>
     </div>
-    {{$nama_golongan}}
     <div class="row mb-3 {{$golongan_id == 'lainnya' ? '' : 'd-none'}}">
         <label for="nama_golongan" class="col-sm-4 col-form-label">Jenis Golongan Lainnya</label>
         <div class="col-sm-8">

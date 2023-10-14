@@ -27,7 +27,7 @@
             <select name="golongan_id" class="form-control" id="golongan" wire:model='golongan_id'>
                 <option value="">Pilih</option>
                 @foreach ($resultGolongan as $item)
-                <option value="{{ $item->id }}" {{ old('golongan')==$item->id ? 'selected' : '' }}>
+                <option value="{{ $item->id }}" {{ old('golongan_id' , $kenaikan_pangkat->golongan_id) == $item->id ? 'selected' : '' }}>
                     {{ $item->nama_golongan }}</option>
                 @endforeach
                 <option value="lainnya">Lainnya ....</option>
@@ -67,7 +67,7 @@
             <select name="golongan_id" class="form-control" id="golongan" wire:model='golongan_id'>
                 <option value="">Pilih</option>
                 @foreach ($resultGolongan as $item)
-                <option value="{{ $item->id }}" {{ old('golongan')==$item->id ? 'selected' : '' }}>
+                <option value="{{ $item->id }}" {{ $golongan_id == $item->id ? 'selected' : '' }}>
                     {{ $item->nama_golongan }}</option>
                 @endforeach
                 <option value="lainnya">Lainnya ....</option>
@@ -83,18 +83,20 @@
 
     <script>
         $(document).ready(function() {
-                            livewire = new Livewire()
-                               
+                            livewire = new Livewire()  
+                                                
                                 $('#golongan').select2();
                                 livewire.hook('message.processed', (message, component) => {
                                     $('#golongan').select2()
                                 })
-                               
                                 $('#golongan').on('change', function(){
                                     var data = $('#golongan').select2('val')
                                     @this.set('golongan_id',data)
                                 })
+                                var data = $('#golongan').select2('val')
+                                console.log(data)
                             });
+                           
     </script>
     @endif
 </div>

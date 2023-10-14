@@ -162,10 +162,10 @@ class PegawaiController extends Controller
         $ruangan = $request->ruangan_id;
         if ($request->ruangan_id == 'ruangan_lainnya') {
             $request->validate(
-                ['nama_ruangan' => 'required']
+                ['nama_ruangan' => 'required|unique:ruangans,nama_ruangan']
             );
             $ruangan = Ruangan::create([
-                'nama_ruangan' => $request->nama_ruangan,
+                'nama_ruangan' => strtolower($request->nama_ruangan),
 
             ]);
         }
@@ -186,15 +186,21 @@ class PegawaiController extends Controller
       
         $pangkat_id = $request->pangkat_id;
         if ($request->pangkat_id == 'pangkat_lainnya') {
+            $request->validate([
+                'nama_pangkat' => 'unique:pangkats,nama_pangkat'
+            ]);
             $pangkat = Pangkat::create([
-                'nama_pangkat' => $request->nama_pangkat,
+                'nama_pangkat' => strtolower($request->nama_pangkat),
             ]);
             $pangkat_id = $pangkat->id;
         }
         $golongan_id = $request->golongan_id;
         if ($request->golongan_id == 'golongan_lainnya') {
+            $request->validate([
+                'nama_golongan' => 'unique:golongans,nama_golongan',
+            ]);
             $golongan = Golongan::create([
-                'nama_golongan' => $request->nama_golongan,
+                'nama_golongan' => strtolower($request->nama_golongan),
                 'jenis' => $request->status_tipe
             ]);
             $golongan_id = $golongan->id;
@@ -283,14 +289,14 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, Pegawai $pegawai)
     {
-        try {
+        // try {
             //code...
             $ruangan_id = $request->ruangan_id;
             $password = bcrypt(Carbon::parse($request->tanggal_lahir)->format('dmY'));
             $validatedData = $request->validate($this->validatedPegawaiEdit($pegawai));
             if ($request->ruangan_id == 'ruangan_lainnya') {
                 $ruangan = Ruangan::create([
-                    'nama_ruangan' => $request->nama_ruangan
+                    'nama_ruangan' => strtolower($request->nama_ruangan)
                 ]);
                 $ruangan_id = $ruangan->id;
             }
@@ -302,13 +308,26 @@ class PegawaiController extends Controller
             ]);
             $usia = $this->lama($request->tanggal_lahir);
             $pegawai->update(array_merge(['usia' => $usia], $validatedData));
-            if (isset($request->pangkat_id) || isset($request->golongan_id)) {
+            if($request->status_tipe == 'pns'){
+                $request->validate([
+                    'golongan_id' => 'required',
+                    'pangkat_id' => 'required'
+                ],[
+                    'pangkat_id.required' => 'pangkat_id masih kosong',
+                    'golongan_id.required' => 'golongna_id masih kosong',
+                ]);
+            }elseif($request->status_tipe == 'pppk'){
+                $request->validate([
+                    'golongan_id' => 'required',
+                ]);
+            }
+            if (isset($request->pangkat_id) || isset($request->golongan_id)) {    
                 $pangkat_id = $request->pangkat_id;
                 if (
                     $request->pangkat_id == 'pangkat_lainnya'
                 ) {
                     $pangkat = Pangkat::create([
-                        'nama_pangkat' => $request->nama_pangkat,
+                        'nama_pangkat' => strtolower($request->nama_pangkat),
                     ]);
                     $pangkat_id = $pangkat->id;
                 }
@@ -316,7 +335,7 @@ class PegawaiController extends Controller
                 $golongan_id = $request->golongan_id;
                 if ($request->golongan_id == 'golongan_lainnya') {
                     $golongan = Golongan::create([
-                        'nama_golongan' => $request->nama_golongan,
+                        'nama_golongan' => strtolower($request->nama_golongan),
                         'jenis' => $request->status_tipe
                     ]);
                     $golongan_id = $golongan->id;
@@ -325,6 +344,7 @@ class PegawaiController extends Controller
                 if (
                     $request->status_tipe == 'pns'
                 ) {
+                   
                     $dataPangkatGolongan = [
                         'pangkat_id' => $pangkat_id,
                         'golongan_id' => $golongan_id
@@ -405,9 +425,9 @@ class PegawaiController extends Controller
             }
 
             return redirect(route('admin.pegawai.index'))->with('success', 'data pegawai berhasil diupdate')->withInput();
-        } catch (\Throwable $th) {
-            return  $th->getMessage();
-        }
+        // } catch (\Throwable $th) {
+        //     return  $th->getMessage();
+        // }
     }
 
     /**

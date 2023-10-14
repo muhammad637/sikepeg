@@ -11,7 +11,6 @@
         <h2 class="m-0 font-weight-bold text-dark">Tambah Mutasi Pegawai</h2>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.mutasi.store') }}" method="post">
-
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">

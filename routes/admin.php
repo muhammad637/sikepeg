@@ -66,8 +66,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/', [CutiController::class, 'historiCuti'])->name('histori-cuti.index');
             });
         });
+        
         Route::resource('/mutasi', MutasiController::class);
         Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class, 'history'])->name('mutasi.history');
+
         Route::resource('/diklat', DiklatController::class);
         Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
 
@@ -76,6 +78,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [KenaikanPangkatController::class,'index'])->name('index');
             Route::get('/create',[KenaikanPangkatController::class,'create'])->name('create');
             Route::get('/{kenaikan_pangkat}/edit',[KenaikanPangkatController::class,'edit'])->name('edit');
+            Route::get('/{kenaikan_pangkat}',[KenaikanPangkatController::class,'show'])->name('show');
             Route::post('/store',[KenaikanPangkatController::class,'store'])->name('store');
             Route::put('/{kenaikan_pangkat}/update',[KenaikanPangkatController::class,'update'])->name('update');
             Route::get('/riwayat/{pegawai:id}',[KenaikanPangkatCOntroller::class,'riwayat'])->name('riwayat');

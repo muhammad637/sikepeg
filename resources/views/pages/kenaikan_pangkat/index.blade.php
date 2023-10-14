@@ -55,7 +55,7 @@
                                             <i class="fas fa-file-alt text-white"></i></a> 
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.kenaikan-pangkat.riwayat', ['pegawai' => $item->id]) }}"
+                                        <a href="{{ route('admin.kenaikan-pangkat.show', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
                                             class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
                                         <a href="{{ route('admin.kenaikan-pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
                                             class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>

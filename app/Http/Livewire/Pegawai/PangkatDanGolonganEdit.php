@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pegawai;
 
+use Carbon\Carbon;
 use App\Models\Pangkat;
 use Livewire\Component;
 use App\Models\Golongan;
@@ -28,8 +29,10 @@ class PangkatDanGolonganEdit extends Component
     public $tmt_pangkat_terakhir;
     public $pangkats = []; #pns saja
     public $pangkat_id; #pns saja
+    public $nama_pangkat;
     public $golongans = []; #pns atau pppk
     public $golongan_id; #pns atau pppk
+    public $nama_golongan;
     public $pangkat_golongan;
     public $sekolah;
     // public $jabatan;
@@ -71,7 +74,9 @@ class PangkatDanGolonganEdit extends Component
         $this->tmt_pns = old('tmt_pns', null);
         $this->tmt_pppk = old('tmt_pppk', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
-        $this->pangkat_golongan = old('pangkat_golongan', null);
+        // $this->pangkat_golongan = old('pangkat_golongan', null);
+        $this->nama_pangkat = old('nama_pangkat',null);
+        $this->nama_golongan = old('nama_golongan', null);
         $this->sekolah = old('sekolah', null);
 
         // umum
@@ -92,7 +97,6 @@ class PangkatDanGolonganEdit extends Component
             $this->tmt_cpns = old('tmt_cpns', $this->pegawai->tmt_cpns);
             $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
             $this->tmt_pns = old('tmt_pns', $this->pegawai->tmt_pns);
-            $this->tmt_pppk = old('tmt_pppk', $this->pegawai->tmt_pppk);
             $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->tmt_pangkat_terakhir);
             $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->pangkat_golongan );
             if($this->pegawai->status_tipe == 'pns'){
@@ -100,7 +104,9 @@ class PangkatDanGolonganEdit extends Component
                 $this->golongans = Golongan::orderBy('nama_golongan','asc')->where('jenis','pns')->get();
             }
             elseif($this->pegawai->status_tipe == 'pppk'){
+                $tmt_pppk = Carbon::parse($this->pegawai->tmt_pppk)->format('Y-m-d') ;
                 $this->golongans = Golongan::orderBy('nama_golongan', 'asc')->where('jenis', 'pppk')->get();
+                $this->tmt_pppk = old('tmt_pppk', $tmt_pppk ?? null);
             }
             $this->pangkat_id = old('pangkat_id', $this->pegawai->pangkat_id);
             $this->golongan_id = old('golongan_id', $this->pegawai->golongan_id);

@@ -37,7 +37,6 @@ class MutasiController extends Controller
     {
         try {
             $pegawai = Pegawai::find($request->pegawai_id);
-
             $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->first();
             $validatedData = '';
             if ($request->jenis_mutasi == 'internal') {
@@ -53,10 +52,9 @@ class MutasiController extends Controller
                         'no_sk' => 'required',
                         'tanggal_sk' => 'required|date',
                         'link_sk' => 'required',
-                        'ruangan_awal' => 'required',
-                        'ruangan_tujuan' => 'required',
+                        'ruangan_awal_id' => 'required',
+                        'ruangan_tujuan_id' => 'required',
                     ]
-
                 );
             } else {
                 $pegawai->update(['status_pegawai' => 'nonaktif']);
@@ -67,14 +65,13 @@ class MutasiController extends Controller
                         'no_sk' => 'required',
                         'tanggal_sk' => 'required|date',
                         'link_sk' => 'required',
-                        'instansi_awal' => 'required',
-                        'instansi_tujuan' => 'required'
+                        'instansi_awal_id' => 'required',
+                        'instansi_tujuan_id' => 'required'
                     ]
                 );
             }
             $mutasi = Mutasi::create(request()->all());
             return redirect()->back()->with('success', 'data mutasi pegawai berhasil ditambahkan');
-
             //code...
         } catch (\Throwable $th) {
             return $th->getMessage();            //throw $th;

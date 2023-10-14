@@ -32,9 +32,8 @@
                             @endforeach
                         </select>
                     </div>
-
                 </div>
-                @livewire('kenaikan-pangkat.edit-jenis-golongan')
+                @livewire('kenaikan-pangkat.edit-jenis-golongan',['kenaikan_pangkat' => $kenaikan_pangkat])
                 <div class="row mb-3">
                     <label for="nama_jabatan_fungsional" class="col-sm-4 col-form-label">Jabatan</label>
                     <div class="col-sm-8">
@@ -45,10 +44,10 @@
                 <div class="row mb-3">
                     <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" name="tmt_pangkat_dari" required>
+                        <input type="date" class="form-control" name="tmt_pangkat_dari" required value="{{old('tmt_pangkat_dari',$kenaikan_pangkat->tmt_pangkat_dari)}}">
                     </div>
                     <div class="col-sm-4">
-                        <input type="date" class="form-control" name="tmt_pangkat_sampai" required>
+                        <input type="date" class="form-control" name="tmt_pangkat_sampai" required value="{{old('tmt_pangakt_sampai', $kenaikan_pangkat->tmt_pangkat_sampai)}}">
                     </div>
                 </div>
                 <div class="row mb-3">

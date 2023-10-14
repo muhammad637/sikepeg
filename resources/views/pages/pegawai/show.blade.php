@@ -254,8 +254,7 @@
                                         {{ $pegawai->tmt_pppk }}
                                     </div>
                                 </div>
-                            @endif
-                                
+                            @endif  
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12 ">
                                         <span class="mb-0 text-dark fw-bolder text-uppercase">
@@ -401,7 +400,7 @@
                                     </div>
                                 </div>
 
-                                @if ($pegawai->jenis_tenaga_struktural == 'umum')
+                                @if ($pegawai->jenis_tenaga == 'umum' || $pegawai->jenis_tenaga == 'struktural')
                                     <div class="row mb-2">
                                         <div class="col-sm-12 col-md-12 col-lg-12 ">
                                             <span class="mb-0 text-dark fw-bolder">No Karpeg</span>
@@ -427,30 +426,7 @@
                                             {{ $pegawai->no_npwp }}
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">No HP</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->no_hp }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">Email</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12  text-lowercase">
-                                            {{ $pegawai->email }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">Pelatihan</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->pelatihan }}
-                                        </div>
-                                    </div>
+                                   
                                 @endif
                                 @if (count($pegawai->str) > 0 && count($pegawai->sip) > 0)
                                     <div class="row mb-2">
@@ -487,6 +463,7 @@
                                         </div>
                                     </div>
                                 @endif
+                                
                             @endif
                         </div>
                     </div>

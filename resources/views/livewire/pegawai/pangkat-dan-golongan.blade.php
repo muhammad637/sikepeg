@@ -221,7 +221,7 @@
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
                 <select class="form-control font-weight-normal pangkat-id " name='pangkat_id' wire:model='pangkat_id'
-                    wire:ignore>
+                    wire:ignore required>
                     <option value="">Pilih</option>
                     @foreach ($pangkats as $item)
                     <option value="{{ $item->id }}">{{ $item->nama_pangkat }}</option>
@@ -255,7 +255,7 @@
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
                 <select class="form-control text-uppercase golongan-id" name='golongan_id' 
-                    wire:ignore>
+                    wire:ignore required>
                     <option value="" class="text-capitalize">Pilih</option>
                     @foreach ($golongans as $item)
                     <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
@@ -307,14 +307,14 @@
                 <label for="golongan_id" class="form-label">Pilih Golongan</label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                <select class="golongan-id form-control" name='golongan_id' wire:model='golongan_id' wire:ignore>
+                <select class="golongan-id form-control" name='golongan_id' wire:model='golongan_id' wire:ignore required>
                     <option value="">Pilih</option>
                     @foreach ($golongans as $item)
                     <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
                     @endforeach
                     <option value="golongan_lainnya">Lainnya</option>
                 </select>
-            </div>
+               
         </div>
     </div>
     <div class="mb-4 {{ $golongan_id == 'golongan_lainnya' ? 'd-show' : 'd-none' }}">
@@ -328,7 +328,7 @@
                 <input type="text" class="form-control @error('nama_golongan') is-invalid @enderror " id="nama_golongan"
                     aria-describedby="nama_golongan" name="nama_golongan" autocomplete="false"
                     placeholder="Masukkan Nama golongan Baru ... " wire:model='nama_golongan' {{
-                    $golongan_id=='golongan_lainnya' ? 'required' : '' }}>
+                    $golongan_id=='golongan_lainnya' ? 'required' : '' }} >
             </div>
         </div>
     </div>
