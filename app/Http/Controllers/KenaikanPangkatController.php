@@ -12,7 +12,7 @@ class KenaikanPangkatController extends Controller
 {
 
     public function index(){
-
+        return auth()->guard('admin')->user()->name;
         $kenaikanpangkat = KenaikanPangkat::orderBy('tanggal_sk', 'desc')->with('pegawai')->get();
         // return $kenaikanpangkat;
         $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['kenaikanpangkat' => function ($q) {
