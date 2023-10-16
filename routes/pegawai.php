@@ -21,6 +21,7 @@ Route::prefix('pegawai')->name('pegawai.')->group(function () {
         Route::get('/diklat/history', [DashboardPegawaiController::class, 'historyDiklatPegawai'])->name('diklat.history');
         Route::get('/str/history', [DashboardPegawaiController::class, 'historySTRPegawai'])->name('str.history');
         Route::get('/sip/history', [DashboardPegawaiController::class, 'historySIPPegawai'])->name('sip.history');
+        Route::get('/cuti/history', [DashboardPegawaiController::class, 'historyCutiPegawai'])->name('cuti.history');
     });
 //  Route::view('/home', 'pages.dashboard.dashboardpegawai')->name('home');
 
