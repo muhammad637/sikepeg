@@ -9,7 +9,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h2 class="m-0 font-weight-bold text-dark">Detail Cuti Pegawai</h2>
         <hr class="font-weight-bold">
-        <form action="{{ route('admin.data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
+        <form action="{{ route('admin.cuti.data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
             @method('put')
             @csrf
             <div class="row">
@@ -17,7 +17,7 @@
                     <div class="row mb-3">
                         <label for="select2" class="col-sm-4 col-form-label">Pegawai</label>
                         <div class="col-sm-8">
-                            <select name="pegawai_id" class="form-control" id="select2">
+                            <select name="pegawai_id" class="form-control select2" readonly>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $cuti->pegawai_id === $item->id ? 'selected' : '' }}>

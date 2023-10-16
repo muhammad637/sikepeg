@@ -1,6 +1,4 @@
 <div>
-    <form action="{{ route('admin.data-cuti-aktif.store') }}" method="post">
-        @csrf
         <div class="row">
             <div class="col-sm-12 col-xl-12">
                 <div class="row mb-3">
@@ -78,21 +76,20 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <a href="{{ route('admin.data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
+                    <a href="{{ route('admin.cuti.data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
                     <button class="btn btn-info" type="submit">Simpan</button>
                 </div>
             </div>
         </div>
-    </form>
 </div>
 
 @push('script')
     <script>
         $(document).ready(function() {
-            $('#select2').select2();
-            $('#select2').on('change', function(e) {
+            $('.select2').select2();
+            $('.select2').on('change', function(e) {
                 // console.log(e)
-                var data = $('#select2').select2("val")
+                var data = $('.select2').select2("val")
                 @this.set("pegawai", data)
             });
         });

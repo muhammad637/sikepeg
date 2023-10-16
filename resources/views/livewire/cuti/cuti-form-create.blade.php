@@ -80,7 +80,7 @@
         </div>
     </div>
     <div class="text-right">
-        <a href="{{ route('admin.data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
+        <a href="{{ route('admin.cuti.data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
         <button class="btn btn-info" type="submit">Simpan</button>
     </div>
 
