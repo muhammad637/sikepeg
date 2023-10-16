@@ -10,16 +10,15 @@ class DiklatController extends Controller
 {
     //
     public function index(){
-        $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
-            $query->orderBy('tanggal_sertifikat', 'desc');
+                $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
+            $query;
         }])->get();
-        
         return view('pages.diklat.index', ['pegawai' => $pegawai]);
     }
 
     public function create(){
 
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::where('status_tenaga','asn')->get();
         return view('pages.diklat.create', ['pegawai' => $pegawai]);
     }
     public function edit(Diklat $diklat){
