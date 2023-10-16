@@ -36,7 +36,7 @@
                                 <td>{{ $item->jenis_cuti }}</td>
                                 <td>{{ $item->alasan_cuti }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->mulai_cuti)->format('d-M-Y') }}</td>
-                                <td>{{ Carbon\Carbon::parse($item->mulai_cuti)->format('d-M-Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->selesai_cuti)->format('d-M-Y') }}</td>
                                 <td>{{ $item->jumlah_hari }}</td>
                                 <td>{{ $item->pegawai->sisa_cuti_tahunan }}</td>
                                 <td class="d-flex justify-content-center">
