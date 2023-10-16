@@ -8,6 +8,7 @@ use App\Models\Pegawai;
 use App\Models\Mutasi;
 use App\Models\STR;
 use App\Models\SIP;
+use App\Models\Cuti;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
 
@@ -84,6 +85,15 @@ class DashboardPegawaiController extends Controller
         return view('pages.sip.historypegawai', [
             'pegawai' => $pegawai,
             'sip' => $sip
+        ]);
+    }
+
+    public function historyCutiPegawai(){
+        $pegawai = auth()->guard('pegawai')->user();
+        $cuti = CUTI::where('pegawai_id', $pegawai->id)->orderBy('status', 'asc')->get();
+        return view('pages.cuti.histori-cuti.cutipegawai', [
+            'pegawai' => $pegawai,
+            'cuti' => $cuti
         ]);
     }
 }
