@@ -7,7 +7,7 @@
     <!-- Begin Page Content -->
     <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Cuti</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Form Tambah Cuti</h2>
+        <h3 class="m-0 font-weight-bold text-dark">Form Tambah Data Cuti</h3>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.data-cuti-aktif.store') }}" method="post">
             @csrf

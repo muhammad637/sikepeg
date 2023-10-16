@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Master Data</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Edit Ruangan</h2>
+        <h3 class="m-0 font-weight-bold text-dark">Form Edit Ruangan</h3>
         <hr class="font-weight-bold">
         <form action="{{ route('ruangan.update', ['ruangan' => $ruangan->id]) }}" method="post">
             @method('put')
@@ -24,8 +24,8 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('ruangan.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
+            <a href="{{ route('ruangan.index') }}" class="btn bg-warning text-white">Kembali</a>
+            <button class="btn btn-success" type="submit">Simpan</button>
         </div>
     </div>
     </div>

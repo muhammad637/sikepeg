@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">Kenaikan Pangkat</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Edit Kenaikan Pangkat Pegawai</h2>
+        <h3 class="m-0 font-weight-bold text-dark">Form Edit Data Kenaikan Pangkat</h3>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.kenaikan_pangkat.update', ['kenaikan_pangkat' => $kenaikan_pangkat->id]) }}"
             method="post">
@@ -121,8 +121,8 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('admin.kenaikan_pangkat.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
+            <a href="{{ route('admin.kenaikan_pangkat.index') }}" class="btn bg-warning text-white">Kembali</a>
+            <button class="btn btn-success" type="submit">Simpan</button>
         </div>
 
     </div>

@@ -7,7 +7,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block align-items-center">
-                <h2 class=" font-weight-bold text-dark">Personal File {{ $heading ?? null }}</h2>
+                <h3 class=" font-weight-bold text-dark">Personal File {{ $heading ?? null }}</h3>
                 {{-- <h2 class=" font-weight-bold text-dark"></h2> --}}
                 <div class="mt-md-0 mt-sm-2">
                     <a href="{{ route('admin.pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create

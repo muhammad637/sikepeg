@@ -6,7 +6,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark">Golongan</h2>
+                <h3 class="m-0 font-weight-bold text-dark">Daftar Golongan</h3>
                 <a href="{{ route('golongan.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
                         class="fas fa-plus-square ml-1"></i></a>
 
@@ -33,7 +33,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }} </td>
                                 <td>{{ $item->nama_golongan }} </td>
-                                <td>{{ $item->jenis }} </td>
+                                <td><span class="text-uppercase">{{ $item->jenis }}</span></td>
                                 <td class="">
                                     <a href="{{ route('golongan.edit', ['golongan' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>

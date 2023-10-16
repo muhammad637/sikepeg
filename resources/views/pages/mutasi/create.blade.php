@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">Mutasi</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Tambah Mutasi Pegawai</h2>
+        <h3 class="m-0 font-weight-bold text-dark">Form Tambah Data Mutasi</h3>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.mutasi.store') }}" method="post">
 
@@ -34,8 +34,8 @@
 
         </form>
         <div class="text-right">
-            <a href="{{ route('admin.mutasi.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
+            <a href="{{ route('admin.mutasi.index') }}" class="btn bg-warning text-white">Kembali</a>
+            <button class="btn btn-success" type="submit">Submit</button>
         </div>
 
     </div>

@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Edit Data STR</h2>
+        <h3 class="m-0 font-weight-bold text-dark">Form Edit Data STR</h3>
         <hr>
         <form action="{{ route('admin.str.update', ['str' => $str->id]) }}" method="post">
             @method('put')
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('admin.str.index') }}" class="btn bg-gradient-warning text-white">Tutup</a>
+                        <a href="{{ route('admin.str.index') }}" class="btn bg-gradient-warning text-white">Kembali</a>
                         <button class="btn bg-gradient-success text-white" type="submit">Simpan</button>
                     </div>
 

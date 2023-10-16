@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Data SIP</h2>
+        <h3 class="m-0 font-weight-bold text-dark">Form Tambah Data SIP</h3>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.sip.store') }}" method="post">
             @csrf
@@ -83,8 +83,8 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('admin.str.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
+            <a href="{{ route('admin.str.index') }}" class="btn bg-warning text-white">Kembali</a>
+            <button class="btn btn-success" type="submit">Submit</button>
         </div>
 
     </div>

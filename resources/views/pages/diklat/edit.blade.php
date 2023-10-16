@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">Diklat</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Edit Diklat Pegawai</h2>
+        <h3 class="m-0 font-weight-bold text-dark">Form Edit Data Diklat</h3>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.diklat.update', ['diklat' => $diklat->id]) }}" method="post">
             @method('put')
@@ -96,8 +96,8 @@
 
         </form>
         <div class="text-right">
-            <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
+            <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Kembali</a>
+            <button class="btn btn-success" type="Simpan"></button>
         </div>
 
     </div>

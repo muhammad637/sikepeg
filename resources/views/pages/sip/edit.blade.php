@@ -4,7 +4,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Edit SIP Pegawai {{ $sip->pegawai->nama_depan }}</h2>
+        <h3 class="m-0 font-weight-bold text-dark"> Form Edit SIP {{ $sip->pegawai->nama_depan }}</h3>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.sip.update', ['sip' => $sip->id]) }}" method="post">
             @csrf
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('admin.sip.index') }}" class="btn btn-warning text-white">Tutup</a>
+                        <a href="{{ route('admin.sip.index') }}" class="btn btn-warning text-white">Kembali</a>
                         <button class="btn btn-success text-white" type="submit">Simpan</button>
                     </div>
 

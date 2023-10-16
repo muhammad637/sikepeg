@@ -6,7 +6,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark">Hari Besar</h2>
+                <h3 class="m-0 font-weight-bold text-dark">Daftar Hari Besar</h3>
                 <a href="{{ route('admin.hariBesar.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
                         class="fas fa-plus-square ml-1"></i></a>
 

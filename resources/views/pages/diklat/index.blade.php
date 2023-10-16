@@ -1,12 +1,12 @@
 @extends('main')
 @section('content')
-    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Data Diklat</h1>
+    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Diklat</h1>
     <!-- Page Heading -->
     <!-- DataTales Example -->
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark">Diklat</h2>
+                <h3 class="m-0 font-weight-bold text-dark">Data Diklat Pegawai</h3>
                 <a href="{{ route('admin.diklat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
                         class="fas fa-plus-square ml-1"></i></a>
             </div>

@@ -275,8 +275,10 @@
                     </div>
 
                     <hr>
-                    <a href="{{ route('admin.pegawai.index') }}" class="btn btn-secondary">kembali</a>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="text-right">
+                    <a href="{{ route('admin.pegawai.index') }}" class="btn bg-warning text-white">Kembali</a>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>
