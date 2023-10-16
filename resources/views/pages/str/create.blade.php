@@ -19,7 +19,7 @@
                             <span class="mb-0 text-dark ">Nama</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="select2" name="asn_id">
+                            <select class="form-control" id="select2" name="pegawai_id">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
                                     <option value="{{ $pegawai->id }}"
@@ -40,7 +40,7 @@
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">No. Registrasi</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3" name="no_str"
+                            <input type="text" class="form-control" id="inputPassword3" name="no_str"
                                 value="{{ old('no_str') }}" required>
                         </div>
                     </div>

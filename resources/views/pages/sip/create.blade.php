@@ -46,6 +46,13 @@
                                 value="{{ old('no_sip') }}" required>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label for="noSIP" class="col-sm-4 col-form-label">No. SIP</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputPassword3" name="no_rekomendasi"
+                                value="{{ old('no_rekomendasi') }}" required>
+                        </div>
+                    </div>
                    
                     @livewire('s-i-p.search-str')
                     <div class="row mb-3">

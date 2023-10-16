@@ -3,18 +3,14 @@
     <div class="row mb-3">
         <label for="noSIP" class="col-sm-4 col-form-label">No. SIP</label>
         <div class="col-sm-8">
-            <input type="number" class="form-control" name="no_sip"
-                @if ($no_sip == null) value=""
-            @else
-            value="{{ $no_sip }}" @endif
-                required  placeholder="SIP Pegawai Kosong / expired">
-
+            <input type="text" class="form-control" name="no_sip" @if ($no_sip==null) value="" @else
+                value="{{ $no_sip }}" @endif  placeholder="SIP Pegawai Kosong / expired">
         </div>
     </div>
 
     @push('script')
-        <script>
-            $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
                 // alert('oke')
                 $('#select2').select2();
                 $('#select2').on('change', function(e) {
@@ -24,6 +20,6 @@
                 });
                 // $('.nip').val('tes')
             });
-        </script>
+    </script>
     @endpush
 </div>

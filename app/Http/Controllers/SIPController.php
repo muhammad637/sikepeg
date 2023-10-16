@@ -51,11 +51,12 @@ class SIPController extends Controller
         //
         try {
             //code...
+            return $request->all();
             $validatedData = $request->validate([
-                'no_str' => 'required',
+                'no_str' => '',
                 'no_sip' => 'required',
+                'no_rekomendasi' => 'required',
                 'tanggal_terbit_sip' => 'required',
-              
                 'masa_berakhir_sip' => 'required',
                 'link_sip' => 'required',
             ]);
@@ -63,8 +64,8 @@ class SIPController extends Controller
             $sip = SIP::create([
                 'pegawai_id' => $request->pegawai_id,
                 'no_sip' => $request->no_sip,
+                'no_rekomendasi' => $request->no_rekomendasi,
                 'no_str' => $request->no_str,
-                
                 'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
                 'masa_berakhir_sip' => $request->masa_berakhir_sip,
                 'link_sip' => $request->link_sip
@@ -116,18 +117,18 @@ class SIPController extends Controller
     public function update(Request $request, SIP $sip)
     {
         //
-
         $validatedData = $request->validate([
-            'no_str' => 'required',
+            'no_str' => '',
+            'no_rekomendasi' => 'required',
             'no_sip' => 'required',
-         
             'tanggal_terbit_sip' => 'required',
             'masa_berakhir_sip' => 'required',
             'link_sip' => 'required',
         ]);
         $sipCreate = $sip->update([
             'no_sip' => $request->no_sip,
-
+            'no_rekomendasi' => $request->no_rekomendasi,
+            'no_str' => $request->no_str,
             'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
             'masa_berakhir_sip' => $request->masa_berakhir_sip,
             'link_sip' => $request->link_sip

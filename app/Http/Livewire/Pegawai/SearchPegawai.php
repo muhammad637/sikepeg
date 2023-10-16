@@ -31,7 +31,7 @@ class SearchPegawai extends Component
         $this->pegawai = Pegawai::find($this->select);
         if ($this->pegawai) {
             $this->selectId = $this->pegawai->id;
-            $this->alamat = $this->pegawai->id;
+            $this->alamat = $this->pegawai->alamat;
             $this->selectedNIK = $this->pegawai->nik;
             $this->selectedNIP = $this->pegawai->nip_nippk;
             $this->selectedRuangan = $this->pegawai->ruangan;
@@ -54,7 +54,7 @@ class SearchPegawai extends Component
             $this->alamat = $this->pegawai->id;
             $this->selectedNIK = $this->pegawai->nik;
             $this->selectedNIP = $this->pegawai->nip_nippk;
-            $this->selectedRuangan = $this->pegawai->ruangan;
+            $this->selectedRuangan = $this->pegawai->ruangan->nama_ruangan;
             $this->selectedjenisKelamin = $this->pegawai->jenis_kelamin;
             $this->selectedNoIjazah = $this->pegawai->no_ijazah;
             $this->selectedTanggalLulus = $this->pegawai->tanggal_lulus;
