@@ -19,7 +19,7 @@ class PangkatDanGolongan extends Component
     public $jabatan;
     public $tanggal_masuk;
     public $masa_kerja;
-    public $cuti_tahunan;
+    public $cuti_tahunan = '12';
 
     // asn
     public $tmt_cpns;
@@ -64,7 +64,7 @@ class PangkatDanGolongan extends Component
         $this->jabatan = old('jabatan', null);
         $this->tanggal_masuk = old('tanggal_masuk', null);
         $this->masa_kerja = old('masa_kerja', null);
-        $this->cuti_tahunan = old('cuti_tahunan', null);
+        $this->cuti_tahunan = old('cuti_tahunan',12);
         // asn
         $this->tmt_cpns = old('tmt_cpns', null);
         $this->status_tipe = old('status_tipe', null);

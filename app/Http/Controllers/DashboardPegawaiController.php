@@ -90,7 +90,7 @@ class DashboardPegawaiController extends Controller
 
     public function historyCutiPegawai(){
         $pegawai = auth()->guard('pegawai')->user();
-        $cuti = CUTI::where('pegawai_id', $pegawai->id)->orderBy('status', 'asc')->get();
+        $cuti = CUTI::where('pegawai_id', $pegawai->id)->get();
         return view('pages.cuti.histori-cuti.cutipegawai', [
             'pegawai' => $pegawai,
             'cuti' => $cuti
