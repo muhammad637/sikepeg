@@ -8,8 +8,7 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Histori Cuti</h2>
-                <a href="{{ route('admin.data-cuti-aktif.create') }}"
-                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i class="fas fa-plus-square ml-1"></i></a>
+               
             </div>
         </div>
         <div class="card-body">
@@ -37,7 +36,7 @@
                                 <td>{{ $item->jenis_cuti }}</td>
                                 <td>{{ $item->alasan_cuti }}</td>
                                 <td>{{ Carbon\Carbon::parse($item->mulai_cuti)->format('d-M-Y') }}</td>
-                                <td>{{ Carbon\Carbon::parse($item->mulai_cuti)->format('d-M-Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($item->selesai_cuti)->format('d-M-Y') }}</td>
                                 <td>{{ $item->jumlah_hari }}</td>
                                 <td>{{ $item->pegawai->sisa_cuti_tahunan }}</td>
                                 <td class="d-flex justify-content-center">

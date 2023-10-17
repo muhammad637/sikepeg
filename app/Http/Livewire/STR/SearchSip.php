@@ -13,7 +13,7 @@ class SearchSip extends Component
     public $select;
 
     public function mount(){
-        $this->no_sip = old('no_sip', null);
+        $this->no_sip = old('no_sip',null) ?? $this->no_sip;
     }
 
     public function updatedSelect($value){

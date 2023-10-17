@@ -27,8 +27,6 @@ class   STRController extends Controller
         $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
             $query->orderBy('masa_berakhir_str', 'desc');
         })->get();
-        // $pegawai = pegawai::with('str')->get();
-        // return $pegawai;
         return view('pages.str.index', [
             'pegawai' => $pegawai,
             'i' => 0
@@ -57,6 +55,7 @@ class   STRController extends Controller
     public function store(Request $request)
     {
         //
+        // return $request->all();
         $validatedData = $request->validate([
             'no_str' => 'required',
             'tanggal_terbit_str' => 'required',
@@ -67,8 +66,9 @@ class   STRController extends Controller
         ]);
 
         $str = STR::create([
-            'pegawai_id' => $request->asn_id,
+            'pegawai_id' => $request->pegawai_id,
             'no_str' => $request->no_str,
+            'no_sip' => $request->no_sip,
             'no_sertikom' => $request->no_sertikom,
             'kompetensi' => $request->kompetensi,
             'tanggal_terbit_str' => $request->tanggal_terbit_str,
@@ -121,9 +121,9 @@ class   STRController extends Controller
      */
     public function update(Request $request, STR $str)
     {
-        //
         // return $request->all();
-        try {
+        //
+        // try {
             //code...
             $validatedData = $request->validate([
                 'no_str' => 'required',
@@ -134,7 +134,9 @@ class   STRController extends Controller
                 'link_str' => 'required',
             ]);
             $strUpdate = $str->update([
+                'pegawai_id' => $request->pegawai_id,
                 'no_str' => $request->no_str,
+                'no_sip' => $request->no_sip,
                 'kompetensi' => $request->kompetensi,
                 'no_sertikom' => $request->no_sertikom,
                 'tanggal_terbit_str' => $request->tanggal_terbit_str,
@@ -143,10 +145,10 @@ class   STRController extends Controller
             ]);
             // return $str;
             return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
-        } catch (\Throwable $th) {
-            //throw $th;
-            return $th->getMessage();
-        }
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        //     return $th->getMessage();
+        // }
     }
 
     /**

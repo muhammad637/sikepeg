@@ -101,7 +101,7 @@
 
             </div>
 
-            @if ($pegawai->jenis_tenaga == 'nakes' && $pegawai->str->count()>0)
+            @if ($pegawai->jenis_tenaga == 'nakes' && $pegawai->str->count() > 0)
            <div class="col-xl-4">
             <div class="flex-fill card shadow-sm my-auto mx-2">
                 <div class="card-body p-3" style="color: #2d7430;">

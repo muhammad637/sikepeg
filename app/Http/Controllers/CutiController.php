@@ -59,7 +59,7 @@ class CutiController extends Controller
         $cuti = Cuti::where('pegawai_id', $request->pegawai_id)->orderBy('selesai_cuti', 'desc')->first();
         $pegawai = Pegawai::find($request->pegawai_id);
         if ($cuti) {
-            if (  Carbon::parse($cuti->mulai_cuti) >= Carbon::parse($request->mulai_cuti) && Carbon::parse($cuti->selesai_cuti) >= Carbon::parse($request->selesai_cuti)) {
+            if (Carbon::parse($cuti->mulai_cuti) >= Carbon::parse($request->mulai_cuti) && Carbon::parse($cuti->selesai_cuti) >= Carbon::parse($request->selesai_cuti)) {
                 Alert::alert('gagal create cuti', 'periode cuti masih berlaku', 'error');
                 return redirect()->back()->withInput()->with('toast_success', 'periode cuti masih berlaku');
             }

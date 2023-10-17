@@ -1,10 +1,10 @@
 @extends('main')
 
+@push('style-css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+    @livewireStyles
+@endpush
 @section('content')
-    @push('style-css')
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
-        @livewireStyles
-    @endpush
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
@@ -23,7 +23,7 @@
                             <span class="mb-0 text-dark ">Nama</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="select2" name="asn_id">
+                            <select class="form-control" id="select2" name="pegawai_id">
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
                                     <option value="{{ $pegawai->id }}"
@@ -43,6 +43,7 @@
                                 value="{{ old('no_str', $str->no_str) }}" name="no_str" required>
                         </div>
                     </div>
+                    @livewire('s-t-r.search-sip', ['no_sip' => $str->no_sip])
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">Kompetensi</label>
                         <div class="col-sm-8">
@@ -104,9 +105,8 @@
         </form>
     </div>
     <!-- /.container-fluid -->
+    @endsection
     @push('script')
         <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-
         @livewireScripts
     @endpush
-@endsection

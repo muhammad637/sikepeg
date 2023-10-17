@@ -8,13 +8,14 @@
         <div class="card-header" style="background-color: #d9d9d9;">
             <div class="d-md-flex justify-content-between s-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Data STR</h2>
-
-                <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
-                    create <i class="fas fa-plus-square ml-1"></i>
-                </a>
-                <a href="{{ route('str_export') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
-                    Export Excel <i class="fa fa-download ml-1"></i>
-                </a>
+                <div class="d-flex">
+                    <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-2">
+                        create <i class="fas fa-plus-square ml-1"></i>
+                    </a>
+                    <a href="{{ route('str_export') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
+                        Export Excel <i class="fa fa-download ml-1"></i>
+                    </a>
+                </div>
 
             </div>
         </div>
@@ -43,9 +44,9 @@
                                 @endphp
                                 <tr>
                                     <td>{{ $i }}</td>
-                                    <td>{{ $item->nama_depan }}</td>
+                                    <td>{{ $item->nama_lengkap ?? $item->nama_depan }}</td>
                                     <td>{{ $item->jabatan }}</td>
-                                    <td>{{ $item->ruangan }}</td>
+                                    <td>{{ $item->ruangan->nama_ruangan }}</td>
                                     <td>{{ Carbon\Carbon::parse($item->str[0]->masa_berakhir_str)->format('d-M-Y') }}</td>
                                     <td>
                                         <button
@@ -53,7 +54,6 @@
                                         </button>
                                     </td>
                                     <td>
-
                                         <a target="popup"
                                             onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
                                             class="btn btn-primary" style="cursor: pointer">
