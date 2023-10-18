@@ -13,7 +13,7 @@
         <div class="card mb-3">
             <div class="card-body judul-text">
                 <div class="text-center mb-3">
-                    <h5 class="text-uppercase" style="margin-bottom: -25px; ">
+                    <h5 style="margin-bottom: -25px; ">
                         {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
                     </h5>
                     <br />

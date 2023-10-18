@@ -43,9 +43,9 @@
                             <tr>
                                 {{-- <td>{{$loop->iteration}}</td> --}}
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->nama_lengkat ?? $item->nama_depan }} </td>
+                                <td>{{ $item->nama_lengkap ?? $item->nama_depan }} </td>
                                 <td>{{ $item->mutasi[0]->jenis_mutasi }}</td>
-                                <td>{{ Carbon\carbon::parse($item->mutasi[0]->tanggal_berlaku)->format('d-m-Y') }}</td>
+                                <td>{{ Carbon\carbon::parse($item->mutasi[0]->tanggal_berlaku)->format('d/m/Y') }}</td>
                                 <td>{{ $item->mutasi[0]->ruanganAwal->nama_ruangan ?? '-'}}</td>
                                 <td>{{ $item->mutasi[0]->ruanganTujuan->nama_ruangan ?? ' - ' }}</td>
                                 <td>{{ $item->mutasi[0]->instansi_awal ?? ' - ' }}</td>
