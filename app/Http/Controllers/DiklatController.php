@@ -29,7 +29,6 @@ class DiklatController extends Controller
 
     public function update(Request $request, Diklat $diklat){
         try {
-           
             $validatedData = $request->validate([
                 'nama_diklat' => 'required',
                 'jumlah_jam' => 'required',
@@ -67,19 +66,12 @@ class DiklatController extends Controller
             'diklat' => $diklat
         ]);
     }
-
-
-
-
-
-
-
     public function store(Request $request){
-        try {
+        // try {
             //code...
             $validatedData = $request->validate([
                 'nama_diklat' => 'required',
-                'jumlah_jam' => 'required',
+                'jumlah_jam' => 'required|integer',
                 'penyelenggara' => 'required',
                 'tempat' => 'required',
                 'tahun' => 'required',
@@ -99,9 +91,9 @@ class DiklatController extends Controller
                 'link_sertifikat' => $request->link_sertifikat
             ]);
             return redirect()->route('admin.diklat.index')->with('success', 'diklat berhasil ditambahkan');
-        } catch (\Throwable $th) {
-            //throw $th;
-            return $th->getMessage();
-        }
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        //     return $th->getMessage();
+        // }
     }
 }

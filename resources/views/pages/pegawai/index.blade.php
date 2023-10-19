@@ -78,7 +78,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pegawai as $index => $item)
+                        {{-- @foreach ($pegawai as $index => $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nip_nippk }}</td>
@@ -97,7 +97,7 @@
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -245,3 +245,48 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('admin.pegawai.index') }}",
+            columns: [
+                {
+                    data : 'id',
+                    name: 'id',
+                },
+                {
+                    data : 'nip_nippk',
+                    name: 'nip_nippk'
+                },
+                {
+                    data : 'nama_lengkap' ?? 'nama_depan',
+                    name: 'nama_lengkap'
+                },
+                {
+                    data : 'jenis_kelamin',
+                    name : 'jenis_kelamin'
+                },
+                {
+                    data : 'ruangan',
+                    name : 'ruangan' ,
+                    
+                },
+                {
+                    data : 'status_pegawai',
+                    name : 'status'
+                    
+                },
+                {
+                    data : 'aksi',
+                    name : 'aksi'
+                    
+                },
+
+
+            ]
+        })
+    </script>
+@endpush

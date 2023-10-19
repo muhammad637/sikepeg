@@ -14,6 +14,8 @@ use App\Imports\PegawaiImport;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
+
 
 
 
@@ -37,7 +39,7 @@ class PegawaiController extends Controller
         );
         if (Auth::guard('pegawai')->attempt($cred)) {
             return redirect()->route('pegawai.home');
-        } else {    
+        } else {
             session()->flash('fail', 'data yang anda masukkan salah, coba lagi');
             return redirect()->back();
         }
@@ -111,14 +113,32 @@ class PegawaiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        // return Asn::all();   
-        return view('pages.pegawai.index', [
-            'pegawai' => Pegawai::orderBy('created_at', 'desc')->get(),
-            // 'heading' => ''
-        ]);
+        // return Asn::all();
+        if($request->ajax()){
+            $pegawai = Pegawai::query()->orderBy('nama_depan', 'asc');
+            $dataPegawai = DataTables::of($pegawai)
+                ->addColumn('aksi', function ($item) {
+                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                    return "<div class='d-flex'>$show $edit</div>";
+                })
+                ->addColumn('ruangan', function ($item) {
+                    return "<span class='text-uppercase'> ". ($item->ruangan ? $item->ruangan->nama_ruangan : '-') ."</span>"  ;
+                })
+                ->editColumn('status_pegawai', function ($item) {
+                    // return $item->status_pegawai ?? null;
+                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                })
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->toJson();
+            return $dataPegawai; 
+        }   
+        return view('pages.pegawai.index');
         // Pegawai::with(['asn', 'non_asn'])->get();
     }
     public function import_excel(Request $request)
@@ -182,7 +202,7 @@ class PegawaiController extends Controller
             $createPegawai = Pegawai::create($pegawai);
             return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
         }
-      
+
         $pangkat_id = $request->pangkat_id;
         if ($request->pangkat_id == 'pangkat_lainnya') {
             $request->validate([
@@ -289,141 +309,141 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
         // try {
-            //code...
-            $ruangan_id = $request->ruangan_id;
-            $password = bcrypt(Carbon::parse($request->tanggal_lahir)->format('dmY'));
-            $validatedData = $request->validate($this->validatedPegawaiEdit($pegawai));
-            if ($request->ruangan_id == 'ruangan_lainnya') {
-                $ruangan = Ruangan::create([
-                    'nama_ruangan' => strtolower($request->nama_ruangan)
-                ]);
-                $ruangan_id = $ruangan->id;
-            }
-            $pegawai->update([
-                'nama_lengkap' =>  $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang,
-                'password' => $password,
-                'ruangan_id' =>  $ruangan_id
-
+        //code...
+        $ruangan_id = $request->ruangan_id;
+        $password = bcrypt(Carbon::parse($request->tanggal_lahir)->format('dmY'));
+        $validatedData = $request->validate($this->validatedPegawaiEdit($pegawai));
+        if ($request->ruangan_id == 'ruangan_lainnya') {
+            $ruangan = Ruangan::create([
+                'nama_ruangan' => strtolower($request->nama_ruangan)
             ]);
-            $usia = $this->lama($request->tanggal_lahir);
-            $pegawai->update(array_merge(['usia' => $usia], $validatedData));
-            if($request->status_tipe == 'pns'){
-                $request->validate([
-                    'golongan_id' => 'required',
-                    'pangkat_id' => 'required'
-                ],[
-                    'pangkat_id.required' => 'pangkat_id masih kosong',
-                    'golongan_id.required' => 'golongna_id masih kosong',
+            $ruangan_id = $ruangan->id;
+        }
+        $pegawai->update([
+            'nama_lengkap' =>  $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang,
+            'password' => $password,
+            'ruangan_id' =>  $ruangan_id
+
+        ]);
+        $usia = $this->lama($request->tanggal_lahir);
+        $pegawai->update(array_merge(['usia' => $usia], $validatedData));
+        if ($request->status_tipe == 'pns') {
+            $request->validate([
+                'golongan_id' => 'required',
+                'pangkat_id' => 'required'
+            ], [
+                'pangkat_id.required' => 'pangkat_id masih kosong',
+                'golongan_id.required' => 'golongna_id masih kosong',
+            ]);
+        } elseif ($request->status_tipe == 'pppk') {
+            $request->validate([
+                'golongan_id' => 'required',
+            ]);
+        }
+        if (isset($request->pangkat_id) || isset($request->golongan_id)) {
+            $pangkat_id = $request->pangkat_id;
+            if (
+                $request->pangkat_id == 'pangkat_lainnya'
+            ) {
+                $pangkat = Pangkat::create([
+                    'nama_pangkat' => strtolower($request->nama_pangkat),
                 ]);
-            }elseif($request->status_tipe == 'pppk'){
-                $request->validate([
-                    'golongan_id' => 'required',
+                $pangkat_id = $pangkat->id;
+            }
+
+            $golongan_id = $request->golongan_id;
+            if ($request->golongan_id == 'golongan_lainnya') {
+                $golongan = Golongan::create([
+                    'nama_golongan' => strtolower($request->nama_golongan),
+                    'jenis' => $request->status_tipe
                 ]);
-            }
-            if (isset($request->pangkat_id) || isset($request->golongan_id)) {    
-                $pangkat_id = $request->pangkat_id;
-                if (
-                    $request->pangkat_id == 'pangkat_lainnya'
-                ) {
-                    $pangkat = Pangkat::create([
-                        'nama_pangkat' => strtolower($request->nama_pangkat),
-                    ]);
-                    $pangkat_id = $pangkat->id;
-                }
-
-                $golongan_id = $request->golongan_id;
-                if ($request->golongan_id == 'golongan_lainnya') {
-                    $golongan = Golongan::create([
-                        'nama_golongan' => strtolower($request->nama_golongan),
-                        'jenis' => $request->status_tipe
-                    ]);
-                    $golongan_id = $golongan->id;
-                }
-
-                if (
-                    $request->status_tipe == 'pns'
-                ) {
-                   
-                    $dataPangkatGolongan = [
-                        'pangkat_id' => $pangkat_id,
-                        'golongan_id' => $golongan_id
-                    ];
-                } elseif ($request->status_tipe == 'pppk') {
-                    $dataPangkatGolongan = [
-                        'golongan_id' => $golongan_id
-                    ];
-                }
-            }
-            if (isset($request->cuti_tahunan)) {
-                $pegawai->update(['cuti_tahunan' => $request->cuti_tahunan]);
-            }
-            if(isset($request->tmt_pns)){
-                $masa_kerja = $this->lama($request->tmt_pns); 
-            }
-            if(isset($request->tmt_pppk)){
-                $masa_kerja = $this->lama($request->tmt_pppk); 
-            }
-            if ($pegawai->status_tenaga != $request->status_tenaga && $request->status_tenaga == 'non asn') {
-                $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-                $pegawai->update(
-                    array_merge(
-                        [
-                            'status_tenaga' => $request->status_tenaga,
-                            'status_tipe' => $request->status_tipe,
-                            'masa_kerja' => $this->lama($request->tanggal_masuk),
-                            'cuti_tahunan' => $request->cuti_tahunan,
-                            'no_karpeg' => null,
-                            'no_taspen' => null,
-                            'no_npwp' => null,
-                            'no_hp' => null,
-                            'email' => null,
-                            'pelatihan' => null,
-                            'sekolah' => null,
-                            'tmt_cpns' => null,
-                            'tmt_pns' => null,
-                            'tmt_pangkat_terakhir' => null,
-                            'pangkat_id' => null,
-                            'golongan_id' => null,
-                            'jenis_tenaga' => null,
-                        ],
-                        $validatedDataNonAsn
-                    )
-                );
-                count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
-                count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
-                return redirect(route('admin.pegawai.index'))->with('success', 'pegawai berhasil di update')->withInput();
-            } elseif ($pegawai->status_tenaga != $request->status_tenaga && $request->status_tenaga == 'asn') {
-                $validatedDataAsn = $request->validate($this->rulesAsn);
-                $pegawai->update(array_merge([
-                    'status_tenaga' => $request->status_tenaga,
-                    'status_tipe' => $request->status_tipe,
-                    'tanggal_masuk' => null,
-                    'niPtt_pkThl' => null,
-                    'masa_kerja' => $masa_kerja
-                ], $validatedDataAsn, $dataPangkatGolongan));
-                return redirect(route('admin.pegawai.index'))->with('success', 'pegawai berhasil di update')->withInput();
-            }
-            if ($request->status_tenaga == 'non asn') {
-                $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-                $pegawai->update(array_merge(['masa_kerja' => $this->lama($request->tanggal_masuk)], $validatedDataNonAsn));
-                return redirect(route('admin.pegawai.index'))->with('success', 'data pegawai berhasil diupdate');
-            } else if ($request->status_tenaga == 'asn') {
-                $validatedDataAsn = $request->validate($this->rulesAsn);
-                $pegawai->update(array_merge(
-                    ['masa_kerja' => $masa_kerja],
-                    $validatedDataAsn,
-                    $dataPangkatGolongan
-                ));
-            }
-            if ($request->jenis_tenaga == 'umum' || $request->jenis_tenaga == 'struktural') {
-                count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
-                count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
-                $validatedDataUmum = $request->validate($this->rulesUmum);
-                $pegawai->update($validatedDataUmum);
-                return redirect(route('admin.pegawai.index'))->with('success', 'pegawai berhasil di update');
+                $golongan_id = $golongan->id;
             }
 
-            return redirect(route('admin.pegawai.index'))->with('success', 'data pegawai berhasil diupdate')->withInput();
+            if (
+                $request->status_tipe == 'pns'
+            ) {
+
+                $dataPangkatGolongan = [
+                    'pangkat_id' => $pangkat_id,
+                    'golongan_id' => $golongan_id
+                ];
+            } elseif ($request->status_tipe == 'pppk') {
+                $dataPangkatGolongan = [
+                    'golongan_id' => $golongan_id
+                ];
+            }
+        }
+        if (isset($request->cuti_tahunan)) {
+            $pegawai->update(['cuti_tahunan' => $request->cuti_tahunan]);
+        }
+        if (isset($request->tmt_pns)) {
+            $masa_kerja = $this->lama($request->tmt_pns);
+        }
+        if (isset($request->tmt_pppk)) {
+            $masa_kerja = $this->lama($request->tmt_pppk);
+        }
+        if ($pegawai->status_tenaga != $request->status_tenaga && $request->status_tenaga == 'non asn') {
+            $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
+            $pegawai->update(
+                array_merge(
+                    [
+                        'status_tenaga' => $request->status_tenaga,
+                        'status_tipe' => $request->status_tipe,
+                        'masa_kerja' => $this->lama($request->tanggal_masuk),
+                        'cuti_tahunan' => $request->cuti_tahunan,
+                        'no_karpeg' => null,
+                        'no_taspen' => null,
+                        'no_npwp' => null,
+                        'no_hp' => null,
+                        'email' => null,
+                        'pelatihan' => null,
+                        'sekolah' => null,
+                        'tmt_cpns' => null,
+                        'tmt_pns' => null,
+                        'tmt_pangkat_terakhir' => null,
+                        'pangkat_id' => null,
+                        'golongan_id' => null,
+                        'jenis_tenaga' => null,
+                    ],
+                    $validatedDataNonAsn
+                )
+            );
+            count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
+            count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
+            return redirect(route('admin.pegawai.index'))->with('success', 'pegawai berhasil di update')->withInput();
+        } elseif ($pegawai->status_tenaga != $request->status_tenaga && $request->status_tenaga == 'asn') {
+            $validatedDataAsn = $request->validate($this->rulesAsn);
+            $pegawai->update(array_merge([
+                'status_tenaga' => $request->status_tenaga,
+                'status_tipe' => $request->status_tipe,
+                'tanggal_masuk' => null,
+                'niPtt_pkThl' => null,
+                'masa_kerja' => $masa_kerja
+            ], $validatedDataAsn, $dataPangkatGolongan));
+            return redirect(route('admin.pegawai.index'))->with('success', 'pegawai berhasil di update')->withInput();
+        }
+        if ($request->status_tenaga == 'non asn') {
+            $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
+            $pegawai->update(array_merge(['masa_kerja' => $this->lama($request->tanggal_masuk)], $validatedDataNonAsn));
+            return redirect(route('admin.pegawai.index'))->with('success', 'data pegawai berhasil diupdate');
+        } else if ($request->status_tenaga == 'asn') {
+            $validatedDataAsn = $request->validate($this->rulesAsn);
+            $pegawai->update(array_merge(
+                ['masa_kerja' => $masa_kerja],
+                $validatedDataAsn,
+                $dataPangkatGolongan
+            ));
+        }
+        if ($request->jenis_tenaga == 'umum' || $request->jenis_tenaga == 'struktural') {
+            count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
+            count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
+            $validatedDataUmum = $request->validate($this->rulesUmum);
+            $pegawai->update($validatedDataUmum);
+            return redirect(route('admin.pegawai.index'))->with('success', 'pegawai berhasil di update');
+        }
+
+        return redirect(route('admin.pegawai.index'))->with('success', 'data pegawai berhasil diupdate')->withInput();
         // } catch (\Throwable $th) {
         //     return  $th->getMessage();
         // }
@@ -513,5 +533,27 @@ class PegawaiController extends Controller
             'pegawai' => $pegawai,
             'heading' => 'filterby : Status Pegawai ' . $request->status_pegawai
         ]);
+    }
+
+    public function dataPegawai($query)
+    {
+        $dataPegawai = DataTables::of($query) 
+            ->addColumn('aksi', function ($item) {
+                $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                return "<div class='d-flex'>$show $edit</div>";
+            })
+            ->addColumn('ruangan', function ($item) {
+                return $item->ruangan->nama_ruangan ?? ' -';
+            })
+            ->editColumn('status_pegawai', function ($item) {
+                // return $item->status_pegawai ?? null;
+                return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+            })
+            ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+            ->toJson();
+        return $dataPegawai; 
     }
 }

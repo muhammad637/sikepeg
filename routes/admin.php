@@ -24,6 +24,7 @@ use App\Models\KenaikanPangkat;
 |
 */
 
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest:admin'])->group(function () {
         Route::view('/login', 'auth.admin.login')->name('login');
@@ -32,15 +33,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/home',[DashboardAdminController::class,'index'])->name('home');
         Route::get('/dashboard',[DashboardAdminController::class,'index'])->name('dashboard.index');
-        Route::resource('/pegawai', PegawaiController::class);
+        // Route::resource('/pegawai', PegawaiController::class);
         Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
-        Route::group(['prefix' => 'pegawai'], function () {
-            Route::group(['prefix' => 'filter'], function () {
-                Route::get('/jenisKelamin', [PegawaiController::class, 'jenisKelamin'])->name('pegawai.filter.jenisKelamin');
-                Route::get('/statusPegawai', [PegawaiController::class, 'statusPegawai'])->name('pegawai.filter.statuspegawai');
-                Route::get('/statusTenaga', [PegawaiController::class, 'statusTenaga'])->name('pegawai.filter.statusTenaga');
-                Route::get('/statusTipe', [PegawaiController::class, 'statusTipe'])->name('pegawai.filter.statusTipe');
-                Route::get('/JenisTenaga', [PegawaiController::class, 'JenisTenaga'])->name('pegawai.filter.jenisTenaga');
+        Route::prefix('pegawai')->name('pegawai.')->group(function () {
+            Route::get('/dataPegawai', [PegawaiController::class, 'dataPegawai'])->name('dataPegawai');         
+
+            Route::get('/', [PegawaiController::class, 'index'])->name('index');         
+            Route::get('/create', [PegawaiController::class,'create'])->name('create');         
+            Route::get('/{pegawai:id}/edit',[PegawaiController::class,'edit'])->name('edit');         
+            Route::get('/{pegawai:id}', [PegawaiController::class, 'show'])->name('show');
+            Route::put('/{pegawai:id}/update', [PegawaiController::class, 'update'])->name('update');
+            Route::prefix('filter')->name('filter.')->group(function () {
+                Route::get('/jenisKelamin', [PegawaiController::class, 'jenisKelamin'])->name('jenisKelamin');
+                Route::get('/statusPegawai', [PegawaiController::class, 'statusPegawai'])->name('statuspegawai');
+                Route::get('/statusTenaga', [PegawaiController::class, 'statusTenaga'])->name('statusTenaga');
+                Route::get('/statusTipe', [PegawaiController::class, 'statusTipe'])->name('statusTipe');
+                Route::get('/JenisTenaga', [PegawaiController::class, 'JenisTenaga'])->name('jenisTenaga');
             });
         });
         // str

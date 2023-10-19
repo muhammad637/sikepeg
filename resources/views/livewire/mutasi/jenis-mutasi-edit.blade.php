@@ -46,7 +46,7 @@
                 {
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <select name="ruangan_awal_id" class="form-control ruangan-tujuan-select" wire:model='ruangan_tujuan_id'
+                <select name="ruangan_tujuan_id" class="form-control ruangan-tujuan-select" wire:model='ruangan_tujuan_id'
                     wire:ignore required>
                     <option value="">Pilih</option>
                     @foreach ($ruangans as $item)

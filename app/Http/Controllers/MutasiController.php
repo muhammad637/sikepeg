@@ -106,7 +106,7 @@ class MutasiController extends Controller
     public function update(Request $request, Mutasi $mutasi)
     {
         //   return request()->all();
-        // try {
+        try {
         $pegawai = Pegawai::find($mutasi->pegawai_id);
         $mutasiTerbaru = Mutasi::orderBy('tanggal_sk', 'desc')->first();
         $perbandinganMutasi = Carbon::parse($mutasi->tanggal_sk) >= Carbon::parse($mutasiTerbaru->tanggal_sk);
@@ -126,8 +126,12 @@ class MutasiController extends Controller
                     'no_sk' => 'required',
                     'tanggal_sk' => 'required|date',
                     'link_sk' => 'required',
-                    'ruangan_awal' => 'required',
-                    'ruangan_tujuan' => 'required',
+                    'ruangan_awal_id' => 'required',
+                    'ruangan_tujuan_id' => 'required',
+                ],
+                [
+                        'ruangan_awal_id.required' => ' ruangan awal id tidak ada',
+                        'ruangan_tujuan_id.required' => ' ruangan tujuan id tidak ada',
                 ]
             );
             $mutasi->update([
@@ -135,8 +139,8 @@ class MutasiController extends Controller
                 'no_sk' => $request->no_sk,
                 'tanggal_sk' => $request->tanggal_sk,
                 'link_sk' => $request->link_sk,
-                'ruangan_awal' => $request->ruangan_awal,
-                'ruangan_tujuan' => $request->ruangan_tujuan,
+                'ruangan_awal_id' => $request->ruangan_awal_id,
+                'ruangan_tujuan_id' => $request->ruangan_tujuan_id,
                 'instansi_awal' => null,
                 'intansi_tujuan' => null
             ]);
@@ -158,8 +162,8 @@ class MutasiController extends Controller
                 'no_sk' => $request->no_sk,
                 'tanggal_sk' => $request->tanggal_sk,
                 'link_sk' => $request->link_sk,
-                'ruangan_awal' => null,
-                'ruangan_tujuan' => null,
+                'ruangan_awal_id' => null,
+                'ruangan_tujuan_id' => null,
                 'instansi_awal' => $request->instansi_awal,
                 'instansi_tujuan' => $request->instansi_tujuan
             ]);
@@ -169,8 +173,8 @@ class MutasiController extends Controller
         return redirect()->route('admin.mutasi.index')->with('success', 'data mutasi pegawai berhasil diupdate');
 
         //code...
-        // } catch (\Throwable $th) {
-        //     return $th->getMessage();            //throw $th;
-        // }
+        } catch (\Throwable $th) {
+            return $th->getMessage();           
+        }
     }
 }

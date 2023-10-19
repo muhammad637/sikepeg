@@ -14,21 +14,6 @@
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
-                    {{-- <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark ">Pegawai</span>
-                        </div>
-                        <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="pegawai" name="pegawai_id">
-                                <option value="">Pilih Nama Pegawai</option>
-                                @foreach ($pegawai as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old($item->id) == $item->id ? 'selected' : '' }}>{{ $item->nama_lengkap ?? $item->nama_depan }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Pegawai</span>
@@ -53,7 +38,7 @@
                     <div class="row mb-3">
                         <label for="jumlah_jam" class="col-sm-4 col-form-label">Jumlah Jam</label>
                         <div class="col-sm-8">
-                            <input type="int" class="form-control" id="inputPassword3" name="jumlah_jam">
+                            <input type="number" class="form-control" id="inputPassword3" name="jumlah_jam">
                         </div>
                     </div>
                     <div class="row mb-3">
