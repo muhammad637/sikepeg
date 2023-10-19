@@ -32,8 +32,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/home',[DashboardAdminController::class,'index'])->name('home');
         Route::get('/dashboard',[DashboardAdminController::class,'index'])->name('dashboard.index');
-        // Route::view('/home', 'pages.dashboard.index')->name('home');
-        // Route::view('/dashboard', 'pages.dashboard.index')->name('dashboard.index');
         Route::resource('/pegawai', PegawaiController::class);
         Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
         Route::group(['prefix' => 'pegawai'], function () {

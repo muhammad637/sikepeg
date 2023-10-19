@@ -29,10 +29,10 @@
             @endif
             <div class="row justify-content-center gap-2">
                 
-                <a href="{{ route('admin.login') }}" class="col-md-5 col-sm-12 btn btn-success">
+                <a href="{{ route('admin.login') }}" class="col-md-5 col-sm-12 btn btn-secondary">
                     Login Sebagai Admin
                 </a>
-                <a href="{{ route('pegawai.login') }}" class="col-md-5 col-sm-12 btn btn-secondary">
+                <a href="#" class="col-md-5 col-sm-12 btn btn-success">
                     Login Sebagai Pegawai
                 </a>
 
@@ -43,6 +43,7 @@
 
            
             {{-- <form class="user" method="post"> --}}
+               
                 <div class="form-group">
                     <input class="form-control" type="text" name="nip_nippk" placeholder="Masukan NIP/NIPPK Anda"
                         value="{{ old('nip_nippk') }}">
@@ -61,7 +62,7 @@
                     {{ $message }}
                 </div>
                 @enderror
-                <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button>
+               <button class="btn btn-primary btn-block" type="submit">Log In</button>
             </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

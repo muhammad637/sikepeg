@@ -29,7 +29,7 @@
         @endif
             <div class="row justify-content-center gap-2">
                 
-                <a href="{{ route('admin.login') }}" class="col-md-5 col-sm-12 btn btn-success">
+                <a href="#" class="col-md-5 col-sm-12 btn btn-success">
                     Login Sebagai Admin
                 </a>
                 <a href="{{ route('pegawai.login') }}" class="col-md-5 col-sm-12 btn btn-secondary">
