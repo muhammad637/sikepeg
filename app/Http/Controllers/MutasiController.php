@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\mutasi;
-use Carbon\Carbon;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ruangan;
+use Carbon\Carbon;
 
 class MutasiController extends Controller
 {
