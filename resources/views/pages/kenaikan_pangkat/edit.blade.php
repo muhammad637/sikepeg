@@ -91,11 +91,5 @@
 @push('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 @livewireScripts
-{{-- <script>
-    $(document).ready(function() {
-            // alert('oke')
-            $('#pegawai').select2();
-            // $('.nip').val('tes')
-        });
-</script> --}}
+
 @endpush
