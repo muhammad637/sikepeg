@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main',['title'=>'Dashboard'])
 
 @section('content')
     <h1 class="" style="color:626262;font-weight:bold;margin:2rem 0 2rem;">Dashboard / Reminder SIP</h1>

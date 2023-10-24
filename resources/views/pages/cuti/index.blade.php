@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main',['title'=>'Data Cuti'])
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Cuti</h1>
     <!-- Page Heading -->
@@ -6,7 +6,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark">Data Cuti Aktif</h2>
+                <h4 class="m-0 font-weight-bold text-dark">Data Cuti Aktif Pegawai</h4>
                 <a href="{{ route('admin.cuti.data-cuti-aktif.create') }}"
                     class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i class="fas fa-plus-square ml-1"></i></a>
 

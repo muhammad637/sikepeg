@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main',['title'=>'Dashboard'])
 
 @section('content')
 <div class="container-fluid">

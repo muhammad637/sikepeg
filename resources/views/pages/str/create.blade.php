@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main', ['title'=>'Tambah STR'])
 @push('style-css')
     @livewireStyles
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Data STR</h2>
+        <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data STR</h4>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.str.store') }}" method="post">
             @csrf

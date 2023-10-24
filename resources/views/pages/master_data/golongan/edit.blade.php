@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main', ['title'=>'Edit Golongan'])
 @push('style-css')
     @livewireStyles
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Master Data</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Edit Golongan</h2>
+        <h4 class="m-0 font-weight-bold text-dark">Form Edit Golongan</h4>
         <hr class="font-weight-bold">
         <form action="{{ route('golongan.update', ['golongan' => $golongan->id]) }}" method="post">
             @method('put')

@@ -1,12 +1,12 @@
 @extends('main')
 @section('content')
-<h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Data Diklat</h1>
+<h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Diklat</h1>
 <!-- Page Heading -->
 <!-- DataTales Example -->
 <div class="card shadow-sm mb-4">
     <div class="card-header ">
         <div class="d-md-flex justify-content-between d-sm-block">
-            <h2 class="m-0 font-weight-bold text-dark">Riwayat Diklat</h2>
+            <h4 class="m-0 font-weight-bold text-dark">Riwayat Diklat</h4>
         </div>
     </div>
 

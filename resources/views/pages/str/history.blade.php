@@ -1,11 +1,11 @@
-@extends('main')
+@extends('main',['title'=>'History STR'])
 
 @section('content')
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <!-- tabel -->
     <div class="card shadow-sm mb-4">
-        <h3 class="pt-2 pl-5" style="color:black;font-weight:bold;">History STR {{ $pegawai->nama_lengkap }}</h3>
+        <h4 class="pt-2 pl-5" style="color:black;font-weight:bold;">History STR {{ $pegawai->nama_lengkap }}</h4>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
