@@ -115,7 +115,7 @@ class KenaikanPangkatController extends Controller
                 'link_sk' => $request->link_sk
             ]
         );
-
+        
         return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'data kenaikan pangkat pegawai berhasil ditambahkan');
         // } catch (\Throwable $th) {
 

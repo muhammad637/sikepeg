@@ -10,10 +10,10 @@ class DiklatController extends Controller
 {
     //
     public function index(){
-                $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
+        $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
             $query;
         }])->get();
-        return view('pages.diklat.index', ['pegawai' => $pegawai]);
+        return view('pages.diklat.index', ['pegawai' => $pegawai, 'i' => 0]);
     }
 
     public function create(){
@@ -23,7 +23,8 @@ class DiklatController extends Controller
     }
     public function edit(Diklat $diklat){
         return view('pages.diklat.edit', [
-            'diklat' => $diklat
+            'diklat' => $diklat,
+            
         ]);
     }
 
@@ -39,8 +40,7 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => 'required',
                 'link_sertifikat' => 'required'
             ]);
-
-
+            
             $diklat->update([
                 'nama_diklat' => $request->nama_diklat,
                 'jumlah_jam' => $request->jumlah_jam,
@@ -51,7 +51,7 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => $request->tanggal_sertifikat,
                 'link_sertifikat' => $request->link_sertifikat
             ]);
-            return redirect(route('diklat.index'))->with('success', 'diklat berhasil diupdate');
+            return redirect(route('admin.diklat.index'))->with('success', 'diklat berhasil diupdate');
         } catch (\Throwable $th) {
             //throw $th;
             return $th->getMessage();

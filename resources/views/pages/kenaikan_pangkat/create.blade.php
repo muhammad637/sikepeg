@@ -34,9 +34,11 @@
                 <div class="row mb-3">
                     <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
                     <div class="col-sm-4">
+                        <label for="" styel="font-size:15px;">Mulai</label>
                         <input type="date" class="form-control" name="tmt_pangkat_dari" required value="{{old('tmt_pangkat_dari')}}">
                     </div>
                     <div class="col-sm-4">
+                        <Label for='' style='font-size:15px;'>Sampai</Label>
                         <input type="date" class="form-control" name="tmt_pangkat_sampai" required value="{{old('tmt_pangkat_sampai')}}">
                     </div>
                 </div>

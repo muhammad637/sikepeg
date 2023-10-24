@@ -8,12 +8,12 @@
     </style>
 @endpush
 @section('content')
-    <h1 class="text-center my-5 judul-text text-uppercase">personal file</h1>
-    <div class="main-body">
+    <h1 class="text-center my-5 judul-text ">personal file</h1>
+    <div class="main-body ">
         <div class="card mb-3">
             <div class="card-body judul-text">
                 <div class="text-center mb-3">
-                    <h5 style="margin-bottom: -25px; ">
+                    <h5 style="margin-bottom: -25px; " class="">
                         {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
                     </h5>
                     <br />
@@ -31,6 +31,7 @@
                         </div>
                     </div>
                     <!-- end profile -->
+
                     <!-- isi -->
                     <div class="col-sm-12 col-md-12 col-lg-9 text-capitalize">
 
@@ -39,435 +40,219 @@
                                 # Biodata Pegawai
                             </h4>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 fw-italic">
-                                <span class="mb-0 text-dark fw-bolder"
-                                    style="
-                                                                text-decoration: none;
-                                                            ">NIP/NIPPK</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->nip_nippk }}
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th scope="col" class="judul-text">
+                                            {{ $pegawai->status_tenaga == 'asn' ? 'NIP' : 'NIPPK' }}</th>
+                                        <td scope="col">{{ $pegawai->nip_nippk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Nama Lengkap</th>
+                                        <td scope="col">
+                                            {{ $pegawai->nama_lengkap ?? $pegawai->gelar_depan . ' ' . $pegawai->nama_depan . ' ' . $pegawai->nama_belakang . ' ' . $pegawai->gelar_belakang }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Tempat Tanggal Lahir</th>
+                                        <td scope="col">
+                                            {{ $pegawai->tempat_lahr . ' ' . Carbon\Carbon::parse($pegawai->tanggal_lahir)->format('d-m-Y') }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Usia</th>
+                                        <td scope="col">
+                                            {{ date_diff(date_create($pegawai->tanggal_lahir), date_create('now'))->y }}
+                                            Tahun</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Alamat</th>
+                                        <td scope="col">{{ $pegawai->alamat }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">No Wa</th>
+                                        <td scope="col">{{ $pegawai->nip_nippk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Status Pegawai</th>
+                                        <td scope="col">{{ $pegawai->status_tenaga }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Gelar Depan</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->gelar_depan }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Nama Depan</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->nama_depan }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Nama Belakang</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->nama_belakang }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Gelar
-                                    Belakang</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->gelar_belakang }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Jenis Kelamin</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->jenis_kelamin }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Tempat Lahir</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->tempat_lahir }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Tanggal Lahir</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ Carbon\Carbon::parse($pegawai->tanggal_lahir)->format('d-m-Y') }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Usia</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->usia }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Alamat</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->alamat }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Agama</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->agama }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">No WA</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->no_wa }}
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                <span class="mb-0 text-dark fw-bolder">Status
-                                    Pegawai</span>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                {{ $pegawai->status_pegawai }}
-                            </div>
-                        </div>
+
 
 
                     </div>
                     <!-- end isi -->
                 </div>
-                <hr>
-                <br>
-                <div class="p-md-5 p-sm-0">
-                    <div class="row justify-content-center">
-                        <div class="col-md-12 col-xl-1 my-5 ">
-
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6 ">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Ruangan</th>
+                                        <td scope="col">{{ $pegawai->nip_nippk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Tahun Pensiun</th>
+                                        <td scope="col">
+                                            {{ $pegawai->tahun_pensiun}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Status Tenaga</th>
+                                        <td scope="col "class="text-uppercase">
+                                            {{ $pegawai->status_tenaga .' / '.$pegawai->status_tipe }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Jabatan</th>
+                                        <td scope="col">
+                                            {{ $pegawai->jabatan ?? '-'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Sekolah / Perguruan Tinggi<i
+                                                class="mdi mdi-cards-playing-spade-multiple-outline:"></i></th>
+                                        <td scope="col">
+                                            {{ $pegawai->sekolah }}
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Tanggal Lulus</th>
+                                        <td scope="col">{{ $pegawai->tanggal_lulus }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">No Ijazah</th>
+                                        <td scope="col">{{ $pegawai->no_ijazah }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Masa Kerja</th>
+                                        <td scope="col">{{ $pegawai->status_tipe == 'pns' ? date_diff(date_create($pegawai->tmt_pns),date_create('now'))->y : ($pegwai->status_tipe == 'pppk' ? date_diff(date_create($pegawai->tmt_pppk),date_create('now'))->y : date_diff(date_create($pegwai->tanggal_masuk),date_create('now'))->y) }} Tahun</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Cuti Tahunan</th>
+                                        <td scope="col">{{ $pegawai->cuti_tahunan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">Sisa Cuti Tahunan</th>
+                                        <td scope="col">{{ $pegawai->sisa_cuti_tahunan }} hari <a href="{{route('admin')}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="col-md-4 col-xl-4 col-sm-12">
-                            <div class="row mb-2">
-                                <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                    <span class="mb-0 text-dark fw-bolder">Ruangan</span>
-                                </div>
-                                <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                    {{ $pegawai->ruangan ? $pegawai->ruangan->nama_ruangan : '' }}
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                    <span class="mb-0 text-dark fw-bolder">Tahun Pensiun</span>
-                                </div>
-                                <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                    {{ $pegawai->tahun_pensiun }}
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                    <span class="mb-0 text-dark fw-bolder">Status Tenaga</span>
-                                </div>
-                                <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                    {{ $pegawai->status_tenaga }}
-                                </div>
-                            </div>
-                            @if ($pegawai->status_tenaga == 'non asn')
-                                <div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">NI PTT-PK/THL</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->niPtt_pkThl }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">Pendidikan
-                                                Terakhir</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->pendidikan_terakhir }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">Tanggal Lulus</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ Carbon\Carbon::parse($pegawai->tanggal_lulus)->format('d-M-Y') }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">No Ijazah</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->no_ijazah }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                            @if ($pegawai->status_tipe == 'pns')
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder text-uppercase">
-                                            tmt cpns
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->tmt_cpns }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder text-uppercase">
-                                            tmt pns
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->tmt_pns }}
-                                    </div>
-                                </div>
-                            @elseif($pegawai->status_tipe == 'pppk')
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder text-uppercase">
-                                            tmt pppk
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->tmt_pppk }}
-                                    </div>
-                                </div>
-                            @endif  
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder text-uppercase">
-                                            tmt <span class="text-capitalize">pangkat terakhir</span>
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->tmt_pangkat_terakhir }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder text-uppercase">
-                                            <span class="text-capitalize">pangkat / Golongan</span>
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->pangkat_id  ? $pegawai->pangkat->nama_pangkat .' / '. $pegawai->golongan->nama_golongan : $pegawai->golongan->nama_golongan }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder text-uppercas">
-                                            Sekolah / Perguruan Tinggi
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12  text-normal">
-                                        {{ $pegawai->sekolah }}
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="col-md-4 col-xl-4 col-sm-12">
-                            @if ($pegawai->status_tenaga == 'non asn')
-                                <div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-                                            <span class="mb-0 text-dark fw-bolder">Jabatan</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                            {{ $pegawai->jabatan }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-                                            <span class="mb-0 text-dark fw-bolder">Tanggal Masuk</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                            {{ Carbon\Carbon::parse($pegawai->tanggal_masuk)->format('d-M-Y') }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                            <span class="mb-0 text-dark fw-bolder">Izin Dalam
-                                                Setahun</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                            {{ $pegawai->cuti_tahunan }} hari
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                            <span class="mb-0 text-dark fw-bolder">Masa Kerja</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                            {{ $pegawai->masa_kerja }}
-                                        </div>
-                                    </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6 ">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    @if ($pegawai->status_tipe == 'pns')
+                                        <tr>
+                                            <th scope="col" class="judul-text">Pendidikan Terakhir</th>
+                                            <td scope="col">{{ $pegawai->pendidikan_terakhir }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">TMT CPNS</th>
+                                            <td scope="col">{{ $pegawai->tmt_cpns }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">TMT PNS</th>
+                                            <td scope="col">
+                                                {{ $pegawai->tmt_pns}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">TMT Pangkat Terakhir</th>
+                                            <td scope="col">
+                                                {{ $pegawai->tmt_pangkat_terakhir }}
+                                            </td>
+                                        </tr>
 
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                                            <span class="mb-0 text-dark fw-bolder">Sisa Cuti</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-                                            {{ $pegawai->sisa_cuti_tahunan }} Hari
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">Pendidikan
-                                            sesuai <span class="text-uppercase">SK</span> Terakhir</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->pendidikan_terakhir }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">Tanggal Lulus</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ Carbon\Carbon::parse($pegawai->tanggal_lulus)->format('d-M-Y') }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">No Ijazah</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->no_ijazah }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">Jabatan</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->jabatan }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">Cuti Tahunan</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->cuti_tahunan }} hari
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">Masa Kerja</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->masa_kerja }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">Sisa Cuti Tahunan</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->sisa_cuti_tahunan }} Hari
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        <span class="mb-0 text-dark fw-bolder">Jenis Tenaga</span>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                        {{ $pegawai->jenis_tenaga }}
-                                    </div>
-                                </div>
+                                        <tr>
+                                            <th scope="col" class="judul-text">Pangkat / Golongan</th>
+                                            <td scope="col" class="text-uppercase">
+                                                {{ $pegawai->pangkat->nama_pangkat .' '. $pegawai->golongan->nama_golongan }} <a href="{{route('admin.kenaikan-pangkat.riwayat',[ 'pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->kenaikanpangkat->count() > 0 ? "" : "d-none"}}">Lihat</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">Jenis Tenaga</th>
+                                            <td scope="col" class="text-uppercase">{{ $pegawai->jenis_tenaga }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">No Karpeg</th>
+                                            <td scope="col">{{ $pegawai->no_karpeg ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">No Taspen</th>
+                                            <td scope="col">{{ $pegawai->no_taspen ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">No NPWP</th>
+                                            <td scope="col">{{ $pegawai->no_npwp ?? '-' }}</td>
+                                        </tr>
+                                        @if ($pegawai->jenis_tenaga == 'nakes')
+                                        <tr>
+                                            <th scope="col" class="judul-text">Tanggal Berakhir STR</th>
+                                            <td scope="col">{{ $pegawai->str->sortByDesc('tanggal_terbit_str')->first()->masa_berakhir_str ?? '-' }} <a href="{{route('admin.str.history',['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">Tanggal Berakhir SIP</th>
+                                            <td scope="col">{{ $pegawai->sip->sortByDesc('tanggal_terbit_sip')->first()->masa_berakhir_sip ?? '-' }} <a href="{{route('admin.sip.history',['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->sip->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
+                                        </tr>
+                                        @endif
+                                        @elseif($pegawai->status_tipe == 'pppk')
+                                        <tr>
+                                            <th scope="col" class="judul-text">Pendidikan Terakhir</th>
+                                            <td scope="col">{{ $pegawai->pendidikan_terakhir }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">TMT PPPK</th>
+                                            <td scope="col">{{ $pegawai->tmt_pppk }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">TMT Pangkat Terakhir</th>
+                                            <td scope="col text-uppercase">
+                                                {{ $pegawai->tmt_pangkat_terakhir }}
+                                            </td>
+                                        </tr>
 
-                                @if ($pegawai->jenis_tenaga == 'umum' || $pegawai->jenis_tenaga == 'struktural')
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">No Karpeg</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->no_karpeg }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">No Taspen</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->no_taspen }}
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">No NPWP
-                                            </span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ $pegawai->no_npwp }}
-                                        </div>
-                                    </div>
-                                   
-                                @endif
-                                @if (count($pegawai->str) > 0 && count($pegawai->sip) > 0)
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder">STR</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <a href="{{ route('admin.str.history', ['pegawai' => $pegawai->id]) }}">
-                                                lihat Semua <span class="text-uppercase">
-                                                    str
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <span class="mb-0 text-dark fw-bolder text-uppercase">Sip</span>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            <a href="{{ route('admin.sip.history', ['pegawai' => $pegawai->id]) }}">
-                                                lihat Semua <span class="text-uppercase">
-                                                    sip
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                            <span class="mb-0 text-dark fw-bolder"> Masa Berakhir Sip</span>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                                            {{ Carbon\Carbon::parse($pegawai->SIP[0]->orderByDesc('masa_berakhir_sip')->first()->masa_berakhir_sip)->format('d-m-Y') }}
-                                        </div>
-                                    </div>
-                                @endif
-                                
-                            @endif
+                                        <tr>
+                                            <th scope="col" class="judul-text">Golongan</th>
+                                            <td scope="col">
+                                                {{ $pegawai->golongan->nama_golongan }}
+                                               </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">Jenis Tenaga</th>
+                                            <td scope="col">{{ $pegawai->jenis_tenaga }}</td>
+                                        </tr>
+                                       @if ($pegawai->jenis_tenaga == 'nakes')
+                                        <tr>
+                                            <th scope="col" class="judul-text">Tanggal Berakhir STR</th>
+                                            <td scope="col">{{ $pegawai->str->sortByDesc('tanggal_terbit_str')->first()->masa_berakhir_str ?? '-' }} <a href="#" class="badge bg-warning text-dark">Lihat</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">Tanggal Berakhir SIP</th>
+                                            <td scope="col">{{ $pegawai->sip->sortByDesc('tanggal_terbit_sip')->first()->masa_berakhir_sip ?? '-' }} <a href="#" class="badge bg-warning text-dark">Lihat</a></td>
+                                        </tr>
+                                        @endif
+                                        @else
+                                        <tr>
+                                            <th scope="col" class="judul-text">Tanggal Masuk Pegawai</th>
+                                            <td scope="col">{{ $pegawai->tanggal_masuk }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">NI PTT-PK/THL</th>
+                                            <td scope="col">{{ $pegawai->niPtt_pkThl }}</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 

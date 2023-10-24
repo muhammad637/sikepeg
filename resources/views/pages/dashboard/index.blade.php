@@ -3,12 +3,13 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
             <h2>Dashboard</h2>
         </div>
-        <div class="col">
+        <div class="col-md-6 col-sm-12">
             <form
-                class="d-none d-sm-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                class=" d-sm-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="{{route('admin.pegawai.searchPegawai')}}" method="get">
+                @csrf
                 <div class="input-group shadow-sm" style="border: 1px solid rgb(139, 139, 139);">
                     <div class="input-group-append">
                         <button class="btn" type="button" style="background-color: #2d7430; color: white;">
@@ -16,7 +17,7 @@
                         </button>
                     </div>
                     <input type="text" class="form-control bg-white border-0 small"
-                        placeholder="Keyword : [Nama Pegawai] [NIP] [Ruangan] [Status Tenaga]" aria-label="Search" aria-describedby="basic-addon2">
+                        placeholder="Keyword : [Nama Pegawai] [NIP] [Ruangan] [Status Tenaga]" aria-label="Search" aria-describedby="basic-addon2" name="search" required>
                 </div>
             </form>
         </div>
@@ -90,46 +91,19 @@
             <h6 style="font-weight: bold;">Ulang Tahun</h6>
             <!-- reminder ulang tahun -->
             <div class="container-fluid bg-white shadow-sm rounded mb-4 py-4">
-                <p>29 April <hr></p>
+                @foreach ($dataPegawaiUlangtahun as $item)
+                {{-- <p>{{date('l j F ', strtotime($item->tanggal_lahir))}}<hr></p> --}}
+                <p>{{Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F'). ' '.now()->format('Y')}}<hr></p>
                 <div class="row">
                     <div class="col-md-4 my-2">
                         <img src="./img/foto.png" width="100px" height="100px" alt="" class="rounded-circle">
                     </div>
                     <div class="col-md-8 my-2">
-                        <h6>Hari, 29 April 2023</h6>
-                        <p>Roni Subakti Berulang tahun hari ini</p>
+                        <h6>{{Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F'). ' '.now()->format('Y')}}</h6>
+                        <p>{{$item->nama_lengkap ?? $item->nama_depan}} Berulang tahun hari ini, Kirim <a href="#" class="badge bg-info text-white">Pesan</a>  untuk mengucapkan Selamat Ulang Tahun</p>
                     </div>
                 </div>
-                <p>29 April <hr></p>
-                <div class="row">
-                    <div class="col-md-4 my-2">
-                        <img src="./img/foto.png" width="100px" height="100px" alt="" class="rounded-circle">
-                    </div>
-                    <div class="col-md-8 my-2">
-                        <h6>Hari, 29 April 2023</h6>
-                        <p>Roni Subakti Berulang tahun hari ini</p>
-                    </div>
-                </div>
-                <p>29 April <hr></p>
-                <div class="row">
-                    <div class="col-md-4 my-2">
-                        <img src="./img/foto.png" width="100px" height="100px" alt="" class="rounded-circle">
-                    </div>
-                    <div class="col-md-8 my-2">
-                        <h6>Hari, 29 April 2023</h6>
-                        <p>Roni Subakti Berulang tahun hari ini</p>
-                    </div>
-                </div>
-                <p>29 April <hr></p>
-                <div class="row">
-                    <div class="col-md-4 my-2">
-                        <img src="./img/foto.png" width="100px" height="100px" alt="" class="rounded-circle">
-                    </div>
-                    <div class="col-md-8 my-2">
-                        <h6>Hari, 29 April 2023</h6>
-                        <p>Roni Subakti Berulang tahun hari ini</p>
-                    </div>
-                </div>
+                @endforeach
             </div>                            
             <!-- reminder ulang tahun end -->
         </div>

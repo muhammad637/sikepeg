@@ -20,7 +20,6 @@
         </div>
     </div>
     @if ($status_tenaga == 'non asn')
-    {{$status_tipe}}
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">

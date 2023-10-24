@@ -51,4 +51,6 @@ class Pegawai extends Authenticatable
     public function ruangan(){
         return $this->belongsTo(Ruangan::class,'ruangan_id');
     }
+   
 }
+

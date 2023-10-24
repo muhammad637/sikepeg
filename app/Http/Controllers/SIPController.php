@@ -51,7 +51,7 @@ class SIPController extends Controller
         //
         try {
             //code...
-            return $request->all();
+            // return $request->all();
             $validatedData = $request->validate([
                 'no_str' => '',
                 'no_sip' => 'required',

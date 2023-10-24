@@ -38,9 +38,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('pegawai')->name('pegawai.')->group(function () {
             Route::get('/dataPegawai', [PegawaiController::class, 'dataPegawai'])->name('dataPegawai');         
 
-            Route::get('/', [PegawaiController::class, 'index'])->name('index');         
+            Route::get('/', [PegawaiController::class, 'index'])->name('index');
+            Route::get('/searchPegawai',[PegawaiController::class,'searchPegawai'])->name('searchPegawai');         
             Route::get('/create', [PegawaiController::class,'create'])->name('create');         
             Route::get('/{pegawai:id}/edit',[PegawaiController::class,'edit'])->name('edit');         
+            Route::post('/store', [PegawaiController::class, 'store'])->name('store');
             Route::get('/{pegawai:id}', [PegawaiController::class, 'show'])->name('show');
             Route::put('/{pegawai:id}/update', [PegawaiController::class, 'update'])->name('update');
             Route::prefix('filter')->name('filter.')->group(function () {

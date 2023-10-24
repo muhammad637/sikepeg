@@ -37,9 +37,10 @@
                     @if (count($item->diklat) > 0)
                     @php
                     $data = explode('view', $item->diklat[0]->link_sertifikat);
+                    $i++;
                     @endphp
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $i }}</td>
                         <td>{{ $item->nama_depan }}</td>
                         <td>{{ $item->diklat[0]->nama_diklat }}</td>
                         <td>{{ $item->diklat[0]->penyelenggara }}</td>

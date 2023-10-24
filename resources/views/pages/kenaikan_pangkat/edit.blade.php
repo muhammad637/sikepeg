@@ -41,12 +41,14 @@
                             value="{{old('jabatan', $kenaikan_pangkat->pegawai->jabatan)}}">
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3">  
                     <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
-                    <div class="col-sm-4">
+                    <div class="col-md-4 col-sm-12 mb-1">
+                        <label for="" style="font-size: 15px">Mulai</label>
                         <input type="date" class="form-control" name="tmt_pangkat_dari" required value="{{old('tmt_pangkat_dari',$kenaikan_pangkat->tmt_pangkat_dari)}}">
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-md-4 col-sm-12 mb-1">
+                        <label for="" style="font-size: 15px">Sampai</label>
                         <input type="date" class="form-control" name="tmt_pangkat_sampai" required value="{{old('tmt_pangakt_sampai', $kenaikan_pangkat->tmt_pangkat_sampai)}}">
                     </div>
                 </div>

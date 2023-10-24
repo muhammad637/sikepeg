@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="noSIP" class="col-sm-4 col-form-label">No. SIP</label>
+                        <label for="noSIP" class="col-sm-4 col-form-label">No. Rekomendasi</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3" name="no_rekomendasi"
                                 value="{{ old('no_rekomendasi') }}" required>

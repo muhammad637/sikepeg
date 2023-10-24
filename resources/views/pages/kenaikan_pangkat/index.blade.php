@@ -38,10 +38,11 @@
                             @if (count($item->kenaikanpangkat) > 0)
                                 @php
                                     $data = explode('view', $item->kenaikanpangkat[0]->link_sk);
+                                    $i++;
                                 @endphp
 
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $i }}</td>
                                     <td>{{ $item->nama_lengkap ?? $item->nama_depan }}</td>
                                     <td>{{ $item->ruangan->nama_ruangan }}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->pangkat->nama_pangkat  ?? '-'}}</td>

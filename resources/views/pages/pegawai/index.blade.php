@@ -78,7 +78,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($pegawai as $index => $item)
+                        @foreach ($pegawai as $index => $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nip_nippk }}</td>
@@ -97,7 +97,7 @@
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
-                        @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -247,7 +247,7 @@
 @endsection
 
 @push('script')
-    <script>
+    {{-- <script>
         $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
@@ -288,5 +288,5 @@
 
             ]
         })
-    </script>
+    </script> --}}
 @endpush
