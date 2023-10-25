@@ -96,11 +96,11 @@
                 <p>{{Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F'). ' '.now()->format('Y')}}<hr></p>
                 <div class="row">
                     <div class="col-md-4 my-2">
-                        <img src="./img/foto.png" width="100px" height="100px" alt="" class="rounded-circle">
+                        <img src="{{asset('./tampilan-sikepeg/img/foto.png')}}" width="100px" height="100px" alt="" class="rounded-circle">
                     </div>
                     <div class="col-md-8 my-2">
-                        <h6>{{Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F'). ' '.now()->format('Y')}}</h6>
-                        <p>{{$item->nama_lengkap ?? $item->nama_depan}} Berulang tahun hari ini, Kirim <a href="#" class="badge bg-info text-white">Pesan</a>  untuk mengucapkan Selamat Ulang Tahun</p>
+                        <h6><em>{{Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F'). ' '.now()->format('Y')}}</em></h6>
+                        <p> <b>{{$item->nama_lengkap ?? $item->nama_depan}} </b>Berulang tahun hari ini, Kirim <a href="#" class="badge bg-info text-white">Pesan</a>  untuk mengucapkan Selamat Ulang Tahun</p>
                     </div>
                 </div>
                 @endforeach

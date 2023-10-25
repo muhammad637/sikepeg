@@ -57,7 +57,7 @@ class DashboardAdminController extends Controller
             ->whereDay('tanggal_lahir','>=',$today->day)
             ->orWhereDay('tanggal_lahir', '<=', $endDate->day)
             ->whereMonth('tanggal_lahir', '=', $today->month)
-            ->orderByRaw("DATE_FORMAT(tanggal_lahir, '%m-%d')",'asc')
+            ->orderByRaw("CONVERT(SUBSTRING(tanggal_lahir, 6, 2), SIGNED) ASC, CONVERT(SUBSTRING(tanggal_lahir, 8, 2), SIGNED) ASC")
         ->get();
         // Menampilkan hasil ke tampilan
         return view(

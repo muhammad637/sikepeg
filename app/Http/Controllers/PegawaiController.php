@@ -146,6 +146,7 @@ class PegawaiController extends Controller
     }
     public function import_excel(Request $request)
     {
+        // return Ruangan::firstOrCreate(['nama_ruangan' => 'loket 10']);
         $request->validate([
             'file' => 'required|mimes:csv,xls,xlsx'
         ]);
