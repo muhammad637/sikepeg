@@ -11,7 +11,10 @@ use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\KenaikanPangkatController;
-use App\Models\KenaikanPangkat;
+
+use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\GolonganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +34,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/login_handler', [AdminController::class, 'loginHandler'])->name('login_handler');
     });
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/home',[DashboardAdminController::class,'index'])->name('home');
+        Route::get('/home',[DashboardAdminController::class,'index'])->name('home.index');
         Route::get('/dashboard',[DashboardAdminController::class,'index'])->name('dashboard.index');
         // Route::resource('/pegawai', PegawaiController::class);
         Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
@@ -106,6 +109,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::put('/{hariBesar}', [HariBesarController::class, 'update'])->name('update');
                 Route::delete('/{hariBesar}/delete', [HariBesarController::class, 'destroy'])->name('destroy');
             });
+            Route::resource('/ruangan', RuanganController::class);
+            Route::resource('/pangkat', PangkatController::class);
+            Route::resource('/golongan', GolonganController::class);
         });
         Route::post('/logout', [AdminController::class, 'logoutHandler'])->name('logout');
     });

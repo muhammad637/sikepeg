@@ -11,7 +11,7 @@
      </a>
 
      <!-- Nav Item - Dashboard -->
-     <li class="nav-item {{ Request::routeIs('admin.dashboard.*') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::routeIs('admin.dashboard.*') || Request::routeIs('admin.home.*') ? 'active' : '' }}">
          <a class="nav-link " href="{{ route('admin.dashboard.index') }}">
              <i class="fas fa-tachometer-alt"></i>
              <span>Dashboard</span></a>
@@ -60,18 +60,18 @@
      </li>
 
      <li class="nav-item">
-         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#STRdanSIP"
+         <a class="nav-link collapsed {{ Request::routeIs('admin.str.*') || Request::routeIs('admin.sip.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#STRdanSIP"
              aria-expanded="true" aria-controls="STRdanSIP">
-             <i class="fas fa-folder-plus"></i>
+             <i class="fas fa-folder-plus  {{ Request::routeIs('admin.str.*') || Request::routeIs('admin.sip.*') ? 'text-white' : '' }}"></i>
              <span>STR dan SIP</span>
          </a>
-         <div id="STRdanSIP" class="collapse {{ Request::routeIs('admin.str.*') || Request::routeIs('admin.sip.*') ? 'show' : '' }}"
+         <div id="STRdanSIP" class="collapse"
              aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
                  <h6 class="collapse-header">Menu Cuti</h6>
-                 <a class="collapse-item {{ Request::routeIs('str*') ? 'active' : '' }}"
+                 <a class="collapse-item {{ Request::routeIs('admin.str.*') ? 'active' : '' }}"
                      href="{{ route('admin.str.index') }}">STR</a>
-                 <a class="collapse-item {{ Request::routeIs('sip*') ? 'active' : '' }}"
+                 <a class="collapse-item {{ Request::routeIs('admin.sip.*') ? 'active' : '' }}"
                      href="{{ route('admin.sip.index') }}">SIP</a>
              </div>
          </div>
@@ -85,9 +85,9 @@
          </a>
          <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item" href="/pangkat">Pangkat</a>
-                 <a class="collapse-item" href="/golongan">Golongan</a>
-                 <a class="collapse-item" href="/ruangan">Ruangan</a>
+                 <a class="collapse-item {{Request::routeIs('admin.master-data.pangkat.*') ? 'active' : ''}}" href="{{route('admin.master-data.pangkat.index')}}">Pangkat</a>
+                 <a class="collapse-item {{Request::routeIs('admin.master-data.golongan.*') ? 'active' : ''}}" href="{{route('admin.master-data.golongan.index')}}">Golongan</a>
+                 <a class="collapse-item {{Request::routeIs('admin.master-data.ruangan.*') ? 'active' : ''}}" href="{{route('admin.master-data.ruangan.index')}}">Ruangan</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.hari-besar.*') ? 'active' : ''}}" href="{{ route('admin.master-data.hari-besar.index') }}">Hari Besar</a>
              </div>
          </div>

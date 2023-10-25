@@ -7,16 +7,12 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Daftar Ruangan</h4>
-                <a href="{{ route('ruangan.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
+                <a href="{{ route('admin.master-data.ruangan.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
                         class="fas fa-plus-square ml-1"></i></a>
 
             </div>
         </div>
         <div class="card-body">
-
-            {{-- @if (session()->has('success'))
-                {{ session()->get('success') }}
-            @endif --}}
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
                     cellspacing="0">
@@ -35,7 +31,7 @@
                                 <td>{{ $item->nama_ruangan }}</td>
                                 <td>{{ $item->pegawai->count() }}</td>
                                 <td class="">
-                                    <a href="{{ route('ruangan.edit', ['ruangan' => $item->id]) }}"
+                                    <a href="{{ route('admin.master-data.ruangan.edit', ['ruangan' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>

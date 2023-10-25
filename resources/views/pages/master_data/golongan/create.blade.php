@@ -10,7 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Golongan</h4>
         <hr class="font-weight-bold">
-        <form action="{{ route('golongan.store') }}" method="post">
+        <form action="{{ route('admin.master-data.golongan.store') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -39,7 +39,7 @@
 
         </form>
         <div class="text-right">
-            <a href="{{ route('golongan.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <a href="{{ route('admin.master-data.golongan.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>
         </div>
     </div>

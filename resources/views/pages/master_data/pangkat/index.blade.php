@@ -7,7 +7,7 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Daftar Pangkat</h4>
-                <a href="{{ route('pangkat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
+                <a href="{{ route('admin.master-data.pangkat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
                         class="fas fa-plus-square ml-1"></i></a>
 
             </div>
@@ -33,16 +33,8 @@
                                 <td>{{ $loop->iteration }} </td>
                                 <td>{{ $item->nama_pangkat }} </td>
                                 <td class="">
-                                    <a href="{{ route('pangkat.edit', ['pangkat' => $item->id]) }}"
+                                    <a href="{{ route('admin.master-data.pangkat.edit', ['pangkat' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
-                                    <form action="{{ route('pangkat.destroy', ['pangkat' => $item->id]) }}"
-                                        class="d-inline" method="post">
-                                        @method('delete')
-                                        @csrf
-                                        <button class="border-0 badge p-2 text-white bg-danger"><i
-                                                class="fas fa-trash "></i></button>
-                                    </form>
-
                                 </td>
                             </tr>
                         @endforeach
