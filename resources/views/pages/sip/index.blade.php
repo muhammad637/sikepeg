@@ -1,13 +1,13 @@
-@extends('main')
+@extends('main',['title'=>'SIP'])
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
+    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">SIP</h1>
     <!-- tabel -->
     <div class="card shadow-sm mb-4">
-        <div class="card-header" style="background-color: #d9d9d9;">
+        <div class="card-header" >
             <div class="d-md-flex justify-content-between s-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark ">Data SIP</h2>
+                <h4 class="m-0 font-weight-bold text-dark ">Data SIP Aktif Pegawai</h4>
                 <a href="{{ route('admin.sip.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
                     create <i class="fas fa-plus-square ml-1"></i>
                 </a>

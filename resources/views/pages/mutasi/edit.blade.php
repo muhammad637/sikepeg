@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main',['title'=>'Edit Mutasi'])
 @push('style-css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
 @livewireStyles
@@ -8,7 +8,7 @@
 <!-- Begin Page Content -->
 <h1 class="" style="color:black;font-weight:bold;">Mutasi</h1>
 <div class="card p-4 mx-lg-5 mb-5 ">
-    <h2 class="m-0 font-weight-bold text-dark">Edit Mutasi</h2>
+    <h4 class="m-0 font-weight-bold text-dark">Form Edit Data Mutasi</h4>
     <hr class="font-weight-bold">
     <form action="{{ route('admin.mutasi.update', ['mutasi' => $mutasi->id]) }}" method="post">
         @method('put')

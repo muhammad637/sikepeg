@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main',['title'=>'History Cuti'])
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Cuti</h1>
 
@@ -7,7 +7,7 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h2 class="m-0 font-weight-bold text-dark">Histori Cuti</h2>
+                <h4 class="m-0 font-weight-bold text-dark">Data Histori Cuti Pegawai</h4>
                
             </div>
         </div>

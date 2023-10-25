@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main', ['title'=>'Tambah Cuti'])
 @push('style-css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
     @livewireStyles
@@ -7,7 +7,7 @@
     <!-- Begin Page Content -->
     <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Cuti</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Form Tambah Cuti</h2>
+        <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Cuti</h4>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.cuti.data-cuti-aktif.store') }}" method="post">
             @csrf

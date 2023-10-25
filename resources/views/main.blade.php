@@ -9,7 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SiKep {{ isset($title) ? "- $title" : '' }}</title>
+
+    <link rel="shortcut icon" type="image/png" href="{{ asset('./tampilan-sikepeg/img/RSUD-logo.png') }}" />
 
     @include('partials.cssLink')
     @stack('style-css')
@@ -23,7 +25,7 @@
         <!-- Sidebar -->
         @include('partials.sidebar')
         <!-- End of Sidebar -->
-
+ 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 

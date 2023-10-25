@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main',['title'=>'Edit STR'])
 
 @push('style-css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
@@ -8,7 +8,7 @@
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">STR</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Edit Data STR</h2>
+        <h4 class="m-0 font-weight-bold text-dark">Form Edit Data STR</h4>
         <hr>
         <form action="{{ route('admin.str.update', ['str' => $str->id]) }}" method="post">
             @method('put')

@@ -1,13 +1,13 @@
-@extends('main')
+@extends('main',['title'=>'Edit Cuti'])
 @push('style-css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
     @livewireStyles
 @endpush
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Cuti</h1>
+    <h1 class="mx-4 px-4" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Cuti</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h2 class="m-0 font-weight-bold text-dark">Detail Cuti Pegawai</h2>
+        <h4 class="m-0 font-weight-bold text-dark">Edit Data Cuti</h4>
         <hr class="font-weight-bold">
         <form action="{{ route('admin.cuti.data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
             @method('put')
