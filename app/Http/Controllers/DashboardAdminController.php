@@ -18,7 +18,7 @@ class DashboardAdminController extends Controller
         $today = Carbon::today();
         // $today = now();
 
-        $endDate = $today->copy()->addDay(3);
+        $endDate = $today->copy()->addDay(7);
         // Mendefinisikan tanggal 6 bulan dari sekarang
         $sixMonthsFromNow = $today->addMonths(6);
 

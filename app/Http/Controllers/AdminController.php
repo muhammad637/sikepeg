@@ -24,7 +24,7 @@ class AdminController extends Controller
             'password' => $request->password,
         );
         if(Auth::guard('admin')->attempt($cred)){
-            return redirect()->route('admin.home');
+            return redirect()->intended(route('admin.home.index'));
         }else{
             session()->flash('fail','akun yang anda masukkan tidak di temukan');
             return redirect()->back();

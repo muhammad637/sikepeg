@@ -373,13 +373,16 @@ class PegawaiController extends Controller
                     $request->status_tipe == 'pns'
                 ) {
 
-                    $dataPangkatGolongan = [
+                    $dataTambahan = [
                         'pangkat_id' => $pangkat_id,
-                        'golongan_id' => $golongan_id
+                        'golongan_id' => $golongan_id,
+                        'tmt_pns' => $request->tmt_pns,
+                        'tmt_cpns' => $request->tmt_cpns,
                     ];
                 } elseif ($request->status_tipe == 'pppk') {
-                    $dataPangkatGolongan = [
-                        'golongan_id' => $golongan_id
+                    $dataTambahan = [
+                        'golongan_id' => $golongan_id,
+                        'tmt_pppk' => $request->tmt_pppk
                     ];
                 }
             }
@@ -430,7 +433,7 @@ class PegawaiController extends Controller
                     'tanggal_masuk' => null,
                     'niPtt_pkThl' => null,
                     'masa_kerja' => $masa_kerja
-                ], $validatedDataAsn, $dataPangkatGolongan));
+                ], $validatedDataAsn, $dataTambahan));
                 alert()->success('sukses', 'data pegawai berhasil diupdate');
                 return redirect(route('admin.pegawai.index'))->withInput();
             }
@@ -443,7 +446,7 @@ class PegawaiController extends Controller
                 $pegawai->update(array_merge(
                     ['masa_kerja' => $masa_kerja],
                     $validatedDataAsn,
-                    $dataPangkatGolongan
+                    $dataTambahan
                 ));
             }
             if ($request->jenis_tenaga == 'umum' || $request->jenis_tenaga == 'struktural') {

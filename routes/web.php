@@ -52,12 +52,5 @@ Route::get('/dashboard', function () {
 })->name('dashboard.index');
 
 
-Route::get('/reminderstr', function () {
-    return view('pages.dashboard.reminderstr');
-})->name('reminderstr.index');
 
-
-Route::get('/remindersip', function () {
-    return view('pages.dashboard.remindersip');
-})->name('remindersip.index');
 // DASHBOARD END //

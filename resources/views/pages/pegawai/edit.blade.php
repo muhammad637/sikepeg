@@ -276,6 +276,5 @@
 </div>
 @endsection
 @push('script')
-
 @livewireScripts
 @endpush
