@@ -87,3 +87,7 @@
     <!-- tabel End -->
     <!-- /.container-fluid -->
 @endsection
+@push('script')
+    <script src="{{asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+ <script src="{{asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+@endpush

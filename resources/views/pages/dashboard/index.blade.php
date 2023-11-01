@@ -127,7 +127,8 @@
         <script type="text/javascript">
        
             $(document).ready(function() {
-                var pegawai = <?php echo json_encode($pegawais); ?>;
+                // var pegawai = <?php echo json_encode($pegawais); ?>;
+               var pegawai = @json($pegawais, JSON_HEX_TAG);
                 var options = {
                     chart: {
                         renderTo: 'donut_chart',
@@ -172,7 +173,8 @@
             });
             $(document).ready(function() {
 
-                var pegawai = <?php echo json_encode($pegawai); ?>;
+                // var pegawai = <?php echo json_encode($pegawai); ?>;
+               var pegawai = @json($pegawais, JSON_HEX_TAG);
                 var options = {
                     chart: {
                         renderTo: 'keaktifan_chart',

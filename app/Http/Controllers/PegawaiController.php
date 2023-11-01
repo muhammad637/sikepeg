@@ -117,7 +117,7 @@ class PegawaiController extends Controller
     {
         // return Asn::all();
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->orderBy('nama_depan', 'asc');
+            $pegawai = Pegawai::query()->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) {
@@ -510,7 +510,7 @@ class PegawaiController extends Controller
     public function statusTenaga(Request $request)
     {
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->where('status_tenaga', $request->status_tenaga)->orderBy('nama_depan', 'asc');
+            $pegawai = Pegawai::query()->where('status_tenaga', $request->status_tenaga)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) {
@@ -540,7 +540,7 @@ class PegawaiController extends Controller
     public function statusTipe(Request $request)
     {
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->where('status_tipe', $request->status_tipe)->orderBy('nama_depan', 'asc');
+            $pegawai = Pegawai::query()->where('status_tipe', $request->status_tipe)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) {
@@ -570,7 +570,7 @@ class PegawaiController extends Controller
     public function jenisTenaga(Request $request)
     {
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->where('jenis_tenaga', $request->jenis_tenaga)->orderBy('nama_depan', 'asc');
+            $pegawai = Pegawai::query()->where('jenis_tenaga', $request->jenis_tenaga)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) {
@@ -600,7 +600,7 @@ class PegawaiController extends Controller
     public function jenisKelamin(Request $request)
     {
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->where('jenis_kelamin', $request->jenis_kelamin)->orderBy('nama_depan', 'asc');
+            $pegawai = Pegawai::query()->where('jenis_kelamin', $request->jenis_kelamin)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) {
@@ -631,7 +631,7 @@ class PegawaiController extends Controller
     {
         
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->where('status_pegawai', $request->status_pegawai)->orderBy('nama_depan', 'asc');
+            $pegawai = Pegawai::query()->where('status_pegawai', $request->status_pegawai)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addColumn('aksi', function ($item) {
                     $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'

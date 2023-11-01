@@ -14,9 +14,7 @@
  {{-- <script src="{{asset('tampilan-sikepeg/js/demo/chart-area-demo.js')}}"></script>
  <script src="{{asset('tampilan-sikepeg/js/demo/chart-pie-demo.js')}}"></script> --}}
 
- <!-- data table -->
- <script src="{{asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js')}}"></script>
- <script src="{{asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+ 
 
  <!-- Page level custom scripts -->
  <script src="{{asset('tampilan-sikepeg/js/demo/datatables-demo.js')}}"></script>
