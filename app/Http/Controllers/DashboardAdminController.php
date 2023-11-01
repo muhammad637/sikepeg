@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\STR;
 use App\Models\Pegawai;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -14,6 +15,9 @@ class DashboardAdminController extends Controller
     //
     public function index()
     {
+
+
+        
         // Mendefinisikan tanggal hari ini
         $today = Carbon::today();
         // $today = now();
@@ -59,14 +63,34 @@ class DashboardAdminController extends Controller
             ->whereMonth('tanggal_lahir', '=', $today->month)
             ->orderByRaw("CONVERT(SUBSTRING(tanggal_lahir, 6, 2), SIGNED) ASC, CONVERT(SUBSTRING(tanggal_lahir, 8, 2), SIGNED) ASC")
         ->get();
+
+        
         // Menampilkan hasil ke tampilan
         return view(
             'pages.dashboard.index',
             [
-                'reminderSTR' => $reminderSTR,
-                'reminderSIP' => $reminderSIP,
+                'reminderSTR' => 0,
+                'reminderSIP' => 0,
                 'dataPegawaiUlangtahun' => $reminderUlangTahun
             ]
         );
+   
+    }
+    public function statusTenagaChart()
+    {
+        $pegawai = Pegawai::select('status_pegawai', DB::raw("COUNT(id) as count"))->groupBy('status_pegawai')->get();
+       
+
+        $pegawais = Pegawai::select('status_tipe',DB::raw("COUNT(id) as count"))
+                    ->groupBy('status_tipe')
+                    ->get();
+ 
+        return view('pages.dashboard.index',compact('pegawais', 'pegawai'));
+    }
+
+    public function statusKeaftifanChart()
+    {
+        $pegawais = Pegawai::select('status', DB::raw("COUNT(id) as count"))->groupBy('status')->get();
+        return view('pages.dashboard.index', compact('pegawais'));
     }
 }

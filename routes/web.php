@@ -2,6 +2,7 @@
 
 use App\Exports\STRExport;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\HariBesarController;
@@ -30,9 +31,7 @@ use App\Http\Controllers\PegawaiController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/dashboard', function () {
-    return view('main');
-});
+Route::get('/dashboard',[DashboardAdminController::class, 'statusTenagaChart']);
 
 Route::get('/coba', function () {
     $tanggal_pensiun =  "10-12-2001";
@@ -121,9 +120,9 @@ Route::resource('/golongan', GolonganController::class);
 
 
 // DASHBOARD //
-Route::get('/dashboard', function () {
-    return view('pages.dashboard.index');
-})->name('dashboard.index');
+// Route::get('/dashboard', function () {
+//     return view('pages.dashboard.index');
+// })->name('dashboard.index');
 
 
 Route::get('/reminderstr', function () {
