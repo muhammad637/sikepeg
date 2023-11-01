@@ -37,18 +37,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/home',[DashboardAdminController::class,'index'])->name('home.index');
         Route::get('/dashboard',[DashboardAdminController::class,'index'])->name('dashboard.index');
         Route::prefix('reminder')->name('reminder.')->group(function(){
-            Route::get('/str', function () {
-                return view('pages.dashboard.reminderstr');
-            })->name('str.index');
-            Route::get('/sip', function () {
-                return view('pages.dashboard.remindersip');
-            })->name('sip.index');
+            Route::get('/str', [STRController::class,'reminderSTR'])->name('str.index');
+            Route::get('/sip', [SIPController::class,'reminderSIP'])->name('sip.index');
         });
         // Route::resource('/pegawai', PegawaiController::class);
         Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
         Route::prefix('pegawai')->name('pegawai.')->group(function () {
-            Route::get('/dataPegawai', [PegawaiController::class, 'dataPegawai'])->name('dataPegawai');         
-
+            Route::get('/dataPegawai', [PegawaiController::class, 'dataPegawai'])->name('dataPegawai');
             Route::get('/', [PegawaiController::class, 'index'])->name('index');
             Route::get('/searchPegawai',[PegawaiController::class,'searchPegawai'])->name('searchPegawai');         
             Route::get('/create', [PegawaiController::class,'create'])->name('create');         

@@ -13,6 +13,8 @@ use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Dotenv\Util\Str as UtilStr;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Contracts\DataTable;
+use Yajra\DataTables\Facades\DataTables;
 
 class   STRController extends Controller
 {
@@ -199,6 +201,57 @@ class   STRController extends Controller
         })->get();
         return $this->dataLaporan($pegawai);
     }
+
+
+    public function reminderSTR(Request $request){
+        $currentDate = Carbon::now();
+        $sixMonthsFromNow = $currentDate->addMonths(6);
+        if($request->ajax()){
+            $reminderSTR = Pegawai::query()->where('jenis_tenaga', 'nakes')->with(['str' => function ($query) {
+                $query->orderBy('masa_berakhir_str', 'desc');
+            }])->whereHas(
+                'str',
+                function ($query) use ($currentDate, $sixMonthsFromNow) {
+                    $query->whereDate(
+                        'tanggal_terbit_str',
+                        '<=',
+                        $currentDate
+                    )
+                        ->whereDate('masa_berakhir_str', '>', $currentDate)
+                        ->whereDate('masa_berakhir_str', '>', $sixMonthsFromNow);
+                },
+                '=',
+                0
+            )->get();
+            $dataPegawai = DataTables::of($reminderSTR)
+            ->addIndexColumn()
+            ->addColumn('nama', function ($item) {
+                return $item->nama_lengkap ?? $item->nama_depan;
+            })
+            ->addColumn('pesan', function ($item) {
+                $nowa = $item->no_wa;
+                if (substr(trim($nowa), 0, 1) == '0') {
+                    $nowa = '62' . substr(trim($nowa), 1);
+                }
+                $tanggal =  $item->str->count() > 0 ? Carbon::parse($item->str[0]->masa_berkahir_str)->format('d-m-Y') : null;
+                $nama = $item->nama_lengkap ?? $item->nama_depan;
+                $pesan = "https://wa.me/$nowa/?text=SIKEP%0Auntuk :$nama %0A STR anda  $tanggal, mohon hubungi kepegawaian untuk mengurusi STR anda";
+                return '<a href="' . $pesan . '" target="_blank" class="btn btn transparent"><i
+                                            class="fab fa-whatsapp fa-2x text-success"></i> </a>';
+            })
+            ->addColumn('masa_berakhir_str', function ($item) {
+                $data = $item->str->count() > 0 ? Carbon::parse($item->str[0]->masa_berakhir_str)->format('d-m-Y') : '-';
+                return $data ?? '-';
+            })
+            ->rawColumns(['pesan', 'nama', 'masa_berakhr_str'])
+            ->toJson();
+            return  $dataPegawai;
+        }
+        return view('pages.dashboard.reminderstr');
+
+    }
+   
+    
 
 
 }

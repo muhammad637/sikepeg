@@ -42,7 +42,7 @@ return new class extends Migration
             $table->integer('sisa_cuti_tahunan')->nullable();
             $table->string('masa_kerja')->nullable();
             $table->enum('status_tenaga', ['asn', 'non asn'])->nullable();
-            $table->enum('status_tipe', ['pns', 'pppk', 'non asn'])->nullable(); #tpe tenaga ini memasukkan apakah itu pns ppk atau non asn
+            $table->enum('status_tipe', ['pns', 'pppk', 'thl'])->nullable(); #tpe tenaga ini memasukkan apakah itu pns ppk atau non asn
             // asn
             $table->string('tmt_cpns')->nullable();
             $table->string('tmt_pns')->nullable();
@@ -69,7 +69,6 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('pelatihan')->nullable();
             $table->string('password')->nullable();
-
         });
     }
 

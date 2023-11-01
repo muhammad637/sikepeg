@@ -3,14 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Pegawai;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pegawai>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-
-class PegawaiFactory extends Factory
+class PegawaiNakesFactory extends Factory
 {
+    protected $model = Pegawai::class;
     /**
      * Define the model's default state.
      *
@@ -26,7 +25,6 @@ class PegawaiFactory extends Factory
             'gelar_belakang' => fake()->randomLetter(),
             'nama_depan' => fake()->name(),
             'nama_belakang' => fake()->name('male'),
-            'nama_lengkap' => fake()->name(),
             'jenis_kelamin' => 'laki-laki',
             'tempat_lahir' => 'banyuwangi',
             'tanggal_lahir' => '2001-10-10',

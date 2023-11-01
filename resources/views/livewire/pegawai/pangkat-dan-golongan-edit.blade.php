@@ -27,8 +27,8 @@
                         <p class="mb-0 mt-md-2 mt-0">Tipe Non Asn</p>
                     </label>
                 </div>
-                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                    <input type="text" class="form-control" wire:model='status_tenaga' name="status_tipe" readonly>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 text-uppercase">
+                    <input type="text" class="form-control" value="THL" name="status_tipe" readonly>
                 </div>
             </div>
         </div>
@@ -248,8 +248,24 @@
                         <label for="pangkat_id" class="form-label">Pilih Pangkat</label>
                     </div>
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                        <select class="form-control font-weight-normal pangkat-id " name='pangkat_id'
-                            wire:model='pangkat_id' wire:ignore>
+                        <select class="form-control font-weight-normal" id="pangkat-id" name='pangkat_id'
+                            wire:model='pangkat_id' wire:ignore required>
+                            <option value="">Pilih</option>
+                            @foreach ($pangkats as $item)
+                                <option value="{{ $item->id }}" {{$pangkat_id == $item->id ? 'selected' : ''}}>{{ $item->nama_pangkat }}</option>
+                            @endforeach
+                            <option value="pangkat_lainnya" class="text-capitalize">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="mb-4">
+                <div class="row gap-5">
+                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4 ">
+                        <label for="pangkat_id" class="form-label">Pilih Pangkat coba</label>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
+                        <select class="form-control font-weight-normal" name='pangkat_id'>
                             <option value="">Pilih</option>
                             @foreach ($pangkats as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama_pangkat }}</option>
@@ -258,7 +274,7 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="mb-4 {{ $pangkat_id == 'pangkat_lainnya' ? '' : 'd-none' }}">
                 <div class="row gap-5">
@@ -281,6 +297,7 @@
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                         <label for="golongan_id" class="form-label">Pilih Golongan</label>
                     </div>
+
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
                         <select class="form-control text-uppercase golongan-id" name='golongan_id'
                             wire:model='golongan_id' wire:ignore>
@@ -311,16 +328,16 @@
                 </div>
             </div>
             <script>
-                // console.log(livewire)
                 $(document).ready(function() {
-                    $('.pangkat-id').select2()
+                    $('#pangkat-id').select2()
                     $('.golongan-id').select2()
                     livewire.hook('message.processed', (message, component) => {
-                        $('.pangkat-id').select2()
+                        $('#pangkat-id').select2()
                         $('.golongan-id').select2()
                     })
-                    $('.pangkat-id').on('change', function() {
-                        var data = $('.pangkat-id').select2('val')
+                    $('#pangkat-id').on('change', function() {
+                        var data = $('#pangkat-id').select2('val')
+                            console.log(data)
                         @this.set('pangkat_id', data)
                     })
                     $('.golongan-id').on('change', function() {
@@ -329,15 +346,15 @@
                     })
                 })
             </script>
-        @elseif($status_tipe == 'pppk')
+        @elseif ($status_tipe == 'pppk')
             <div class="mb-4">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                         <label for="golongan_id" class="form-label">Pilih Golongan</label>
                     </div>
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                        <select class="golongan-id form-control " name='golongan_id' wire:model='golongan_id'
-                            required>
+                        <select class="golongan-id form-control" name='golongan_id' wire:ignore
+                            wire:model='golongan_id' required>
                             <option value="">Pilih</option>
                             @foreach ($golongans as $item)
                                 <option value="{{ $item->id }}"
@@ -350,11 +367,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
             <div class="mb-4 {{ $golongan_id == 'golongan_lainnya' ? 'd-block' : 'd-none' }}">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -362,6 +374,7 @@
                             <p class="mb-0 mt-md-2 mt-0">Masukkan Golongan Lainnya</p>
                         </label>
                     </div>
+
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                         <input type="text" class="form-control @error('nama_golongan') is-invalid @enderror "
                             id="nama_golongan" aria-describedby="nama_golongan" name="nama_golongan"
@@ -371,12 +384,9 @@
                 </div>
             </div>
             <script>
-                console.log('oke')
-                // let livewire = new Livewire()
-                // console.log(pangkat.hook('message.processe'))
                 $(document).ready(function() {
                     $('.golongan-id').select2()
-                    Livewire.hook('message.processed', (message, component) => {
+                    livewire.hook('message.processed', (message, component) => {
                         $('.golongan-id').select2()
                     })
                     $('.golongan-id').on('change', function() {
@@ -482,22 +492,22 @@
             </div>
         </div>
         <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Cuti Dalam Satu Tahun</p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
-                            id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan"
-                            autocomplete="false" placeholder="Masukkan Cuti Dalam Satu Tahun"
-                            wire:model='cuti_tahunan' required>
-                    </div>
+            <div class="row gap-5">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Cuti Dalam Satu Tahun</p>
+                    </label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                    <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror "
+                        id="cuti_tahunan" aria-describedby="cuti_tahunan" name="cuti_tahunan" autocomplete="false"
+                        placeholder="Masukkan Cuti Dalam Satu Tahun" wire:model='cuti_tahunan' required>
                 </div>
             </div>
-        @if (old('jenis_tenaga', $jenis_tenaga) == 'umum' && $status_tipe == 'pns' || old('jenis_tenaga', $jenis_tenaga) == 'struktural' && $status_tipe == 'pns')
-            
+        </div>
+        @if (
+            (old('jenis_tenaga', $jenis_tenaga) == 'umum' && $status_tipe == 'pns') ||
+                (old('jenis_tenaga', $jenis_tenaga) == 'struktural' && $status_tipe == 'pns'))
             <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti</p>
             <div class="mb-4">
                 <div class="row gap-5">

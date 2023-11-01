@@ -27,9 +27,9 @@
                     <p class="mb-0 mt-md-2 mt-0">Tipe Non Asn</p>
                 </label>
             </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('niPtt_pkThl') is-invalid @enderror text-uppercase" id=""
-                    aria-describedby="" name="status_tipe" autocomplete="false" wire:model='status_tipe' readonly>
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 text-uppercase">
+                <input type="text" class="form-control @error('niPtt_pkThl') is-invalid @enderror" id=""
+                    aria-describedby="" name="status_tipe" autocomplete="false" value="THL" readonly>
             </div>
         </div>
     </div>
@@ -219,7 +219,7 @@
                 <label for="pangkat_id" class="form-label">Pilih Pangkat</label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                <select class="form-control font-weight-normal pangkat-id " name='pangkat_id' wire:model='pangkat_id'
+                <select class="form-control font-weight-normal"  id="pangkat-id" name='pangkat_id' wire:model='pangkat_id'
                     wire:ignore required>
                     <option value="">Pilih</option>
                     @foreach ($pangkats as $item)
@@ -283,14 +283,14 @@
         let livewire = new Livewire()
             // console.log(pangkat.hook('message.processe'))
             $(document).ready(function() {
-                        $('.pangkat-id').select2()
+                        $('#pangkat-id').select2()
                         $('.golongan-id').select2()
                         livewire.hook('message.processed', (message, component) => {
-                            $('.pangkat-id').select2()
+                            $('#pangkat-id').select2()
                             $('.golongan-id').select2()
                         })
-                        $('.pangkat-id').on('change', function() {
-                            var data = $('.pangkat-id').select2('val')
+                        $('#pangkat-id').on('change', function() {
+                            var data = $('#pangkat-id').select2('val')
                             @this.set('pangkat_id', data)
                         })
                         $('.golongan-id').on('change', function() {
@@ -301,7 +301,7 @@
     </script>
     @elseif($status_tipe == 'pppk')
     <div class="mb-4">
-        <div class="row gap-5">
+        <div class="row gap-5 mb-4">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="golongan_id" class="form-label">Pilih Golongan</label>
             </div>

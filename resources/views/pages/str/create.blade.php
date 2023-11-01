@@ -56,7 +56,7 @@
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">No. Sertifikat Kompetensi</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3" name="no_sertikom" required
+                            <input type="text" class="form-control" id="inputPassword3" name="no_sertikom" required
                                 value="{{ old('no_sertikom') }}">
                         </div>
                     </div>

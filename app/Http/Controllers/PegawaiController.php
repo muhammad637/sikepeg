@@ -115,33 +115,30 @@ class PegawaiController extends Controller
      */
     public function index(Request $request)
     {
-        //
         // return Asn::all();
-        // if($request->ajax()){
-        //     $pegawai = Pegawai::query()->orderBy('nama_depan', 'asc');
-        //     $dataPegawai = DataTables::of($pegawai)
-        //         ->addColumn('aksi', function ($item) {
-        //             $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
-        //                                 class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
-        //             $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
-        //                                 class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
-        //             return "<div class='d-flex'>$show $edit</div>";
-        //         })
-        //         ->addColumn('ruangan', function ($item) {
-        //             return "<span class='text-uppercase'> ". ($item->ruangan ? $item->ruangan->nama_ruangan : '-') ."</span>"  ;
-        //         })
-        //         ->editColumn('status_pegawai', function ($item) {
-        //             // return $item->status_pegawai ?? null;
-        //             return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
-        //         })
-        //         ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
-        //         ->toJson();
-        //     return $dataPegawai; 
-        // }   
-        $pegawai = Pegawai::orderBy('nama_depan', 'asc')->get();
-        return view('pages.pegawai.index', [
-            'pegawai' => $pegawai
-        ]);
+        if ($request->ajax()) {
+            $pegawai = Pegawai::query()->orderBy('nama_depan', 'asc');
+            $dataPegawai = DataTables::of($pegawai)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($item) {
+                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                    return "<div class='d-flex'>$show $edit</div>";
+                })
+                ->addColumn('ruangan', function ($item) {
+                    return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
+                })
+                ->editColumn('status_pegawai', function ($item) {
+                    // return $item->status_pegawai ?? null;
+                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                })
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->toJson();
+            return $dataPegawai;
+        }
+        return view('pages.pegawai.index');
         // Pegawai::with(['asn', 'non_asn'])->get();
     }
     public function import_excel(Request $request)
@@ -199,7 +196,7 @@ class PegawaiController extends Controller
                 'cuti_tahunan' => $request->cuti_tahunan,
                 'sisa_cuti_tahunan' => $request->cuti_tahunan,
                 'masa_kerja' => $masa_kerja,
-                'status_tipe' => $request->status_tenaga
+                'status_tipe' => 'thl'
             ], $data);
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
             $pegawai = array_merge($data, $validatedDataNonAsn);
@@ -401,7 +398,7 @@ class PegawaiController extends Controller
                     array_merge(
                         [
                             'status_tenaga' => $request->status_tenaga,
-                            'status_tipe' => $request->status_tipe,
+                            'status_tipe' => 'thl',
                             'masa_kerja' => $this->lama($request->tanggal_masuk),
                             'cuti_tahunan' => $request->cuti_tahunan,
                             'no_karpeg' => null,
@@ -512,41 +509,151 @@ class PegawaiController extends Controller
 
     public function statusTenaga(Request $request)
     {
-        $pegawai = Pegawai::where('status_tenaga', $request->status_tenaga)->orderBy('created_at', 'desc')->get();
+        if ($request->ajax()) {
+            $pegawai = Pegawai::query()->where('status_tenaga', $request->status_tenaga)->orderBy('nama_depan', 'asc');
+            $dataPegawai = DataTables::of($pegawai)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($item) {
+                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                    return "<div class='d-flex'>$show $edit</div>";
+                })
+                ->addColumn('ruangan', function ($item) {
+                    return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
+                })
+                ->editColumn('status_pegawai', function ($item) {
+                    // return $item->status_pegawai ?? null;
+                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                })
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->toJson();
+            return $dataPegawai;
+        }
+        // $pegawai = Pegawai::where('status_tenaga', $request->status_tenaga)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
-            'pegawai' => $pegawai,
+            // 'pegawai' => $pegawai,
             'heading' => 'filterby : status Tenaga ' . $request->status_tenaga
         ]);
     }
     public function statusTipe(Request $request)
     {
-        $pegawai = Pegawai::where('status_tipe', $request->status_tipe)->orderBy('created_at', 'desc')->get();
+        if ($request->ajax()) {
+            $pegawai = Pegawai::query()->where('status_tipe', $request->status_tipe)->orderBy('nama_depan', 'asc');
+            $dataPegawai = DataTables::of($pegawai)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($item) {
+                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                    return "<div class='d-flex'>$show $edit</div>";
+                })
+                ->addColumn('ruangan', function ($item) {
+                    return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
+                })
+                ->editColumn('status_pegawai', function ($item) {
+                    // return $item->status_pegawai ?? null;
+                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                })
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->toJson();
+            return $dataPegawai;
+        }
+        // $pegawai = Pegawai::where('status_tipe', $request->status_tipe)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
-            'pegawai' => $pegawai,
+            // 'pegawai' => $pegawai,
             'heading' => 'filterby : status Tipe ' . $request->status_tipe
         ]);
     }
     public function jenisTenaga(Request $request)
     {
-        $pegawai = Pegawai::where('jenis_tenaga', $request->jenis_tenaga)->orderBy('created_at', 'desc')->get();
+        if ($request->ajax()) {
+            $pegawai = Pegawai::query()->where('jenis_tenaga', $request->jenis_tenaga)->orderBy('nama_depan', 'asc');
+            $dataPegawai = DataTables::of($pegawai)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($item) {
+                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                    return "<div class='d-flex'>$show $edit</div>";
+                })
+                ->addColumn('ruangan', function ($item) {
+                    return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
+                })
+                ->editColumn('status_pegawai', function ($item) {
+                    // return $item->status_pegawai ?? null;
+                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                })
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->toJson();
+            return $dataPegawai;
+        }
+        // $pegawai = Pegawai::where('jenis_tenaga', $request->jenis_tenaga)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
-            'pegawai' => $pegawai,
+            // 'pegawai' => $pegawai,
             'heading' => 'filterby : jenis tenaga ' . $request->jenis_tenaga
         ]);
     }
     public function jenisKelamin(Request $request)
     {
-        $pegawai = Pegawai::where('jenis_kelamin', $request->jenis_kelamin)->orderBy('created_at', 'desc')->get();
+        if ($request->ajax()) {
+            $pegawai = Pegawai::query()->where('jenis_kelamin', $request->jenis_kelamin)->orderBy('nama_depan', 'asc');
+            $dataPegawai = DataTables::of($pegawai)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($item) {
+                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                    return "<div class='d-flex'>$show $edit</div>";
+                })
+                ->addColumn('ruangan', function ($item) {
+                    return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
+                })
+                ->editColumn('status_pegawai', function ($item) {
+                    // return $item->status_pegawai ?? null;
+                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                })
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->toJson();
+            return $dataPegawai;
+        }
+        // $pegawai = Pegawai::where('jenis_kelamin', $request->jenis_kelamin)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
-            'pegawai' => $pegawai,
+            // 'pegawai' => $pegawai,
             'heading' => 'filterby : jenis kelamin ' . $request->jenis_kelamin
         ]);
     }
     public function statusPegawai(Request $request)
     {
-        $pegawai = Pegawai::where('status_pegawai', $request->status_pegawai)->orderBy('created_at', 'desc')->get();
+        
+        if ($request->ajax()) {
+            $pegawai = Pegawai::query()->where('status_pegawai', $request->status_pegawai)->orderBy('nama_depan', 'asc');
+            $dataPegawai = DataTables::of($pegawai)
+                ->addColumn('aksi', function ($item) {
+                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
+                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+                    return "<div class='d-flex'>$show $edit</div>";
+                })
+                ->addColumn('ruangan', function ($item) {
+                    return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
+                })
+                ->editColumn('status_pegawai', function ($item) {
+                    // return $item->status_pegawai ?? null;
+                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                })
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->toJson();
+            return $dataPegawai;
+        }
+        // $pegawai = Pegawai::where('status_pegawai', $request->status_pegawai)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
-            'pegawai' => $pegawai,
+            // 'pegawai' => $pegawai,
             'heading' => 'filterby : Status Pegawai ' . $request->status_pegawai
         ]);
     }
@@ -577,13 +684,13 @@ class PegawaiController extends Controller
     {
         $namaRuangan = $request->search;
         $pegawaiDalamRuangan = Pegawai::whereHas('ruangan', function ($query) use ($namaRuangan) {
-            $query->where('nama_ruangan','like', '%' . $namaRuangan . '%');
+            $query->where('nama_ruangan', 'like', '%' . $namaRuangan . '%');
         })
-        ->orWhere('nip_nippk','like','%'.$request->search.'%')
-        ->orWhere('nama_lengkap','like','%'.$request->search.'%')
-        ->orWhere('nama_depan','like','%'.$request->search.'%')
-        ->orWhere('status_tipe','like','%'.$request->search.'%')
-        ->get();
-        return [$request->search,$pegawaiDalamRuangan];
+            ->orWhere('nip_nippk', 'like', '%' . $request->search . '%')
+            ->orWhere('nama_lengkap', 'like', '%' . $request->search . '%')
+            ->orWhere('nama_depan', 'like', '%' . $request->search . '%')
+            ->orWhere('status_tipe', 'like', '%' . $request->search . '%')
+            ->get();
+        return [$request->search, $pegawaiDalamRuangan];
     }
 }

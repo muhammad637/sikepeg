@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SIPController;
 use App\Http\Controllers\STRController;
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\PegawaiController;
 
 
@@ -51,6 +53,10 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard.index');
 })->name('dashboard.index');
 
-
+Route::get('/testing/apa',function(Request $request){
+    alert()->success('data','data');
+    return redirect()->back();
+});
+Route::view('/testing', 'testing');
 
 // DASHBOARD END //

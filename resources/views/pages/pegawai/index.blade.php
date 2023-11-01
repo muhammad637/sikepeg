@@ -44,9 +44,7 @@
                             <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
                         </div>
                         <div class="modal-body">
-
                             {{ csrf_field() }}
-
                             <label>Pilih file excel</label>
                             <div class="form-group">
                                 <input type="file" name="file" required="required">
@@ -78,7 +76,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pegawai as $index => $item)
+                        {{-- @foreach ($pegawai as $index => $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nip_nippk }}</td>
@@ -97,7 +95,7 @@
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -177,7 +175,7 @@
                             <option value="">Pilih</option>
                             <option value="pns">PNS</option>
                             <option value="pppk">PPPK</option>
-                            <option value="non asn">Non ASN</option>
+                            <option value="thl">THL</option>
                         </select>
                     </div>
                     <div class="modal-footer">
@@ -204,7 +202,7 @@
                         <select name="jenis_tenaga" id="" class="form-control">
                             <option value="">Pilih</option>
                             <option value="umum">Umum / Administrasi</option>
-                            <option value="fungsional">Fungsional / Tenaga Kesehatan</option>
+                            <option value="nakes">Fungsional / Tenaga Kesehatan</option>
                             <option value="struktural">Struktural / Jabatan Pimpinan Tinggi</option>
                         </select>
                     </div>
@@ -247,27 +245,33 @@
 @endsection
 
 @push('script')
-    {{-- <script>
+    <script>
         $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.pegawai.index') }}",
+            ajax: "{{ Request::routeIs('admin.pegawai.index') ? route('admin.pegawai.index') : (Request::route('admin.pegawai.filter.jenisKelamin') ? route('admin.pegawai.filter.jenisKelamin') : (Request::route('admin.pegawai.filter.statuspegawai') ? route('admin.pegawai.filter.statuspegawai') : (Request::route('admin.pegawai.statusTenaga') ? route('admin.pegawai.statusTenaga') : (Request::route('admin.pegawai.statusTipe') ? route('admin.pegawai.statusTipe') : (Request::route('admin.pegawai.jenisTenaga') ? route('admin.pegawai.jenisTenaga') : null))))) }}",
             columns: [
                 {
-                    data : 'id',
-                    name: 'id',
+                    data : 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    searchable :false,
+                    orderable :false,
                 },
                 {
                     data : 'nip_nippk',
-                    name: 'nip_nippk'
+                    name: 'nip_nippk',
+                    searchable :false,
+                    orderable :false,
                 },
                 {
                     data : 'nama_lengkap' ?? 'nama_depan',
-                    name: 'nama_lengkap'
+                    name: 'nama_lengkap',
+                    
                 },
                 {
                     data : 'jenis_kelamin',
-                    name : 'jenis_kelamin'
+                    name : 'jenis_kelamin',
+                  
                 },
                 {
                     data : 'ruangan',
@@ -276,17 +280,18 @@
                 },
                 {
                     data : 'status_pegawai',
-                    name : 'status'
-                    
+                    name : 'status_pegawai',    
                 },
                 {
                     data : 'aksi',
-                    name : 'aksi'
+                    name : 'aksi',
+                    searchable :false,
+                    orderable :false,
                     
                 },
 
 
             ]
         })
-    </script> --}}
+    </script>
 @endpush

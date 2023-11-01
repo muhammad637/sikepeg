@@ -92,7 +92,7 @@
                 <h6 style="font-weight: bold;">Ulang Tahun</h6>
                 <!-- reminder ulang tahun -->
                 <div class="container-fluid bg-white shadow-sm rounded mb-4 py-4">
-                    @if ($dataPegawaiUlangtahun->count() > 0)
+                    @if (count($dataPegawaiUlangtahun) > 0)
                         @foreach ($dataPegawaiUlangtahun as $item)
                             {{-- <p>{{date('l j F ', strtotime($item->tanggal_lahir))}}<hr></p> --}}
                             <p>{{ Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F') . ' ' . now()->format('Y') }}

@@ -14,58 +14,70 @@ class DashboardAdminController extends Controller
     //
     public function index()
     {
-        // Mendefinisikan tanggal hari ini
-        $today = Carbon::today();
-        // $today = now();
+        // return $endDate;
+        $currentDate = Carbon::now();
+        $sixMonthsFromNow = $currentDate->addMonths(6);
 
-        $endDate = $today->copy()->addDay(7);
-        // Mendefinisikan tanggal 6 bulan dari sekarang
-        $sixMonthsFromNow = $today->addMonths(6);
+        $reminderSTR = Pegawai::with('str')->whereHas(
+            'str',
+            function ($query) use ($currentDate, $sixMonthsFromNow) {
+                $query->whereDate(
+                    'tanggal_terbit_str',
+                    '<=',
+                    $currentDate
+                )
+                    ->whereDate('masa_berakhir_str', '>', $currentDate)
+                    ->whereDate('masa_berakhir_str', '>', $sixMonthsFromNow);
+            },
+            '=',
+            0
+        )->count();
 
-        // Query untuk mengambil STR yang sudah kadaluarsa atau akan kadaluarsa dalam 6 bulan
-        $reminderSTR = STR::where(function ($query) use ($today, $sixMonthsFromNow) {
+        $reminderSIP = Pegawai::with('sip')->whereHas(
+            'sip',
+            function ($query) use ($currentDate, $sixMonthsFromNow) {
+                $query->whereDate(
+                    'tanggal_terbit_sip',
+                    '<=',
+                    $currentDate
+                )
+                    ->whereDate('masa_berakhir_sip', '>', $currentDate)
+                    ->whereDate('masa_berakhir_sip', '>', $sixMonthsFromNow);
+            },
+            '=',
+            0
+        )->count();
 
-            // Subquery 1: Mengambil STR yang sudah kadaluarsa
-            $query->where('masa_berakhir_str', '<', $today);
+        $today = Carbon::now(); // Mengambil tanggal dan waktu saat ini
+        $nextWeek = $today->copy()->addDays(7); // Menambahkan 7 hari ke tanggal saat ini
 
-            // Subquery 2: Mengambil STR yang akan kadaluarsa dalam 6 bulan
-            $query->orWhere(function ($query) use ($today, $sixMonthsFromNow) {
-                $query->where('masa_berakhir_str', '>=', $today)
-                    ->where('masa_berakhir_str', '<=', $sixMonthsFromNow);
-            });
+        $employees = Pegawai::all(); // Mengambil semua pegawai (gantilah ini dengan query yang sesuai ke database)
 
-            // menjumlahkan str pegawai yang kadaluarsa
-        })->groupBy('pegawai_id')->count();
+        $upcomingBirthdays = [];
 
-        // Query untuk mengambil SIP yang sudah kadaluarsa atau akan kadaluarsa dalam 6 bulan
-        $reminderSIP = SIP::where(function ($query) use ($today, $sixMonthsFromNow) {
+        foreach ($employees as $employee) {
+            $birthdate = Carbon::createFromFormat('Y-m-d', $employee->tanggal_lahir);
+            $birthdayThisYear = $birthdate->copy()->year($today->year); // Mengatur tahun ulang tahun sesuai dengan tahun saat ini
+            $birthdayNextYear = $birthdate->copy()->year($today->year + 1); // Mengatur tahun ulang tahun sesuai dengan tahun depan
 
-            // Subquery 1: Mengambil STR yang sudah kadaluarsa
-            $query->where('masa_berakhir_sip', '<', $today)
-
-                // Subquery 2: Mengambil SIP yang akan kadaluarsa dalam 6 bulan
-                ->orWhere(function ($query) use ($today, $sixMonthsFromNow) {
-                    $query->where('masa_berakhir_sip', '>=', $today)
-                        ->where('masa_berakhir_sip', '<=', $sixMonthsFromNow);
-                });
-                
-            // menjumlahkan SIP pegawai yang kadaluarsa
-        })->groupBy('pegawai_id')->count();
-        $reminderUlangTahun = Pegawai::
-        where('tahun_pensiun' ,'>', now())
-        ->where('status_pegawai','aktif')
-            ->whereDay('tanggal_lahir','>=',$today->day)
-            ->orWhereDay('tanggal_lahir', '<=', $endDate->day)
-            ->whereMonth('tanggal_lahir', '=', $today->month)
-            ->orderByRaw("CONVERT(SUBSTRING(tanggal_lahir, 6, 2), SIGNED) ASC, CONVERT(SUBSTRING(tanggal_lahir, 8, 2), SIGNED) ASC")
-        ->get();
-        // Menampilkan hasil ke tampilan
+            if ($today->lte($birthdayThisYear) && $birthdayThisYear->lte($nextWeek)) {
+                $upcomingBirthdays[] = $employee;
+            } elseif ($today->lte($birthdayNextYear) && $birthdayNextYear->lte($nextWeek)) {
+                $upcomingBirthdays[] = $employee;
+            }
+            if($today->isSameDay($birthdayThisYear)){
+                $upcomingBirthdays[] = $employee;
+            }
+        }
+     
+        
+     
         return view(
             'pages.dashboard.index',
             [
                 'reminderSTR' => $reminderSTR,
                 'reminderSIP' => $reminderSIP,
-                'dataPegawaiUlangtahun' => $reminderUlangTahun
+                'dataPegawaiUlangtahun' => $upcomingBirthdays
             ]
         );
     }

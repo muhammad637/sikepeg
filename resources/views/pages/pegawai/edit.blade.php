@@ -1,8 +1,9 @@
 @extends('main')
 @push('style-css')
+@livewireStyles
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-@livewireStyles
+
 <style>
     .judul-text {
         color: black;
@@ -230,20 +231,7 @@
                             </div>
                         </div>
                         @livewire('pegawai.ruangan-id',['ruangan_id' => $pegawai->ruangan_id])
-                        {{-- <div class="mb-4">
-                            <div class="row gap-5">
-                                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                                    <label for="" class="form-label">
-                                        <p class="mb-0 mt-md-2 mt-0">Ruangan</p>
-                                    </label>
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                                    <input type="text" class="form-control @error('ruangan') is-invalid @enderror"
-                                        id="ruangan" aria-describedby="ruangan" name="ruangan" autocomplete="false"
-                                        placeholder="Masukkan Ruangan" value="{{ old('ruangan', $pegawai->ruangan) }}">
-                                </div>
-                            </div>
-                        </div> --}}
+                      
                         <div class="mb-4">
                             <div class="row gap-5">
                                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -255,7 +243,7 @@
                                     <input type="number"
                                         class="form-control @error('tahun_pensiun') is-invalid @enderror"
                                         id="tahun_pensiun" aria-describedby="tahun_pensiun" name="tahun_pensiun"
-                                        autocomplete="false" placeholder="Masukkan Ruangan" min="1900" max="2100"
+                                        autocomplete="false" placeholder="Masukkan Tahun Pensiun Pegawai" min="1900" max="2200"
                                         step="1" value="{{ old('tahun_pensiun', $pegawai->tahun_pensiun) }}">
                                 </div>
                             </div>

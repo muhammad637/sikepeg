@@ -12,58 +12,49 @@
                         <tr>
                             <th>no</th>
                             <th>nama</th>
-                            <th>Masa Berakhir STR</th>
+                            <th>Masa Berakhir SIP</th>
                             <th>aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>roni subakti</td>
-                            <td>29 juli</td>
-                            <td>
-                                <a href="" class="btn btn transparent">
-                                    <i class="fab fa-whatsapp fa-2x text-success"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>roni subakti</td>
-                            <td>29 juli</td>
-                            <td>
-                                <a href="" class="btn btn transparent">
-                                    <i class="fab fa-whatsapp fa-2x text-success"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>roni subakti</td>
-                            <td>29 juli</td>
-                            <td>
-                                <a href="" class="btn btn transparent">
-                                    <i class="fab fa-whatsapp fa-2x text-success"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>roni subakti</td>
-                            <td>29 juli</td>
-                            <td>
-                                <a href="" class="btn btn transparent">
-                                    <i class="fab fa-whatsapp fa-2x text-success"></i>
-                                </a>
-                            </td>
-                        </tr>
+                       
                     </tbody>
                 </table>
                 <div class="text-right mt-4">
-                    <a href="" class="btn btn-warning px-5">kembali</a>
+                    <a href="{{route('admin.dashboard.index')}}" class="btn btn-warning px-5">kembali</a>
                 </div>
             </div>
         </div>
     </div>
     <!-- end data table -->
 @endsection
+@push('script')
+    <script>
+        console.log('tes')
+        $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{route('admin.reminder.sip.index')}}",
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    searchable :false,
+                    orderable :false,
+                },
+                {
+                    data:'nama',
+                    name:'nama',
+                },
+                {
+                    data:'masa_berakhir_sip',
+                    name:'masa_berakhir_sip',
+                },
+                {
+                    data:'pesan',
+                    name:'pesan',
+                }
+            ]
+        });
+    </script>
+@endpush

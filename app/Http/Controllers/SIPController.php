@@ -8,6 +8,7 @@ use App\Models\STR;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class SIPController extends Controller
 {
@@ -154,5 +155,52 @@ class SIPController extends Controller
         return view('pages.sip.history', [
             'sip' => $sip
         ]);
+    }
+    public function reminderSIP(Request $request)
+    {
+        $currentDate = Carbon::now();
+        $sixMonthsFromNow = $currentDate->addMonths(6);
+        if ($request->ajax()) {
+            $reminderSIP = Pegawai::query()->where('jenis_tenaga', 'nakes')->with(['sip' => function ($query) {
+                $query->orderBy('masa_berakhir_sip', 'desc');
+            }])->whereHas(
+                'sip',
+                function ($query) use ($currentDate, $sixMonthsFromNow) {
+                    $query->whereDate(
+                        'tanggal_terbit_sip',
+                        '<=',
+                        $currentDate
+                    )
+                        ->whereDate('masa_berakhir_sip', '>', $currentDate)
+                        ->whereDate('masa_berakhir_sip', '>', $sixMonthsFromNow);
+                },
+                '=',
+                0
+            )->get();
+            $dataPegawai = DataTables::of($reminderSIP)
+                ->addIndexColumn()
+                ->addColumn('nama', function ($item) {
+                    return $item->nama_lengkap ?? $item->nama_depan;
+                })
+                ->addColumn('pesan', function ($item) {
+                    $nowa = $item->no_wa;
+                    if (substr(trim($nowa), 0, 1) == '0') {
+                        $nowa = '62' . substr(trim($nowa), 1);
+                    }
+                    $tanggal =  $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berkahir_sip)->format('d-m-Y') : null;
+                    $nama = $item->nama_lengkap ?? $item->nama_depan;
+                    $pesan = "https://wa.me/$nowa/?text=SIKEP%0Auntuk :$nama %0A SIP anda  $tanggal, mohon hubungi kepegawaian untuk mengurusi SIP anda";
+                    return '<a href="' . $pesan . '" target="_blank" class="btn btn transparent"><i
+                                            class="fab fa-whatsapp fa-2x text-success"></i> </a>';
+                })
+                ->addColumn('masa_berakhir_sip', function ($item) {
+                    $data = $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-m-Y') : '-';
+                    return $data ?? '-';
+                })
+                ->rawColumns(['pesan', 'nama', 'masa_berakhr_sip'])
+                ->toJson();
+            return  $dataPegawai;
+        }
+        return view('pages.dashboard.remindersip');
     }
 }

@@ -18,8 +18,9 @@ class STRFactory extends Factory
     {
         return [
             //
-            'pegawai_id' => rand(1, 10),
+            'pegawai_id' => rand(1, 20),
             'no_str' => fake()->randomNumber(),
+            'no_sip' => fake()->randomNumber(),
             'no_sertikom' => fake()->randomNumber(),
             'kompetensi' => 'Ahli Madya Kebinanan',
             'tanggal_terbit_str' => fake()->dateTimeBetween('-1 week', '+1 week'),

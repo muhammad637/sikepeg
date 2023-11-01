@@ -56,6 +56,8 @@ class PangkatDanGolonganEdit extends Component
     public $pelatihan;
     public $jenis_tenaga;
 
+    public $datas;
+
     public function mount()
     {
         $this->status_tenaga = old('status_tenaga', $this->pegawai->status_tenaga);
@@ -74,7 +76,6 @@ class PangkatDanGolonganEdit extends Component
         $this->tmt_pns = old('tmt_pns', null);
         $this->tmt_pppk = old('tmt_pppk', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
-        // $this->pangkat_golongan = old('pangkat_golongan', null);
         $this->nama_pangkat = old('nama_pangkat',null);
         $this->nama_golongan = old('nama_golongan', null);
         $this->sekolah = old('sekolah', null);
@@ -87,29 +88,29 @@ class PangkatDanGolonganEdit extends Component
         $this->email = old('email', null);
         $this->pelatihan = old('pelatihan', null);
         $this->jenis_tenaga = old('jenis_tenaga', null);
-
-
+        $this->golongan_id = old('golongan_id', null);
         if ($this->pegawai->status_tenaga == 'non asn') {
             $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->niPtt_pkThl);
-            // $this->niPtt_pkThl = old('niPtt_pkThl', $this->pegawai->niPtt_pkThl);
             $this->tanggal_masuk = old('tanggal_masuk', $this->pegawai->tanggal_masuk);
         } elseif ($this->pegawai->status_tenaga == 'asn') {
             $this->tmt_cpns = old('tmt_cpns', $this->pegawai->tmt_cpns);
             $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
             $this->tmt_pns = old('tmt_pns', $this->pegawai->tmt_pns);
             $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->tmt_pangkat_terakhir);
-            $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->pangkat_golongan );
+            // $this->pangkat_golongan = old('pangkat_golongan', $this->pegawai->pangkat_golongan );
             if($this->pegawai->status_tipe == 'pns'){
+                $this->pangkat_id = old('pangkat_id', $this->pegawai->pangkat_id);
+                $this->golongan_id = old('golongan_id', $this->pegawai->golongan_id);
                 $this->pangkats = Pangkat::orderBy('nama_pangkat','asc')->get();
                 $this->golongans = Golongan::orderBy('nama_golongan','asc')->where('jenis','pns')->get();
             }
             elseif($this->pegawai->status_tipe == 'pppk'){
                 $tmt_pppk = Carbon::parse($this->pegawai->tmt_pppk)->format('Y-m-d') ;
-                $this->golongans = Golongan::orderBy('nama_golongan', 'asc')->where('jenis', 'pppk')->get();
+                $this->golongans = Golongan::where('jenis', 'pppk')->orderBy('nama_golongan', 'asc')->get();
+                $this->golongan_id = old('golongan_id', $this->pegawai->golongan_id);
                 $this->tmt_pppk = old('tmt_pppk', $tmt_pppk ?? null);
             }
-            $this->pangkat_id = old('pangkat_id', $this->pegawai->pangkat_id);
-            $this->golongan_id = old('golongan_id', $this->pegawai->golongan_id);
+          
             $this->sekolah = old('sekolah', $this->pegawai->sekolah);
             $this->jenis_tenaga = old('jenis_tenaga', $this->pegawai->jenis_tenaga);
             if ($this->jenis_tenaga == 'umum' || $this->jenis_tenaga == 'struktural') {
@@ -122,26 +123,23 @@ class PangkatDanGolonganEdit extends Component
             }
         }
     }
-    public function updatedStatusTenaga($value)
-    {
-        $this->status_tenaga = $value;
-        session(['status_tenaga' => $value]);
+    public function updatedStatusTipe($value)
+    {   
+        if ($value == 'pns') {
+            $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
+            $this->golongans = Golongan::where('jenis', 'pns')->orderBy('nama_golongan', 'asc')->get();
+        } elseif ($value == 'pppk') {
+            $this->golongans = Golongan::where('jenis', 'pppk')->orderBy('nama_golongan', 'asc')->get();
+        }
     }
+    
     public function updatedJenisTenagaStruktural($value)
     {
         $this->jenis_tenaga = $value;
         session(['jenis_tenaga' => $value]);
     }
 
-    public function updatedStatusTipe($value){
-        if($this->status_tipe == 'pns'){
-            $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
-            $this->golongans = Golongan::orderBy('nama_golongan', 'asc')->where('jenis', 'pns')->get();
-        }
-        elseif($this->status_tipe == 'pppk'){
-            $this->golongans = Golongan::orderBy('nama_golongan', 'asc')->where('jenis', 'pppk')->get();
-        }
-    }
+   
 
     public function render()
     {
