@@ -95,7 +95,7 @@
                     @if (count($dataPegawaiUlangtahun) > 0)
                         @foreach ($dataPegawaiUlangtahun as $item)
                             {{-- <p>{{date('l j F ', strtotime($item->tanggal_lahir))}}<hr></p> --}}
-                            <p>{{ Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F') . ' ' . now()->format('Y') }}
+                            {{-- <p>{{ Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F') . ' ' . now()->format('Y') }} --}}
                                 <hr>
                             </p>
                             <div class="row">
@@ -104,7 +104,7 @@
                                         alt="" class="rounded-circle">
                                 </div>
                                 <div class="col-md-8 my-2">
-                                    <h6><em>{{ Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F') . ' ' . now()->format('Y') }}</em>
+                                    <h6><em>{{ Carbon\Carbon::parse($item->tanggal_lahir)->year(date('Y'))->translatedFormat('l, j F Y') }}</em>
                                     </h6>
                                     <p> <b>{{ $item->nama_lengkap ?? $item->nama_depan }} </b>Berulang tahun hari ini, Kirim
                                         <a href="#" class="badge bg-info text-white">Pesan</a> untuk mengucapkan

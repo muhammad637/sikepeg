@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Pegawai;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pegawai>
@@ -51,6 +52,7 @@ class PegawaiFactory extends Factory
             'golongan_id' => 1,
             'sekolah' => 'Politeknik Negeri Banyuwangi',
             'jenis_tenaga' => 'nakes',
+            'password' => Hash::make('password')
         ];
     }
 }

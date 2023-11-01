@@ -59,7 +59,6 @@ class DashboardAdminController extends Controller
             $birthdate = Carbon::createFromFormat('Y-m-d', $employee->tanggal_lahir);
             $birthdayThisYear = $birthdate->copy()->year($today->year); // Mengatur tahun ulang tahun sesuai dengan tahun saat ini
             $birthdayNextYear = $birthdate->copy()->year($today->year + 1); // Mengatur tahun ulang tahun sesuai dengan tahun depan
-
             if ($today->lte($birthdayThisYear) && $birthdayThisYear->lte($nextWeek)) {
                 $upcomingBirthdays[] = $employee;
             } elseif ($today->lte($birthdayNextYear) && $birthdayNextYear->lte($nextWeek)) {
@@ -70,7 +69,7 @@ class DashboardAdminController extends Controller
             }
         }
      
-        
+        // return $upcomingBirthdays;
      
         return view(
             'pages.dashboard.index',

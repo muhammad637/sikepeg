@@ -130,7 +130,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Masa Kerja</th>
-                                        <td scope="col">{{ $pegawai->status_tipe == 'pns' ? date_diff(date_create($pegawai->tmt_pns),date_create('now'))->y : ($pegwai->status_tipe == 'pppk' ? date_diff(date_create($pegawai->tmt_pppk),date_create('now'))->y : date_diff(date_create($pegwai->tanggal_masuk),date_create('now'))->y) }} Tahun</td>
+                                        <td scope="col">{{ $pegawai->status_tipe == 'pns' ? date_diff(date_create($pegawai->tmt_pns),date_create('now'))->y : ($pegawai->status_tipe == 'pppk' ? date_diff(date_create($pegawai->tmt_pppk),date_create('now'))->y : date_diff(date_create($pegwai->tanggal_masuk),date_create('now'))->y) }} Tahun</td>
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Cuti Tahunan</th>
@@ -138,7 +138,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Sisa Cuti Tahunan</th>
-                                        <td scope="col">{{ $pegawai->sisa_cuti_tahunan }} hari <a href="{{route('admin')}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
+                                        <td scope="col">{{ $pegawai->sisa_cuti_tahunan }} hari <a href="#" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -230,11 +230,11 @@
                                        @if ($pegawai->jenis_tenaga == 'nakes')
                                         <tr>
                                             <th scope="col" class="judul-text">Tanggal Berakhir STR</th>
-                                            <td scope="col">{{ $pegawai->str->sortByDesc('tanggal_terbit_str')->first()->masa_berakhir_str ?? '-' }} <a href="#" class="badge bg-warning text-dark">Lihat</a></td>
+                                            <td scope="col">{{ $pegawai->str->sortByDesc('masa_berakhir_str')->first() ? Carbon\Carbon::parse($pegawai->str->sortByDesc('masa_berakhir_str')->first()->masa_berakhir_str)->format('d-m-Y'): '-' }} <a href="#" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
                                         </tr>
                                         <tr>
                                             <th scope="col" class="judul-text">Tanggal Berakhir SIP</th>
-                                            <td scope="col">{{ $pegawai->sip->sortByDesc('tanggal_terbit_sip')->first()->masa_berakhir_sip ?? '-' }} <a href="#" class="badge bg-warning text-dark">Lihat</a></td>
+                                            <td scope="col">{{ $pegawai->sip->sortByDesc('tanggal_terbit_sip')->first() ? 'tes' : '-' }} <a href="#" class="badge bg-warning text-dark {{$pegawai->sip->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
                                         </tr>
                                         @endif
                                         @else
