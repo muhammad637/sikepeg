@@ -1,4 +1,4 @@
-@extends('main',['title'=>'Mutasi'])
+@extends('main', ['title' => 'Mutasi'])
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Mutasi</h1>
     <!-- Page Heading -->
@@ -36,12 +36,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pegawai as $index => $item)
+                        {{-- @foreach ($pegawai as $index => $item)
                             @php
                                 $data = explode('view', $item->mutasi[0]->link_sk);
                             @endphp
                             <tr>
-                                {{-- <td>{{$loop->iteration}}</td> --}}
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->nama_lengkap ?? $item->nama_depan }} </td>
                                 <td>{{ $item->mutasi[0]->jenis_mutasi }}</td>
@@ -64,7 +63,7 @@
                                         class="btn btn-warning text-white"><i class="fas fa-pen "></i></a>
                                 </td>
                             </tr> 
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -72,6 +71,67 @@
     </div>
 @endsection
 @push('script')
-    <script src="{{asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js')}}"></script>
- <script src="{{asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admin.mutasi.index') }}",
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        searchable: false,
+                        orderable: false,
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama',
+                    },
+                    {
+                        data: 'jenis-mutasi',
+                        name: 'jenis-mutasi',
+                    },
+                    {
+                        data: 'tanggal-berlaku',
+                        name: 'tanggal-berlaku',
+                    },
+                    {
+                        data: 'ruangan-awal',
+                        name: 'ruangan-awal',
+                    },
+                    {
+                        data: 'ruangan-tujuan',
+                        name: 'ruangan-tujuan',
+                    },
+                    {
+                        data: 'instansi-awal',
+                        name: 'instansi-awal',
+                    },
+                    {
+                        data: 'instansi-tujuan',
+                        name: 'instansi-tujuan',
+                    },
+                    {
+                        data: 'no-sk',
+                        name: 'no-sk',
+
+                    },
+                    {
+                        data: 'surat',
+                        name: 'surat',
+                        searchable: false,
+                        orderable: false,
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        searchable: false,
+                        orderable: false,
+                    },
+                ]
+            })
+        })
+    </script>
 @endpush

@@ -174,7 +174,7 @@
             $(document).ready(function() {
 
                 // var pegawai = <?php echo json_encode($pegawai); ?>;
-               var pegawai = @json($pegawais, JSON_HEX_TAG);
+               var pegawai = @json($pegawai, JSON_HEX_TAG);
                 var options = {
                     chart: {
                         renderTo: 'keaktifan_chart',

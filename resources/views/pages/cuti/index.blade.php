@@ -1,4 +1,4 @@
-@extends('main',['title'=>'Data Cuti'])
+@extends('main', ['title' => 'Data Cuti'])
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Cuti</h1>
     <!-- Page Heading -->
@@ -61,6 +61,6 @@
     </div>
 @endsection
 @push('script')
-    <script src="{{asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js')}}"></script>
- <script src="{{asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 @endpush
