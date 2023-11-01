@@ -68,15 +68,20 @@ class DashboardAdminController extends Controller
                 $upcomingBirthdays[] = $employee;
             }
         }
-     
+
         // return $upcomingBirthdays;
-     
+        $pegawai = Pegawai::select('status_pegawai', DB::raw("COUNT(id) as count"))->groupBy('status_pegawai')->get();
+        $pegawais = Pegawai::select('status_tipe', DB::raw("COUNT(id) as count"))
+        ->groupBy('status_tipe')
+        ->get();
         return view(
             'pages.dashboard.index',
             [
                 'reminderSTR' => $reminderSTR,
                 'reminderSIP' => $reminderSIP,
-                'dataPegawaiUlangtahun' => $upcomingBirthdays
+                'dataPegawaiUlangtahun' => $upcomingBirthdays,
+                'pegawais' => $pegawais,
+                'pegawai' => $pegawai,
 
             ]
         );
@@ -94,9 +99,4 @@ class DashboardAdminController extends Controller
         return view('pages.dashboard.index',compact('pegawais', 'pegawai'));
     }
 
-    public function statusKeaftifanChart()
-    {
-        $pegawais = Pegawai::select('status', DB::raw("COUNT(id) as count"))->groupBy('status')->get();
-        return view('pages.dashboard.index', compact('pegawais'));
-    }
 }
