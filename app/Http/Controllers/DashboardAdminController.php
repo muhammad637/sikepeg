@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\STR;
 use App\Models\Pegawai;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -17,7 +18,6 @@ class DashboardAdminController extends Controller
         // return $endDate;
         $currentDate = Carbon::now();
         $sixMonthsFromNow = $currentDate->addMonths(6);
-
         $reminderSTR = Pegawai::with('str')->whereHas(
             'str',
             function ($query) use ($currentDate, $sixMonthsFromNow) {
@@ -77,7 +77,26 @@ class DashboardAdminController extends Controller
                 'reminderSTR' => $reminderSTR,
                 'reminderSIP' => $reminderSIP,
                 'dataPegawaiUlangtahun' => $upcomingBirthdays
+
             ]
         );
+   
+    }
+    public function statusTenagaChart()
+    {
+        $pegawai = Pegawai::select('status_pegawai', DB::raw("COUNT(id) as count"))->groupBy('status_pegawai')->get();
+       
+
+        $pegawais = Pegawai::select('status_tipe',DB::raw("COUNT(id) as count"))
+                    ->groupBy('status_tipe')
+                    ->get();
+ 
+        return view('pages.dashboard.index',compact('pegawais', 'pegawai'));
+    }
+
+    public function statusKeaftifanChart()
+    {
+        $pegawais = Pegawai::select('status', DB::raw("COUNT(id) as count"))->groupBy('status')->get();
+        return view('pages.dashboard.index', compact('pegawais'));
     }
 }

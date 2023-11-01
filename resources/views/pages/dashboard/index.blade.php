@@ -1,6 +1,5 @@
 @extends('main', ['title' => 'Dashboard'])
 @push('style-css')
-    
     @livewireStyles
 @endpush
 @push('script')
@@ -67,9 +66,9 @@
                             PNS, PPPK, dan Non ASN</h6>
                     </div>
                     <!-- Card Body -->
-                    <div class="card-body d-md-flex">
-                        <div class="chart-pie pt-4">
-                            <canvas id="myPieChart"></canvas>
+                    <div class="card-body ">
+                        <div class="chart-donuts pt-4">
+                            <div id="donut_chart"></div>
                         </div>
                     </div>
                 </div>
@@ -81,9 +80,9 @@
                             Aktif dan Tidak Aktif hari ini</h6>
                     </div>
                     <!-- Card Body -->
-                    <div class="card-body d-md-flex">
-                        <div class="chart-pie pt-4">
-                            <canvas id="myAreaChart"></canvas>
+                    <div class="card-body ">
+                        <div class="keaktifan_chart pt-4">
+                            <div id="keaktifan_chart"></div>
                         </div>
                     </div>
                 </div>
@@ -96,7 +95,7 @@
                         @foreach ($dataPegawaiUlangtahun as $item)
                             {{-- <p>{{date('l j F ', strtotime($item->tanggal_lahir))}}<hr></p> --}}
                             {{-- <p>{{ Carbon\Carbon::parse($item->tanggal_lahir)->translatedFormat('l, j F') . ' ' . now()->format('Y') }} --}}
-                                <hr>
+                            <hr>
                             </p>
                             <div class="row">
                                 <div class="col-md-4 my-2">
@@ -108,16 +107,114 @@
                                     </h6>
                                     <p> <b>{{ $item->nama_lengkap ?? $item->nama_depan }} </b>Berulang tahun hari ini, Kirim
                                         <a href="#" class="badge bg-info text-white">Pesan</a> untuk mengucapkan
-                                        Selamat Ulang Tahun</p>
+                                        Selamat Ulang Tahun
+                                    </p>
                                 </div>
                             </div>
                         @endforeach
                     @else
                         <h1> Tidak ada yang berulang tahun dalam seminggu ini </h1>
                     @endif
+                    </form>
                 </div>
-                <!-- reminder ulang tahun end -->
             </div>
         </div>
     </div>
+    @push('script')
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script type="text/javascript">
+       
+            $(document).ready(function() {
+                var pegawai = <?php echo json_encode($pegawais); ?>;
+                var options = {
+                    chart: {
+                        renderTo: 'donut_chart',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                    },
+                    title: {
+                        text: 'Persentase Status Tenaga Pegawai'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b> {point.percentage}%</b>',
+                        percentageDecimals: 1,
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectColor: '#000000',
+                                formatter: function() {
+                                    return '<b>' + this.point.name + '</b>: ' + this.percentage + '%';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'pegawai',
+                    }]
+
+                }
+                myarray = [];
+                $.each(pegawai, function(index, val) {
+                    myarray[index] = [val.status_tipe, val.count];
+                });
+                options.series[0].data = myarray;
+                chart = new Highcharts.Chart(options);
+
+            });
+            $(document).ready(function() {
+
+                var pegawai = <?php echo json_encode($pegawai); ?>;
+                var options = {
+                    chart: {
+                        renderTo: 'keaktifan_chart',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                    },
+                    title: {
+                        text: 'Persentase Status Aktif Pegawai'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b> {point.percentage}%</b>',
+                        percentageDecimals: 1,
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectColor: '#000000',
+                                formatter: function() {
+                                    return '<b>' + this.point.name + '</b>: ' + this.percentage + '%';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'pegawai',
+                    }]
+
+                }
+                myarray = [];
+                $.each(pegawai, function(index, val) {
+                    myarray[index] = [val.status_pegawai, val.count];
+                });
+                options.series[0].data = myarray;
+                chart = new Highcharts.Chart(options);
+
+            });
+        </script>
+    @endpush
 @endsection

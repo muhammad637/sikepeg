@@ -2,6 +2,7 @@
 
 use App\Exports\STRExport;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\HariBesarController;
@@ -32,9 +33,7 @@ use App\Http\Controllers\PegawaiController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/dashboard', function () {
-    return view('main');
-});
+Route::get('/dashboard',[DashboardAdminController::class, 'statusTenagaChart']);
 
 
 
@@ -49,9 +48,9 @@ Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name
 
 
 // DASHBOARD //
-Route::get('/dashboard', function () {
-    return view('pages.dashboard.index');
-})->name('dashboard.index');
+// Route::get('/dashboard', function () {
+//     return view('pages.dashboard.index');
+// })->name('dashboard.index');
 
 Route::get('/testing/apa',function(Request $request){
     alert()->success('data','data');

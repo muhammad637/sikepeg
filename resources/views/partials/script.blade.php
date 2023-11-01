@@ -20,4 +20,10 @@
 
  <!-- Page level custom scripts -->
  <script src="{{asset('tampilan-sikepeg/js/demo/datatables-demo.js')}}"></script>
+ {{-- <script type="text/javascript" src="https://code.highchartscom/highcharts.js"></script> --}}
+
+ <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+ <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+ 
  
