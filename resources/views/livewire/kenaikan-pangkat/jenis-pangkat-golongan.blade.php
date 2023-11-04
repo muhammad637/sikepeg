@@ -1,4 +1,5 @@
 <div>
+
     @if ($status_tipe == 'pns')
         <div class="row mb-3">
             <label for="pangkat" class="col-sm-4 col-form-label">Pangkat</label>
@@ -108,30 +109,30 @@
             });
         </script>
     @endif
-    {{-- <div class="row mb-3">
+    <div class="row mb-3">
         <label for="jabatan" class="col-sm-4 col-form-label">Jabatan</label>
         <div class="col-sm-8">
             <input type="text" class="form-control" placeholder="Masukkan jabatan" required name="jabatan"
                 wire:model='jabatan'>
 
         </div>
-    </div> --}}
+    </div>
 
 </div>
 
 @push('script')
     <script>
         $(document).ready(function() {
+
             $('#pegawai').select2();
             $('#pegawai').on('change', function(e) {
-                var dataPegawai = $('#pegawai').select2("val")
-                @this.set("pegawai", 1)
-                console.log("{{$pegawai}}")
-                console.log(dataPegawai)
+                // console.log(e)
+                var data = $('#pegawai').select2("val")
+                @this.set("pegawai", data)
             });
-            var dataPegawai = $('#pegawai').select2("val")
-            if (dataPegawai) {
-                @this.set('pegawai', dataPegawai)
+            var data = $('#pegawai').select2("val")
+            if (data) {
+                @this.set('pegawai', data)
             }
         });
     </script>

@@ -80,6 +80,8 @@
 @endsection
 @push('script')
 @livewireScripts
+{{-- @livewireScripts('livewire.asset_url) --}}
+<script src="{{ config('livewire.asset_url') }}vendor/livewire/livewire.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 {{-- <script>
     $(document).ready(function() {

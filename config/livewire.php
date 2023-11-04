@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => null,
+    'asset_url' => 'http://localhost/sikepeg/public',
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
     |
     */
 
-    'app_url' => null,
+    'app_url' => 'http://localhost/sikepeg/public',
 
     /*
     |--------------------------------------------------------------------------
