@@ -9,7 +9,7 @@
             <div class="d-md-flex justify-content-between s-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Data STR Aktif Pegawai</h4>
                 <div class="d-flex">
-                    <a href="{{ route('str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-2">
+                    <a href="{{ route('admin.str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-2">
                         create <i class="fas fa-plus-square ml-1"></i>
                     </a>
                     <a href="{{ route('str_export') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">

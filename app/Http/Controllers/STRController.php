@@ -45,6 +45,7 @@ class   STRController extends Controller
     public function create()
     {
         $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+        // return auth()->user();
         return view('pages.str.create', [
             'results' => $results
         ]);

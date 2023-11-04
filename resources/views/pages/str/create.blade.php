@@ -1,4 +1,4 @@
-@extends('main', ['title'=>'Tambah STR'])
+@extends('main', ['title' => 'Tambah STR'])
 @push('style-css')
     @livewireStyles
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
@@ -93,7 +93,6 @@
                             </div>
                         </div>
                     </div>
-        </form>
         <div class="text-right">
             <a href="{{ route('admin.str.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>

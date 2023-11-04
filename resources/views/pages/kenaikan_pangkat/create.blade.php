@@ -27,9 +27,9 @@
                             </option>
                             @endforeach
                         </select>
-                        
                     </div>
                 </div>
+                
                 @livewire('kenaikan-pangkat.jenis-pangkat-golongan')
                 <div class="row mb-3">
                     <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
@@ -79,8 +79,8 @@
 <!-- /.container-fluid -->
 @endsection
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 @livewireScripts
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 {{-- <script>
     $(document).ready(function() {
             // alert('oke')
