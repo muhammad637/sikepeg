@@ -14,10 +14,12 @@ use PhpParser\Node\Expr\FuncCall;
 
 class DashboardPegawaiController extends Controller
 {
-
     public function index()
     {
-
+        // $notif = Pegawai::with(['notifikasi' => function ($q) {
+        //     $q->orderBy('created_at', 'desc')->limit(3);
+        // }])->find(auth()->user()->id);
+        // return $notif;
         $pegawai = auth()->guard('pegawai')->user();
         $mutasi = Mutasi::where('pegawai_id', $pegawai->id);
         $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc')->first();

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\mutasi;
 use App\Models\Pegawai;
+use App\Models\Notifikasi;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -116,6 +118,11 @@ class MutasiController extends Controller
             );
         }
         $mutasi = Mutasi::create(request()->all());
+        $notif = Notifikasi::notif('mutasi', 'mutasi  pegawai '.$mutasi->pegawai->nama_lengkap .' berhasil  ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-compress-alt');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($pegawai->id);
+        alert()->success('mutasi', 'mutasi  pegawai ' . $mutasi->pegawai->nama_lengkap . ' berhasil  ditambahkan oleh ' . auth()->user()->name);
         return redirect()->route('admin.mutasi.index')->with('success', 'data mutasi pegawai berhasil ditambahkan');
         //code...
 
@@ -214,12 +221,17 @@ class MutasiController extends Controller
                 ]);
             }
 
-
+            $notif = Notifikasi::notif('mutasi', 'mutasi  pegawai ' . $mutasi->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-compress-alt');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($pegawai->id);
+            alert()->success('mutasi', 'mutasi  pegawai ' . $mutasi->pegawai->nama_lengkap . ' berhasil  ditambahkan oleh ' . auth()->user()->name);
             return redirect()->route('admin.mutasi.index')->with('success', 'data mutasi pegawai berhasil diupdate');
 
             //code...
         } catch (\Throwable $th) {
-            return $th->getMessage();
+            alert()->error('gagal', $th->getMessage());
+            return redirect()->back()->withInput();
         }
     }
 }

@@ -39,7 +39,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <!-- Topbar Navbar -->
-                    @include('partials.navbar')
+                    @include('partials.navbarPegawai')
 
                 </nav>
                 <!-- End of Topbar -->

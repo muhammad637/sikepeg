@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\STR;
+use App\Models\Admin;
 use App\Models\Pegawai;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
@@ -71,6 +73,11 @@ class SIPController extends Controller
                 'masa_berakhir_sip' => $request->masa_berakhir_sip,
                 'link_sip' => $request->link_sip
             ]);
+            $notif = Notifikasi::notif('str', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($sip->pegawai->id);
+            alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
             return redirect(route('sip.index'))->with('success', 'str berhasil ditambahkan');
         } catch (\Throwable $th) {
             //throw $th;
@@ -135,6 +142,11 @@ class SIPController extends Controller
             'link_sip' => $request->link_sip
         ]);
         // return $str;
+        $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($sip->pegawai->id);
+        alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
         return redirect(route('sip.index'))->with('success', 'str berhasil ditambahkan');
     }
 

@@ -11,9 +11,9 @@ class Pegawai extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $guard = 'pegawai';
-    protected $fillable = ['name','status_tenaga'];
+    // protected $fillable = ['name', 'status_tenaga'];
     protected $guarded = ['id'];
-    protected $hidden = ['password'];
+    // protected $hidden = ['password'];
 
     public function str()
     {
@@ -49,9 +49,16 @@ class Pegawai extends Authenticatable
     {
         return $this->belongsTo(Pangkat::class, 'pangkat_id');
     }
-    public function ruangan(){
-        return $this->belongsTo(Ruangan::class,'ruangan_id');
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class, 'ruangan_id');
     }
-   
+    public function notifikasi()
+    {
+        return $this->belongsToMany(Notifikasi::class, 'notifikasi_pegawai', 'pegawai_id','notifikasi_id');
+    }
+    public static function pegawaiId()
+    {
+        return Pegawai::all()->pluck('id');
+    }
 }
-

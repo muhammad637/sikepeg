@@ -1,4 +1,4 @@
-@extends('main',['title'=>'Edit Diklat'])
+@extends('main', ['title' => 'Edit Diklat'])
 @push('style-css')
     @livewireStyles
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
@@ -14,16 +14,23 @@
             @method('put')
             @csrf
             <div class="row">
-
                 <div class="col-sm-12 col-xl-12">
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Pegawai</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input class="form-control" id="pegawai" name="pegawai_id"
-                                value="{{ $diklat->pegawai->nama_depan }} {{ $diklat->pegawai->nama_belakang }}" readonly>
-
+                            <select class="form-control" id="select2" name="pegawai_id">
+                                <option value="">Pilih Nama Pegawai</option>
+                                @foreach ($results as $pegawai)
+                                    <option value="{{ $pegawai->id }}"
+                                        {{ $diklat->pegawai->id == $pegawai->id ? 'selected' : '' }}>
+                                        {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {{-- <input class="form-control" id="pegawai" name="pegawai_id"
+                                value="{{ $diklat->pegawai->nama_depan }} {{ $diklat->pegawai->nama_belakang }}" readonly> --}}
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -65,48 +72,47 @@
                     <div class="row mb-3">
                         <label for="no_sertifikat" class="col-sm-4 col-form-label">No Sertifikat</label>
                         <div class="col-sm-8">
-{{-- <<<<<<< HEAD
-                            <input type="text" class="form-control" id="inputPassword3" value="{{ $diklat->no_sttpp }}"
-                                name="no_sttpp">
-======= --}}
-                            <input type="text" class="form-control" id="inputPassword3" value="{{$diklat->no_sertifikat}}" name="no_sertifikat">
-{{-- >>>>>>> sikepeg-2.0 --}}
+
+                            <input type="text" class="form-control" id="inputPassword3"
+                                value="{{ $diklat->no_sertifikat }}" name="no_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="tanggal_sertifikat" class="col-sm-4 col-form-label">Tanggal Sertifikat</label>
                         <div class="col-sm-8">
-{{-- <<<<<<< HEAD
+
                             <input type="date" class="form-control" id="inputPassword3"
-                                value="{{ $diklat->tanggal_sttpp }}" name="tanggal_sttpp">
-======= --}}
-                            <input type="date" class="form-control" id="inputPassword3" value="{{$diklat->tanggal_sertifikat}}" name="tanggal_sertifikat">
+                                value="{{ $diklat->tanggal_sertifikat }}" name="tanggal_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="link_sertifikat" class="col-sm-4 col-form-label">Link Sertifikat</label>
                         <div class="col-sm-8">
-{{-- <<<<<<< HEAD
+
                             <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ $diklat->link_sttpp }}" name="link_sttpp">
-======= --}}
-                            <input type="text" class="form-control" id="inputPassword3" value="{{$diklat->link_sertifikat}}" name="link_sertifikat">
+                                value="{{ $diklat->link_sertifikat }}" name="link_sertifikat">
                         </div>
                     </div>
+                    <div class="text-right">
+                        <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
+                        <button class="btn btn-success" type="submit">Kirim</button>
+                    </div>
 
+                </div>
+            </div>
         </form>
-        <div class="text-right">
-            <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
-        </div>
-
-    </div>
-    </div>
-    </form>
     </div>
     <!-- /.container-fluid -->
 @endsection
 @push('script')
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script>
+         $(document).ready(function() {
+            // alert('oke')
+            $('#select2').select2();
+            
+            // $('.nip').val('tes')
+        });
+    </script>
 @endpush

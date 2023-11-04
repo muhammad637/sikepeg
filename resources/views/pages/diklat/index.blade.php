@@ -41,7 +41,7 @@
                     @endphp
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ $item->nama_depan }}</td>
+                        <td>{{ $item->nama_lengkap ?? $item->nama_depan }}</td>
                         <td>{{ $item->diklat[0]->nama_diklat }}</td>
                         <td>{{ $item->diklat[0]->penyelenggara }}</td>
                         <td>{{ $item->diklat[0]->tahun }}</td>

@@ -32,5 +32,14 @@ class Admin extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-    ];    
+    ];
+
+    public function notifikasi()
+    {
+        return $this->belongsToMany(Notifikasi::class, 'notifikasi_admin');
+    }
+
+    public static function adminId(){
+        return Admin::all()->pluck('id');
+    }
 }

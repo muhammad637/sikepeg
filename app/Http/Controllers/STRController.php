@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 
 
 use Carbon\Carbon;
-use App\Exports\STRExport;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Asn;
 use App\Models\STR;
+use App\Models\Admin;
 use App\Models\Pegawai;
+use App\Exports\STRExport;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Dotenv\Util\Str as UtilStr;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Contracts\DataTable;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\Contracts\DataTable;
 
 class   STRController extends Controller
 {
@@ -77,7 +79,12 @@ class   STRController extends Controller
             'masa_berakhir_str' => $request->masa_berakhir_str,
             'link_str' => $request->link_str
         ]);
-        // return $str;
+        // return $str; 
+        $notif = Notifikasi::notif('str', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($str->pegawai->id);
+        alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
         return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
     }
 
@@ -145,7 +152,12 @@ class   STRController extends Controller
                 'masa_berakhir_str' => $request->masa_berakhir_str,
                 'link_str' => $request->link_str
             ]);
-            // return $str;
+        // return $str;
+        $notif = Notifikasi::notif('str', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($str->pegawai->id);
+        alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
             return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
         // } catch (\Throwable $th) {
         //     //throw $th;

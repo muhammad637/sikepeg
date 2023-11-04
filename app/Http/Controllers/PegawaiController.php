@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use App\Models\SIP;
 use App\Models\STR;
 use App\Models\Pegawai;
+use App\Models\Notifikasi;
+use App\Models\Admin;
 use App\Models\Pangkat;
 use App\Models\Golongan;
 use App\Models\Ruangan;
@@ -177,7 +180,8 @@ class PegawaiController extends Controller
         $pegawai = [];
         $usia = $this->lama($request->tanggal_lahir);
         $validatedData = $request->validate($this->rulesPegawai);
-        $password = bcrypt(Carbon::parse($request->tanggal_lahir)->format('dmY'));
+        $parseTanggalLahir = Carbon::parse($request->tanggal_lahir)->format('dmY');
+        $password = Hash::make($parseTanggalLahir);
         $nama_lengkap = $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang;
         $ruangan = $request->ruangan_id;
         if ($request->ruangan_id == 'ruangan_lainnya') {
@@ -186,22 +190,24 @@ class PegawaiController extends Controller
             );
             $ruangan = Ruangan::create([
                 'nama_ruangan' => strtolower($request->nama_ruangan),
-
             ]);
         }
         $data = array_merge(['usia' => $usia, 'nama_lengkap' => $nama_lengkap, 'ruangan_id' => $ruangan->id ?? $ruangan, 'password' => $password], $validatedData);
         if ($request->status_tenaga == 'non asn') {
             $masa_kerja = $this->lama($request->tanggal_masuk);
             $data = array_merge([
-                'cuti_tahunan' => $request->cuti_tahunan,
+                'cuti_tahunan' => $request->cuti_tahunan,   
                 'sisa_cuti_tahunan' => $request->cuti_tahunan,
                 'masa_kerja' => $masa_kerja,
                 'status_tipe' => 'thl'
             ], $data);
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
-            $pegawai = array_merge($data, $validatedDataNonAsn);
-            $createPegawai = Pegawai::create($pegawai);
+            $createPegawai = Pegawai::create(array_merge($validatedDataNonAsn, $data));
             alert()->success('sukses', 'data pegawai berhasil ditambahkan');
+            $notif = Notifikasi::notif('pegawai','pegawai baru berhasil ditambahkan oleh '.auth()->user()->name , 'bg-success','fas fa-user');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($createPegawai->id);
             return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
         }
 
@@ -266,11 +272,18 @@ class PegawaiController extends Controller
                 $createSIP = array_merge(['pegawai_id' => $createPegawai->id], $validatedDataSip);
                 SIP::create($createSIP);
             }
+            $notif = Notifikasi::notif('pegawai', 'pegawai baru berhasil ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($createPegawai->id);
             alert()->success('sukses', 'data pegawai berhasil ditambahkan');
             return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
         }
         $createPegawai = Pegawai::create($pegawai);
-        // Alert::alert();
+        $notif = Notifikasi::notif('pegawai', 'pegawai baru berhasil ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($createPegawai->id);
         alert()->success('sukses', 'data pegawai berhasil ditambahkan');
         return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
     }
@@ -420,6 +433,10 @@ class PegawaiController extends Controller
                 );
                 count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
                 count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
+                $notif = Notifikasi::notif('pegawai', 'pegawai berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
+                $createNotif = Notifikasi::create($notif);
+                $createNotif->admin()->sync(Admin::adminId());
+                $createNotif->pegawai()->attach($pegawai->id);
                 alert()->success('sukses', 'data pegawai berhasil diupdate');
                 return redirect(route('admin.pegawai.index'))->withInput();
             } elseif ($pegawai->status_tenaga != $request->status_tenaga && $request->status_tenaga == 'asn') {
@@ -432,11 +449,21 @@ class PegawaiController extends Controller
                     'masa_kerja' => $masa_kerja
                 ], $validatedDataAsn, $dataTambahan));
                 alert()->success('sukses', 'data pegawai berhasil diupdate');
+                $notif = Notifikasi::notif('pegawai', 'pegawai berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
+                $createNotif = Notifikasi::create($notif);
+                $createNotif->admin()->sync(Admin::adminId());
+                $createNotif->pegawai()->attach($pegawai->id);
+                alert()->success('sukses', 'data pegawai berhasil diupdate');
                 return redirect(route('admin.pegawai.index'))->withInput();
             }
             if ($request->status_tenaga == 'non asn') {
                 $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
                 $pegawai->update(array_merge(['masa_kerja' => $this->lama($request->tanggal_masuk)], $validatedDataNonAsn));
+                $notif = Notifikasi::notif('pegawai', 'pegawai berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
+                $createNotif = Notifikasi::create($notif);
+                $createNotif->admin()->sync(Admin::adminId());
+                $createNotif->pegawai()->attach($pegawai->id);
+                alert()->success('sukses', 'data pegawai berhasil diupdate');
                 return redirect(route('admin.pegawai.index'));
             } else if ($request->status_tenaga == 'asn') {
                 $validatedDataAsn = $request->validate($this->rulesAsn);
@@ -451,9 +478,17 @@ class PegawaiController extends Controller
                 count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
                 $validatedDataUmum = $request->validate($this->rulesUmum);
                 $pegawai->update($validatedDataUmum);
+                $notif = Notifikasi::notif('pegawai', 'pegawai berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
+                $createNotif = Notifikasi::create($notif);
+                $createNotif->admin()->sync(Admin::adminId());
+                $createNotif->pegawai()->attach($pegawai->id);
                 alert()->success('sukses', 'data pegawai berhasil diupdate');
                 return redirect(route('admin.pegawai.index'));
             }
+            $notif = Notifikasi::notif('pegawai', 'pegawai berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($pegawai->id);
             alert()->success('sukses', 'data pegawai berhasil diupdate');
             return redirect(route('admin.pegawai.index'))->withInput();
         } catch (\Throwable $th) {
@@ -470,7 +505,6 @@ class PegawaiController extends Controller
      */
     public function destroy(Pegawai $pegawai)
     {
-
         return $pegawai->delete();
     }
     public function lama($tanggalMulai)

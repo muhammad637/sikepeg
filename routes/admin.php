@@ -5,16 +5,17 @@ use App\Http\Controllers\SIPController;
 use App\Http\Controllers\STRController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
-use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\HariBesarController;
-use App\Http\Controllers\KenaikanPangkatController;
-
-use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\GolonganController;
+
+use App\Http\Controllers\HariBesarController;
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\KenaikanPangkatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/str', [STRController::class,'reminderSTR'])->name('str.index');
             Route::get('/sip', [SIPController::class,'reminderSIP'])->name('sip.index');
         });
+        Route::get('/notifikasi',[NotifikasiController::class,'notifAdmin'])->name('notifikasi');
         // Route::resource('/pegawai', PegawaiController::class);
         Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
         Route::prefix('pegawai')->name('pegawai.')->group(function () {
@@ -99,9 +101,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/{kenaikan_pangkat}/update',[KenaikanPangkatController::class,'update'])->name('update');
             Route::get('/riwayat/{pegawai:id}',[KenaikanPangkatCOntroller::class,'riwayat'])->name('riwayat');
         });
-        // Route::resource('/kenaikan_pangkat', KenaikanPangkatController::class);
-        // Route::get('/kenaikan_pangkat/riwayat/{pegawai:id}', [KenaikanPangkatController::class, 'riwayat'])->name('kenaikan_pangkat.riwayat');
-        // master-data
         Route::prefix('master-data')->name('master-data.')->group(function () {
             // hari-besar
             Route::prefix('hari-besar')->name('hari-besar.')->group(function () {

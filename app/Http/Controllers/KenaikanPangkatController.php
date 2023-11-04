@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Admin;
 use App\Models\Pangkat;
 use App\Models\Pegawai;
 use App\Models\Golongan;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\KenaikanPangkat;
 use App\Http\Controllers\Controller;
@@ -115,7 +117,11 @@ class KenaikanPangkatController extends Controller
                 'link_sk' => $request->link_sk
             ]
         );
-        
+        $notif = Notifikasi::notif('kenaikan pangkat', 'data cuti  pegawai ' . $pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-day');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($pegawai->id);
+        alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
         return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'data kenaikan pangkat pegawai berhasil ditambahkan');
         // } catch (\Throwable $th) {
 
@@ -218,10 +224,17 @@ class KenaikanPangkatController extends Controller
                 'penerbit_sk' => $request->penerbit_sk,
                 'link_sk' => $request->link_sk
             ]);
+            $notif = Notifikasi::notif('kenaikan pangkat', 'data kenaikan pangkat  pegawai ' . $kenaikan_pangkat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-day');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($kenaikan_pangkat->pegawai->id);
+            alert()->success('berhasil', 'data kenaikan pangkat berhasi dupdate oleh ' . auth()->user()->name);
             return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'kenaikan pangkat pegawai berhasil diupdate');
             //code...
         } catch (\Throwable $th) {
             //throw $th;
+            alert()->error('gagal', 'data kenaikan pangkat gagal diupdate oleh ' . auth()->user()->name);
+            return redirect()->back()->withInput();
             return $th->getMessage();
         }
     }

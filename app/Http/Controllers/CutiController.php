@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Cuti;
+use App\Models\Admin;
 use App\Models\Pegawai;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -60,7 +62,7 @@ class CutiController extends Controller
         $pegawai = Pegawai::find($request->pegawai_id);
         if ($cuti) {
             if (Carbon::parse($cuti->mulai_cuti) >= Carbon::parse($request->mulai_cuti) && Carbon::parse($cuti->selesai_cuti) >= Carbon::parse($request->selesai_cuti)) {
-                Alert::alert('gagal create cuti', 'periode cuti masih berlaku', 'error');
+                alert()->error('gagal','periode cuti masih berlaku');
                 return redirect()->back()->withInput()->with('toast_success', 'periode cuti masih berlaku');
             }
         }
@@ -72,11 +74,13 @@ class CutiController extends Controller
                     ]
                 );
             } else {
+                alert()->error('gagal', 'cuti tahunan pegawai' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . 'telah habis pada tahun ini' );
                 return redirect()->back()->with('error', 'cuti tahunan pegawai' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . 'telah habis pada tahun ini')->withInput();
             }
         }
         if ($request->jenis_cuti == 'cuti besar') {
             if ($pegawai->sisa_cuti_tahunan  == 0) {
+                alert()->error('gagal', 'cuti tahunan pegawai' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . 'telah habis pada tahun ini');
                 return redirect()->back()->with('error', 'cuti tahunan pegawai' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . 'telah habis pada tahun ini')->withInput();
             } else {
                 $pegawai->update(
@@ -95,6 +99,11 @@ class CutiController extends Controller
         } else {
             $create->update(['status' => 'nonaktif']);
         }
+        $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($pegawai->id);
+        alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh '.auth()->user()->name);
         return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasi ditambahkan');
     }
 
@@ -205,6 +214,11 @@ class CutiController extends Controller
             }
 
             // Mengarahkan kembali ke halaman indeks data cuti aktif
+            $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($pegawaiUpdate->id);
+            alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
             return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasil ditambahkan');
         }
         $cuti->pegawai->update([
@@ -236,7 +250,11 @@ class CutiController extends Controller
         } else {
             $cuti->update(['status' => 'pending']);
         }
-
+        $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($pegawaiUpdate->id);
+        alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
         // Mengarahkan kembali ke halaman indeks data cuti aktif
         return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasil diupdate');
         // } catch (\Throwable $th) {

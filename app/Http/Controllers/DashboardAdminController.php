@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\STR;
+use App\Models\Admin;
 use App\Models\Pegawai;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class DashboardAdminController extends Controller
 {
     //
+    
     public function index()
     {
-        // return $endDate;
+        // $notif = Admin::with(['notifikasi' => function ($q) {
+        //     $q->orderBy('created_at', 'desc')->limit(3);
+        // }])->find(auth()->user()->id);
+        // return $notif;
         $currentDate = Carbon::now();
         $sixMonthsFromNow = $currentDate->addMonths(6);
         $reminderSTR = Pegawai::with('str')->whereHas(

@@ -130,7 +130,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Masa Kerja</th>
-                                        <td scope="col">{{ $pegawai->status_tipe == 'pns' ? date_diff(date_create($pegawai->tmt_pns),date_create('now'))->y : ($pegawai->status_tipe == 'pppk' ? date_diff(date_create($pegawai->tmt_pppk),date_create('now'))->y : date_diff(date_create($pegwai->tanggal_masuk),date_create('now'))->y) }} Tahun</td>
+                                        <td scope="col">{{ $pegawai->status_tipe == 'pns' ? date_diff(date_create($pegawai->tmt_pns),date_create('now'))->y : ($pegawai->status_tipe == 'pppk' ? date_diff(date_create($pegawai->tmt_pppk),date_create('now'))->y : date_diff(date_create($pegawai->tanggal_masuk),date_create('now'))->y) }} Tahun</td>
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Cuti Tahunan</th>

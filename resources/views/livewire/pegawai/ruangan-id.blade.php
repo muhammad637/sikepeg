@@ -7,6 +7,7 @@
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
+              
                 <select name="ruangan_id" id="ruangan_id"
                     class="form-control ruangan_select font-weight-normal @error('ruangan_id') is-invalid @enderror"
                     required wire:model='ruangan_id' wire:ignore>

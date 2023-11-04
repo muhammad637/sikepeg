@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asn;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 
-class AsnController extends Controller
+class NotifikasiController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function notifAdmin(){
+        $notif = auth()->user()->notifikasi->sortByDesc('created_at');
+        return view('pages.notifikasi.admin',[
+            'notifikasis' => $notif
+        ]);
+    }
     public function index()
     {
         //
@@ -41,10 +47,10 @@ class AsnController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Asn  $asn
+     * @param  \App\Models\Notifikasi  $notifikasi
      * @return \Illuminate\Http\Response
      */
-    public function show(Asn $asn)
+    public function show(Notifikasi $notifikasi)
     {
         //
     }
@@ -52,10 +58,10 @@ class AsnController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Asn  $asn
+     * @param  \App\Models\Notifikasi  $notifikasi
      * @return \Illuminate\Http\Response
      */
-    public function edit(Asn $asn)
+    public function edit(Notifikasi $notifikasi)
     {
         //
     }
@@ -64,10 +70,10 @@ class AsnController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Asn  $asn
+     * @param  \App\Models\Notifikasi  $notifikasi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Asn $asn)
+    public function update(Request $request, Notifikasi $notifikasi)
     {
         //
     }
@@ -75,10 +81,10 @@ class AsnController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Asn  $asn
+     * @param  \App\Models\Notifikasi  $notifikasi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Asn $asn)
+    public function destroy(Notifikasi $notifikasi)
     {
         //
     }

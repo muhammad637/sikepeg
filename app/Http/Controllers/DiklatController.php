@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Diklat;
 use App\Models\Pegawai;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DiklatController extends Controller
 {
@@ -17,12 +20,12 @@ class DiklatController extends Controller
     }
 
     public function create(){
-
         $pegawai = Pegawai::where('status_tenaga','asn')->get();
         return view('pages.diklat.create', ['pegawai' => $pegawai]);
     }
     public function edit(Diklat $diklat){
         return view('pages.diklat.edit', [
+            'results' => Pegawai::all(),
             'diklat' => $diklat,
             
         ]);
@@ -30,6 +33,7 @@ class DiklatController extends Controller
 
     public function update(Request $request, Diklat $diklat){
         try {
+
             $validatedData = $request->validate([
                 'nama_diklat' => 'required',
                 'jumlah_jam' => 'required',
@@ -42,6 +46,7 @@ class DiklatController extends Controller
             ]);
             
             $diklat->update([
+                'pegawai_id' => $request->pegawai_id,
                 'nama_diklat' => $request->nama_diklat,
                 'jumlah_jam' => $request->jumlah_jam,
                 'penyelenggara' => $request->penyelenggara,
@@ -51,6 +56,11 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => $request->tanggal_sertifikat,
                 'link_sertifikat' => $request->link_sertifikat
             ]);
+            $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
+            $createNotif = Notifikasi::create($notif);
+            $createNotif->admin()->sync(Admin::adminId());
+            $createNotif->pegawai()->attach($diklat->pegawai->id);
+            alert()->success('berhasil', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
             return redirect(route('admin.diklat.index'))->with('success', 'diklat berhasil diupdate');
         } catch (\Throwable $th) {
             //throw $th;
@@ -90,7 +100,12 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => $request->tanggal_sertifikat,
                 'link_sertifikat' => $request->link_sertifikat
             ]);
-            return redirect()->route('admin.diklat.index')->with('success', 'diklat berhasil ditambahkan');
+        $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($diklat->pegawai->id);
+        alert()->success('berhasil', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
+        return redirect()->route('admin.diklat.index')->with('success', 'diklat berhasil ditambahkan');
         // } catch (\Throwable $th) {
         //     //throw $th;
         //     return $th->getMessage();

@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('cuti:pegawai')->dailyAt('03:00');
+        $schedule->command('reminder:ulangtahun')->dailyAt('03:00');
         // $schedule->command('cuti:pegawai')->everyMinute();
     }
 
