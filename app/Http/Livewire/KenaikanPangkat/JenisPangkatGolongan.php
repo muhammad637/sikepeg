@@ -45,6 +45,11 @@ class JenisPangkatGolongan extends Component
         }
     }
 
+    public function updateId($data){
+        $this->pegawai = $data;
+    }
+
+    
 
 
 

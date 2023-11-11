@@ -40,7 +40,7 @@ class UlangTahun extends Command
             $birthdayThisYear = $birthdate->copy()->year($today->year); // Mengatur tahun ulang tahun sesuai dengan tahun saat ini
             // $birthdayNextYear = $birthdate->copy()->year($today->year + 1); // Mengatur tahun ulang tahun sesuai dengan tahun depan
             if ($today->isSameDay($birthdayThisYear)) {
-                $notif = Notifikasi::notif('ulang tahun', $employee->nama_lengkap ?? $employee->nama_depan. ' berulang tahun hari ini' , 'bg-info', 'fa-solid fa-cake-candles');
+                $notif = Notifikasi::notif('ulang tahun', $employee->nama_lengkap ?? $employee->nama_depan. ' berulang tahun pada tanggal '.$birthdate->format('d-m-Y') , 'bg-info', 'fa-solid fa-cake-candles');
                 $createNotif = Notifikasi::create($notif);
                 $createNotif->admin()->sync(Admin::adminId());
                 $createNotif->pegawai()->sync(Pegawai::pegawaiId());
