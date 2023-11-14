@@ -31,11 +31,14 @@
                                             <p class="mb-0 mt-md-2 mt-0">NIK</p>
                                         </label>
                                     </div>
+                                    
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+
                                         <input type="text" class="form-control form-control-user" id="NIK"
                                             aria-describedby="NIK" name="nik" autocomplete="false"
-                                            placeholder="Masukkan NIK ..." required value="{{ old('nik') }}" required>
+                                            placeholder="Masukkan NIK ..." value="{{ old('nik') }}" required>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="mb-4">
@@ -78,7 +81,7 @@
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control @error('nama_depan') is-invalid @enderror"
                                             id="nama_depan" aria-describedby="nama_depan" name="nama_depan"
-                                            autocomplete="false" placeholder="Masukkan Nama Depan ..." required
+                                            autocomplete="false" placeholder="Masukkan Nama Depan ..." 
                                             value="{{ old('nama_depan') }}" required>
                                     </div>
                                 </div>
