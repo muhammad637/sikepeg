@@ -37,7 +37,7 @@
                     @endphp
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->pegawai->nama_depan }}</td>
+                        <td>{{ $item->pegawai->nama_lengkap }}</td>
                         <td>{{ $item->pangkat ? $item->pangkat->nama_pangkat ." / " .$item->golongan->nama_golongan :
                             $item->golongan->nama_golongan }}</td>
                         <td>{{ $item->jabatan }}</td>

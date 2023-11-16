@@ -273,11 +273,15 @@ class CutiController extends Controller
     {
         //
     }
-    public function historiCuti()
+    public function historiCuti(Pegawai $pegawai)
     {
-        $histori = Cuti::where('status', 'nonaktif')->get();
+        $histori = Cuti::where('pegawai_id', $pegawai->id)->orderBy('created_at');
+        return $pegawai;
         return view('pages.cuti.histori-cuti.index', [
-            'historiCuti' => $histori
+            'pegawai' => $pegawai,
+            'historiCuti' => $histori,
+
+            
         ]);
     }
 }

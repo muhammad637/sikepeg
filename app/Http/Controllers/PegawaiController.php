@@ -123,13 +123,7 @@ class PegawaiController extends Controller
             $pegawai = Pegawai::query()->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
-                ->addColumn('aksi', function ($item) {
-                    $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
-                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
-                    $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
-                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
-                    return "<div class='d-flex'>$show $edit</div>";
-                })
+                ->addColumn('aksi', 'pages.pegawai.part.aksi')
                 ->addColumn('ruangan', function ($item) {
                     return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
                 })

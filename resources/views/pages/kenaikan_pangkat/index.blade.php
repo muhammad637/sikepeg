@@ -28,6 +28,7 @@
                             <th scope="col">Pangkat</th>
                             <th scope="col">Golongan</th>
                             <th scope="col">No SK</th>
+                            <th scope="col">Tanggal Mulai Terhitung</th>
                             <th scope="col">Penerbit SK</th>
                             <th scope="col">SK</th>
                             <th scope="col">Aksi</th>
@@ -48,6 +49,7 @@
                                     <td>{{ $item->kenaikanpangkat[0]->pangkat->nama_pangkat  ?? '-'}}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->golongan->nama_golongan }}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->no_sk }}</td>
+                                    <td>{{ $item->kenaikanpangkat[0]->tmt_pangkat_dari}}</td>
                                     <td>{{ $item->kenaikanpangkat[0]->penerbit_sk }}</td>
                                     <td>
                                         <a target="popup"
