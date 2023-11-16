@@ -22,6 +22,7 @@
             aria-haspopup='true' aria-expanded='false'>
             <i class='fas fa-info-circle'></i>
         </button>
+        
         <div class='dropdown-menu'>
             <a class='dropdown-item' href={{route('admin.cuti.histori-cuti.index', [$model->id])}}   target='_blank'>History Cuti</a>
             @if ($model->mutasi->count() > 0)
@@ -36,4 +37,6 @@
     </div>
     <a href="{{ route('admin.pegawai.edit', ['pegawai' => $model->id]) }}"
         class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>
+    <a href="{{ route('admin.pegawai.edit', ['pegawai' => $model->id]) }}"
+        class='badge p-2 text-white bg-success mr-1'><i class='fas fa-user'></i></a>
 </div>
