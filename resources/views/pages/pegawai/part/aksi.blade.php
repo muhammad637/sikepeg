@@ -32,11 +32,11 @@
             @endif
             
             <a class='dropdown-item' href="{{route('admin.diklat.riwayat', [$model->id])}}" target='_blank'>History Diklat</a>
+            
             <a class='dropdown-item' href="{{route('admin.kenaikan-pangkat.riwayat', [$model->id])}}" target='_blank'>History Kenaikan Pangkat</a>
+            <a class='dropdown-item' href="{{route('admin.pegawai.show', [$model->id])}}" target='_blank'>Personal File</a>
         </div>
     </div>
     <a href="{{ route('admin.pegawai.edit', ['pegawai' => $model->id]) }}"
         class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>
-    <a href="{{ route('admin.pegawai.edit', ['pegawai' => $model->id]) }}"
-        class='badge p-2 text-white bg-success mr-1'><i class='fas fa-user'></i></a>
 </div>
