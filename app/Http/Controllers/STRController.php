@@ -204,7 +204,7 @@ class   STRController extends Controller
             ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Link STR'],
             [...$dataLaporan]
         ]);
-        return Excel::download($laporan, 'order.xlsx');
+        return Excel::download($laporan, 'STR.xlsx');
     }
 
     public function export_excel(){

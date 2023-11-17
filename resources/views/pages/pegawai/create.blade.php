@@ -25,6 +25,7 @@
                             <h3 class="judul-text">Biodata Diri</h3>
                             <hr style="height:.1rem;" class="bg-primary">
                             <div class="mt-5 mb-4">
+              
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label @error('nik') is-invalid @enderror">
@@ -37,10 +38,12 @@
                                         <input type="text" class="form-control form-control-user" id="NIK"
                                             aria-describedby="NIK" name="nik" autocomplete="false"
                                             placeholder="Masukkan NIK ..." value="{{ old('nik') }}" required>
+                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
                                     </div>
 
                                 </div>
                             </div>
+                     
                             <div class="mb-4">
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -53,6 +56,7 @@
                                             id="nip_nippk" aria-describedby="nip_nippk" name="nip_nippk"
                                             autocomplete="false" placeholder="Masukkan NIP / NIPPK" required
                                             value="{{ old('nip_nippk') }}">
+                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
                                     </div>
                                 </div>
                             </div>
@@ -71,6 +75,7 @@
                                     </div>
                                 </div>
                             </div>
+                 
                             <div class="mb-4">
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -83,6 +88,7 @@
                                             id="nama_depan" aria-describedby="nama_depan" name="nama_depan"
                                             autocomplete="false" placeholder="Masukkan Nama Depan ..." 
                                             value="{{ old('nama_depan') }}" required>
+                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
                                     </div>
                                 </div>
                             </div>
@@ -150,6 +156,7 @@
                                             id="tempat_lahir" aria-describedby="tempat_lahir" name="tempat_lahir"
                                             autocomplete="false" placeholder="Masukkan Tempat Lahir ..."
                                             value="{{ old('tempat_lahir') }}" required>
+                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
                                     </div>
                                 </div>
                             </div>
@@ -182,6 +189,7 @@
                                         <input type="text" class="form-control @error('alamat') is-invalid @enderror"
                                             id="alamat" aria-describedby="alamat" name="alamat" autocomplete="false"
                                             placeholder="Masukkan Alamat ..." value="{{ old('alamat') }}" required>
+                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
                                     </div>
                                 </div>
                             </div>
@@ -227,6 +235,7 @@
                                         <input type="text" class="form-control @error('no_wa') is-invalid @enderror"
                                             id="no_wa" aria-describedby="no_wa" name="no_wa" autocomplete="false"
                                             placeholder="Masukkan No WA" value="{{ old('no_wa') }}" required>
+                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
                                     </div>
                                 </div>
                             </div>
@@ -265,6 +274,7 @@
                                             id="tahun_pensiun" aria-describedby="tahun_pensiun" name="tahun_pensiun"
                                             autocomplete="false" placeholder="Masukkan Tahun Pensiun ..." min="2000"
                                             max="2100" step="1" value="{{ old('tahun_pensiun') }}" required>
+                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
                                     </div>
                                 </div>
                             </div>

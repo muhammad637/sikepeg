@@ -24,12 +24,23 @@
                 </div>
                 <div class="row">
                     <!-- profie -->
+                    @if ($pegawai->jenis_kelamin == "laki-laki")
                     <div class="col-sm-12 col-md-12 col-lg-3 my-5">
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
                                 class="rounded-circle" width="150" />
                         </div>
-                    </div>
+                    </div>  
+                    @else
+                    <div class="col-sm-12 col-md-12 col-lg-3 my-5">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Admin"
+                                class="rounded-circle" width="150" />
+                        </div>
+                    </div>  
+                    @endif
+                   
+                    
                     <!-- end profile -->
 
                     <!-- isi -->

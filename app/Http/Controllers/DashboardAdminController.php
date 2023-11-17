@@ -79,6 +79,7 @@ class DashboardAdminController extends Controller
         $pegawais = Pegawai::select('status_tipe', DB::raw("COUNT(id) as count"))
         ->groupBy('status_tipe')
         ->get();
+        // return $reminderSTR;
         return view(
             'pages.dashboard.index',
             [

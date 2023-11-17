@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => 'http://localhost/sikepeg/public',
+    'asset_url' => null,
 
     /*
     |--------------------------------------------------------------------------
