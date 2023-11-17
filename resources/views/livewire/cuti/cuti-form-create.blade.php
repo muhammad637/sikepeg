@@ -1,5 +1,19 @@
 <div>
     <div class="row mb-3">
+        <label for="alasanCuti" class="col-sm-4 col-form-label">Status Tipe</label>
+        <div class="col-sm-8">
+            <input name="status_tipe" class="form-control" 
+                wire:model='status_tipe' readonly>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="alasanCuti" class="col-sm-4 col-form-label font-weight-bold">Sisa Cuti Tahunan Saat Ini</label>
+        <div class="col-sm-8">
+            <input name="sisa_cuti_tahunan_saat_ini" class="form-control"
+                wire:model='sisa_cuti_tahunan_saat_ini' readonly>
+        </div>
+    </div>
+    <div class="row mb-3">
         <label for="jenis_cuti" class="col-sm-4 col-form-label">Jenis Cuti</label>
         <div class="col-sm-8">
             <select name="jenis_cuti" id="jenis_cuti" class="form-control" wire:model='jenis_cuti'>
@@ -55,13 +69,15 @@
         @enderror
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-3 align-items-center">
         <label for="" class="col-sm-4 col-form-label">Periode Cuti</label>
         <div class="col-sm-4">
-            <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti' required>
+            <span class="text-danger">*mulai cuti</span>
+            <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti' required min="{{$tanggal_sebelumnya}}">
         </div>
         <div class="col-sm-4">
-            <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti' required>
+            <span class="text-danger">*selesai cuti</span>
+            <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti' required min="{{$tanggal_sebelumnya}}">
         </div>
     </div>
 
@@ -69,7 +85,7 @@
         <label for="jumlah_hari" class="col-sm-4 col-form-label">Jumlah Hari</label>
         <div class="col-sm-8">
             <input type="text" class="form-control" id="jumlah_hari" name="jumlah_hari" wire:model="jumlah_hari"
-                required>
+                required readonly>
         </div>
     </div>
 

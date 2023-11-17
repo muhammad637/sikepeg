@@ -6,10 +6,8 @@
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h4 class="m-0 font-weight-bold text-dark">Data Cuti Aktif Pegawai</h4>
-                <a href="{{ route('admin.cuti.data-cuti-aktif.create') }}"
-                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i class="fas fa-plus-square ml-1"></i></a>
-
+                <h4 class="m-0 font-weight-bold text-dark">Data Cuti Pegawai : {{$pegawai->nama_lengkap ?? $pegawai->nama_depan}}</h4>
+                <h4>Sisa Cuti Tahunan : {{$pegawai->sisa_cuti_tahunan}}</h4>
             </div>
         </div>
         <div class="card-body">
@@ -19,7 +17,7 @@
                     <thead>
                         <tr class="text-dark">
                             <th scope="col">No</th>
-                            <th scope="col">Nama</th>
+                            {{-- <th scope="col">Nama</th> --}}
                             <th scope="col">Jenis Cuti</th>
                             <th scope="col">Alasan</th>
                             <th scope="col">Mulai Cuti</th>
@@ -30,30 +28,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($cuti as $index => $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan }}</td>
-                                <td>{{ $item->jenis_cuti }}</td>
-                                <td>{{ $item->alasan_cuti }}</td>
-                                <td>{{ $item->mulai_cuti }}</td>
-                                <td>{{ $item->selesai_cuti }}</td>
-                                <td>
-                                    <a target="popup"
-                                        onclick="window.open(`{{ $item->link_cuti }}`,'name','width=600,height=400')"
-                                        class="btn btn-primary" style="cursor: pointer">
-                                        <i class="fas fa-file-alt text-white"></i></a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
-                                        {{ $item->status }}</button>
-                                </td>
-                                <td class="d-flex justify-content-center">
-                                    <a href="{{ route('admin.cuti.data-cuti-aktif.edit', ['cuti' => $item->id]) }}"
-                                        class="btn btn-warning"><i class="fas fa-pen "></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -63,4 +37,60 @@
 @push('script')
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('admin.cuti.riwayat-cuti-pegawai',['id' => $id] )}}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    searchable: false,
+                    orderable: false,
+                },
+               
+                {
+                    data: 'jenis_cuti',
+                    name: 'jenis_cuti',
+
+                },
+                {
+                    data: 'alasan_cuti',
+                    name: 'alasan_cuti',
+
+                },
+                {
+                    data: 'mulai_cuti',
+                    name: 'mulai_cuti',
+
+                },
+                {
+                    data: 'selesai_cuti',
+                    name: 'selesai_cuti',
+
+                },
+
+                {
+                    data: 'surat',
+                    name: 'surat',
+                    searchable: false,
+                    orderable: false,
+                },
+                {
+                    data: 'status_tombol',
+                    name: 'status_tombol',
+                   
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    searchable: false,
+                    orderable: false,
+
+                },
+
+
+            ]
+        })
+    </script>
 @endpush

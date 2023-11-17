@@ -13,17 +13,22 @@ use App\Models\HariBesar;
 class CutiFormCreate extends Component
 {
     public $pegawai;
-    public $status_tipe;
+    public $tanggal_saat_ini;
+    public $tanggal_sebelumnya;
+    public $status_tipe = '"pilih pegawai terlebih dahulu"';
     public $jenis_cuti;
     public $alasan_cuti;
     public $mulai_cuti;
     public $selesai_cuti;
     public $jumlah_hari;
     public $link_cuti;
-
+    public $sisa_cuti_tahunan_saat_ini = 0;
+    public $link;
 
     public function mount()
     {
+        $this->tanggal_saat_ini = Carbon::parse(now())->format('Y-m-d');
+        $this->tanggal_sebelumnya = Carbon::parse(now())->subDays(11)->format('Y-m-d');
         $this->jenis_cuti = old('jenis_cuti');
         $this->alasan_cuti = old('alasan_cuti');
         $this->mulai_cuti = old('mulai_cuti');
@@ -31,8 +36,10 @@ class CutiFormCreate extends Component
         $this->jumlah_hari = old('jumlah_hari');
         $this->link_cuti = old('link_cuti');
         $pegawai = Pegawai::find($this->pegawai);
+        $this->link = route('admin.cuti.data-cuti-aktif.create');
         if ($pegawai) {
             $this->status_tipe = old('status_tipe', $pegawai->status_tipe);
+           
         }
     }
     public function updatedMulaiCuti()
@@ -68,6 +75,7 @@ class CutiFormCreate extends Component
     {
         $pegawai = Pegawai::find($value);
         $this->status_tipe = $pegawai->status_tipe;
+        $this->sisa_cuti_tahunan_saat_ini =  $pegawai->sisa_cuti_tahunan;
     }
 
     function hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar)
@@ -87,7 +95,11 @@ class CutiFormCreate extends Component
                 $jumlahHariCuti++;
             }
         }
-        return $jumlahHariCuti;
+        if($jumlahHariCuti <= 0){
+            return 0;
+        }
+        
+        return $jumlahHariCuti - 1;
     }
     public function render()
     {

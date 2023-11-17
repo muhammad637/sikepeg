@@ -72,6 +72,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');
 
         Route::prefix('cuti')->name('cuti.')->group(function () {
+            Route::post('/tambah-cuti-masa-lalu', 'CutiController@tambahCutiMasaLalu')->name('tambah-cuti-masa-lalu');
+            Route::get('/riwayat-cuti-pegawai/{id}', [CutiController::class,'riwayatCutiPegawai'])->name('riwayat-cuti-pegawai');
+            Route::get('/show/{cuti:id}',[CutiController::class, 'show'])->name('show');
             Route::group(['prefix' => '/data-cuti-aktif'], function () {
                 Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
                 Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');

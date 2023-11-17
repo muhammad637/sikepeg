@@ -17,16 +17,14 @@
                     <div class="row mb-3">
                         <label for="select2" class="col-sm-4 col-form-label">Pegawai</label>
                         <div class="col-sm-8">
-                            <select name="pegawai_id" class="form-control select2" readonly>
+                            <select name="pegawai_id" class="form-control " id="select2" readonly>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $cuti->pegawai_id === $item->id ? 'selected' : '' }}>
                                         {{ $item->nama_lengkap ?? $item->nama_depan }}
-                                        {{ $item->status_tipe }}
                                     </option>
                                 @endforeach
                             </select>
-
                         </div>
                     </div>
                     @livewire('cuti.cuti-form-edit', ['cuti' => $cuti, 'pegawai' => $cuti->pegawai_id])

@@ -17,7 +17,6 @@
 
             <div class="row mt-2">
                 <div class="col-sm-12 col-xl-12">
-
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark ">Nama</span>
@@ -32,6 +31,7 @@
                                     </option>
                                 @endforeach
                             </select>
+                            
                         </div>
                     </div>
                     @livewire('pegawai.search-pegawai', ['dokumen' => 'str', 'pegawaiEdit' => $str->pegawai_id])
