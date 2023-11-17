@@ -68,11 +68,11 @@
                 <label for="" class="col-sm-4 col-form-label">Periode Cuti</label>
                 <div class="col-sm-4">
                     <span class="text-danger">*mulai cuti</span>
-                    <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti' required>
+                    <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti'  id="mulaiCuti" required>
                 </div>
                 <div class="col-sm-4">
                     <span class="text-danger">*selesai cuti</span>
-                    <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti' required>
+                    <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti' id="selesaiCuti" required>
                 </div>
             </div>
             <div class="row mb-3">
@@ -106,5 +106,6 @@
                 @this.set("pegawai", data)
             });
         });
+        
     </script>
 @endpush

@@ -43,31 +43,28 @@ class CutiFormEdit extends Component
     public function updatedMulaiCuti()
     {
         $tahun = Carbon::parse(now())->format('Y');
-        if ($this->jumlah_hari == null) {
-            if ($this->mulai_cuti != null && $this->selesai_cuti != null) {
-                // Contoh penggunaan
-                $tanggalMulai = Carbon::parse($this->mulai_cuti);
-                $tanggalSelesai = Carbon::parse($this->selesai_cuti);
-                $hariBesar = HariBesar::whereYear('tanggal', $tahun)->pluck('tanggal')->toArray();
-                // $hariBesar = HariBesar::all()->; // Tanggal Hari Natal sebagai contoh hari besar    
-                $jumlahHariCuti = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
-                $this->jumlah_hari = $jumlahHariCuti;
-            }
+
+        if ($this->mulai_cuti != null && $this->selesai_cuti != null) {
+            // Contoh penggunaan
+            $tanggalMulai = Carbon::parse($this->mulai_cuti);
+            $tanggalSelesai = Carbon::parse($this->selesai_cuti);
+            $hariBesar = HariBesar::whereYear('tanggal', $tahun)->pluck('tanggal')->toArray();
+            // $hariBesar = HariBesar::all()->; // Tanggal Hari Natal sebagai contoh hari besar    
+            $jumlahHariCuti = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
+            $this->jumlah_hari = $jumlahHariCuti;
         }
     }
     public function updatedSelesaiCuti()
     {
         $tahun = Carbon::parse(now())->format('Y');
-        if ($this->jumlah_hari == null) {
-            if ($this->mulai_cuti != null && $this->selesai_cuti != null) {
-                // Contoh penggunaan
-                $tanggalMulai = Carbon::parse($this->mulai_cuti);
-                $tanggalSelesai = Carbon::parse($this->selesai_cuti);
-                $hariBesar = HariBesar::whereYear('tanggal', $tahun)->pluck('tanggal')->toArray();
-                // $hariBesar = HariBesar::all()->; // Tanggal Hari Natal sebagai contoh hari besar    
-                $jumlahHariCuti = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
-                $this->jumlah_hari = $jumlahHariCuti;
-            }
+        if ($this->mulai_cuti != null && $this->selesai_cuti != null) {
+            // Contoh penggunaan
+            $tanggalMulai = Carbon::parse($this->mulai_cuti);
+            $tanggalSelesai = Carbon::parse($this->selesai_cuti);
+            $hariBesar = HariBesar::whereYear('tanggal', $tahun)->pluck('tanggal')->toArray();
+            // $hariBesar = HariBesar::all()->; // Tanggal Hari Natal sebagai contoh hari besar    
+            $jumlahHariCuti = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
+            $this->jumlah_hari = $jumlahHariCuti;
         }
     }
 
@@ -95,10 +92,11 @@ class CutiFormEdit extends Component
                 $jumlahHariCuti++;
             }
         }
-        if($jumlahHariCuti <= 0){
+        if ($jumlahHariCuti <= 0) {
             return 0;
-        } 
-        return $jumlahHariCuti - 1;
+        }
+
+        return $jumlahHariCuti;
     }
     public function render()
     {

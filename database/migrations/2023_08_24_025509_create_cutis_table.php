@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('selesai_cuti')->nullable();
             $table->integer('jumlah_hari')->nullable();
             $table->enum('status',['aktif', 'nonaktif','pending'])->nullable();
-            $table->string('link_cuti')->nullable();   
+            $table->string('link_cuti')->nullable();    
             $table->timestamps();
         });
     }

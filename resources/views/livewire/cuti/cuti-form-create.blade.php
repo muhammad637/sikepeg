@@ -16,7 +16,7 @@
     <div class="row mb-3">
         <label for="jenis_cuti" class="col-sm-4 col-form-label">Jenis Cuti</label>
         <div class="col-sm-8">
-            <select name="jenis_cuti" id="jenis_cuti" class="form-control" wire:model='jenis_cuti'>
+            <select name="jenis_cuti" id="jenis_cuti" class="form-control" wire:model='jenis_cuti' required>
                 <option value="">Pilih </option>
                 @if ($status_tipe == 'pns')
                     <option value="cuti tahunan" {{ $jenis_cuti == 'cuti tahunan' ? 'selected' : '' }}>Cuti
@@ -85,7 +85,7 @@
         <label for="jumlah_hari" class="col-sm-4 col-form-label">Jumlah Hari</label>
         <div class="col-sm-8">
             <input type="text" class="form-control" id="jumlah_hari" name="jumlah_hari" wire:model="jumlah_hari"
-                required readonly>
+                required >
         </div>
     </div>
 

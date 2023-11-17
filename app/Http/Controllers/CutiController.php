@@ -28,6 +28,7 @@ class CutiController extends Controller
             ->toJson();
         return $dataCuti;
     }
+    // data cuti aktif
     public function index(Request $request)
     {
 
@@ -84,17 +85,22 @@ class CutiController extends Controller
             'link_cuti' => 'required',
         ]);
         // $cuti = Cuti::where('pegawai_id', $request->pegawai_id)->orderBy('selesai_cuti', 'desc')->first();
+        // $mulai_cuti = Carbon::parse($request->mulai_cuti)->format('d-m-Y');
+        // $selesai_cuti = Carbon::parse($request->selesai_cuti)->format('d-m-Y');
         $mulai_cuti = $request->mulai_cuti;
         $selesai_cuti = $request->selesai_cuti;
         $cuti =  Cuti::where('pegawai_id', $request->pegawai_id)
-            ->where(function ($query) use ($mulai_cuti, $selesai_cuti) {
-                $query->whereBetween('mulai_cuti', [$mulai_cuti, $selesai_cuti])
-                    ->orWhereBetween('selesai_cuti', [$mulai_cuti, $selesai_cuti]);
-            })->exists();
+            // ->where(function ($query) use ($mulai_cuti, $selesai_cuti) {
+            //     $query->whereBetween('mulai_cuti', [$mulai_cuti, $selesai_cuti])
+            //         ->orWhereBetween('selesai_cuti', [$mulai_cuti, $selesai_cuti]);
+            // })
+            ->whereBetween('mulai_cuti', [$mulai_cuti, $selesai_cuti])
+            ->get();
+            return [$cuti,$mulai_cuti,$selesai_cuti];
         $pegawai = Pegawai::find($request->pegawai_id);
         if ($cuti) {
             alert()->error('gagal', 'periode cuti masih berlaku');
-            return redirect()->back()->withInput()->with('toast_success', 'periode cuti masih berlaku');
+            return redirect()->back()->withInput();
         }
         if ($request->jenis_cuti == 'cuti tahunan') {
             if ($pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
@@ -302,14 +308,20 @@ class CutiController extends Controller
     }
     public function historiCuti(Request $request)
     {
-        // $pegawai = Pegawai::with(['cuti' => function ($q) {
+        // $pegawai = Pegawai::whereHas('cuti' , function ($q) {
         //     $q->where('status', 'nonaktif')->orderBy('mulai_cuti', 'desc');
-        // }])->get();
+        // })->with('cuti')->get();
+        // return $pegawai;
 
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->whereHas('cuti', function ($q) {
-                $q->where('status', 'nonaktif')->orderBy('mulai_cuti', 'desc');
-            });
+            $pegawai = Pegawai::query()->with(['cuti' => function($q){
+                $q->where('status', 'nonaktif')->orderBy('selesai_cuti', 'desc');
+            }])
+            ->whereHas('cuti', function ($q) {
+                $q->where('status', 'nonaktif')->orderBy('selesai_cuti', 'desc');
+                // $q->where('status', 'nonaktif')->sortByDesc('selesai_cuti');
+            })
+            ;
             return DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('jenis_cuti', function ($item) {

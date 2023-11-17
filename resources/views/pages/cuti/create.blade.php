@@ -5,6 +5,7 @@
 @endpush
 @section('content')
     <!-- Begin Page Content -->
+    {{$pegawai}}
     <h1 class="mx-4 px-4" style="color:black;font-weight:bold;">Cuti</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Cuti</h4>
@@ -27,7 +28,7 @@
                             </select>
                         </div>
                     </div>
-                    @livewire('cuti.cuti-form-create')
+                    @livewire('cuti.cuti-form-create',['pegawai' => old('pegawai_id')])
                 </div>
         </form>
     </div>

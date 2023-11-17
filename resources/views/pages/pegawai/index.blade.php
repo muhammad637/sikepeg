@@ -10,7 +10,7 @@
                 <h4 class=" font-weight-bold text-dark">Daftar Pegawai {{ $heading ?? null }}</h4>
                 {{-- <h2 class=" font-weight-bold text-dark"></h2> --}}
                 <div class="mt-md-0 mt-sm-2">
-                    <a href="{{ route('admin.pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create
+                    <a href="{{ route('admin.pegawai.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah
                         <i class="fas fa-plus-square ml-1"></i></a>
                     <a href="{{ route('admin.pegawai.index') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize"
                         data-toggle="modal" data-target="#importExcel">import<i class="fas fa-plus-square ml-1"></i></a>
@@ -49,7 +49,14 @@
                             <div class="form-group">
                                 <input type="file" name="file" required="required">
                             </div>
-
+                            <div>
+                                download template import pegawai
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-4"><a href="#" class="btn btn-info w-100">PNS  <i class="fas fa-file-export"></i></a></div>
+                                    <div class="col-sm-12 col-md-4"><a href="#" class="btn btn-info w-100">PPPK  <i class="fas fa-file-export"></i></a></div>
+                                    <div class="col-sm-12 col-md-4"><a href="#" class="btn btn-info w-100">THL  <i class="fas fa-file-export"></i></a></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -62,10 +62,10 @@
                         <a href="{{ route('admin.cuti.data-cuti-aktif.edit', ['cuti' => $cuti->id]) }}"
                             class="btn btn-warning text-white mb-1">Edit</a>
                     </div>
-                    <div>
+                    {{-- <div>
                         <a href="{{route('admin.cuti.riwayat-cuti-pegawai',['id'=> $cuti->pegawai_id])}}"
                             class="btn btn-info text-white">Lihat Semua Riwayat Cuti</a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
