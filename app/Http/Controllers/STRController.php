@@ -192,7 +192,7 @@ class   STRController extends Controller
             array_push($dataLaporan, [
                 'Nama Pegawai' => $pegawai->nama_lengkap ?? $pegawai->nama_depan,
                 'Jabatan' => $pegawai->jabatan,
-                'Ruangan' => $pegawai->ruangan,
+                'Ruangan' => $pegawai->ruangan->nama_ruangan,
                 'Masa Berakhir' => $str->masa_berakhir_str ?? null,
                 // 'Status' => ,
                 'Status' =>  isset($str->masa_berakhir_str) ?( $str->masa_berakhir_str >= Carbon::parse(now())->format('Y-m-d') ? 'active' : 'expired') : null ,

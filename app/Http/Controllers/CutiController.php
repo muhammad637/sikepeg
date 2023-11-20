@@ -84,29 +84,22 @@ class CutiController extends Controller
             'jumlah_hari' => 'required',
             'link_cuti' => 'required',
         ]);
-        // $cuti = Cuti::where('pegawai_id', $request->pegawai_id)->orderBy('selesai_cuti', 'desc')->first();
         $mulai_cuti = $request->mulai_cuti;
         $selesai_cuti = $request->selesai_cuti;
         $pegawai = Pegawai::find($request->pegawai_id);
-        $cuti =  Cuti::where('pegawai_id', $request->pegawai_id)
-            ->where(function ($query) use ($mulai_cuti, $selesai_cuti) {
-                $query->whereBetween('mulai_cuti', [$mulai_cuti, $selesai_cuti])
-                    ->orWhereBetween('selesai_cuti', [$mulai_cuti, $selesai_cuti]);
-                    // ->where('selesai_cuti','>', $selesai_cuti)
-            })
-            ->get();
-        return [$cuti, $mulai_cuti, $selesai_cuti, $pegawai->id];
-
+        $cuti = Cuti::where('pegawai_id',$pegawai->id)->orderBy('selesai_cuti','desc')->first();
         if ($cuti) {
             $dataCuti = Cuti::where('pegawai_id', $request->pegawai_id)
                 ->where(function ($query) use ($mulai_cuti, $selesai_cuti) {
                     $query->whereBetween('mulai_cuti', [$mulai_cuti, $selesai_cuti])
                         ->orWhereBetween('selesai_cuti', [$mulai_cuti, $selesai_cuti]);
-                    // ->where('selesai_cuti','>', $selesai_cuti)
-                });
-                // $dataCuti2;
-            alert()->error('gagal', 'periode cuti masih berlaku');
-            return redirect()->back()->withInput()->with('toast_success', 'periode cuti masih berlaku');
+                })->get();
+            $validasi = Carbon::parse($cuti->mulai_cuti) <= Carbon::parse($request->mulai_cuti) && Carbon::parse($cuti->selesai_cuti) >= Carbon::parse($request->selesai_cuti);
+            // return ['data cuti' => $dataCuti, 'validasi' => $validasi, 'mulai cuti' => $mulai_cuti, 'selesai cuti' => $selesai_cuti];
+            if($dataCuti || $validasi){
+                alert()->error('gagal', 'periode cuti masih berlaku');
+                return redirect()->back()->withInput()->with('toast_success', 'periode cuti masih berlaku');
+            }
         }
         if ($request->jenis_cuti == 'cuti tahunan') {
             if ($pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
@@ -320,9 +313,11 @@ class CutiController extends Controller
         // return $pegawai;
 
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->with('cuti')->whereHas('cuti', function ($q) {
+            $pegawai = Pegawai::query()->with(['cuti' => function($q){
+                $q->where('status','nonaktif')->orderBy('selesai_cuti','desc');
+            }])->whereHas('cuti', function ($q) {
                 $q->where('status', 'nonaktif')->orderBy('selesai_cuti', 'desc');
-                $q->where('status', 'nonaktif')->sortByDesc('selesai_cuti');
+                // $q->where('status', 'nonaktif')->sortByDesc('selesai_cuti');
             });
             return DataTables::of($pegawai)
                 ->addIndexColumn()

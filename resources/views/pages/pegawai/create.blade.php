@@ -29,7 +29,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label @error('nik') is-invalid @enderror">
-                                            <p class="mb-0 mt-md-2 mt-0">NIK</p>
+                                            <p class="mb-0 mt-md-2 mt-0">NIK <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     
@@ -38,7 +38,7 @@
                                         <input type="text" class="form-control form-control-user" id="NIK"
                                             aria-describedby="NIK" name="nik" autocomplete="false"
                                             placeholder="Masukkan NIK ..." value="{{ old('nik') }}" required>
-                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
+                                           
                                     </div>
 
                                 </div>
@@ -48,7 +48,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label ">
-                                            <p class="mb-0 mt-md-2 mt-0">NIP / NIPPK</p>
+                                            <p class="mb-0 mt-md-2 mt-0">NIP / NIPPK <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -56,7 +56,7 @@
                                             id="nip_nippk" aria-describedby="nip_nippk" name="nip_nippk"
                                             autocomplete="false" placeholder="Masukkan NIP / NIPPK" required
                                             value="{{ old('nip_nippk') }}">
-                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
+                                           
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Gelar Depan</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Gelar Depan </p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -80,7 +80,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label ">
-                                            <p class="mb-0 mt-md-2 mt-0">Nama Depan</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Nama Depan <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -88,7 +88,7 @@
                                             id="nama_depan" aria-describedby="nama_depan" name="nama_depan"
                                             autocomplete="false" placeholder="Masukkan Nama Depan ..." 
                                             value="{{ old('nama_depan') }}" required>
-                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
+                                           
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label ">
-                                            <p class="mb-0 mt-md-2 mt-0">Nama Belakang</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Nama Belakang </p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -111,7 +111,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Gelar Belakang</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Gelar Belakang </p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -126,7 +126,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Jenis Kelamin</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Jenis Kelamin <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -147,7 +147,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Tempat lahir</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Tempat lahir <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -156,7 +156,7 @@
                                             id="tempat_lahir" aria-describedby="tempat_lahir" name="tempat_lahir"
                                             autocomplete="false" placeholder="Masukkan Tempat Lahir ..."
                                             value="{{ old('tempat_lahir') }}" required>
-                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
+                                           
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Tanggal Lahir</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Tanggal Lahir <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -182,14 +182,14 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Alamat</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Alamat <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control @error('alamat') is-invalid @enderror"
                                             id="alamat" aria-describedby="alamat" name="alamat" autocomplete="false"
                                             placeholder="Masukkan Alamat ..." value="{{ old('alamat') }}" required>
-                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
+                                           
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="agama" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Agama</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Agama <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -228,14 +228,14 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">No Wa</p>
+                                            <p class="mb-0 mt-md-2 mt-0">No Wa <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                                         <input type="text" class="form-control @error('no_wa') is-invalid @enderror"
                                             id="no_wa" aria-describedby="no_wa" name="no_wa" autocomplete="false"
                                             placeholder="Masukkan No WA" value="{{ old('no_wa') }}" required>
-                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
+                                           
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Status pegawai</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Status pegawai <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -265,7 +265,7 @@
                                 <div class="row gap-5">
                                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                         <label for="" class="form-label">
-                                            <p class="mb-0 mt-md-2 mt-0">Tahun Pensiun</p>
+                                            <p class="mb-0 mt-md-2 mt-0">Tahun Pensiun <span class="text-danger">*</span></p>
                                         </label>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -274,7 +274,7 @@
                                             id="tahun_pensiun" aria-describedby="tahun_pensiun" name="tahun_pensiun"
                                             autocomplete="false" placeholder="Masukkan Tahun Pensiun ..." min="2000"
                                             max="2100" step="1" value="{{ old('tahun_pensiun') }}" required>
-                                            <p class="text-danger" style="font-size: 15px;">Note : kolom dibawah wajib di isi</p>
+                                           
                                     </div>
                                 </div>
                             </div>

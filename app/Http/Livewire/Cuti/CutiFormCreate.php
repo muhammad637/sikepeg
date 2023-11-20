@@ -23,7 +23,7 @@ class CutiFormCreate extends Component
     public $jumlah_hari;
     public $link_cuti;
     public $sisa_cuti_tahunan_saat_ini = 0;
-    public $link;
+    public $validasi_tanggal_cuti;
 
     public function mount()
     {
@@ -34,9 +34,10 @@ class CutiFormCreate extends Component
         $this->mulai_cuti = old('mulai_cuti',null);
         $this->selesai_cuti = old('selesai_cuti',null);
         $this->jumlah_hari = old('jumlah_hari',null);
-        $this->link_cuti = old('link_cuti',null);
+        $this->status_tipe = old('status_tipe', null);
+        $this->link_cuti = old('link_cuti', null);
+        $this->sisa_cuti_tahunan_saat_ini = old('sisa_cuti_tahunan_saat_ini', null);
         $pegawai = Pegawai::find($this->pegawai);
-        $this->link = route('admin.cuti.data-cuti-aktif.create');
         if ($pegawai) {
             // $this->status_tipe = old('status_tipe', $pegawai->status_tipe);
             $this->status_tipe = $pegawai->status_tipe;
@@ -57,6 +58,7 @@ class CutiFormCreate extends Component
                 $this->jumlah_hari = $jumlahHariCuti;
 
         }
+        $this->validasi_tanggal_cuti = $this->mulai_cuti > $this->selesai_cuti;
     }
     public function updatedSelesaiCuti()
     {
@@ -70,6 +72,7 @@ class CutiFormCreate extends Component
                 $jumlahHariCuti = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
                 $this->jumlah_hari = $jumlahHariCuti;
         }
+        $this->validasi_tanggal_cuti = $this->mulai_cuti > $this->selesai_cuti;
     }
 
     public function updatedPegawai($value)
@@ -101,6 +104,9 @@ class CutiFormCreate extends Component
         }
         
         return $jumlahHariCuti;
+    }
+    public function update(){
+        
     }
     public function render()
     {

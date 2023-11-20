@@ -34,6 +34,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::view('/login', 'auth.admin.login')->name('login');
         Route::post('/login_handler', [AdminController::class, 'loginHandler'])->name('login_handler');
     });
+    
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/home',[DashboardAdminController::class,'index'])->name('home.index');
         Route::get('/dashboard',[DashboardAdminController::class,'index'])->name('dashboard.index');
@@ -42,9 +43,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/sip', [SIPController::class,'reminderSIP'])->name('sip.index');
         });
         Route::get('/notifikasi',[NotifikasiController::class,'notifAdmin'])->name('notifikasi');
-        // Route::resource('/pegawai', PegawaiController::class);
+
         Route::post('/pegawai/import_excel', [PegawaiController::class, 'import_excel'])->name('import_excel');
         Route::prefix('pegawai')->name('pegawai.')->group(function () {
+            Route::get('/template-pns', [PegawaiController::class, 'templatePNS'])->name('template-pns');
             Route::get('/dataPegawai', [PegawaiController::class, 'dataPegawai'])->name('dataPegawai');
             Route::get('/', [PegawaiController::class, 'index'])->name('index');
             Route::get('/searchPegawai',[PegawaiController::class,'searchPegawai'])->name('searchPegawai');         
@@ -61,12 +63,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/JenisTenaga', [PegawaiController::class, 'JenisTenaga'])->name('jenisTenaga');
             });
         });
+
         // str
         Route::resource('/str', STRController::class);
         Route::group(['prefix' => 'str'], function () {
             Route::get('/{pegawai:id}/history', [STRController::class, 'history'])->name('str.history');
             Route::get('/export', [STRController::class, 'export'])->name('str.export');
         });
+
         // sip
         Route::resource('/sip', SIPController::class);
         Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');

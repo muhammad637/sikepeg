@@ -3,7 +3,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Pilih Ruangan</p>
+                    <p class="mb-0 mt-md-2 mt-0">Pilih Ruangan <span class="text-danger">*</span></p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">

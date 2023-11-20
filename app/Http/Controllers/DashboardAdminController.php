@@ -17,10 +17,6 @@ class DashboardAdminController extends Controller
     
     public function index()
     {
-        // $notif = Admin::with(['notifikasi' => function ($q) {
-        //     $q->orderBy('created_at', 'desc')->limit(3);
-        // }])->find(auth()->user()->id);
-        // return $notif;
         $currentDate = Carbon::now();
         $sixMonthsFromNow = $currentDate->addMonths(6);
         $reminderSTR = Pegawai::with('str')->whereHas(

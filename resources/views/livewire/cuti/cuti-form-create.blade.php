@@ -79,6 +79,7 @@
             <span class="text-danger">*selesai cuti</span>
             <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti' required min="{{$tanggal_sebelumnya}}">
         </div>
+            <span class="text-danger text-center {{$selesai_cuti < $mulai_cuti ? 'd-block' : 'd-none'}}">*Periode cuti tidak valid</span>
     </div>
 
     <div class="row mb-3">
@@ -97,9 +98,13 @@
     </div>
     <div class="text-right">
         <a href="{{ route('admin.cuti.data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
+        @if ($mulai_cuti < $selesai_cuti )
         <button class="btn btn-info" type="submit">Simpan</button>
+        @else
+        <button class="btn btn-info" type="button">Simpan</button>
+        @endif
     </div>
-
+{{-- {{$mulai_cuti > $selesai_cuti ? 'tidak valid' : 'sudah valid'}} --}}
 </div>
 
 

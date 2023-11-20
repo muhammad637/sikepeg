@@ -6,7 +6,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Status Tenaga</p>
+                    <p class="mb-0 mt-md-2 mt-0">Status Tenaga <span class="text-danger">*</span></p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -24,7 +24,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Tipe Non Asn</p>
+                    <p class="mb-0 mt-md-2 mt-0">Tipe Non Asn <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 text-uppercase">
@@ -37,7 +37,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">NI PTT-PK/THL</p>
+                    <p class="mb-0 mt-md-2 mt-0">NI PTT-PK/THL <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -51,7 +51,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Pendidikan Terakhir</p>
+                    <p class="mb-0 mt-md-2 mt-0">Pendidikan Terakhir <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -66,7 +66,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Tanggal Lulus</p>
+                    <p class="mb-0 mt-md-2 mt-0">Tanggal Lulus <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -80,7 +80,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No Ijazah</p>
+                    <p class="mb-0 mt-md-2 mt-0">No Ijazah <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -94,7 +94,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Jabatan</p>
+                    <p class="mb-0 mt-md-2 mt-0">Jabatan <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -108,7 +108,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Tanggal Masuk</p>
+                    <p class="mb-0 mt-md-2 mt-0">Tanggal Masuk <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -118,26 +118,13 @@
             </div>
         </div>
     </div>
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Izin Dalam Satu Tahun</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror " id="cuti_tahunan"
-                    aria-describedby="cuti_tahunan" name="cuti_tahunan" autocomplete="false"
-                    placeholder="Masukkan izin dalam satu tahun" wire:model='cuti_tahunan' required>
-            </div>
-        </div>
-    </div>
+   
     @elseif($status_tenaga == 'asn')
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Tipe ASN</p>
+                    <p class="mb-0 mt-md-2 mt-0">Tipe ASN <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -155,7 +142,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">TMT PPPK</p>
+                    <p class="mb-0 mt-md-2 mt-0">TMT PPPK <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -170,7 +157,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">TMT CPNS</p>
+                    <p class="mb-0 mt-md-2 mt-0">TMT CPNS <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -184,7 +171,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">TMT PNS</p>
+                    <p class="mb-0 mt-md-2 mt-0">TMT PNS <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -201,7 +188,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">TMT Pangakt Terakhir</p>
+                    <p class="mb-0 mt-md-2 mt-0">TMT Pangakt Terakhir <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -235,7 +222,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Masukkan Pangkat Lainnya</p>
+                    <p class="mb-0 mt-md-2 mt-0">Masukkan Pangkat Lainnya <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -268,7 +255,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Masukkan Golongan Lainnya</p>
+                    <p class="mb-0 mt-md-2 mt-0">Masukkan Golongan Lainnya <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -320,7 +307,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Masukkan Golongan Lainnya</p>
+                    <p class="mb-0 mt-md-2 mt-0">Masukkan Golongan Lainnya <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -353,7 +340,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Pendidikan Sesuai SK Terakhir</p>
+                    <p class="mb-0 mt-md-2 mt-0">Pendidikan Sesuai SK Terakhir <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -368,7 +355,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Sekolah / Perguruan Tinggi</p>
+                    <p class="mb-0 mt-md-2 mt-0">Sekolah / Perguruan Tinggi <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -382,7 +369,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Tanggal Lulus</p>
+                    <p class="mb-0 mt-md-2 mt-0">Tanggal Lulus <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -396,7 +383,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No Ijazah</p>
+                    <p class="mb-0 mt-md-2 mt-0">No Ijazah <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -410,7 +397,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Jenis Tenaga</p>
+                    <p class="mb-0 mt-md-2 mt-0">Jenis Tenaga <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -432,7 +419,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Jabatan</p>
+                    <p class="mb-0 mt-md-2 mt-0">Jabatan <span class="text-danger">*</span> </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -443,12 +430,12 @@
         </div>
     </div>
     @if ($jenis_tenaga == 'nakes')
-    <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti di halaman str atau sip</p>
+    <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti di halaman str atau sip <span class="text-danger">*</span> </p>
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No STR</p>
+                    <p class="mb-0 mt-md-2 mt-0">No STR  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -462,7 +449,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Tanggal Terbit STR</p>
+                    <p class="mb-0 mt-md-2 mt-0">Tanggal Terbit STR  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -476,7 +463,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Masa Berlaku STR</p>
+                    <p class="mb-0 mt-md-2 mt-0">Masa Berlaku STR  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -492,7 +479,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No SIP</p>
+                    <p class="mb-0 mt-md-2 mt-0">No SIP  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -506,7 +493,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Tanggal Terbit SIP</p>
+                    <p class="mb-0 mt-md-2 mt-0">Tanggal Terbit SIP  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -520,7 +507,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Masa Berlaku SIP</p>
+                    <p class="mb-0 mt-md-2 mt-0">Masa Berlaku SIP  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -534,7 +521,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Link Upload STR</p>
+                    <p class="mb-0 mt-md-2 mt-0">Link Upload STR  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -548,7 +535,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Link Upload SIP</p>
+                    <p class="mb-0 mt-md-2 mt-0">Link Upload SIP  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -559,26 +546,13 @@
         </div>
     </div>
     @elseif(old('jenis_tenaga', $jenis_tenaga) == 'umum' || old('jenis_tenaga', $jenis_tenaga) == 'struktural' )
+    
+    <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti  </p>
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Cuti Dalam Satu Tahun</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="number" class="form-control @error('cuti_tahunan') is-invalid @enderror " id="cuti_tahunan"
-                    aria-describedby="cuti_tahunan" name="cuti_tahunan" autocomplete="false"
-                    placeholder="Masukkan Cuti Dalam Satu Tahun" wire:model='cuti_tahunan' required value="12">
-            </div>
-        </div>
-    </div>
-    <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti</p>
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No Karpeg</p>
+                    <p class="mb-0 mt-md-2 mt-0">No Karpeg  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -592,7 +566,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No Taspen</p>
+                    <p class="mb-0 mt-md-2 mt-0">No Taspen  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -606,7 +580,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No NPWP</p>
+                    <p class="mb-0 mt-md-2 mt-0">No NPWP  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -620,7 +594,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">No HP</p>
+                    <p class="mb-0 mt-md-2 mt-0">No HP  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -634,7 +608,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Email</p>
+                    <p class="mb-0 mt-md-2 mt-0">Email  </p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">

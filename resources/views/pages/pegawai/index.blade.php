@@ -52,9 +52,9 @@
                             <div>
                                 download template import pegawai
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-4"><a href="#" class="btn btn-info w-100">PNS  <i class="fas fa-file-export"></i></a></div>
-                                    <div class="col-sm-12 col-md-4"><a href="#" class="btn btn-info w-100">PPPK  <i class="fas fa-file-export"></i></a></div>
-                                    <div class="col-sm-12 col-md-4"><a href="#" class="btn btn-info w-100">THL  <i class="fas fa-file-export"></i></a></div>
+                                    <div class="col-sm-12 col-md-4"><a href="{{asset('download_template/template_ASN_PNS.xlsx')}}" class="btn btn-info w-100" download>PNS  <i class="fas fa-file-export"></i></a></div>
+                                    <div class="col-sm-12 col-md-4"><a href="{{asset('download_template/template_ASN_PPPK.xlsx')}}" class="btn btn-info w-100">PPPK  <i class="fas fa-file-export"></i></a></div>
+                                    <div class="col-sm-12 col-md-4"><a href="{{asset('download_template/template_nonASN.xlsx')}}" class="btn btn-info w-100">THL  <i class="fas fa-file-export"></i></a></div>
                                 </div>
                             </div>
                         </div>

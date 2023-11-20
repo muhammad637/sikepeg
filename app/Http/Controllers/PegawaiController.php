@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
 use App\Models\SIP;
 use App\Models\STR;
-use App\Models\Pegawai;
-use App\Models\Notifikasi;
 use App\Models\Admin;
 use App\Models\Pangkat;
-use App\Models\Golongan;
+use App\Models\Pegawai;
 use App\Models\Ruangan;
+use App\Models\Golongan;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Imports\PegawaiImport;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use PhpOffice\PhpSpreadsheet\Shared;
 
 
 
@@ -141,14 +143,21 @@ class PegawaiController extends Controller
     public function import_excel(Request $request)
     {
         // return Ruangan::firstOrCreate(['nama_ruangan' => 'loket 10']);
-        $request->validate([
-            'file' => 'required|mimes:csv,xls,xlsx'
-        ]);
-        $file = $request->file('file');
-        $nama_file = rand() . $file->getClientOriginalName();
-        $file->move('file_pegawai', $nama_file);
-        Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
-        return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
+        // try {
+            $request->validate([
+                'file' => 'required|mimes:csv,xls,xlsx'
+            ]);
+            $file = $request->file('file');
+            $nama_file = rand() . $file->getClientOriginalName();
+            $file->move('file_pegawai', $nama_file);
+            Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
+            alert()->success('berhasil','data pegawai berhasil di import');
+            return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
+        // } catch (\Throwable $th) {
+        //     // return $th->getMessage();
+        //     alert()->error('eror', $th->getMessage());
+        //     return redirect()->back();
+        // }
     }
 
     /**
@@ -190,7 +199,7 @@ class PegawaiController extends Controller
         if ($request->status_tenaga == 'non asn') {
             $masa_kerja = $this->lama($request->tanggal_masuk);
             $data = array_merge([
-                'cuti_tahunan' => $request->cuti_tahunan,   
+                'cuti_tahunan' => $request->cuti_tahunan,
                 'sisa_cuti_tahunan' => $request->cuti_tahunan,
                 'masa_kerja' => $masa_kerja,
                 'status_tipe' => 'thl'
@@ -198,7 +207,7 @@ class PegawaiController extends Controller
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
             $createPegawai = Pegawai::create(array_merge($validatedDataNonAsn, $data));
             alert()->success('sukses', 'data pegawai berhasil ditambahkan');
-            $notif = Notifikasi::notif('pegawai','pegawai baru berhasil ditambahkan oleh '.auth()->user()->name , 'bg-success','fas fa-user');
+            $notif = Notifikasi::notif('pegawai', 'pegawai baru berhasil ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($createPegawai->id);
@@ -657,7 +666,7 @@ class PegawaiController extends Controller
     }
     public function statusPegawai(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $pegawai = Pegawai::query()->where('status_pegawai', $request->status_pegawai)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
@@ -720,5 +729,32 @@ class PegawaiController extends Controller
             ->orWhere('status_tipe', 'like', '%' . $request->search . '%')
             ->get();
         return [$request->search, $pegawaiDalamRuangan];
+    }
+
+    public function templatePNS()
+    {
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=pegawai_template.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0",
+        );
+
+        $handle = fopen('php://output', 'w');
+
+        // Tambahkan header kolom sesuai dengan struktur data pegawai
+        fputcsv($handle, ['nama', 'jabatan', 'gaji']);
+
+        fclose($handle);
+
+        return new StreamedResponse(
+            function () use ($handle) {
+                fclose($handle);
+            },
+            200,
+            $headers
+        );
     }
 }
