@@ -1,4 +1,5 @@
 <div>
+    
     <div class="mb-4">
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -18,7 +19,7 @@
                     <option value="ruangan_lainnya">Lainnya</option>
                 </select>
                 @error('ruangan_id')
-                {{$message}}
+                {{ $message }}
                 @enderror
             </div>
         </div>
@@ -32,7 +33,7 @@
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                 <input type="text" class="form-control" id="ruangan" aria-describedby="ruangan" name="nama_ruangan"
-                    autocomplete="false" placeholder="Masukkan Ruangan" value="" {{ $ruangan_id=='ruangan_lainnya'
+                    autocomplete="false" placeholder="Masukkan Ruangan" wire:model='nama_ruangan' {{ $ruangan_id=='ruangan_lainnya'
                     ? 'required' : '' }}>
             </div>
         </div>

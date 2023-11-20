@@ -56,6 +56,11 @@
                                 <tbody>
                                     <tr>
                                         <th scope="col" class="judul-text">
+                                            NIK</th>
+                                        <td scope="col">{{ $pegawai->nik}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="judul-text">
                                             {{ $pegawai->status_tenaga == 'asn' ? 'NIP' : 'NIPPK' }}</th>
                                         <td scope="col">{{ $pegawai->nip_nippk }}</td>
                                     </tr>
@@ -83,7 +88,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">No Wa</th>
-                                        <td scope="col">{{ $pegawai->nip_nippk }}</td>
+                                        <td scope="col">{{ $pegawai->no_wa }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Status Pegawai</th>
@@ -105,7 +110,7 @@
                                 <tbody>
                                     <tr>
                                         <th scope="col" class="judul-text">Ruangan</th>
-                                        <td scope="col">{{ $pegawai->nip_nippk }}</td>
+                                        <td scope="col ">{{ strtoupper($pegawai->ruangan->nama_ruangan) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Tahun Pensiun</th>
@@ -125,11 +130,10 @@
                                             {{ $pegawai->jabatan ?? '-'}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="col" class="judul-text">Sekolah / Perguruan Tinggi<i
-                                                class="mdi mdi-cards-playing-spade-multiple-outline:"></i></th>
-                                        <td scope="col">
-                                            {{ $pegawai->sekolah }}
-                                            </td>
+                                        <tr>
+                                            <th scope="col" class="judul-text">Pendidikan Terakhir</th>
+                                            <td scope="col">{{ $pegawai->pendidikan_terakhir }}</td>
+                                        </tr>
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Tanggal Lulus</th>
@@ -161,8 +165,8 @@
                                 <tbody>
                                     @if ($pegawai->status_tipe == 'pns')
                                         <tr>
-                                            <th scope="col" class="judul-text">Pendidikan Terakhir</th>
-                                            <td scope="col">{{ $pegawai->pendidikan_terakhir }}</td>
+                                            <th scope="col" class="judul-text">Sekolah / Perguruan Tinggi</th>
+                                            <td scope="col">{{ $pegawai->sekolah }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="col" class="judul-text">TMT CPNS</th>
@@ -214,8 +218,8 @@
                                         @endif
                                         @elseif($pegawai->status_tipe == 'pppk')
                                         <tr>
-                                            <th scope="col" class="judul-text">Pendidikan Terakhir</th>
-                                            <td scope="col">{{ $pegawai->pendidikan_terakhir }}</td>
+                                            <th scope="col" class="judul-text">Sekolah / Perguruan Tinggi</th>
+                                            <td scope="col">{{ $sekolah }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="col" class="judul-text">TMT PPPK</th>

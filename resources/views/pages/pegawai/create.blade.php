@@ -36,7 +36,7 @@
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
 
                                         <input type="text" class="form-control form-control-user" id="NIK"
-                                            aria-describedby="NIK" name="nik" autocomplete="false"
+                                            aria-describedby="NIK" name="nik" autocomplete="false" @error('nik') is-invalid @enderror
                                             placeholder="Masukkan NIK ..." value="{{ old('nik') }}" required>
                                            
                                     </div>

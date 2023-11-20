@@ -144,15 +144,15 @@ class PegawaiController extends Controller
     {
         // return Ruangan::firstOrCreate(['nama_ruangan' => 'loket 10']);
         // try {
-            $request->validate([
-                'file' => 'required|mimes:csv,xls,xlsx'
-            ]);
-            $file = $request->file('file');
-            $nama_file = rand() . $file->getClientOriginalName();
-            $file->move('file_pegawai', $nama_file);
-            Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
-            alert()->success('berhasil','data pegawai berhasil di import');
-            return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
+        $request->validate([
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+        $file = $request->file('file');
+        $nama_file = rand() . $file->getClientOriginalName();
+        $file->move('file_pegawai', $nama_file);
+        Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
+        alert()->success('berhasil', 'data pegawai berhasil di import');
+        return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
         // } catch (\Throwable $th) {
         //     // return $th->getMessage();
         //     alert()->error('eror', $th->getMessage());
@@ -571,7 +571,7 @@ class PegawaiController extends Controller
         // $pegawai = Pegawai::where('status_tenaga', $request->status_tenaga)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
             // 'pegawai' => $pegawai,
-            'heading' => 'filterby : status Tenaga ' . $request->status_tenaga
+            'heading' => 'filterby : status Tenaga ' . strtoupper($request->status_tenaga)
         ]);
     }
     public function statusTipe(Request $request)
@@ -601,7 +601,7 @@ class PegawaiController extends Controller
         // $pegawai = Pegawai::where('status_tipe', $request->status_tipe)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
             // 'pegawai' => $pegawai,
-            'heading' => 'filterby : status Tipe ' . $request->status_tipe
+            'heading' => 'filterby : status Tipe ' . strtoupper($request->status_tipe)
         ]);
     }
     public function jenisTenaga(Request $request)
@@ -631,7 +631,7 @@ class PegawaiController extends Controller
         // $pegawai = Pegawai::where('jenis_tenaga', $request->jenis_tenaga)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
             // 'pegawai' => $pegawai,
-            'heading' => 'filterby : jenis tenaga ' . $request->jenis_tenaga
+            'heading' => 'filterby : jenis tenaga ' . strtoupper($request->jenis_tenaga)
         ]);
     }
     public function jenisKelamin(Request $request)
@@ -691,7 +691,7 @@ class PegawaiController extends Controller
         // $pegawai = Pegawai::where('status_pegawai', $request->status_pegawai)->orderBy('created_at', 'desc')->get();
         return view('pages.pegawai.index', [
             // 'pegawai' => $pegawai,
-            'heading' => 'filterby : Status Pegawai ' . $request->status_pegawai
+            'heading' => 'filterby : Status Pegawai ' . strtoupper($request->status_pegawai)
         ]);
     }
 

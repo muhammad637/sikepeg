@@ -69,6 +69,7 @@ class PangkatDanGolongan extends Component
         $this->tmt_cpns = old('tmt_cpns', null);
         $this->status_tipe = old('status_tipe', null);
         $this->tmt_pns = old('tmt_pns', null);
+        $this->tmt_pppk = old('tmt_pppk', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
         $this->status_tipe = old('status_tipe', null);
         if ($this->status_tipe == 'pns') {
@@ -79,8 +80,8 @@ class PangkatDanGolongan extends Component
         }
         $this->pangkat_id = old('pangkat_id', null);
         $this->golongan_id = old('golongan_id', null);
-        // $this->nama_pangkat = old('nama_pangkat', null);
-        // $this->nama_golongan = old('nama_golongan', null);
+        $this->nama_pangkat = old('nama_pangkat', null);
+        $this->nama_golongan = old('nama_golongan', null);
         $this->sekolah = old('sekolah', null);
         // nakes
         $this->tanggal_terbit_str = old('tanggal_terbit_str', null);
