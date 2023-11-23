@@ -11,7 +11,7 @@ use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\GolonganController;
-
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
@@ -90,6 +90,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('/diklat', DiklatController::class);
         Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
+
+
+        Route::get('/profile', [ProfileController::class, 'index' ])->name('profile.index');
+
+
 
         // kenaikan pangkat
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){

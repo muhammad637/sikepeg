@@ -1,4 +1,4 @@
-@extends('mainpegawai')
+ @extends('mainpegawai')
 
 @section('content')
     <div class="container-fluid">
@@ -157,4 +157,5 @@
         </div>
 
     </div>
-@endsection
+@endsection 
+
