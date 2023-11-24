@@ -16,6 +16,7 @@ use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\KenaikanPangkatController;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,8 +92,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('/diklat', DiklatController::class);
         Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
 
-
+        Route::post('/profile/{admin:id}', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/profile', [ProfileController::class, 'index' ])->name('profile.index');
+        Route::post('/profile/{admin:id}/password', [ProfileController::class, 'password'])->name('profile.password');
 
 
 

@@ -43,35 +43,26 @@
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link">Pengaturan</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Pengaturan</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ubah Password</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
-                <div class="content">
-                  <div id="settings">
-                    <form class="form-horizontal">
+                <div class="tab-content">
+                  <div class="active tab-pane" id="settings">
+                    <form action="{{ route('admin.profile.update', ['admin' => auth()->user()->id])}}" method="POST" class="form-horizontal">
+                      {{-- <form action=""></form> --}}
+                      @csrf
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Nama</label>
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" placeholder="Nama">
+                          <input type="text" class="form-control" id="nama" placeholder="Nama" name='name' value="{{auth()->user()->name}}">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Username</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="username" placeholder="Username">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="password" class="col-sm-2 col-form-label">Password Lama</label>
-                        <div class="col-sm-10">
-                          <input type="password" class="form-control" id="password" placeholder="Password Lama">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="password" class="col-sm-2 col-form-label">Password Baru</label>
-                        <div class="col-sm-10">
-                          <input type="password" class="form-control" id="password" placeholder="Password Baru">
+                          <input type="text" class="form-control" id="username" name="username" value="{{auth()->user()->username}}">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -80,6 +71,33 @@
                         </div>
                       </div>
                     </form>
+                  </div>
+                  <div class="tab-pane" id="timeline">
+                    <!-- The timeline -->
+                    <div class="timeline timeline-inverse">
+                      <form action="{{ route('admin.profile.password', ['admin' => auth()->user()->id])}}" method="POST" class="form-horizontal">
+                        {{-- <form action=""></form> --}}
+                        @csrf
+                      <div class="form-group row">
+                        <label for="password" class="col-sm-2 col-form-label">Password Lama</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" id="password" name="password" placeholder="Password Lama">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="password" class="col-sm-2 col-form-label">Password Baru</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" id="password" name="newPassword" placeholder="Password Baru">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                          <button type="submit" class="btn btn-danger">Ubah Password</button>
+                        </div>
+                      </div>
+                  
+                    </form>
+                    </div>
                   </div>
                   <!-- /.tab-pane -->
                 </div>

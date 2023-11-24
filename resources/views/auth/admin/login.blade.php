@@ -50,7 +50,10 @@
             </div>
              @enderror
             <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}">
+                <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}" id="password">
+                <div class="input-group-append m-2">
+                    <button class="btn btn-outline-secondary" type="button" id="showPassword">Show</button>
+                  </div>
             </div>
             @error('password')
             <div class=" text-center d-block text-danger" style="margin-top:-15px;">
@@ -62,7 +65,17 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-
+    <script>
+        $(document).ready(function(){
+          $("#showPassword").click(function(){
+            var passwordField = $("#password");
+            var passwordFieldType = passwordField.attr('type');
+            
+            // Toggle between 'password' and 'text'
+            passwordField.attr('type', passwordFieldType === 'password' ? 'text' : 'password');
+          });
+        });
+      </script>
 </body>
 </html>
 
