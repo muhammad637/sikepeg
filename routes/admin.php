@@ -94,9 +94,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         Route::resource('/mutasi', MutasiController::class);
         Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class, 'history'])->name('mutasi.history');
+        Route::get('/mutasi/edit-history/{mutasi:id}', [MutasiController::class, 'historyEdit'])->name('mutasi.history-edit');
+        Route::get('/mutasi/show-history/{mutasi:id}', [MutasiController::class, 'historyShow'])->name('mutasi.history-show');
 
         Route::resource('/diklat', DiklatController::class);
         Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
+        Route::get('/diklat/show-riwayat/{diklat:id}', [DiklatController::class, 'showRiwayat'])->name('diklat.show-riwayat');
+        Route::get('/diklat/edit-riwayat/{diklat:id}', [DiklatController::class, 'editRiwayat'])->name('diklat.edit-riwayat');
 
         // kenaikan pangkat
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){

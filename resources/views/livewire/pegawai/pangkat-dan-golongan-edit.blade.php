@@ -275,7 +275,8 @@
                     </div>
                 </div>
             </div> --}}
-
+            {{-- {{$pangkat_id}}
+            {{$golongan_id}} --}}
             <div class="mb-4 {{ $pangkat_id == 'pangkat_lainnya' ? '' : 'd-none' }}">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -327,7 +328,7 @@
                     </div>
                 </div>
             </div>
-            <script>
+            {{-- <script>
                 $(document).ready(function() {
                     $('#pangkat-id').select2()
                     $('.golongan-id').select2()
@@ -337,7 +338,7 @@
                     })
                     $('#pangkat-id').on('change', function() {
                         var data = $('#pangkat-id').select2('val')
-                            console.log(data)
+                        console.log(data)
                         @this.set('pangkat_id', data)
                     })
                     $('.golongan-id').on('change', function() {
@@ -345,7 +346,7 @@
                         @this.set('golongan_id', data)
                     })
                 })
-            </script>
+            </script> --}}
         @elseif ($status_tipe == 'pppk')
             <div class="mb-4">
                 <div class="row gap-5">
@@ -367,6 +368,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="mb-4 {{ $golongan_id == 'golongan_lainnya' ? 'd-block' : 'd-none' }}">
                 <div class="row gap-5">
                     <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -383,7 +385,7 @@
                     </div>
                 </div>
             </div>
-            <script>
+            {{-- <script>
                 $(document).ready(function() {
                     $('.golongan-id').select2()
                     livewire.hook('message.processed', (message, component) => {
@@ -394,7 +396,7 @@
                         @this.set('golongan_id', data)
                     })
                 })
-            </script>
+            </script> --}}
         @endif
 
         <div class="mb-4">
@@ -554,3 +556,36 @@
         @endif
     @endif
 </div>
+@push('script')
+    <script>
+        document.addEventListener('livewire:load', function() {
+            $(document).ready(function() {
+                if ($('#pangkat-id')) {
+                    $('#pangkat-id').select2()
+                    Livewire.hook('message.processed', (message, component) => {
+                        $('#pangkat-id').select2()
+                    })
+                    $('#pangkat-id').on('change', function() {
+                        console.log('testing')
+                        var data = $('#pangkat-id').select2('val')
+                        console.log(data)
+                        @this.set('pangkat_id', data)
+                    })
+                }
+                if ($('.golongan-id')) {
+                    $('.golongan-id').select2()
+                    Livewire.hook('message.processed', (message, component) => {
+                        $('.golongan-id').select2()
+                    })
+                    $('.golongan-id').on('change', function() {
+                        var data = $('.golongan-id').select2('val')
+                        alert('oke');
+                         console.log(data)
+                        @this.set('golongan_id', data)
+                    })
+                }
+            }
+            )
+        })
+    </script>
+@endpush

@@ -219,7 +219,7 @@
                                         @elseif($pegawai->status_tipe == 'pppk')
                                         <tr>
                                             <th scope="col" class="judul-text">Sekolah / Perguruan Tinggi</th>
-                                            <td scope="col">{{ $sekolah }}</td>
+                                            <td scope="col">{{ $pegawai->sekolah }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="col" class="judul-text">TMT PPPK</th>

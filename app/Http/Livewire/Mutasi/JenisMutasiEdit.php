@@ -22,6 +22,8 @@ class JenisMutasiEdit extends Component
     //eksternal
     public $instansi_awal;
     public $instansi_tujuan;
+    public $tambah_ruangan_awal;
+    public $tambah_ruangan_tujuan;
 
 
     public function mount()
@@ -30,6 +32,8 @@ class JenisMutasiEdit extends Component
         $this->jenis_mutasi = old('jenis_mutasi', $this->mutasi->jenis_mutasi);
         $this->ruangan_awal_id = old('ruangan_awal_id', $this->mutasi->ruangan_awal_id ?? null);
         $this->ruangan_tujuan_id = old('ruangan_tujuan_id', $this->mutasi->ruangan_tujuan_id ?? null);
+        $this->tambah_ruangan_awal = old('tambah_ruangan_awal', null);
+        $this->tambah_ruangan_tujuan = old('tambah_ruangan_tujuan', null);
         $this->tanggal_berlaku = old('tanggal_berlaku', $this->mutasi->tanggal_berlaku ?? null);
         $this->no_sk = old('no_sk', $this->mutasi->no_sk ?? null);
         $this->tanggal_sk = old('tanggal_sk', $this->mutasi->tanggal_sk ?? null);

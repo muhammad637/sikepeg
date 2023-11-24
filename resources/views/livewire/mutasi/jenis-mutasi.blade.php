@@ -3,7 +3,7 @@
         <div class="row gap-5">
             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                 <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Jenis Mutasi</p>
+                    <p class="mb-0 mt-md-2 mt-0">Jenis Mutasi<span class="text-danger">*</span></p>
                 </label>
             </div>
             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -21,7 +21,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Awal</p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Awal<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -32,7 +32,20 @@
                             <option value="{{ $item->id }}" {{ $ruangan_awal_id == $item->id ? 'selected' : '' }}>
                                 {{ $item->nama_ruangan }}</option>
                         @endforeach
+                        <option value="lainnya">Lainnya</option>
                     </select>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4 {{$ruangan_awal_id == 'lainnya' ? '' : 'd-none'}}">
+            <div class="row gap-5">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Tambah Ruangan Awal<span class="text-danger">*</span></p>
+                    </label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                    <input type="text" name="tambah_ruangan_awal" wire:model='tambah_ruangan_awal' class="form-control" placeholder="Masukkan Nama Ruangan" {{ $ruangan_awal_id == 'lainnya' ? 'required' : ''}}>
                 </div>
             </div>
         </div>
@@ -40,7 +53,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Tujuan</p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Tujuan<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -51,7 +64,20 @@
                             <option value="{{ $item->id }}">
                                 {{ $item->nama_ruangan }}</option>
                         @endforeach
+                        <option value="lainnya">Lainnya</option>
                     </select>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4 {{$ruangan_tujuan_id == 'lainnya' ? '' : 'd-none'}}">
+            <div class="row gap-5">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Tambah Ruangan Tujuan<span class="text-danger">*</span></p>
+                    </label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                    <input type="text" name="tambah_ruangan_tujuan" wire:model='tambah_ruangan_tujuan' class="form-control" placeholder="Masukkan Nama Ruangan" {{ $ruangan_tujuan_id == 'lainnya' ? 'required' : ''}}>
                 </div>
             </div>
         </div>
@@ -82,7 +108,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Awal</p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Awal<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -96,7 +122,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Tujuan</p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Tujuan<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -112,15 +138,12 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Awal</p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Awal<span class="text-danger">*</span></p>
                     </label>
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                    <select name="ruangan_awal_id" id="ruangan_awal_id" class="form-control ruangan-awal-select"
-                        wire:model='ruangan_awal_id' readonly>
-                        <option value="">Pilih</option>
-                    </select>
+                    <input type="text" value="" class="form-control" placeholder="Masukkan Ruangan Awal" readonly>
                 </div>
             </div>
         </div>
@@ -128,13 +151,13 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Tujuan</p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Tujuan<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
                     <input type="text" class="form-control @error('ruangan_tujuan') is-invalid @enderror"
                         id="ruangan_tujuan" aria-describedby="ruangan_tujuan" name="ruangan_tujuan" autocomplete="false"
-                        placeholder="Masukkan Pendidikan Terakhir" wire:model='ruangan_tujuan' readonly>
+                        placeholder="Masukkan Ruang Tujuan" wire:model='ruangan_tujuan' readonly>
                 </div>
             </div>
         </div>
@@ -142,7 +165,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Awal</p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Awal<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -157,7 +180,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Tujuan</p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Tujuan<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">

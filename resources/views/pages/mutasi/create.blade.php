@@ -8,7 +8,16 @@
 @section('content')
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">Mutasi</h1>
-    testing
+    {{-- @if ($errors->any())
+        <div class="alert alert-danger">
+            <h2>Error</h2>
+            <ol class="list-unstyled text-uppercase font-weight-bold">
+                @foreach ($errors->all() as $error)
+                    <li class="">{{ $error }}</li>
+                @endforeach
+            </ol>
+        </div>
+    @endif --}}
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Mutasi</h4>
         <hr class="font-weight-bold">
@@ -18,11 +27,11 @@
                 <div class="col-sm-12 col-xl-12">
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark ">Pegawai</span>
+                            <span class="mb-0 text-dark ">Pegawai<span class="text-danger">*</span></span>
                         </div>
                         <div class="col-sm-12 col-md-12 col-xl-8 text-secondary">
                             <select class="form-control" id="pegawai" name="pegawai_id" required>
-                                <option value="">Pilih Nama Pegawai</option>
+                                <option value="">Pilih Nama Pegawai </option>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
                                         {{ old('pegawai_id') == $item->id ? 'selected' : '' }}>
@@ -37,7 +46,7 @@
                         <div class="row gap-5">
                             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                 <label for="" class="form-label">
-                                    <p class="mb-0 mt-md-2 mt-0">Tanggal Berlaku</p>
+                                    <p class="mb-0 mt-md-2 mt-0">Tanggal Berlaku<span class="text-danger">*</span></p>
                                 </label>
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -52,7 +61,7 @@
                         <div class="row gap-5">
                             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                 <label for="" class="form-label">
-                                    <p class="mb-0 mt-md-2 mt-0">No SK</p>
+                                    <p class="mb-0 mt-md-2 mt-0">No SK<span class="text-danger">*</span></p>
                                 </label>
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -66,7 +75,7 @@
                         <div class="row gap-5">
                             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                 <label for="" class="form-label">
-                                    <p class="mb-0 mt-md-2 mt-0">Tanggal SK</p>
+                                    <p class="mb-0 mt-md-2 mt-0">Tanggal SK<span class="text-danger">*</span></p>
                                 </label>
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -80,7 +89,7 @@
                         <div class="row gap-5">
                             <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                                 <label for="" class="form-label">
-                                    <p class="mb-0 mt-md-2 mt-0">Upload Link SK</p>
+                                    <p class="mb-0 mt-md-2 mt-0">Upload Link SK<span class="text-danger">*</span></p>
                                 </label>
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">

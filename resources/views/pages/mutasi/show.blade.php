@@ -102,32 +102,11 @@
                     </div>
 
 
-                    {{-- <div class="row mb-3">
-                        <label for="noRegister" class="col-sm-4 col-form-label">No Registrasi</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3">
-                        </div>
-                    </div> --}}
-
-                    {{-- <div class="row justify-content-between">
-            <div class="col-md-4">
-                <a class="btn btn-secondary" href="{{route('admin.str.index')}}"> Kembali</a>
-            </div>
-            <div class="text-right">
-                <a  class="btn btn-warning" href="{{route('admin.str.history',['pegawai' => $str->pegawai->id])}}"><i class="fas fa-history"></i>
-                    Lihat History STR</a>
-            </div>
-        </div> --}}
                     <div class="row justify-content-between">
                         <div class="col-md-4">
-                            <a class="btn btn-secondary" href="{{ route('admin.mutasi.index') }}"> Kembali</a>
+                            <a class="btn btn-warning" href="{{ route('admin.mutasi.index') }}"> Kembali</a>
                         </div>
-                        <div class="text-right">
-                            <a class="btn btn-warning"
-                                href="{{ route('admin.mutasi.history', ['pegawai' => $mutasi->pegawai->id]) }}"><i
-                                    class="fas fa-history"></i>
-                                Lihat History Mutasi</a>
-                        </div>
+                       
                     </div>
 
                 </div>

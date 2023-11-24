@@ -7,16 +7,14 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Data Diklat Pegawai</h4>
-                <a href="{{ route('admin.diklat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i
+                <a href="{{ route('admin.diklat.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i
                         class="fas fa-plus-square ml-1"></i></a>
             </div>
         </div>
 
         <div class="card-body">
 
-            {{-- @if (session()->has('success'))
-        {{ session()->get('success') }}
-        @endif --}}
+            
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
                     cellspacing="0">
@@ -33,36 +31,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($pegawai as $index => $item)
-                            @if (count($item->diklat) > 0)
-                                @php
-                                    $data = explode('view', $item->diklat[0]->link_sertifikat);
-                                    $i++;
-                                @endphp
-                                <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $item->nama_lengkap ?? $item->nama_depan }}</td>
-                                    <td>{{ $item->diklat[0]->nama_diklat }}</td>
-                                    <td>{{ $item->diklat[0]->penyelenggara }}</td>
-                                    <td>{{ $item->diklat[0]->tahun }}</td>
-                                    <td>{{ $item->diklat[0]->no_sertifikat }}</td>
-                                    <td>
-                                        <a target="popup"
-                                            onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
-                                            class="btn btn-primary" style="cursor: pointer">
-                                            <i class="fas fa-file-alt text-white"></i></a>
-
-
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin.diklat.riwayat', ['pegawai' => $item->id]) }}"
-                                            class="btn btn-info text-white"><i class="fas fa-info-circle"></i></a>
-                                        <a href="{{ route('admin.diklat.edit', ['diklat' => $item->diklat[0]]) }}"
-                                            class="btn btn-warning text-white"><i class="fas fa-pen "></i></a>
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -73,6 +41,46 @@
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script>
-        $('#dataTable').DataTable()
+        $('#dataTable').DataTable({
+            serverSide:true,
+            processing:true,
+            ajax : "{{route('admin.diklat.index')}}",
+            columns : [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    searchable : false,
+                    orderable: false,
+                },
+                {
+                    data:'nama',
+                    name:'nama'
+                },
+                {
+                    data:'nama_diklat',
+                    name:'nama_diklat'
+                },
+                {
+                    data:'penyelenggara',
+                    name:'penyelenggara'
+                },
+                {
+                    data:'tahun',
+                    name:'tahun'
+                },
+                {
+                    data:'no_sertifikat',
+                    name:'no_sertifikat'
+                },
+                {
+                    data:'surat',
+                    name:'surat'
+                },
+                {
+                    data:'aksi',
+                    name:'aksi'
+                },
+            ],
+        })
     </script>
 @endpush

@@ -57,10 +57,9 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 'nama_belakang' => $row['nama_belakang'],
                 'gelar_belakang' => $row['gelar_belakang'],
                 'nama_lengkap' => $row['gelar_depan'] . ' ' . $row['nama_depan'] . ' ' . $row['nama_belakang'] . ' ' . $row['gelar_belakang'],
-
-                'jenis_kelamin' => $row['jenis_kel'],
+                'jenis_kelamin' => strtolower($row['jenis_kel']) ,
                 'tempat_lahir' => $row['tempat_lahir'],
-                'tanggal_lahir' => Date::excelToDateTimeObject($row['tgl_lahir'])->format('Y-m-d'),
+                'tanggal_lahir' =>   Date::excelToDateTimeObject($row['tgl_lahir'])->format('Y-m-d'),
                 'usia' => $row['usia'] ?? null,
                 'alamat' => $row['alamat'],
                 'agama' => $row['agama'],

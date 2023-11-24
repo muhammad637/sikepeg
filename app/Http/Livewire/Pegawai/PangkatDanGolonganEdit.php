@@ -56,6 +56,7 @@ class PangkatDanGolonganEdit extends Component
     public $pelatihan;
     public $jenis_tenaga;
 
+   
     public $datas;
 
     public function mount()
@@ -101,6 +102,8 @@ class PangkatDanGolonganEdit extends Component
             if($this->pegawai->status_tipe == 'pns'){
                 $this->pangkat_id = old('pangkat_id', $this->pegawai->pangkat_id);
                 $this->golongan_id = old('golongan_id', $this->pegawai->golongan_id);
+                $this->nama_pangkat = old('nama_pangkat', null);
+                $this->nama_golongan = old('nama_golongan', null);
                 $this->pangkats = Pangkat::orderBy('nama_pangkat','asc')->get();
                 $this->golongans = Golongan::orderBy('nama_golongan','asc')->where('jenis','pns')->get();
             }

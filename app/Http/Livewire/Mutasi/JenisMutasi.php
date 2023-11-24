@@ -19,14 +19,18 @@ class JenisMutasi extends Component
     public $select_pegawai;
     public $link_sk;
     //eksternal
-    public $instansi_awal = 'rsud blambangan';
+    public $instansi_awal = 'RSUD BLAMBANGAN';
     public $instansi_tujuan;
+    public $tambah_ruangan_awal;
+    public $tambah_ruangan_tujuan;
 
 
     public function mount(){
         $this->jenis_mutasi = old('jenis_mutasi', null);
         $this->ruangan_awal_id = old('ruangan_awal_id', null);
         $this->ruangan_tujuan_id = old('ruangan_tujuan_id', null);
+        $this->tambah_ruangan_awal = old('tambah_ruangan_awal', null);
+        $this->tambah_ruangan_tujuan = old('tambah_ruangan_tujuan', null);
         $this->instansi_awal = old('instansi_awal', 'rsud blambangan');
         $this->instansi_tujuan = old('instansi_tujuan', null);
         $this->ruangans = Ruangan::orderBy('nama_ruangan', 'asc')->get();

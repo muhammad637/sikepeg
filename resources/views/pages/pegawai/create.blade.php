@@ -34,10 +34,10 @@
                                     </div>
                                     
                                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-
-                                        <input type="text" class="form-control form-control-user" id="NIK"
-                                            aria-describedby="NIK" name="nik" autocomplete="false" @error('nik') is-invalid @enderror
-                                            placeholder="Masukkan NIK ..." value="{{ old('nik') }}" required>
+                                        <input type="text" class="form-control @error('nik') is-invalid @enderror"
+                                            id="nik" aria-describedby="nik" name="nik"
+                                            autocomplete="false" placeholder="Masukkan NIK" required
+                                            value="{{ old('nik') }}">
                                            
                                     </div>
 

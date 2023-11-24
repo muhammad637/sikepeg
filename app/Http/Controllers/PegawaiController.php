@@ -20,6 +20,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use PhpOffice\PhpSpreadsheet\Shared;
+use Illuminate\Validation\Rule;
 
 
 
@@ -125,15 +126,21 @@ class PegawaiController extends Controller
             $pegawai = Pegawai::query()->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
+                ->addColumn('jenis_kelamin',function($item){
+                    if(strtolower($item->jenis_kelamin) == 'laki-laki' || strtolower($item->jenis_kelamin) == 'perempuan'){
+                        return $item->jenis_kelamin;
+                    }
+                    return 'tidak diketahui';
+                })
                 ->addColumn('aksi', 'pages.pegawai.part.aksi')
                 ->addColumn('ruangan', function ($item) {
                     return "<span class='text-uppercase'> " . ($item->ruangan ? $item->ruangan->nama_ruangan : '-') . "</span>";
                 })
                 ->editColumn('status_pegawai', function ($item) {
                     // return $item->status_pegawai ?? null;
-                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                    return '<button class="btn btn-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
                 })
-                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai','jenis_kelamin'])
                 ->toJson();
             return $dataPegawai;
         }
@@ -145,8 +152,9 @@ class PegawaiController extends Controller
         // return Ruangan::firstOrCreate(['nama_ruangan' => 'loket 10']);
         // try {
         $request->validate([
-            'file' => 'required|mimes:csv,xls,xlsx'
+            'file' => 'required|mimes:csv,xls,xlsx,txt'
         ]);
+        // return '$testing';   
         $file = $request->file('file');
         $nama_file = rand() . $file->getClientOriginalName();
         $file->move('file_pegawai', $nama_file);
@@ -154,8 +162,8 @@ class PegawaiController extends Controller
         alert()->success('berhasil', 'data pegawai berhasil di import');
         return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
         // } catch (\Throwable $th) {
-        //     // return $th->getMessage();
-        //     alert()->error('eror', $th->getMessage());
+        //     return $th->getMessage();
+        //     alert()->error('erorr', 'data pegawai gagal di import ');
         //     return redirect()->back();
         // }
     }
@@ -227,7 +235,7 @@ class PegawaiController extends Controller
         $golongan_id = $request->golongan_id;
         if ($request->golongan_id == 'golongan_lainnya') {
             $request->validate([
-                'nama_golongan' => 'unique:golongans,nama_golongan',
+                'nama_golongan' => 'required',
             ]);
             $golongan = Golongan::create([
                 'nama_golongan' => strtolower($request->nama_golongan),
@@ -330,14 +338,22 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, Pegawai $pegawai)
     {
-        try {
-            //code...
+        
             $ruangan_id = $request->ruangan_id;
             $password = bcrypt(Carbon::parse($request->tanggal_lahir)->format('dmY'));
-            $validatedData = $request->validate($this->validatedPegawaiEdit($pegawai));
+            $validatedData = $request->validate($this->validatedPegawaiEdit($pegawai), [
+                'nik.required' => 'nik tidak boleh kosong',
+                'nik.unique' => 'nik harus unik',
+                'nip_nippk.unique' => 'nip / nippk harus unik',
+            ]);
+           
             if ($request->ruangan_id == 'ruangan_lainnya') {
+                $request->validate(
+                    ['nama_ruangan' => 'required|unique:ruangans,nama_ruangan'],
+                    ['nama_ruangan.unique' => 'nama ruangan harus unik']
+                );
                 $ruangan = Ruangan::create([
-                    'nama_ruangan' => strtolower($request->nama_ruangan)
+                    'nama_ruangan' => strtolower($request->nama_ruangan),
                 ]);
                 $ruangan_id = $ruangan->id;
             }
@@ -494,10 +510,7 @@ class PegawaiController extends Controller
             $createNotif->pegawai()->attach($pegawai->id);
             alert()->success('sukses', 'data pegawai berhasil diupdate');
             return redirect(route('admin.pegawai.index'))->withInput();
-        } catch (\Throwable $th) {
-            alert()->error('eror', $th->getMessage());
-            return redirect()->back();
-        }
+       
     }
 
     /**
@@ -550,6 +563,12 @@ class PegawaiController extends Controller
             $pegawai = Pegawai::query()->where('status_tenaga', $request->status_tenaga)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
+                ->addColumn('jenis_kelamin',function($item){
+                    if(strtolower($item->jenis_kelamin) == 'laki-laki' || strtolower($item->jenis_kelamin) == 'perempuan'){
+                        return $item->jenis_kelamin;
+                    }
+                    return 'tidak diketahui';
+                })
                 ->addColumn('aksi', function ($item) {
                     $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
                                         class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
@@ -562,9 +581,9 @@ class PegawaiController extends Controller
                 })
                 ->editColumn('status_pegawai', function ($item) {
                     // return $item->status_pegawai ?? null;
-                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                    return '<button class="btn btn-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
                 })
-                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai','jenis_kelamin'])
                 ->toJson();
             return $dataPegawai;
         }
@@ -580,6 +599,12 @@ class PegawaiController extends Controller
             $pegawai = Pegawai::query()->where('status_tipe', $request->status_tipe)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
+                ->addColumn('jenis_kelamin',function($item){
+                    if(strtolower($item->jenis_kelamin) == 'laki-laki' || strtolower($item->jenis_kelamin) == 'perempuan'){
+                        return $item->jenis_kelamin;
+                    }
+                    return 'tidak diketahui';
+                })
                 ->addColumn('aksi', function ($item) {
                     $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
                                         class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
@@ -592,9 +617,9 @@ class PegawaiController extends Controller
                 })
                 ->editColumn('status_pegawai', function ($item) {
                     // return $item->status_pegawai ?? null;
-                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                    return '<button class="btn btn-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
                 })
-                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai','jenis_kelamin'])
                 ->toJson();
             return $dataPegawai;
         }
@@ -610,6 +635,12 @@ class PegawaiController extends Controller
             $pegawai = Pegawai::query()->where('jenis_tenaga', $request->jenis_tenaga)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
+                ->addColumn('jenis_kelamin',function($item){
+                    if(strtolower($item->jenis_kelamin) == 'laki-laki' || strtolower($item->jenis_kelamin) == 'perempuan'){
+                        return $item->jenis_kelamin;
+                    }
+                    return 'tidak diketahui';
+                })
                 ->addColumn('aksi', function ($item) {
                     $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
                                         class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
@@ -622,9 +653,9 @@ class PegawaiController extends Controller
                 })
                 ->editColumn('status_pegawai', function ($item) {
                     // return $item->status_pegawai ?? null;
-                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                    return '<button class="btn btn-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
                 })
-                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai','jenis_kelamin'])
                 ->toJson();
             return $dataPegawai;
         }
@@ -640,6 +671,12 @@ class PegawaiController extends Controller
             $pegawai = Pegawai::query()->where('jenis_kelamin', $request->jenis_kelamin)->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
+                ->addColumn('jenis_kelamin',function($item){
+                    if(strtolower($item->jenis_kelamin) == 'laki-laki' || strtolower($item->jenis_kelamin) == 'perempuan'){
+                        return $item->jenis_kelamin;
+                    }
+                    return 'tidak diketahui';
+                })
                 ->addColumn('aksi', function ($item) {
                     $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
                                         class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
@@ -652,9 +689,9 @@ class PegawaiController extends Controller
                 })
                 ->editColumn('status_pegawai', function ($item) {
                     // return $item->status_pegawai ?? null;
-                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                    return '<button class="btn btn-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
                 })
-                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai','jenis_kelamin'])
                 ->toJson();
             return $dataPegawai;
         }
@@ -682,9 +719,9 @@ class PegawaiController extends Controller
                 })
                 ->editColumn('status_pegawai', function ($item) {
                     // return $item->status_pegawai ?? null;
-                    return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                    return '<button class="btn btn-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
                 })
-                ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+                ->rawColumns(['aksi', 'ruangan', 'status_pegawai','jenis_kelamin'])
                 ->toJson();
             return $dataPegawai;
         }
@@ -710,9 +747,9 @@ class PegawaiController extends Controller
             })
             ->editColumn('status_pegawai', function ($item) {
                 // return $item->status_pegawai ?? null;
-                return '<button class="badge p-2 text-white bg-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
+                return '<button class="btn btn-' . ($item->status_pegawai == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status_pegawai . '</button>';
             })
-            ->rawColumns(['aksi', 'ruangan', 'status_pegawai'])
+            ->rawColumns(['aksi', 'ruangan', 'status_pegawai','jenis_kelamin'])
             ->toJson();
         return $dataPegawai;
     }

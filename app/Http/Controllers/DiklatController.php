@@ -17,24 +17,46 @@ class DiklatController extends Controller
     {
         // $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
         //     $query;
-        // }])->get();
+        // }])->whereHas('diklat', function ($query) {
+        //     $query->orderBy('created_at', 'desc');
+        // })->get();
+      
+        // return $pegawai;
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->where('status_tenaga', 'asn')->with(
-                [
-                    'diklat' => function ($query) {
-                        $query;
-                    }
-                ]
-            );
+            $pegawai = Pegawai::query()->where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
+                $query;
+            }])->whereHas('diklat', function ($query) {
+                $query->orderBy('created_at', 'desc');
+            });
             $dataPegawaiDiklat = DataTables::of($pegawai)
             ->addIndexColumn()
-            ->addColumn('aksi', function($item){
-                $show = "<a href='" . route('admin.pegawai.show', ['pegawai' => $item->id]) . "'
-                                        class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
-                $edit = "<a href='" . route('admin.pegawai.edit', ['pegawai' => $item->id]) . "'
-                                        class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
-                return "<div class='d-flex'>$show $edit</div>";
-            });
+            ->addColumn('nama', function($item){ 
+                return $item->nama_lengkap ?? $item->nama_depan;
+            })
+            ->addColumn('nama_diklat', function($item){
+                return $item->diklat[0]->nama_diklat;
+            })
+            ->addColumn('penyelenggara', function($item){
+                return $item->diklat[0]->penyelenggara;
+            })
+            ->addColumn('tahun', function($item){
+                return $item->diklat[0]->tahun;
+            })
+            ->addColumn('no_sertifikat', function($item){
+                return $item->diklat[0]->no_sertifikat;
+            })
+            ->addColumn('surat', 'pages.surat.diklat-index')
+            // ->addColumn('aksi', function($item){
+            //     $show = "<a href='" . route('admin.diklat.riwayat', ['pegawai' => $item->id]) . "'
+            //                             class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
+            //     $edit = "<a href='" . route('admin.diklat.edit', ['diklat' => $item->diklat[0]->id]) . "'
+            //                             class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
+            //     return "<div class='d-flex'>$show $edit</div>";
+            // })
+            ->addColumn('aksi','pages.diklat.part.aksi-index')
+            ->rawColumns(['nama','nama_diklat','penyelenggara','tahun','no_sertifikat','surat','aksi'])
+            ->toJson();
+            return $dataPegawaiDiklat;
         }
         return view('pages.diklat.index');
     }
@@ -44,6 +66,7 @@ class DiklatController extends Controller
         $pegawai = Pegawai::where('status_tenaga', 'asn')->get();
         return view('pages.diklat.create', ['pegawai' => $pegawai]);
     }
+    
     public function edit(Diklat $diklat)
     {
         return view('pages.diklat.edit', [
@@ -67,7 +90,6 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => 'required',
                 'link_sertifikat' => 'required'
             ]);
-
             $diklat->update([
                 'pegawai_id' => $request->pegawai_id,
                 'nama_diklat' => $request->nama_diklat,
@@ -91,14 +113,7 @@ class DiklatController extends Controller
         }
     }
 
-    public function riwayat(Pegawai $pegawai)
-    {
-        $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc')->get();
-        return view('pages.diklat.riwayat', [
-            'pegawai' => $pegawai,
-            'diklat' => $diklat
-        ]);
-    }
+  
     public function store(Request $request)
     {
         // try {
@@ -134,5 +149,59 @@ class DiklatController extends Controller
         //     //throw $th;
         //     return $th->getMessage();
         // }
+    }
+
+    public function show(Diklat $diklat){
+        return view('pages.diklat.show',[
+            'diklat' => $diklat,    
+        ]);
+    }
+
+    public function riwayat(Pegawai $pegawai, Request $request)
+    {
+        if ($request->ajax()) {
+            $diklat = Diklat::query()->where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc');
+           
+            $dataPegawaiDiklat = DataTables::of($diklat)
+                ->addIndexColumn()
+                ->addColumn('nama', function ($item) {
+                    return $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan;
+                })
+                ->addColumn('nama_diklat', function ($item) {
+                    return $item->nama_diklat;
+                })
+                ->addColumn('penyelenggara', function ($item) {
+                    return $item->penyelenggara;
+                })
+                ->addColumn('tahun', function ($item) {
+                    return $item->tahun;
+                })
+                ->addColumn('no_sertifikat', function ($item) {
+                    return $item->no_sertifikat;
+                })
+                ->addColumn('surat', 'pages.surat.diklat-riwayat')
+                ->addColumn('aksi', 'pages.diklat.part.aksi-riwayat')
+                ->rawColumns(['nama', 'nama_diklat', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
+                ->toJson();
+            return $dataPegawaiDiklat;
+        }
+        $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc')->get();
+        return view('pages.diklat.riwayat.index', [
+            'pegawai' => $pegawai,
+            'diklat' => $diklat
+        ]);
+    }
+
+    public function showRiwayat(Diklat $diklat){
+        return view('pages.diklat.riwayat.show',[
+            'diklat' => $diklat 
+        ]);
+    }
+
+    public function editRiwayat(Diklat $diklat){
+        return view('pages.diklat.riwayat.edit',[
+            'diklat' => $diklat,
+            'resuts' => Pegawai::all()
+        ]);
     }
 }

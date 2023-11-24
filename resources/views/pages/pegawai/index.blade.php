@@ -52,9 +52,16 @@
                             <div>
                                 download template import pegawai
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-4"><a href="{{asset('download_template/template_ASN_PNS.xlsx')}}" class="btn btn-info w-100" download>PNS  <i class="fas fa-file-export"></i></a></div>
-                                    <div class="col-sm-12 col-md-4"><a href="{{asset('download_template/template_ASN_PPPK.xlsx')}}" class="btn btn-info w-100">PPPK  <i class="fas fa-file-export"></i></a></div>
-                                    <div class="col-sm-12 col-md-4"><a href="{{asset('download_template/template_nonASN.xlsx')}}" class="btn btn-info w-100">THL  <i class="fas fa-file-export"></i></a></div>
+                                    <div class="col-sm-12 col-md-4"><a
+                                            href="{{ asset('download_template/template_ASN_PNS.xlsx') }}"
+                                            class="btn btn-info w-100" download>PNS <i class="fas fa-file-export"></i></a>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4"><a
+                                            href="{{ asset('download_template/template_ASN_PPPK.xls') }}"
+                                            class="btn btn-info w-100">PPPK <i class="fas fa-file-export"></i></a></div>
+                                    <div class="col-sm-12 col-md-4"><a
+                                            href="{{ asset('download_template/template_non_ASN.xlsx') }}"
+                                            class="btn btn-info w-100">THL <i class="fas fa-file-export"></i></a></div>
                                 </div>
                             </div>
                         </div>
@@ -252,8 +259,8 @@
 @endsection
 
 @push('script')
-<script src="{{asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
 
     <script>
@@ -261,44 +268,44 @@
             processing: true,
             serverSide: true,
             ajax: "{{ Request::routeIs('admin.pegawai.index') ? route('admin.pegawai.index') : (Request::route('admin.pegawai.filter.jenisKelamin') ? route('admin.pegawai.filter.jenisKelamin') : (Request::route('admin.pegawai.filter.statuspegawai') ? route('admin.pegawai.filter.statuspegawai') : (Request::route('admin.pegawai.statusTenaga') ? route('admin.pegawai.statusTenaga') : (Request::route('admin.pegawai.statusTipe') ? route('admin.pegawai.statusTipe') : (Request::route('admin.pegawai.jenisTenaga') ? route('admin.pegawai.jenisTenaga') : null))))) }}",
-            columns: [
-                {
-                    data : 'DT_RowIndex',
+            columns: [{
+                    data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
-                    searchable :false,
-                    orderable :false,
+                    searchable: false,
+                    orderable: false,
                 },
                 {
-                    data : 'nip_nippk',
+                    data: 'nip_nippk',
                     name: 'nip_nippk',
-                    searchable :false,
-                    orderable :false,
+
                 },
                 {
-                    data : 'nama_lengkap' ?? 'nama_depan',
+                    data: 'nama_lengkap' ?? 'nama_depan',
                     name: 'nama_lengkap',
-                    
+
                 },
                 {
-                    data : 'jenis_kelamin',
-                    name : 'jenis_kelamin',
-                  
+                    data: 'jenis_kelamin',
+                    name: 'jenis_kelamin',
+
                 },
                 {
-                    data : 'ruangan',
-                    name : 'ruangan' ,
-                    
+                    data: 'ruangan',
+                    name: 'ruangan',
+
                 },
                 {
-                    data : 'status_pegawai',
-                    name : 'status_pegawai',    
+                    data: 'status_pegawai',
+                    name: 'status_pegawai',
+                    searchable: false,
+                    orderable: false,
                 },
                 {
-                    data : 'aksi',
-                    name : 'aksi',
-                    searchable :false,
-                    orderable :false,
-                    
+                    data: 'aksi',
+                    name: 'aksi',
+                    searchable: false,
+                    orderable: false,
+
                 },
 
 
