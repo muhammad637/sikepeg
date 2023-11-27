@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
+                        <a href="{{ route('admin.diklat.riwayat',['pegawai' => $diklat->pegawai->id]) }}" class="btn bg-warning text-white">Tutup</a>
                         <button class="btn btn-success" type="submit">Kirim</button>
                     </div>
 

@@ -8,7 +8,7 @@
 
          <div class='dropdown-menu'>
              <a class='dropdown-item' href="{{ route('admin.diklat.riwayat', [$model->id]) }}" target='_blank'>Riwayat Diklat</a>
-             <a class='dropdown-item' href="{{ route('admin.diklat.show', [$model->diklat[0]->id]) }}">Detail Mutasi</a>
+             <a class='dropdown-item' href="{{ route('admin.diklat.show', [$model->diklat[0]->id]) }}">Detail Diklat</a>
          </div>
      </div>
      <a href="{{ route('admin.diklat.edit',['diklat' => $model->diklat[0]]) }}" class='btn text-white btn-warning mr-1'><i

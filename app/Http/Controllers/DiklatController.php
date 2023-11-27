@@ -79,7 +79,6 @@ class DiklatController extends Controller
     public function update(Request $request, Diklat $diklat)
     {
         try {
-
             $validatedData = $request->validate([
                 'nama_diklat' => 'required',
                 'jumlah_jam' => 'required',
@@ -106,6 +105,9 @@ class DiklatController extends Controller
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($diklat->pegawai->id);
             alert()->success('berhasil', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
+            if(isset($request->riwayat)){
+                return redirect(route('admin.diklat.riwayat',['pegawai' => $request->pegawai_id]))->with('success', 'diklat berhasil diupdate');
+            }
             return redirect(route('admin.diklat.index'))->with('success', 'diklat berhasil diupdate');
         } catch (\Throwable $th) {
             //throw $th;
@@ -201,7 +203,13 @@ class DiklatController extends Controller
     public function editRiwayat(Diklat $diklat){
         return view('pages.diklat.riwayat.edit',[
             'diklat' => $diklat,
-            'resuts' => Pegawai::all()
+            'results' => Pegawai::all()
         ]);
+    }
+
+    public function destroy(Diklat $diklat){
+        $diklat->delete();
+        alert()->success('data diklat berhasil dihapus');
+        return redirect()->back();
     }
 }

@@ -100,9 +100,8 @@
     </div>
     <div class="row justify-content-between">
         <div class="col-md-4">
-            <a class="btn btn-secondary" href="{{ route('admin.kenaikan-pangkat.index') }}"> Kembali</a>
+            <a class="btn btn-secondary" href="{{ route('admin.kenaikan-pangkat.riwayat',['pegawai' =>  $kenaikan_pangkat->pegawai_id ]) }}"> Kembali</a>
         </div>
-        
     </div>
 </div>
 @endsection

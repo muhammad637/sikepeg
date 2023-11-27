@@ -1,4 +1,4 @@
-@extends('main', ['title'=>'Kenaikan Pangkat'])
+@extends('main', ['title' => 'Kenaikan Pangkat'])
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Kenaikan Pangkat</h1>
     <!-- Page Heading -->
@@ -8,12 +8,11 @@
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Data Kenaikan Pangkat Pegawai</h4>
                 <a href="{{ route('admin.kenaikan-pangkat.create') }}"
-                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Create <i class="fas fa-plus-square ml-1"></i></a>
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i class="fas fa-plus-square ml-1"></i></a>
             </div>
         </div>
 
         <div class="card-body">
-
             {{-- @if (session()->has('success'))
                 {{ session()->get('success') }}
             @endif --}}
@@ -35,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pegawai as $index => $item)
+                        {{-- @foreach ($pegawai as $index => $item)
                             @if (count($item->kenaikanpangkat) > 0)
                                 @php
                                     $data = explode('view', $item->kenaikanpangkat[0]->link_sk);
@@ -54,18 +53,18 @@
                                     <td>
                                         <a target="popup"
                                             onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
-                                            class="badge bg-primary p-2" style="cursor: pointer">
+                                            class="btn btn-primary" style="cursor: pointer">
                                             <i class="fas fa-file-alt text-white"></i></a> 
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.kenaikan-pangkat.show', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
-                                            class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
+                                            class="btn  text-white btn-info"><i class="fas fa-info-circle"></i></a>
                                         <a href="{{ route('admin.kenaikan-pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
-                                            class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
+                                            class="btn  text-white btn-warning"><i class="fas fa-pen "></i></a>
                                     </td>
                                 </tr>
                             @endif
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -73,11 +72,59 @@
     </div>
 @endsection
 @push('script')
-    <script src="{{asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js')}}"></script>
- <script src="{{asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
- <script>
-    $(document).ready(function(){
-        $('#dataTable').DataTable()
-    })
- </script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                serverside: true,
+                processing: true,
+                ajax: "{{ route('admin.kenaikan-pangkat.index') }}",
+                columns: [
+                    {
+                    data: "DT_RowIndex",
+                    name: "DT_RowIndex",
+                },
+                
+                    {
+                    data: "nama_lengkap",
+                    name: "nama_lengkap",
+                },
+                    {
+                    data: "ruangan",
+                    name: "ruangan",
+                },
+                    {
+                    data: "pangkat",
+                    name: "pangkat",
+                },
+                    {
+                    data: "golongan",
+                    name: "golongan",
+                },
+                    {
+                    data: "no_sk",
+                    name: "no_sk",
+                },
+                    {
+                    data: "tmt",
+                    name: "tmt",
+                },
+                    {
+                    data: "penerbit_sk",
+                    name: "penerbit_sk",
+                },
+                    {
+                    data: "sk",
+                    name: "sk",
+                },
+                    {
+                    data: "aksi",
+                    name: "aksi",
+                },
+                   
+            ]
+            })
+        })
+    </script>
 @endpush

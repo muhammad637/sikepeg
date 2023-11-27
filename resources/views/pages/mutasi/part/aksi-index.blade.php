@@ -1,5 +1,4 @@
-
- <div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center">
      <div class= 'btn-group mb-sm-0 mr-1'>
          <button type='button' class='btn btn-info dropdown-toggle border-0 text-white' data-toggle='dropdown'
              aria-haspopup='true' aria-expanded='false'>

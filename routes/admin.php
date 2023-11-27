@@ -104,6 +104,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // kenaikan pangkat
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){
+            Route::delete('/{kenaikan_pangkat:id}/delete', [KenaikanPangkatController::class, 'destroy'])->name('destroy');
             Route::get('/', [KenaikanPangkatController::class,'index'])->name('index');
             Route::get('/create',[KenaikanPangkatController::class,'create'])->name('create');
             Route::get('/{kenaikan_pangkat}/edit',[KenaikanPangkatController::class,'edit'])->name('edit');
@@ -111,6 +112,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/store',[KenaikanPangkatController::class,'store'])->name('store');
             Route::put('/{kenaikan_pangkat}/update',[KenaikanPangkatController::class,'update'])->name('update');
             Route::get('/riwayat/{pegawai:id}',[KenaikanPangkatCOntroller::class,'riwayat'])->name('riwayat');
+            Route::get('/lihat-riwayat/{kenaikan_pangkat:id}',[KenaikanPangkatController::class,'lihatRiwayat'])->name('lihat-riwayat');
+            Route::get('/edit-riwayat/{kenaikan_pangkat:id}',[KenaikanPangkatController::class,'editRiwayat'])->name('edit-riwayat');
+           
         });
         Route::prefix('master-data')->name('master-data.')->group(function () {
             // hari-besar

@@ -56,7 +56,7 @@
                     <div class="row mb-3">
                         <label for="tahun" class="col-sm-4 col-form-label">Tahun</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" name="tahun" min="1900" max="2200">
+                            <input type="number" class="form-control" id="inputPassword3" name="tahun" min="1900" max="2200">
                         </div>
                     </div>
                     <div class="row mb-3">
