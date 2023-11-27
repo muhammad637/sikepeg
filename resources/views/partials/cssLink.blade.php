@@ -5,7 +5,9 @@
 
  <!-- Custom styles for this template-->
  <link href="{{ asset('tampilan-sikepeg/css/sb-admin-2.css') }}" rel="stylesheet">
-
+ <!-- Google Font: Source Sans Pro -->
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
  <!-- data table -->
  <link href="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
  <script src="{{ asset('tampilan-sikepeg/vendor/jquery/jquery.min.js') }}"></script>
+ 

@@ -11,11 +11,12 @@ use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\GolonganController;
-
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\KenaikanPangkatController;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
         Route::get('/diklat/show-riwayat/{diklat:id}', [DiklatController::class, 'showRiwayat'])->name('diklat.show-riwayat');
         Route::get('/diklat/edit-riwayat/{diklat:id}', [DiklatController::class, 'editRiwayat'])->name('diklat.edit-riwayat');
+
+        Route::post('/profile/{admin:id}', [ProfileController::class, 'update'])->name('profile.update');
+        Route::get('/profile', [ProfileController::class, 'index' ])->name('profile.index');
+        Route::post('/profile/{admin:id}/password', [ProfileController::class, 'password'])->name('profile.password');
+
+
 
         // kenaikan pangkat
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){

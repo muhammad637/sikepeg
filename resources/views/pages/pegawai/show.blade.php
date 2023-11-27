@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main', ['title' => 'Show Pegawai'])
 @push('style-css')
     <style>
         .judul-text {

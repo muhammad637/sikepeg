@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main', ['title' => 'Riwayat Kenaikan Pangkat'])
 @section('content')
 <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Kenaikan Pangkat</h1>
 <!-- Page Heading -->

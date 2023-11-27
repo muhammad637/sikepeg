@@ -1,5 +1,6 @@
-@extends('main')
+@extends('main', ['title' => 'Personal File'])
 @section('content')
+
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Personal File </h1>
     {{-- <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Personal File</h1> --}}
     <!-- Page Heading -->

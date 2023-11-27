@@ -1,4 +1,4 @@
-@extends('main')
+@extends('main', ['title' => 'Riwayat Diklat'])
 @section('content')
 <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Diklat</h1>
 <!-- Page Heading -->

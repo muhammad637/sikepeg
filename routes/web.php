@@ -33,7 +33,7 @@ use App\Http\Controllers\PegawaiController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/dashboard',[DashboardAdminController::class, 'statusTenagaChart']);
+Route::get('/login',[DashboardAdminController::class, 'login']);
 
 
 
