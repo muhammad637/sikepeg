@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Diklat;
 use App\Models\KenaikanPangkat;
 use App\Models\Pegawai;
@@ -16,6 +17,26 @@ class DashboardPegawaiController extends Controller
 {
     public function index()
     {
+        $today = Carbon::now(); // Mengambil tanggal dan waktu saat ini
+        $nextWeek = $today->copy()->addDays(7); // Menambahkan 7 hari ke tanggal saat ini
+
+        $employees = Pegawai::all(); // Mengambil semua pegawai (gantilah ini dengan query yang sesuai ke database)
+
+        $upcomingBirthdays = [];
+
+        foreach ($employees as $employee) {
+            $birthdate = Carbon::createFromFormat('Y-m-d', $employee->tanggal_lahir);
+            $birthdayThisYear = $birthdate->copy()->year($today->year); // Mengatur tahun ulang tahun sesuai dengan tahun saat ini
+            $birthdayNextYear = $birthdate->copy()->year($today->year + 1); // Mengatur tahun ulang tahun sesuai dengan tahun depan
+            if ($today->lte($birthdayThisYear) && $birthdayThisYear->lte($nextWeek)) {
+                $upcomingBirthdays[] = $employee;
+            } elseif ($today->lte($birthdayNextYear) && $birthdayNextYear->lte($nextWeek)) {
+                $upcomingBirthdays[] = $employee;
+            }
+            if($today->isSameDay($birthdayThisYear)){
+                $upcomingBirthdays[] = $employee;
+            }
+        }
         // $notif = Pegawai::with(['notifikasi' => function ($q) {
         //     $q->orderBy('created_at', 'desc')->limit(3);
         // }])->find(auth()->user()->id);
@@ -32,7 +53,8 @@ class DashboardPegawaiController extends Controller
             'Diklat' => $diklat,
             'Mutasi' => $mutasi,
             'str' => $str,
-            'sip' => $sip
+            'sip' => $sip,
+            'dataPegawaiUlangtahun' => $upcomingBirthdays,
         ]);
     }
 

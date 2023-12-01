@@ -24,4 +24,36 @@
  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script> --}}
  
- 
+<script>
+    $(document).ready(function () {
+        $('#showPasswordBtn').click(function () {
+            var passwordField = $('#password');
+            var passwordFieldType = passwordField.attr('type');
+
+            if (passwordFieldType === 'password') {
+                passwordField.attr('type', 'text');
+                $(this).html('<i class="fas fa-eye"></i>');
+            } else {
+                passwordField.attr('type', 'password');
+                $(this).html('<i class="fas fa-eye-slash"></i>');
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#showPasswordBtn2').click(function () {
+            var passwordField = $('#newpassword');
+            var passwordFieldType = passwordField.attr('type');
+
+            if (passwordFieldType === 'password') {
+                passwordField.attr('type', 'text');
+                $(this).html('<i class="fas fa-eye"></i>');
+            } else {
+                passwordField.attr('type', 'password');
+                $(this).html('<i class="fas fa-eye-slash"></i>');
+            }
+        });
+    });
+</script>
