@@ -48,6 +48,7 @@ class PegawaiImport implements ToModel, WithHeadingRow
         }
         if ($row['nik'] !== null) {
             // dd($row);
+            // dd(Date::excelToDateTimeObject($row['tmt_pangkat_terakhir'])->format('Y-m-d'));
             $pegawai = new Pegawai([
                 'nik' => $row['nik'],
                 'nip_nippk' => $row['nipnippk'],
@@ -82,10 +83,7 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 'tmt_cpns' => isset($row['tmt_cpns'])  ? Date::excelToDateTimeObject($row['tmt_cpns'])->format('Y-m-d'): null,
                 'tmt_pns' => isset($row['tmt_pns']) ? Date::excelToDateTimeObject($row['tmt_pns'])->format('Y-m-d'): null,
                 'tmt_pangkat_terakhir' => isset($row['tmt_pangkat_terakhir']) ? Date::excelToDateTimeObject($row['tmt_pangkat_terakhir'])->format('Y-m-d'): null,
-
                 'tmt_pppk' => isset($row['tmt_pppk']) ? Date::excelToDateTimeObject($row['tmt_pppk'])->format('Y-m-d'): null,
-
-
                 'password' =>  Hash::make(Date::excelToDateTimeObject($row['tgl_lahir'])->format('dmY')),
                 'ruangan_id' => $ruangan->id,
                 'pangkat_id' => $pangkat->id ?? null,

@@ -98,7 +98,8 @@
                             </p>
                             <div class="row">
                                 <div class="col-md-4 my-2">
-                                    <img src="{{ asset('./tampilan-sikepeg/img/foto.png') }}" width="100px" height="100px"
+                                    
+                                    <img src="{{$item->jenis_kelamin == 'laki-laki' ? 'https://bootdey.com/img/Content/avatar/avatar7.png' : asset('image/perempuan.jpg')}}" width="100px" height="100px"
                                         alt="" class="rounded-circle">
                                 </div>
                                 <div class="col-md-8 my-2">

@@ -25,15 +25,45 @@ class   STRController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
             $query->orderBy('masa_berakhir_str', 'desc');
+        })->whereHas('str', function($q){
+            $q->orderBy('masa_berakhir_str', 'desc');
         })->get();
+        // return $pegawai;
+        if($request->ajax()){
+            $pegawai = Pegawai::query()
+            ->where('jenis_tenaga', 'nakes')->with('str', function ($query) {
+                $query->orderBy('masa_berakhir_str', 'desc');
+            })->whereHas('str', function ($q) {
+                $q->orderBy('masa_berakhir_str', 'desc');
+            });
+            return DataTables::of($pegawai)
+            ->addIndexColumn()
+            ->addColumn('tanggal-berakhir-str', function($item){
+                return Carbon::parse($item->str[0]->masa_berakhir_str)->format('d-m-Y');
+            })
+            ->addColumn('status', function($item){
+                $data =Carbon::parse($item->str[0]->masa_berakhir_str)->format('Y-m-d') > now()->format('Y-m-d');
+                // dd($data);
+                $status = $data ? 'aktif' : 'nonaktif';
+                $warna = $data == true ? 'btn-success' : 'btn-secondary';
+                return "<button class='btn ".$warna."'>$status</button>";
+            })
+            ->addColumn('nama-ruangan',function($item){
+                return $item->ruangan->nama_ruangan;
+            })
+            ->addColumn('aksi', 'pages.str.part.aksi-index')
+            ->addColumn('surat', 'pages.surat.str-index')
+            ->rawColumns(['surat','tanggal-berakhir-str','status','aksi','nama-ruangan'])
+            ->toJson();
+        }
         return view('pages.str.index', [
-            'pegawai' => $pegawai,
-            'i' => 0
+            // 'pegawai' => $pegawai,
+            // 'i' => 0
         ]);
     }
 
@@ -86,7 +116,7 @@ class   STRController extends Controller
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($str->pegawai->id);
         alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
-        return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
+        return redirect(route('admin.str.index'))->with('success', 'str berhasil ditambahkan');
     }
 
     /**
@@ -159,7 +189,10 @@ class   STRController extends Controller
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($str->pegawai->id);
         alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
-            return redirect(route('str.index'))->with('success', 'str berhasil ditambahkan');
+        if($request->riwayat){
+            return redirect(route('admin.str.riwayat',['pegawai'=> $str->pegawai_id]))->with('success', 'str berhasil ditambahkan');
+        }
+            return redirect(route('admin.str.index'))->with('success', 'str berhasil ditambahkan');
         // } catch (\Throwable $th) {
         //     //throw $th;
         //     return $th->getMessage();
@@ -172,16 +205,59 @@ class   STRController extends Controller
      * @param  \App\Models\STR  $sTR
      * @return \Illuminate\Http\Response
      */
-    public function destroy(STR $sTR)
+    public function destroy(STR $str)
     {
         //
+        alert()->success('data str pegawai '.$str->pegawai->nama_lengkap.' berhasil di hapus');
+        $str->delete();
+        return redirect()->back();
     }
 
     // history
-    public function history(Pegawai $pegawai)
+    public function riwayat(Pegawai $pegawai, Request $request)
     {
-        return view('pages.str.history', [
+        $dataSTR = STR::query()->where('pegawai_id' , $pegawai->id)
+        ->orderBy('masa_berakhir_str','desc');
+        if($request->ajax()){
+            return DataTables::of($dataSTR)
+            ->addIndexColumn()
+            ->addColumn('surat','pages.surat.str-riwayat')
+            ->addColumn('aksi','pages.str.part.aksi-riwayat')
+            ->addColumn('status',function($q){
+                $data_warna = 'btn-secondary';
+                $data_status = 'nonaktif';
+                if($q->masa_berakhir_str > now()){
+                    $data_warna = 'btn-success';
+                    $data_status = 'aktif';
+                }
+                return "<button class='btn $data_warna'> $data_status</button>";
+            })
+            ->addColumn('tanggal-terbit-str', function($item){
+                $tanggal = Carbon::parse($item->tanggal_terbit)->format('d-m-Y');
+                return $tanggal;
+            })
+            ->addColumn('masa-berakhir-str', function($item){
+                $tanggal = Carbon::parse($item->masa_berakhir_str)->format('d-m-Y');
+                return $tanggal;
+            })
+            ->rawColumns(['surat','aksi','status','tanggal-terbit-str', 'masa-berakhir-str'])
+            ->toJson();
+        }
+        return view('pages.str.riwayat.index', [
             'pegawai' => $pegawai
+        ]);
+    }
+    public function showRiwayat(STR $str){
+
+        return view('pages.str.riwayat.show',[
+            'str'=>$str]);
+    }
+    public function editRiwayat(STR $str){
+        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+
+        return view('pages.str.riwayat.edit', [
+            'str' => $str,
+            'results' => $results
         ]);
     }
     
@@ -253,7 +329,7 @@ class   STRController extends Controller
                                             class="fab fa-whatsapp fa-2x text-success"></i> </a>';
             })
             ->addColumn('masa_berakhir_str', function ($item) {
-                $data = $item->str->count() > 0 ? Carbon::parse($item->str[0]->masa_berakhir_str)->format('d-m-Y') : '-';
+                $data = $item->str->count() > 0 ? Carbon::parse($item->str[0]->masa_berakhir_str)->format('d-m-Y') : 'belum memiliki STR';
                 return $data ?? '-';
             })
             ->rawColumns(['pesan', 'nama', 'masa_berakhr_str'])

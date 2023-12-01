@@ -69,6 +69,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('pelatihan')->nullable();
             $table->string('password')->nullable();
+            $table->string('status_nonaktif')->nullable();
         });
     }
 

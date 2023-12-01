@@ -1,6 +1,5 @@
 @extends('main', ['title' => 'Personal File'])
 @section('content')
-
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Personal File </h1>
     {{-- <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Personal File</h1> --}}
     <!-- Page Heading -->
@@ -61,7 +60,7 @@
                                             href="{{ asset('download_template/template_ASN_PPPK.xls') }}"
                                             class="btn btn-info w-100">PPPK <i class="fas fa-file-export"></i></a></div>
                                     <div class="col-sm-12 col-md-4"><a
-                                            href="{{ asset('download_template/template_non_ASN.xlsx') }}"
+                                            href="{{ asset('download_template/template_Non_ASN.xlsx') }}"
                                             class="btn btn-info w-100">THL <i class="fas fa-file-export"></i></a></div>
                                 </div>
                             </div>
@@ -77,7 +76,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
+                <table class="table table-striped table-bordered text-center " id="dataTable" width="100%"
                     cellspacing="0">
                     <thead>
                         <tr class="text-dark">

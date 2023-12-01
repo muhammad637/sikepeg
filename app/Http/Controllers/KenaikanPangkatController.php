@@ -360,9 +360,10 @@ class KenaikanPangkatController extends Controller
     }
 
     public function destroy(KenaikanPangkat $kenaikan_pangkat){
-        $riwayatKP = KenaikanPangkat::where('pegawai_id', $kenaikan_pangkat->id)
+        $riwayatKP = KenaikanPangkat::where('pegawai_id', $kenaikan_pangkat->pegawai_id)
         ->orderBy('tanggal_sk','desc')
         ->first();
+        // return $riwayatKP;
         $riwayatKP->pegawai->update([
             'tmt_pangkat_terakhir' => $riwayatKP->tmt_sebelumnya,
             'pangkat_id' => $riwayatKP->pangkat_id_sebelumnya,

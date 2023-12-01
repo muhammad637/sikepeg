@@ -90,7 +90,7 @@
                     </div>
         </form>
         <div class="text-right">
-            <a href="{{ route('admin.str.index') }}" class="btn bg-warning text-white">Tutup</a>
+            <a href="{{ route('admin.sip.index') }}" class="btn bg-warning text-white">Tutup</a>
             <button class="btn btn-success" type="submit">Kirim</button>
         </div>
 

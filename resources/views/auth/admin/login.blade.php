@@ -52,7 +52,7 @@
             <div class="form-group">
                 <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}" id="password">
                 <div class="input-group-append m-2">
-                    <button class="btn btn-outline-secondary" type="button" id="showPassword">Show</button>
+                    <button class="btn btn-outline-secondary d-none" type="button" id="showPassword">Show</button>
                   </div>
             </div>
             @error('password')

@@ -48,7 +48,7 @@ class PegawaiFactory extends Factory
             'sisa_cuti_tahunan' => 12,
             'masa_kerja' => 12,
             'tmt_pppk' => '2022-10-10',
-            'tmt_pangkat_terakhir' => now()->format('d-m-Y'),
+            'tmt_pangkat_terakhir' => now()->format('Y-m-d'),
             'golongan_id' => 1,
             'sekolah' => 'Politeknik Negeri Banyuwangi',
             'jenis_tenaga' => 'nakes',

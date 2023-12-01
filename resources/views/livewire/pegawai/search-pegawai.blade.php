@@ -67,8 +67,9 @@
         <div class="row mb-3">
             <label for="alamat" class="col-sm-4 col-form-label">Alamat</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputPassword3" wire:model='alamat' readonly
-                    placeholder="alamat">
+               <textarea name="alamat_sip" wire:model="alamat" cols="30" rows="5" placeholder="alamat" class="form-control">
+                        {{$alamat}}
+                    </textarea>
             </div>
         </div>
     @endif

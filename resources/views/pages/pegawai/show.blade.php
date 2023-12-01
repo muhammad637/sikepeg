@@ -8,7 +8,7 @@
     </style>
 @endpush
 @section('content')
-    <h1 class="text-center my-5 judul-text ">personal file</h1>
+    <h1 class="text-center my-5 judul-text ">Personal File</h1>
     <div class="main-body ">
         <div class="card mb-3">
             <div class="card-body judul-text">
@@ -24,21 +24,14 @@
                 </div>
                 <div class="row">
                     <!-- profie -->
-                    @if ($pegawai->jenis_kelamin == "laki-laki")
+                   
                     <div class="col-sm-12 col-md-12 col-lg-3 my-5">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
+                            <img src="{{$pegawai->jenis_kelamin == 'laki-laki' ? 'https://bootdey.com/img/Content/avatar/avatar7.png' : asset('image/perempuan.jpg')}}" alt="Admin"
                                 class="rounded-circle" width="150" />
                         </div>
                     </div>  
-                    @else
-                    <div class="col-sm-12 col-md-12 col-lg-3 my-5">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Admin"
-                                class="rounded-circle" width="150" />
-                        </div>
-                    </div>  
-                    @endif
+                   
                    
                     
                     <!-- end profile -->
@@ -206,11 +199,12 @@
                                             <th scope="col" class="judul-text">No NPWP</th>
                                             <td scope="col">{{ $pegawai->no_npwp ?? '-' }}</td>
                                         </tr>
+                                        
                                         @if ($pegawai->jenis_tenaga == 'nakes')
-                                        <tr>
+                                        {{-- <tr>
                                             <th scope="col" class="judul-text">Tanggal Berakhir STR</th>
                                             <td scope="col">{{ $pegawai->str->sortByDesc('tanggal_terbit_str')->first()->masa_berakhir_str ?? '-' }} <a href="{{route('admin.str.history',['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
-                                        </tr>
+                                        </tr> --}}
                                         <tr>
                                             <th scope="col" class="judul-text">Tanggal Berakhir SIP</th>
                                             <td scope="col">{{ $pegawai->sip->sortByDesc('tanggal_terbit_sip')->first()->masa_berakhir_sip ?? '-' }} <a href="{{route('admin.sip.history',['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->sip->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>

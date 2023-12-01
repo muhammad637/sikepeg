@@ -68,16 +68,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // str
         Route::resource('/str', STRController::class);
         Route::group(['prefix' => 'str'], function () {
-            Route::get('/{pegawai:id}/history', [STRController::class, 'history'])->name('str.history');
+            Route::get('/{pegawai:id}/riwayat', [STRController::class, 'riwayat'])->name('str.riwayat');
+            Route::get('/show-riwayat/{str}', [STRController::class, 'showRiwayat'])->name('str.show-riwayat');
+            Route::get('/edit-riwayat//{str}', [STRController::class, 'editRiwayat'])->name('str.edit-riwayat');
             Route::get('/export', [STRController::class, 'export'])->name('str.export');
         });
 
         // sip
         Route::resource('/sip', SIPController::class);
-        Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');
+        Route::prefix('/sip')->name('sip.')->group(function(){
+            Route::get('/show-riwayat/{sip}', [SIPController::class, 'showRiwayat'])->name('show-riwayat');
+            Route::get('/edit-riwayat/{sip}', [SIPController::class, 'editRiwayat'])->name('edit-riwayat');
+            // Route::delete('/delete/{sip}', [SIPController::class, 'delete'])->name('destro');
+            Route::get('/export', [SIPController::class, 'export'])->name('export');
+            Route::get('/{pegawai:id}/riwayat', [SIPController::class, 'history'])->name('riwayat');
+        });
 
         Route::prefix('cuti')->name('cuti.')->group(function () {
-            Route::post('/tambah-cuti-masa-lalu', 'CutiController@tambahCutiMasaLalu')->name('tambah-cuti-masa-lalu');
+            Route::post('/tambah-cuti-masa-lalu', [CutiController::class,'tambahCutiMasaLalu'])->name('tambah-cuti-masa-lalu');
             Route::get('/riwayat-cuti-pegawai/{id}', [CutiController::class,'riwayatCutiPegawai'])->name('riwayat-cuti-pegawai');
             Route::get('/show/{cuti:id}',[CutiController::class, 'show'])->name('show');
             Route::group(['prefix' => '/data-cuti-aktif'], function () {

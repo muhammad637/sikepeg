@@ -39,7 +39,7 @@ class SearchPegawai extends Component
             $this->selectedNoIjazah = $this->pegawai->no_ijazah;
             $this->selectedTanggalLulus = $this->pegawai->tanggal_lulus;
             $this->selectedSekolah = $this->pegawai->sekolah;
-            $this->selectedTempatTanggalLahir = $this->pegawai->tempat_lahir . ", " . Carbon::parse($this->pegawai->tanggal_lahir)->format('d-M-Y');
+            $this->selectedTempatTanggalLahir = $this->pegawai->tempat_lahir . ", " . Carbon::parse($this->pegawai->tanggal_lahir)->translatedFormat('d-M-Y');
         } else {
             $this->select = '';
         } 
@@ -51,7 +51,7 @@ class SearchPegawai extends Component
         $this->pegawai = Pegawai::find($this->select);
         if ($this->pegawai) {
             $this->selectId = $this->pegawai->id;
-            $this->alamat = $this->pegawai->id;
+            $this->alamat = $this->pegawai->alamat;
             $this->selectedNIK = $this->pegawai->nik;
             $this->selectedNIP = $this->pegawai->nip_nippk;
             $this->selectedRuangan = $this->pegawai->ruangan->nama_ruangan;

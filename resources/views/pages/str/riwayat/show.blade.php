@@ -118,7 +118,7 @@
         </div>
         <div class="row justify-content-between">
             <div class="col-md-4">
-                <a class="btn btn-secondary" href="{{ route('admin.str.index') }}"> Kembali</a>
+                <a class="btn btn-secondary" href="{{ route('admin.str.riwayat',['pegawai' => $str->pegawai_id]) }}"> Kembali</a>
             </div>
             
         </div>

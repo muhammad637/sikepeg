@@ -146,7 +146,7 @@
             </div>
         </div>
     </div> --}}
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
@@ -159,7 +159,7 @@
                         placeholder="Masukkan izin dalam satu tahun" wire:model='cuti_tahunan' required>
                 </div>
             </div>
-        </div>
+        </div> --}}
     @elseif($status_tenaga == 'asn')
         <div class="mt-5 mb-4">
             <div class="row gap-5">
@@ -493,7 +493,7 @@
                 </div>
             </div>
         </div>
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
@@ -506,7 +506,7 @@
                         placeholder="Masukkan Cuti Dalam Satu Tahun" wire:model='cuti_tahunan' required>
                 </div>
             </div>
-        </div>
+        </div> --}}
         @if (
             (old('jenis_tenaga', $jenis_tenaga) == 'umum' && $status_tipe == 'pns') ||
                 (old('jenis_tenaga', $jenis_tenaga) == 'struktural' && $status_tipe == 'pns'))
@@ -579,7 +579,7 @@
                     })
                     $('.golongan-id').on('change', function() {
                         var data = $('.golongan-id').select2('val')
-                        alert('oke');
+                        
                          console.log(data)
                         @this.set('golongan_id', data)
                     })
