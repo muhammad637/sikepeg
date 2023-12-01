@@ -31,7 +31,7 @@ use App\Http\Controllers\PegawaiController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.admin.login');
 });
 Route::get('/login',[DashboardAdminController::class, 'login']);
 

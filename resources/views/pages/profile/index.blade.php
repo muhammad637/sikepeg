@@ -82,12 +82,21 @@
                         <label for="password" class="col-sm-2 col-form-label">Password Lama</label>
                         <div class="col-sm-10">
                           <input type="password" class="form-control" id="password" name="password" placeholder="Password Lama">
+                          <button class="btn" type="button" id="showPasswordBtn">
+                            <i class="fas fa-eye-slash"></i>
+                     </button>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="password" class="col-sm-2 col-form-label">Password Baru</label>
+                        
                         <div class="col-sm-10">
-                          <input type="password" class="form-control" id="password" name="newPassword" placeholder="Password Baru">
+                          
+                          <input type="password" class="form-control" id="newpassword" name="newPassword" placeholder="Password Baru">
+                          <button class="btn" type="button" id="showPasswordBtn2">
+                            <i class="fas fa-eye-slash"></i>
+                          </button>
+                          
                         </div>
                       </div>
                       <div class="form-group row">

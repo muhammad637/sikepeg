@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
    
 </head>
 
@@ -54,10 +55,14 @@
                 </div>
                 @enderror
                 <div class="form-group">
-                    <input class="form-control" type="password"  placeholder="Password"
+                    <input class="form-control" type="password"  placeholder="Password" name="password"
                         value="{{ old('password') }}" id="password">
                         <div class="input-group-append m-2">
-                            <button class="btn btn-outline-secondary" type="button" id="showPassword">Show</button>
+                            <div class="input-group-append m-2">
+                                <button class="btn" type="button" id="showPasswordBtn">
+                                       <i class="fas fa-eye-slash"></i>
+                                </button>
+                              </div>
                           </div>
                 </div>
                 @error('password')
@@ -73,16 +78,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function(){
-          $("#showPassword").click(function(){
-            var passwordField = $("#password");
-            var passwordFieldType = passwordField.attr('type');
-            
-            // Toggle between 'password' and 'text'
-            passwordField.attr('type', passwordFieldType === 'password' ? 'text' : 'password');
-          });
+        $(document).ready(function () {
+            $('#showPasswordBtn').click(function () {
+                var passwordField = $('#password');
+                var passwordFieldType = passwordField.attr('type');
+    
+                if (passwordFieldType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).html('<i class="fas fa-eye"></i>');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).html('<i class="fas fa-eye-slash"></i>');
+                }
+            });
         });
-      </script>
+    </script>
 </body>
 
 </html>
