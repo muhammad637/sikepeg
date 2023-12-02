@@ -22,6 +22,7 @@ class RuanganId extends Component
         //     $this->ruangan_id = old
         // }
     }
+    
     public function render()
     {
         return view('livewire.pegawai.ruangan-id');
