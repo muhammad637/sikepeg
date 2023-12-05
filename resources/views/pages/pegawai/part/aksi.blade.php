@@ -5,7 +5,7 @@
             <i class='fas fa-info-circle'></i>
         </button>
         <div class='dropdown-menu'>
-            <a class='dropdown-item' href={{ route('admin.cuti.histori-cuti.index', [$model->id]) }}
+            <a class='dropdown-item' href={{ route('admin.cuti.riwayat-cuti-pegawai', ['id' => $model->id]) }}
                 target='_blank'>History Cuti</a>
             @if ($model->mutasi->count() > 0)
                 <a class='dropdown-item' href="{{ route('admin.mutasi.history', [$model->id]) }}"

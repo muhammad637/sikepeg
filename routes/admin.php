@@ -56,13 +56,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/store', [PegawaiController::class, 'store'])->name('store');
             Route::get('/{pegawai:id}', [PegawaiController::class, 'show'])->name('show');
             Route::put('/{pegawai:id}/update', [PegawaiController::class, 'update'])->name('update');
-            Route::prefix('filter')->name('filter.')->group(function () {
-                Route::get('/jenisKelamin', [PegawaiController::class, 'jenisKelamin'])->name('jenisKelamin');
-                Route::get('/statusPegawai', [PegawaiController::class, 'statusPegawai'])->name('statuspegawai');
-                Route::get('/statusTenaga', [PegawaiController::class, 'statusTenaga'])->name('statusTenaga');
-                Route::get('/statusTipe', [PegawaiController::class, 'statusTipe'])->name('statusTipe');
-                Route::get('/JenisTenaga', [PegawaiController::class, 'JenisTenaga'])->name('jenisTenaga');
-            });
         });
 
         // str
@@ -70,19 +63,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::group(['prefix' => 'str'], function () {
             Route::get('/{pegawai:id}/riwayat', [STRController::class, 'riwayat'])->name('str.riwayat');
             Route::get('/show-riwayat/{str}', [STRController::class, 'showRiwayat'])->name('str.show-riwayat');
-            Route::get('/edit-riwayat//{str}', [STRController::class, 'editRiwayat'])->name('str.edit-riwayat');
+            Route::get('/edit-riwayat/{str}', [STRController::class, 'editRiwayat'])->name('str.edit-riwayat');
             Route::get('/export', [STRController::class, 'export'])->name('str.export');
         });
 
         // sip
-        Route::resource('/sip', SIPController::class);
-        Route::prefix('/sip')->name('sip.')->group(function(){
+        Route::prefix('/sip')->name('sip.')->group(function () {
+           
             Route::get('/show-riwayat/{sip}', [SIPController::class, 'showRiwayat'])->name('show-riwayat');
             Route::get('/edit-riwayat/{sip}', [SIPController::class, 'editRiwayat'])->name('edit-riwayat');
             // Route::delete('/delete/{sip}', [SIPController::class, 'delete'])->name('destro');
-            Route::get('/export', [SIPController::class, 'export'])->name('export');
+            Route::get('/export', [SIPController::class, 'export_excel'])->name('export');
+
             Route::get('/{pegawai:id}/riwayat', [SIPController::class, 'history'])->name('riwayat');
         });
+        Route::resource('/sip', SIPController::class);
+        Route::get('/testing', function(){
+            return 'ahay';
+        });
+       
 
         Route::prefix('cuti')->name('cuti.')->group(function () {
             Route::post('/tambah-cuti-masa-lalu', [CutiController::class,'tambahCutiMasaLalu'])->name('tambah-cuti-masa-lalu');

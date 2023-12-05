@@ -12,7 +12,7 @@
                     <a href="{{ route('admin.str.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-2">
                         Tambah <i class="fas fa-plus-square ml-1"></i>
                     </a>
-                    <a href="{{ route('str_export') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
+                    <a href="{{ route('admin.str.export') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">
                         Export Excel <i class="fa fa-download ml-1"></i>
                     </a>
                 </div>

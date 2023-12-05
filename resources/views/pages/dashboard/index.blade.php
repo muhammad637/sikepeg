@@ -44,7 +44,7 @@
                             <div class="card-body p-3" style="color: #2d7430">
                                 <div class="row align-items-center">
                                     <h5 class="text-sm mb-0 font-weight-bold">
-                                        Reminder SIP Expired</h5>
+                                        Reminder SIP Pegawai</h5>
                                     <div class="col-8 mt-4">
                                         <div class="numbers">
                                             <i class="far fa-file-alt fa-4x"></i>

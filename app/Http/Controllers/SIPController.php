@@ -10,7 +10,7 @@ use App\Models\Pegawai;
 use App\Exports\SIPExport;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -304,7 +304,7 @@ class SIPController extends Controller
     {
         $dataLaporan = [];
         foreach ($pegawais as $pegawai) {
-            $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_str', 'desc')->first();
+            $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->first();
             array_push($dataLaporan, [
                 'Nama Pegawai' => $pegawai->nama_lengkap ?? $pegawai->nama_depan,
                 'Jabatan' => $pegawai->jabatan,
@@ -325,9 +325,8 @@ class SIPController extends Controller
 
     public function export_excel()
     {
-        // return 'testing';
-        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-            $query->orderBy('masa_berakhir_str', 'desc');
+        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+            $query->orderBy('masa_berakhir_sip', 'desc');
         })->get();
         return $this->dataLaporan($pegawai);
     }

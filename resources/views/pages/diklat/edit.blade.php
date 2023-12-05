@@ -24,7 +24,7 @@
                                 <option value="">Pilih Nama Pegawai</option>
                                 @foreach ($results as $pegawai)
                                     <option value="{{ $pegawai->id }}"
-                                        {{ $diklat->pegawai->id == $pegawai->id ? 'selected' : '' }}>
+                                        {{ old('pegawai_id',$diklat->pegawai->id) == $pegawai->id ? 'selected' : '' }}>
                                         {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
                                     </option>
                                 @endforeach
@@ -36,37 +36,56 @@
                     <div class="row mb-3">
                         <label for="nama_diklat" class="col-sm-4 col-form-label">Nama Diklat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="nama_diklat" value="{{ $diklat->nama_diklat }}"
+                            <input type="text" class="form-control" id="nama_diklat" value="{{ old('nama_diklat',$diklat->nama_diklat) }}"
                                 name="nama_diklat">
                         </div>
                     </div>
 
                     <div class="row mb-3">
-                        <label for="jumlah_jam" class="col-sm-4 col-form-label">Jumlah Jam</label>
+                        <label for="nama_diklat" class="col-sm-4 col-form-label">Tanggal Diklat</label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
+                                value="{{ old('tanggal_mulai', $diklat->tanggal_mulai) }}" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
+                                value="{{ old('tanggal_selesai', $diklat->tanggal_selesai) }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="jumlah-hari" class="col-sm-4 col-form-label">Jumlah Hari</label>
                         <div class="col-sm-8">
-                            <input type="int" class="form-control" id="inputPassword3" value="{{ $diklat->jumlah_jam }}"
-                                name="jumlah_jam">
+                            <input type="number" class="form-control" id="jumlah-hari" name="jumlah_hari" required
+                                value="{{ old('jumlah_hari', $diklat->jumlah_hari) }}" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="jumlah-jam" class="col-sm-4 col-form-label">Jumlah Jam</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="jumlah-jam" name="jumlah_jam" required
+                                value="{{ old('jumlah_jam', $diklat->jumlah_jam) }}" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="penyelenggara" class="col-sm-4 col-form-label">Penyelenggara</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ $diklat->penyelenggara }}" name="penyelenggara">
+                                value="{{ 'penyelenggara',$diklat->penyelenggara }}" name="penyelenggara">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="tempat" class="col-sm-4 col-form-label">Tempat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" value="{{ $diklat->tempat }}"
-                                name="tempat">
+                            <input type="text" class="form-control" id="inputPassword3"
+                                value="{{ old('tempat', $diklat->tempat) }}" name="tempat">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="tahun" class="col-sm-4 col-form-label">Tahun</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" value="{{ $diklat->tahun }}"
-                                name="tahun">
+                            <input type="text" class="form-control" id="inputPassword3"
+                                value="{{ old('tahun', $diklat->tahun) }}" name="tahun">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -74,7 +93,7 @@
                         <div class="col-sm-8">
 
                             <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ $diklat->no_sertifikat }}" name="no_sertifikat">
+                                value="{{ old('no_sertifikat',$diklat->no_sertifikat) }}" name="no_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -82,7 +101,8 @@
                         <div class="col-sm-8">
 
                             <input type="date" class="form-control" id="inputPassword3"
-                                value="{{ $diklat->tanggal_sertifikat }}" name="tanggal_sertifikat">
+                                value="{{ old('tanggal_sertifikat', $diklat->tanggal_sertifikat) }}"
+                                name="tanggal_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -90,7 +110,7 @@
                         <div class="col-sm-8">
 
                             <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ $diklat->link_sertifikat }}" name="link_sertifikat">
+                                value="{{ old('link_sertifikat',$diklat->link_sertifikat) }}" name="link_sertifikat">
                         </div>
                     </div>
                     <div class="text-right">
@@ -108,10 +128,41 @@
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
             // alert('oke')
             $('#select2').select2();
-            
+              $('#tanggal_mulai').on('change', function() {
+                let tanggal_mulai = $('#tanggal_mulai').val()
+                console.log("Jumlah Hari Antara Kedua Tanggal: " + jumlahHari +
+                    " hari");
+                if ($('#tanggal_selesai').val() != null) {
+                    let tanggal_selesai = $('#tanggal_selesai').val()
+                    var tanggalAwal = new Date(tanggal_mulai);
+                    var tanggalAkhir = new Date(tanggal_selesai);
+                    var selisihMilidetik = tanggalAkhir - tanggalAwal;
+                    var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
+                     $('#jumlah-hari').val(jumlahHari)
+                     $('#jumlah-jam').val(jumlahHari*5)
+                }
+            })
+            $('#tanggal_selesai').on('change', function() {
+                let tanggal_selesai = $('#tanggal_selesai').val()
+                if ($('#tanggal_mulai').val() != null) {
+                    let tanggal_mulai = $('#tanggal_mulai').val()
+                    var tanggalAwal = new Date(tanggal_mulai);
+                    var tanggalAkhir = new Date(tanggal_selesai);
+                    var selisihMilidetik = tanggalAkhir - tanggalAwal;
+                    var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
+                     $('#jumlah-hari').val(jumlahHari)
+                     $('#jumlah-jam').val(jumlahHari*5)
+                }
+            })
+            $('#jumlah-hari').on('change', function() {
+                let jumlah_hari = $('#jumlah-hari').val()
+                let jam = jumlah_hari * 5
+                $('#jumlah-jam').val(jam)
+            })
+
             // $('.nip').val('tes')
         });
     </script>

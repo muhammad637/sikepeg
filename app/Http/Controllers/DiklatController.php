@@ -89,9 +89,12 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => 'required',
                 'link_sertifikat' => 'required'
             ]);
-            $diklat->update([
-                'pegawai_id' => $request->pegawai_id,
+            $diklat->update(
+                ['pegawai_id' => $request->pegawai_id,
                 'nama_diklat' => $request->nama_diklat,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'jumlah_hari' => $request->jumlah_hari,
                 'jumlah_jam' => $request->jumlah_jam,
                 'penyelenggara' => $request->penyelenggara,
                 'tempat' => $request->tempat,
@@ -133,6 +136,9 @@ class DiklatController extends Controller
         $diklat = Diklat::create([
             'pegawai_id' => $request->pegawai_id,
             'nama_diklat' => $request->nama_diklat,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_selesai' => $request->tanggal_selesai,
+            'jumlah_hari' => $request->jumlah_hari,
             'jumlah_jam' => $request->jumlah_jam,
             'penyelenggara' => $request->penyelenggara,
             'tempat' => $request->tempat,
