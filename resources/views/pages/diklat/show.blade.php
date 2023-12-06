@@ -27,7 +27,24 @@
                                 name="nama_diklat" readonly>
                         </div>
                     </div>
-
+                     <div class="row mb-3">
+                        <label for="nama_diklat" class="col-sm-4 col-form-label">Tanggal Diklat</label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
+                                value="{{ old('tanggal_mulai', $diklat->tanggal_mulai) }}" readonly>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
+                                value="{{ old('tanggal_selesai', $diklat->tanggal_selesai) }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="jumlah_jam" class="col-sm-4 col-form-label">Jumlah Hari</label>
+                        <div class="col-sm-8">
+                            <input type="int" class="form-control" id="inputPassword3" value="{{ $diklat->jumlah_hari }}"
+                                name="jumlah_jam" readonly>
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <label for="jumlah_jam" class="col-sm-4 col-form-label">Jumlah Jam</label>
                         <div class="col-sm-8">

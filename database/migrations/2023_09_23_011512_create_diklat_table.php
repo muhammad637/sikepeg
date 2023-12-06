@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 return new class extends Migration
 {
     /**
@@ -17,6 +16,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
             $table->string('nama_diklat')->nullable();
+            $table->string('tanggal_mulai')->nullable();
+            $table->string('tanggal_selesai')->nullable();
+            $table->integer('jumlah_hari')->nullable();
             $table->integer('jumlah_jam')->nullable();
             $table->string('penyelenggara')->nullable();
             $table->string('tempat')->nullable();

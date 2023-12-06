@@ -34,7 +34,7 @@ class CutiController extends Controller
 
         // $cuti = Cuti::where('status', 'aktif')->orWhere('status', 'pending')->get();
         if ($request->ajax()) {
-            $cuti = Cuti::query()->where('status', 'aktif')->orWhere('status', 'pending');
+            $cuti = Cuti::query()->where('mulai_cuti','>=',now()->format('Y-m-d'));
             return  DataTables::of($cuti)
                 ->addIndexColumn()
                 ->addColumn('nama_lengkap', function ($item) {
@@ -42,8 +42,18 @@ class CutiController extends Controller
                     // return 'testing';
                 })
                 ->addColumn('status_tombol', function ($item) {
+                    $tanggal_mulai = Carbon::parse($item->mulai_cuti)->format('Ymd');
+                    $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
+                    $tanggal_saat_ini = now()->format('Ymd');
+                    $status = null;
+                    if($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini){
+                        $status = 'aktif'; 
+                    }
+                    elseif($item->tanggal_mulai >= $tanggal_saat_ini){
+                        $status = 'pending';
+                    }
                     // return 'tes';
-                    return '<button class="badge p-2 text-white bg-' . ($item->status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status . '</button>';
+                    return '<button class="badge p-2 text-white bg-' . ($status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status . '</button>';
                 })
                 ->addColumn('aksi', 'pages.cuti.data-cuti-aktif.part.aksi')
                 ->addColumn('surat', 'pages.cuti.data-cuti-aktif.part.surat')
@@ -75,12 +85,14 @@ class CutiController extends Controller
      */
     public function store(Request $request)
     {
-
+        // return $request->all();
         $validatedData = $request->validate([
             'jenis_cuti' => 'required',
             'alasan_cuti' => 'required',
             'mulai_cuti' => 'required',
             'selesai_cuti' => 'required',
+            'no_hp' => 'required',
+            'alamat' => 'required',
             'jumlah_hari' => 'required',
             'link_cuti' => 'required',
         ]);
@@ -126,14 +138,14 @@ class CutiController extends Controller
             }
         }
         $create = Cuti::create($request->all());
-        if (Carbon::parse($request->mulai_cuti) > Carbon::parse(now())) {
-            $create->update(['status' => 'pending']);
-        } else if (Carbon::parse($request->mulai_cuti) <= Carbon::parse(now()) && Carbon::parse($request->selesai_cuti) >= Carbon::parse(now())) {
-            $create->update(['status' => 'aktif']);
-            $pegawai->update(['status_pegawai' => 'nonaktif']);
-        } else {
-            $create->update(['status' => 'nonaktif']);
-        }
+        // if (Carbon::parse($request->mulai_cuti) > Carbon::parse(now())) {
+        //     $create->update(['status' => 'pending']);
+        // } else if (Carbon::parse($request->mulai_cuti) <= Carbon::parse(now()) && Carbon::parse($request->selesai_cuti) >= Carbon::parse(now())) {
+        //     $create->update(['status' => 'aktif']);
+        //     $pegawai->update(['status_pegawai' => 'nonaktif']);
+        // } else {
+        //     $create->update(['status' => 'nonaktif']);
+        // }
         $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
@@ -213,7 +225,7 @@ class CutiController extends Controller
             // Menambahkan jumlah cuti ke sisa cuti tahunan pegawai
             $cuti->pegawai->update([
                 'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
-                'status_pegawai' => 'aktif'
+                // 'status_pegawai' => 'aktif'
             ]);
             // Memeriksa jenis cuti dan mengurangkan sisa cuti tahunan jika memenuhi syarat
             if ($request->jenis_cuti == 'cuti tahunan' && $pegawaiUpdate->sisa_cuti_tahunan >= $request->jumlah_hari) {
@@ -236,14 +248,14 @@ class CutiController extends Controller
             $cuti->update($request->all());
 
             // Mengatur status cuti berdasarkan tanggal mulai dan selesai
-            if (Carbon::parse($request->mulai_cuti) > Carbon::parse(now())) {
-                $cuti->update(['status' => 'pending']);
-            } elseif (Carbon::parse($request->mulai_cuti) <= Carbon::parse(now()) && Carbon::parse($request->selesai_cuti) >= Carbon::parse(now())) {
-                $cuti->update(['status' => 'aktif']);
-                $pegawaiUpdate->update(['status_pegawai' => 'nonaktif']);
-            } else {
-                $cuti->update(['status' => 'nonaktif']);
-            }
+            // if (Carbon::parse($request->mulai_cuti) > Carbon::parse(now())) {
+            //     $cuti->update(['status' => 'pending']);
+            // } elseif (Carbon::parse($request->mulai_cuti) <= Carbon::parse(now()) && Carbon::parse($request->selesai_cuti) >= Carbon::parse(now())) {
+            //     $cuti->update(['status' => 'aktif']);
+            //     // $pegawaiUpdate->update(['status_pegawai' => 'nonaktif']);
+            // } else {
+            //     $cuti->update(['status' => 'nonaktif']);
+            // }
 
             // Mengarahkan kembali ke halaman indeks data cuti aktif
             $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
@@ -256,17 +268,17 @@ class CutiController extends Controller
         if($request->jenis_cuti == $cuti->jenis_cuti && $request->jenis_cuti == 'cuti tahunan'){  
             $cuti->pegawai->update([
                 'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
-                'status_pegawai' => 'aktif'
+                // 'status_pegawai' => 'aktif'
             ]);
         }elseif($request->jenis_cuti != $cuti->jenis_cuti && $cuti->jenis_cuti == 'cuti tahunan'){
             $cuti->pegawai->update([
                 'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
-                'status_pegawai' => 'aktif'
+                // 'status_pegawai' => 'aktif'
             ]);
         } elseif ($request->jenis_cuti != $cuti->jenis_cuti && $cuti->jenis_cuti == 'cuti besar') {
             $cuti->pegawai->update([
                 'sisa_cuti_tahunan' => 12,
-                'status_pegawai' => 'aktif'
+                // 'status_pegawai' => 'aktif'
             ]);
         }
        
@@ -295,24 +307,24 @@ class CutiController extends Controller
         // } else {
         //     $cuti->update(['status' => 'pending']);
         // }
-        if (Carbon::parse($request->mulai_cuti) > Carbon::parse(now())
-        ) {
-            $cuti->update(['status' => 'pending']);
-        } else if (Carbon::parse($request->mulai_cuti) <= Carbon::parse(now()) && Carbon::parse($request->selesai_cuti) >= Carbon::parse(now())) {
-            $cuti->update(['status' => 'aktif']);
-            $cuti->pegawai->update(['status_pegawai' => 'nonaktif']);
-        } else {
-            $cuti->update(['status' => 'nonaktif']);
-        }
+        // if (Carbon::parse($request->mulai_cuti) > Carbon::parse(now())
+        // ) {
+        //     $cuti->update(['status' => 'pending']);
+        // } else if (Carbon::parse($request->mulai_cuti) <= Carbon::parse(now()) && Carbon::parse($request->selesai_cuti) >= Carbon::parse(now())) {
+        //     $cuti->update(['status' => 'aktif']);
+        //     // $cuti->pegawai->update(['status_pegawai' => 'nonaktif']);
+        // } else {
+        //     $cuti->update(['status' => 'nonaktif']);
+        // }
         $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($pegawaiUpdate->id);
         alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
         // Mengarahkan kembali ke halaman indeks data cuti aktif
-        if($cuti->status == 'nonaktif'){
-            return redirect()->route('admin.cuti.histori-cuti.index')->with('success', 'data cuti berhasil diupdate');
-        }
+        // if($cuti->status == 'nonaktif'){
+        //     return redirect()->route('admin.cuti.histori-cuti.index')->with('success', 'data cuti berhasil diupdate');
+        // }
         return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasil diupdate');
         // } catch (\Throwable $th) {
         //     //throw $th;
