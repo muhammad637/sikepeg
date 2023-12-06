@@ -77,8 +77,8 @@
                         </div>
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group date" id="datepicker">
-                                <input type="date" class="form-control" name="masa_berakhir_str"
-                                    value="{{ old('masa_berakhir_str') }}" required>
+                                <input type="text" class="form-control" name="masa_berakhir_str"
+                                    value="{{ old('masa_berakhir_str', 'Seumur Hidup') }}" readonly>
                             </div>
                         </div>
                     </div>

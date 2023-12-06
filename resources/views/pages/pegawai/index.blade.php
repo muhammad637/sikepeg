@@ -24,7 +24,6 @@
                         <i class="fas fa-plus-square ml-1"></i></a>
                     <a href="{{ route('admin.pegawai.index') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize"
                         data-toggle="modal" data-target="#importExcel">import<i class="fas fa-plus-square ml-1"></i></a>
-                   
                 </div>
             </div>
         </div>

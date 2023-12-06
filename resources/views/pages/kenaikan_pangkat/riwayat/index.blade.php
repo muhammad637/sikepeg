@@ -8,7 +8,10 @@
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h2 class="m-0 font-weight-bold text-dark">Riwayat Kenaikan Pangkat Pegawai {{ $pegawai->nama_lengkap }}</h2>
             </div>
+            <a href="{{ route('admin.kenaikan-pangkat.createriwayat', ['pegawai' => $pegawai->id]) }}"
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i class="fas fa-plus-square ml-1"></i></a>
         </div>
+        
 
         <div class="card-body">
 

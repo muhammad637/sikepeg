@@ -57,7 +57,7 @@
                             <label for="inputEmail3" class="col-sm-4 col-form-label">No Rekomndasi SIP</label>
                             <div class="col-sm-8">
                                 <input type="email" class="form-control" id="inputEmail3" readonly
-                                    value="{{ $sip->no_rekom }}">
+                                    value="{{ $sip->no_rekomendasi }}">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -83,7 +83,7 @@
         </div>
         <div class="text-right">
             <a type="submit" class="btn btn-warning"
-                href="{{ route('admin.sip.history', ['pegawai' => $sip->pegawai->id]) }}"><i class="fas fa-history"></i>
+                href="{{ route('admin.sip.riwayat', ['pegawai' => $sip->pegawai->id]) }}"><i class="fas fa-history"></i>
                 Lihat History SIP</a>
         </div>
     </div>

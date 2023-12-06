@@ -35,8 +35,8 @@
                                 <td>{{ Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }} </td>
                                 <td>{{ $item->keterangan }}</td>
                                 <td class="">
-                                    <a href="{{ route('admin.master-data.hari-besar.show', ['hariBesar' => $item->id]) }}"
-                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a>
+                                    {{-- <a href="{{ route('admin.master-data.hari-besar.show', ['hariBesar' => $item->id]) }}"
+                                        class="badge p-2 text-white bg-info"><i class="fas fa-info-circle"></i></a> --}}
                                     <a href="{{ route('admin.hariBesar.edit', ['hariBesar' => $item->id]) }}"
                                         class="badge p-2 text-white bg-warning"><i class="fas fa-pen "></i></a>
                                     <form action="{{ route('admin.master-data.hari-besar.destroy', ['hariBesar' => $item->id]) }}"
