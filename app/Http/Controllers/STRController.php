@@ -29,25 +29,25 @@ class   STRController extends Controller
     {
 
         $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-            $query->orderBy('masa_berakhir_str', 'desc');
+            $query->orderBy('created_at', 'desc');
         })->whereHas('str', function($q){
-            $q->orderBy('masa_berakhir_str', 'desc');
+            $q->orderBy('created_at', 'desc');
         })->get();
         // return $pegawai;
         if($request->ajax()){
             $pegawai = Pegawai::query()
             ->where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-                $query->orderBy('masa_berakhir_str', 'desc');
+                $query->orderBy('created_at', 'desc');
             })->whereHas('str', function ($q) {
-                $q->orderBy('masa_berakhir_str', 'desc');
+                $q->orderBy('created_at', 'desc');
             });
             return DataTables::of($pegawai)
             ->addIndexColumn()
             ->addColumn('tanggal-berakhir-str', function($item){
-                return Carbon::parse($item->str[0]->masa_berakhir_str)->format('d-m-Y');
+                return ($item->str[0]->masa_berakhir_str);
             })
             ->addColumn('status', function($item){
-                $data =Carbon::parse($item->str[0]->masa_berakhir_str)->format('Y-m-d') > now()->format('Y-m-d');
+                $data =($item->str[0]->masa_berakhir_str);
                 // dd($data);
                 $status = $data ? 'aktif' : 'nonaktif';
                 $warna = $data == true ? 'btn-success' : 'btn-secondary';

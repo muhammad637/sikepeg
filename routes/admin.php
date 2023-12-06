@@ -134,6 +134,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/riwayat/{pegawai:id}',[KenaikanPangkatCOntroller::class,'riwayat'])->name('riwayat');
             Route::get('/lihat-riwayat/{kenaikan_pangkat:id}',[KenaikanPangkatController::class,'lihatRiwayat'])->name('lihat-riwayat');
             Route::get('/edit-riwayat/{kenaikan_pangkat:id}',[KenaikanPangkatController::class,'editRiwayat'])->name('edit-riwayat');
+            Route::get('/riwayat/{pegawai:id}/create', [KenaikanPangkatController::class, 'createriwayat'])->name('createriwayat');
            
         });
         Route::prefix('master-data')->name('master-data.')->group(function () {

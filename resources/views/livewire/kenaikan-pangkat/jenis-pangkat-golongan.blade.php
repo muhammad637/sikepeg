@@ -1,5 +1,11 @@
 <div>
-  
+    <div class="row mb-3">
+        <label for="status_tipe" class="col-sm-4 col-form-label">Status Tipe</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="status_tipe" wire:model='status_tipe'
+                {{ $status_tipe }} readonly>
+        </div>
+    </div>
            
             {{-- {{$pegawai_id}} --}}
             @if ($status_tipe == 'pns')

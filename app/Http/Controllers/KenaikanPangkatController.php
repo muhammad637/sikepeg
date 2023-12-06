@@ -78,6 +78,26 @@ class KenaikanPangkatController extends Controller
         return view('pages.kenaikan_pangkat.create', ['pegawai' => $pegawai,]);
     }
 
+    public function createriwayat(Pegawai $pegawai)
+    {
+        $status_tipe = $pegawai->status_tipe;
+        $pegawai_select = Pegawai::where('status_tenaga', 'asn')->get();
+        if($status_tipe = 'pppk'){
+            $golongan = Golongan::where('jenis', 'pppk')->orderBy('nama_golongan', 'asc')->get();
+        }
+        else{
+            $golongan = Golongan::where('jenis', 'pns')->orderBy('nama_golongan', 'asc')->get();
+        } 
+        $pangkat = Pangkat::orderBy('nama_pangkat', 'asc')->get();
+        // return $pegawai;
+        return view('pages.kenaikan_pangkat.riwayat.create', ['pegawai' => $pegawai,
+        'pegawai_select' => $pegawai_select,
+        'golongan' => $golongan,
+        'pangkat' => $pangkat,
+        'status' => $status_tipe,
+    ]);
+    }
+
 
     public function store(Request $request)
     {

@@ -21,7 +21,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Awal<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Lama<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -41,7 +41,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Tambah Ruangan Awal<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Tambah Ruangan Lama<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -53,7 +53,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Tujuan<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Baru<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -73,7 +73,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Tambah Ruangan Tujuan<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Tambah Ruangan Baru<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -108,7 +108,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Awal<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Lama<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -122,7 +122,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Tujuan<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Baru<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -138,7 +138,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Awal<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Lama<span class="text-danger">*</span></p>
                     </label>
                 </div>
 
@@ -151,7 +151,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Ruangan Tujuan<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Ruangan Baru<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -165,7 +165,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Awal<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Lama<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
@@ -180,7 +180,7 @@
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
                     <label for="" class="form-label">
-                        <p class="mb-0 mt-md-2 mt-0">Instansi Tujuan<span class="text-danger">*</span></p>
+                        <p class="mb-0 mt-md-2 mt-0">Instansi Baru<span class="text-danger">*</span></p>
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">

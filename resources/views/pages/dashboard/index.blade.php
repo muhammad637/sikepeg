@@ -20,34 +20,15 @@
 
             <div class="col-md-8">
                 <div class="d-md-flex justify-content-between">
-                    <div class="flex-fill card shadow-sm my-2">
-                        <a href="{{ route('admin.reminder.str.index') }}" class="text-decoration-none">
-                            <div class="card-body p-3" style="color: #2d7430;">
-                                <div class="row align-items-center">
-                                    <h5 class="text-sm mb-0 font-weight-bold">
-                                        Reminder STR Pegawai</h5>
-                                    <div class="col-8 mt-4">
-                                        <div class="numbers">
-                                            <i class="far fa-file fa-4x"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col text-right">
-                                        <h1>{{ $reminderSTR }}</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
                     <div class="flex-fill card shadow-sm my-2 mx-1">
                         <a href="{{ route('admin.reminder.sip.index') }}" class="text-decoration-none">
                             <div class="card-body p-3" style="color: #2d7430">
                                 <div class="row align-items-center">
                                     <h5 class="text-sm mb-0 font-weight-bold">
                                         Reminder SIP Pegawai</h5>
-                                    <div class="col-8 mt-4">
+                                    <div class="col-6 mt-">
                                         <div class="numbers">
-                                            <i class="far fa-file-alt fa-4x"></i>
+                                            <i class="far fa-file-alt fa-5x"></i>
                                         </div>
                                     </div>
                                     <div class="col text-right">

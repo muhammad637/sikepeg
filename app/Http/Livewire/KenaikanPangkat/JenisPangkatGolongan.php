@@ -32,7 +32,6 @@ class JenisPangkatGolongan extends Component
         $this->golongan_id = old('golongan_id', null);
         $this->nama_golongan = old('nama_golongan', null);
         $this->nama_pangkat = old('nama_pangkat', null);
-
         $this->jabatan = old('jabatan', null);
     }
     public function updatedPegawai($value)
