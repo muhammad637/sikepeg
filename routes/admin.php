@@ -105,10 +105,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/mutasi/edit-history/{mutasi:id}', [MutasiController::class, 'historyEdit'])->name('mutasi.history-edit');
         Route::get('/mutasi/show-history/{mutasi:id}', [MutasiController::class, 'historyShow'])->name('mutasi.history-show');
 
+        Route::prefix('diklat')->name('diklat.')->group(function(){
+            Route::get('/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('riwayat');
+            Route::get('/show-riwayat/{diklat:id}', [DiklatController::class, 'showRiwayat'])->name('show-riwayat');
+            Route::get('/edit-riwayat/{diklat:id}', [DiklatController::class, 'editRiwayat'])->name('edit-riwayat');
+            Route::get('/export-all', [DiklatController::class,'exportAll'])->name('export-all');        
+            Route::get('/export-year',[DiklatController::class,'exportYear'])->name('export-year');        
+            Route::get('/export-year-range',[DiklatController::class,'exportYearRange'])->name('export-range');        
+        });
         Route::resource('/diklat', DiklatController::class);
-        Route::get('/diklat/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('diklat.riwayat');
-        Route::get('/diklat/show-riwayat/{diklat:id}', [DiklatController::class, 'showRiwayat'])->name('diklat.show-riwayat');
-        Route::get('/diklat/edit-riwayat/{diklat:id}', [DiklatController::class, 'editRiwayat'])->name('diklat.edit-riwayat');
+
 
         Route::post('/profile/{admin:id}', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/profile', [ProfileController::class, 'index' ])->name('profile.index');

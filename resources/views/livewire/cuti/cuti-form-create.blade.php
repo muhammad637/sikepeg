@@ -73,7 +73,7 @@
         <label for="" class="col-sm-4 col-form-label">Periode Cuti</label>
         <div class="col-sm-4">
             <span class="text-danger">*mulai cuti</span>
-            <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti' required min="{{$tanggal_sebelumnya}}">
+            <input type="date" class="form-control" name="mulai _cuti" wire:model='mulai_cuti' required min="{{$tanggal_sebelumnya}}">
         </div>
         <div class="col-sm-4">
             <span class="text-danger">*selesai cuti</span>

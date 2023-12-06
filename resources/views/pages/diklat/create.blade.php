@@ -72,7 +72,7 @@
                     <div class="row mb-3">
                         <label for="tahun" class="col-sm-4 col-form-label">Tahun</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3" name="tahun" min="1900"
+                            <input type="number" class="form-control" id="tahun" name="tahun" min="1900"
                                 max="2200" required>
                         </div>
                     </div>
@@ -116,6 +116,9 @@
             $('#pegawai').select2();
             $('#tanggal_mulai').on('change', function() {
                 let tanggal_mulai = $('#tanggal_mulai').val()
+                let split = tanggal_mulai.split('-')
+                console.log(split[0])
+                $('#tahun').val(split[0])
                 console.log("Jumlah Hari Antara Kedua Tanggal: " + jumlahHari +
                     " hari");
                 if ($('#tanggal_selesai').val() != null) {
