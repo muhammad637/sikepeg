@@ -85,7 +85,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('cuti')->name('cuti.')->group(function () {
             Route::post('/tambah-cuti-masa-lalu', [CutiController::class,'tambahCutiMasaLalu'])->name('tambah-cuti-masa-lalu');
-            Route::get('/riwayat-cuti-pegawai/{id}', [CutiController::class,'riwayatCutiPegawai'])->name('riwayat-cuti-pegawai');
             Route::get('/show/{cuti:id}',[CutiController::class, 'show'])->name('show');
             Route::group(['prefix' => '/data-cuti-aktif'], function () {
                 Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
@@ -95,8 +94,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('/store', [CutiController::class, 'store'])->name('data-cuti-aktif.store');
                 Route::put('/update/{cuti:id}', [CutiController::class, 'update'])->name('data-cuti-aktif.update');
             });
-            Route::group(['prefix' => 'histori-cuti'], function () {
-                Route::get('/', [CutiController::class, 'historiCuti'])->name('histori-cuti.index');
+            Route::prefix('/histori-cuti')->name('histori-cuti.')->group(function () {
+                Route::get('/', [CutiController::class, 'historiCuti'])->name('index');
+                Route::get('/pegawai/{id}', [CutiController::class, 'riwayatCutiPegawai'])->name('pegawai');
+                Route::get('/exportAll', [CutiController::class, 'exportAll'])->name('export-all');
+                Route::get('/exportPertahun', [CutiController::class, 'exportPertahun'])->name('export-year');
+                Route::get('/show/{cuti:id}', [CutiController::class, 'showRiwayat'])->name('showRiwayat');
+                Route::get('/edit/{cuti:id}', [CutiController::class, 'editRiwayat'])->name('editRiwayat');
             });
         });
         

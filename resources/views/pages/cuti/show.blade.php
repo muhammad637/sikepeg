@@ -29,6 +29,19 @@
 
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <label for="noSIP" class="col-sm-4 col-form-label">No HP</label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control" value="{{ $cuti->no_hp }}">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="noSIP" class="col-sm-4 col-form-label">Alamat</label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control" value="{{ $cuti->alamat }}">
+
+                    </div>
+                </div>
                 <div class="row mb-3 align-items-center">
                     <label for="noSIP" class="col-sm-4 col-form-label">Periode Cuti</label>
                     <div class="col-sm-4">
@@ -52,20 +65,11 @@
                 <hr>
                 <div class="d-md-flex justify-content-between d-sm-block">
                     <div>
-                        @if ($cuti->status == 'nonaktif')
-                            <a href="{{ route('admin.cuti.histori-cuti.index') }}"
+                        <a href="{{ route('admin.cuti.histori-cuti.index') }}"
                                 class="btn btn-secondary text-white mb-1">Kembali</a>
-                        @else
-                            <a href="{{ route('admin.cuti.data-cuti-aktif.index') }}"
-                                class="btn btn-secondary text-white">Kembali</a>
-                        @endif
                         <a href="{{ route('admin.cuti.data-cuti-aktif.edit', ['cuti' => $cuti->id]) }}"
                             class="btn btn-warning text-white mb-1">Edit</a>
                     </div>
-                    {{-- <div>
-                        <a href="{{route('admin.cuti.riwayat-cuti-pegawai',['id'=> $cuti->pegawai_id])}}"
-                            class="btn btn-info text-white">Lihat Semua Riwayat Cuti</a>
-                    </div> --}}
                 </div>
             </div>
         </div>

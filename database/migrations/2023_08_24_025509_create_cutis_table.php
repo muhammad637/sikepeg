@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('no_hp')->nullable();
             $table->string('alamat')->nullable();
             $table->integer('jumlah_hari')->nullable();
-            
             // $table->enum('status',['aktif', 'nonaktif','pending'])->nullable();
             $table->string('link_cuti')->nullable();    
             $table->timestamps();

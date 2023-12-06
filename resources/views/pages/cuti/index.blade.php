@@ -41,7 +41,7 @@
         $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.cuti.riwayat-cuti-pegawai',['id' => $id] )}}",
+            ajax: "{{ route('admin.cuti.histori-cuti.pegawai',['id' => $id] )}}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',

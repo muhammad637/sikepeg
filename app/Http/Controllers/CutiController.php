@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Cuti;
 use App\Models\Admin;
+use App\Exports\Export;
 use App\Models\Pegawai;
+use App\Models\Ruangan;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -34,7 +37,7 @@ class CutiController extends Controller
 
         // $cuti = Cuti::where('status', 'aktif')->orWhere('status', 'pending')->get();
         if ($request->ajax()) {
-            $cuti = Cuti::query()->where('mulai_cuti','>=',now()->format('Y-m-d'));
+            $cuti = Cuti::query()->where('mulai_cuti', '>=', now()->format('Y-m-d'));
             return  DataTables::of($cuti)
                 ->addIndexColumn()
                 ->addColumn('nama_lengkap', function ($item) {
@@ -46,14 +49,13 @@ class CutiController extends Controller
                     $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
                     $tanggal_saat_ini = now()->format('Ymd');
                     $status = null;
-                    if($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini){
-                        $status = 'aktif'; 
-                    }
-                    elseif($item->tanggal_mulai >= $tanggal_saat_ini){
+                    if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
+                        $status = 'aktif';
+                    } elseif ($item->tanggal_mulai >= $tanggal_saat_ini) {
                         $status = 'pending';
                     }
                     // return 'tes';
-                    return '<button class="badge p-2 text-white bg-' . ($status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status . '</button>';
+                    return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $status . '</button>';
                 })
                 ->addColumn('aksi', 'pages.cuti.data-cuti-aktif.part.aksi')
                 ->addColumn('surat', 'pages.cuti.data-cuti-aktif.part.surat')
@@ -99,7 +101,7 @@ class CutiController extends Controller
         $mulai_cuti = $request->mulai_cuti;
         $selesai_cuti = $request->selesai_cuti;
         $pegawai = Pegawai::find($request->pegawai_id);
-        $cuti = Cuti::where('pegawai_id',$pegawai->id)->orderBy('selesai_cuti','desc')->first();
+        $cuti = Cuti::where('pegawai_id', $pegawai->id)->orderBy('selesai_cuti', 'desc')->first();
         if ($cuti) {
             $dataCuti = Cuti::where('pegawai_id', $request->pegawai_id)
                 ->where(function ($query) use ($mulai_cuti, $selesai_cuti) {
@@ -108,7 +110,7 @@ class CutiController extends Controller
                 })->get();
             $validasi = Carbon::parse($cuti->mulai_cuti) <= Carbon::parse($request->mulai_cuti) && Carbon::parse($cuti->selesai_cuti) >= Carbon::parse($request->selesai_cuti);
             // return ['data cuti' => $dataCuti, 'validasi' => $validasi, 'mulai cuti' => $mulai_cuti, 'selesai cuti' => $selesai_cuti];
-            if($dataCuti || $validasi){
+            if ($dataCuti || $validasi) {
                 alert()->error('gagal', 'periode cuti masih berlaku');
                 return redirect()->back()->withInput()->with('toast_success', 'periode cuti masih berlaku');
             }
@@ -265,12 +267,12 @@ class CutiController extends Controller
             alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
             return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasil ditambahkan');
         }
-        if($request->jenis_cuti == $cuti->jenis_cuti && $request->jenis_cuti == 'cuti tahunan'){  
+        if ($request->jenis_cuti == $cuti->jenis_cuti && $request->jenis_cuti == 'cuti tahunan') {
             $cuti->pegawai->update([
                 'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
                 // 'status_pegawai' => 'aktif'
             ]);
-        }elseif($request->jenis_cuti != $cuti->jenis_cuti && $cuti->jenis_cuti == 'cuti tahunan'){
+        } elseif ($request->jenis_cuti != $cuti->jenis_cuti && $cuti->jenis_cuti == 'cuti tahunan') {
             $cuti->pegawai->update([
                 'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
                 // 'status_pegawai' => 'aktif'
@@ -281,7 +283,7 @@ class CutiController extends Controller
                 // 'status_pegawai' => 'aktif'
             ]);
         }
-       
+
         // Memeriksa jenis cuti tahunan dan mengurangkan sisa cuti tahunan jika memenuhi syarat
         if ($request->jenis_cuti == 'cuti tahunan' && $cuti->pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
             $cuti->pegawai->update(['sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan - $request->jumlah_hari]);
@@ -322,9 +324,9 @@ class CutiController extends Controller
         $createNotif->pegawai()->attach($pegawaiUpdate->id);
         alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
         // Mengarahkan kembali ke halaman indeks data cuti aktif
-        // if($cuti->status == 'nonaktif'){
-        //     return redirect()->route('admin.cuti.histori-cuti.index')->with('success', 'data cuti berhasil diupdate');
-        // }
+        if ($request->has('histori_cuti')) {
+            return redirect()->route('admin.cuti.histori-cuti.index')->with('success', 'data cuti berhasil diupdate');
+        }
         return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasil diupdate');
         // } catch (\Throwable $th) {
         //     //throw $th;
@@ -344,43 +346,85 @@ class CutiController extends Controller
     }
     public function historiCuti(Request $request)
     {
-        // $pegawai = Pegawai::whereHas('cuti' , function ($q) {
-        //     $q->where('status', 'nonaktif')->orderBy('mulai_cuti', 'desc');
-        // })->with('cuti')->get();
-        // return $pegawai;
-
+        // if ($request->ajax()) {
+        //     $pegawai = Pegawai::query()->with(['cuti' => function($q){
+        //         $q->orderBy('selesai_cuti','desc');
+        //     }])->whereHas('cuti', function ($q) {
+        //         $q->orderBy('selesai_cuti', 'desc');
+        //         // $q->where('status', 'nonaktif')->sortByDesc('selesai_cuti');
+        //     });
+        //     return DataTables::of($pegawai)
+        //         ->addIndexColumn()
+        //         ->addColumn('jenis_cuti', function ($item) {
+        //             return $item->cuti[0]->jenis_cuti;
+        //         })
+        //         ->addColumn('alasan_cuti', function ($item) {
+        //             return $item->cuti[0]->alasan_cuti;
+        //         })
+        //         ->addColumn('jumlah_hari', function ($item) {
+        //             return $item->cuti[0]->jumlah_hari;
+        //         })
+        //         ->addColumn('mulai_cuti', function ($item) {
+        //             $mulai_cuti = Carbon::parse($item->cuti[0]->mulai_cuti)->format('d-M-Y');
+        //             return $mulai_cuti;
+        //         })
+        //         ->addColumn('selesai_cuti', function ($item) {
+        //             $selesai_cuti = Carbon::parse($item->cuti[0]->selesai_cuti)->format('d-M-Y');
+        //             return $selesai_cuti;
+        //         })
+        //         ->addColumn('aksi', 'pages.cuti.histori-cuti.part.aksi')
+        //         ->rawColumns(['nama_lengkap', 'jenis_cuti', 'alasan_cuti', 'jumlah_hari', 'mulai_cuti', 'selesai_cuti', 'aksi'])
+        //         ->toJson();
+        // }
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->with(['cuti' => function($q){
-                $q->where('status','nonaktif')->orderBy('selesai_cuti','desc');
-            }])->whereHas('cuti', function ($q) {
-                $q->where('status', 'nonaktif')->orderBy('selesai_cuti', 'desc');
-                // $q->where('status', 'nonaktif')->sortByDesc('selesai_cuti');
-            });
-            return DataTables::of($pegawai)
+            $cuti = Cuti::query()->orderBy('selesai_cuti', 'desc');
+            $cuti = Cuti::query();
+            if ($request->input('tahun') != null) {
+                $cuti = $cuti->where('mulai_cuti','like','%'. $request->tahun.'%' );
+            }
+            if ($request->input('pegawai') != null) {
+                $cuti = $cuti->where('pegawai_id', $request->pegawai);
+            }
+            if ($request->input('jenis_cuti') != null) {
+                $cuti = $cuti->where('jenis_cuti', $request->jenis_cuti);
+            }
+            return DataTables::of($cuti)
                 ->addIndexColumn()
-                ->addColumn('jenis_cuti', function ($item) {
-                    return $item->cuti[0]->jenis_cuti;
-                })
-                ->addColumn('alasan_cuti', function ($item) {
-                    return $item->cuti[0]->alasan_cuti;
-                })
-                ->addColumn('jumlah_hari', function ($item) {
-                    return $item->cuti[0]->jumlah_hari;
+                ->addColumn('nama_pegawai', function ($item) {
+                    return $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan;
                 })
                 ->addColumn('mulai_cuti', function ($item) {
-                    $mulai_cuti = Carbon::parse($item->cuti[0]->mulai_cuti)->format('d-M-Y');
+                    $mulai_cuti = Carbon::parse($item->mulai_cuti)->format('d-M-Y');
                     return $mulai_cuti;
                 })
                 ->addColumn('selesai_cuti', function ($item) {
-                    $selesai_cuti = Carbon::parse($item->cuti[0]->selesai_cuti)->format('d-M-Y');
+                    $selesai_cuti = Carbon::parse($item->selesai_cuti)->format('d-M-Y');
                     return $selesai_cuti;
                 })
+                ->addColumn('status_tombol', function ($item) {
+                    $tanggal_mulai = Carbon::parse($item->mulai_cuti)->format('Ymd');
+                    $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
+                    $tanggal_saat_ini = now()->format('Ymd');
+                    $status = null;
+                    if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
+                        $status = 'aktif';
+                    } elseif ($item->tanggal_mulai >= $tanggal_saat_ini) {
+                        $status = 'pending';
+                    } else {
+                        $status = 'nonaktif';
+                    }
+                    // return 'tes';
+                    return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : ($status == 'pending' ? 'warning'  : 'secondary')) . ' border-0">' . $status . '</button>';
+                })
                 ->addColumn('aksi', 'pages.cuti.histori-cuti.part.aksi')
-                ->rawColumns(['nama_lengkap', 'jenis_cuti', 'alasan_cuti', 'jumlah_hari', 'mulai_cuti', 'selesai_cuti', 'aksi'])
+                // ->addColumn('surat', 'pages.cuti.part.surat')
+                ->rawColumns(['nama_pegawai', 'mulai_cuti', 'selesai_cuti', 'status_tombol', 'aksi'])
                 ->toJson();
+            // return $dataCuti;
         }
         return view('pages.cuti.histori-cuti.index', [
-            // 'historiCuti' => $histori
+            'pegawai' => Pegawai::orderBy('nama_lengkap', 'asc')->get(),
+            'ruangans' => Ruangan::orderBy('nama_ruangan','asc')->get() 
         ]);
     }
 
@@ -400,7 +444,19 @@ class CutiController extends Controller
                     return $selesai_cuti;
                 })
                 ->addColumn('status_tombol', function ($item) {
-                    return '<button class="badge p-2 text-white bg-' . ($item->status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status . '</button>';
+                    $tanggal_mulai = Carbon::parse($item->mulai_cuti)->format('Ymd');
+                    $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
+                    $tanggal_saat_ini = now()->format('Ymd');
+                    $status = null;
+                    if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
+                        $status = 'aktif';
+                    } elseif ($item->tanggal_mulai >= $tanggal_saat_ini) {
+                        $status = 'pending';
+                    } else {
+                        $status = 'nonaktif';
+                    }
+                    // return 'tes';
+                    return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : ($status == 'pending' ? 'warning'  : 'secondary')) . ' border-0">' . $status . '</button>';
                 })
                 ->addColumn('aksi', 'pages.cuti.part.aksi')
                 ->addColumn('surat', 'pages.cuti.part.surat')
@@ -417,5 +473,63 @@ class CutiController extends Controller
     public function tambahCutiMasaLalu(Request $request)
     {
         return $request->all();
+    }
+    public function showRiwayat(Cuti $cuti)
+    {
+        //
+        return view('pages.cuti.show', [
+            'cuti' => $cuti
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Cuti  $cuti
+     * @return \Illuminate\Http\Response
+     */
+    public function editRiwayat(Cuti $cuti)
+    {
+
+        return view('pages.cuti.histori-cuti.edit', [
+            'pegawai' => Pegawai::all(),
+            'cuti' => $cuti
+        ]);
+    }
+    private function dataLaporan($cutis)
+    {
+        $dataLaporan = [];
+        foreach ($cutis as $cuti) {
+            array_push($dataLaporan, [
+                'Nama Pegawai' => $cuti->pegawai->nama_lengkap ?? $cuti->pegawai->nama_depan,
+                'jenis_cuti' => $cuti->jenis_cuti,
+                'Tanggal' => Carbon::parse($cuti->mulai_cuti)->format('d/m/Y') . ' - ' . Carbon::parse($cuti->selesai_cuti)->format('d/m/Y'),
+                'jumlah_hari' => $cuti->jumlah_hari . ' hari',
+                'alamat' => $cuti->alamat,
+                'no_hp' => $cuti->no_hp,
+                'link_cuti' => $cuti->link_cuti,
+
+            ]);
+        }
+        // return $dataLaporan;
+        $laporan = new Export([
+            ['Nama Pegawai', 'Jenis cuti', 'Tanggal', 'Jumlah Hari', 'Alamat', 'No HP', 'Link Cuti'],
+            [...$dataLaporan]
+        ]);
+
+        return Excel::download($laporan, 'cuti.xlsx');
+    }
+
+    public function exportAll(Request $request)
+    {
+        // return 'testing';
+        $cuti = Cuti::orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc')->get();
+        return $this->dataLaporan($cuti);
+    }
+    public function exportPertahun(Request $request)
+    {
+        // return 'testing';
+        $cuti = Cuti::where('mulai_cuti' ,'like','%'.$request->year.'%')->orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc')->get();
+        return $this->dataLaporan($cuti);
     }
 }

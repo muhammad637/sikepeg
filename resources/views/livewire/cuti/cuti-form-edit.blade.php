@@ -15,6 +15,18 @@
                 </div>
             </div>
             <div class="row mb-3">
+                <label for="no_hp" class="col-sm-4 col-form-label ">No Hp</label>
+                <div class="col-sm-8">
+                    <input name="no_hp" class="form-control" wire:model='no_hp' required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="alamat" class="col-sm-4 col-form-label ">Alamat</label>
+                <div class="col-sm-8">
+                    <input name="alamat" class="form-control" wire:model='alamat' required>
+                </div>
+            </div>
+            <div class="row mb-3">
                 <label for="jenis_cuti" class="col-sm-4 col-form-label">Jenis Cuti</label>
                 <div class="col-sm-8">
                     <select name="jenis_cuti" id="jenis_cuti" class="form-control" wire:model='jenis_cuti'>
@@ -76,7 +88,8 @@
                     <input type="date" class="form-control" name="selesai_cuti" wire:model='selesai_cuti'
                         id="selesaiCuti" required>
                 </div>
-                 <span class="text-danger text-center {{$selesai_cuti < $mulai_cuti ? 'd-block' : 'd-none'}}">*Periode cuti tidak valid</span>
+                <span class="text-danger text-center {{ $selesai_cuti < $mulai_cuti ? 'd-block' : 'd-none' }}">*Periode
+                    cuti tidak valid</span>
             </div>
             <div class="row mb-3">
                 <label for="jumlah_hari" class="col-sm-4 col-form-label">Jumlah Hari</label>
@@ -93,7 +106,13 @@
                 </div>
             </div>
             <div class="text-right">
-                <a href="{{ route('admin.cuti.data-cuti-aktif.index') }}" class="btn bg-warning text-white">Tutup</a>
+                @if ($mulai_cuti < now()->format('Y-m-d'))
+                    <a href="{{ route('admin.cuti.histori-cuti.index') }}"
+                        class="btn bg-warning text-white">Tutup</a>
+                @else
+                    <a href="{{ route('admin.cuti.data-cuti-aktif.index') }}"
+                        class="btn bg-warning text-white">Tutup</a>
+                @endif
                 @if ($mulai_cuti < $selesai_cuti)
                     <button class="btn btn-info" type="submit">Simpan</button>
                 @else
