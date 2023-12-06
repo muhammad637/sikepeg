@@ -2,15 +2,29 @@
     <div class="row mb-3">
         <label for="alasanCuti" class="col-sm-4 col-form-label">Status Tipe</label>
         <div class="col-sm-8">
-            <input name="status_tipe" class="form-control" 
+            <input  class="form-control" 
                 wire:model='status_tipe' readonly>
         </div>
     </div>
     <div class="row mb-3">
         <label for="alasanCuti" class="col-sm-4 col-form-label font-weight-bold">Sisa Cuti Tahunan Saat Ini</label>
         <div class="col-sm-8">
-            <input name="sisa_cuti_tahunan_saat_ini" class="form-control"
+            <input  class="form-control"
                 wire:model='sisa_cuti_tahunan_saat_ini' readonly>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="no_hp" class="col-sm-4 col-form-label ">No Hp</label>
+        <div class="col-sm-8">
+            <input name="no_hp" class="form-control"
+                wire:model='no_hp' required>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="alamat" class="col-sm-4 col-form-label ">Alamat</label>
+        <div class="col-sm-8">
+            <input name="alamat" class="form-control"
+                wire:model='alamat' required>
         </div>
     </div>
     <div class="row mb-3">
@@ -73,7 +87,7 @@
         <label for="" class="col-sm-4 col-form-label">Periode Cuti</label>
         <div class="col-sm-4">
             <span class="text-danger">*mulai cuti</span>
-            <input type="date" class="form-control" name="mulai _cuti" wire:model='mulai_cuti' required min="{{$tanggal_sebelumnya}}">
+            <input type="date" class="form-control" name="mulai_cuti" wire:model='mulai_cuti' required min="{{$tanggal_sebelumnya}}">
         </div>
         <div class="col-sm-4">
             <span class="text-danger">*selesai cuti</span>
@@ -81,7 +95,7 @@
         </div>
             <span class="text-danger text-center {{$selesai_cuti < $mulai_cuti ? 'd-block' : 'd-none'}}">*Periode cuti tidak valid</span>
     </div>
-
+    @if($jenis_cuti != 'cuti besar')
     <div class="row mb-3">
         <label for="jumlah_hari" class="col-sm-4 col-form-label">Jumlah Hari</label>
         <div class="col-sm-8">
@@ -89,7 +103,7 @@
                 required >
         </div>
     </div>
-
+    @endif
     <div class="row mb-3">
         <label for="link_cuti" class="col-sm-4 col-form-label">Upload Dokumen Cuti</label>
         <div class="col-sm-8">

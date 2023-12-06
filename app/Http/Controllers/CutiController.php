@@ -34,7 +34,7 @@ class CutiController extends Controller
 
         // $cuti = Cuti::where('status', 'aktif')->orWhere('status', 'pending')->get();
         if ($request->ajax()) {
-            $cuti = Cuti::query()->where('status', 'aktif')->orWhere('status', 'pending');
+            $cuti = Cuti::query()->where('mulai_cuti','>=',now()->format('Y-m-d'));
             return  DataTables::of($cuti)
                 ->addIndexColumn()
                 ->addColumn('nama_lengkap', function ($item) {
@@ -42,8 +42,18 @@ class CutiController extends Controller
                     // return 'testing';
                 })
                 ->addColumn('status_tombol', function ($item) {
+                    $tanggal_mulai = Carbon::parse($item->mulai_cuti)->format('Ymd');
+                    $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
+                    $tanggal_saat_ini = now()->format('Ymd');
+                    $status = null;
+                    if($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini){
+                        $status = 'aktif'; 
+                    }
+                    elseif($item->tanggal_mulai >= $tanggal_saat_ini){
+                        $status = 'pending';
+                    }
                     // return 'tes';
-                    return '<button class="badge p-2 text-white bg-' . ($item->status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status . '</button>';
+                    return '<button class="badge p-2 text-white bg-' . ($status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $item->status . '</button>';
                 })
                 ->addColumn('aksi', 'pages.cuti.data-cuti-aktif.part.aksi')
                 ->addColumn('surat', 'pages.cuti.data-cuti-aktif.part.surat')
@@ -75,7 +85,7 @@ class CutiController extends Controller
      */
     public function store(Request $request)
     {
-
+        // return $request->all();
         $validatedData = $request->validate([
             'jenis_cuti' => 'required',
             'alasan_cuti' => 'required',
@@ -127,7 +137,7 @@ class CutiController extends Controller
                 );
             }
         }
-        // $create = Cuti::create($request->all());
+        $create = Cuti::create($request->all());
         // if (Carbon::parse($request->mulai_cuti) > Carbon::parse(now())) {
         //     $create->update(['status' => 'pending']);
         // } else if (Carbon::parse($request->mulai_cuti) <= Carbon::parse(now()) && Carbon::parse($request->selesai_cuti) >= Carbon::parse(now())) {

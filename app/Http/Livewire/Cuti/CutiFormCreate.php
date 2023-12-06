@@ -43,7 +43,7 @@ class CutiFormCreate extends Component
         if ($pegawai) {
             // $this->status_tipe = old('status_tipe', $pegawai->status_tipe);
             $this->status_tipe = $pegawai->status_tipe;
-            $this->no_hp = old('no_hp',$pegawai->no_hp);
+            $this->no_hp = old('no_hp',$pegawai->no_wa);
             $this->alamat = old('alamat',$pegawai->alamat);
             $this->sisa_cuti_tahunan_saat_ini =  $pegawai->sisa_cuti_tahunan;
         }
@@ -82,7 +82,7 @@ class CutiFormCreate extends Component
     public function updatedPegawai($value)
     {
         $pegawai = Pegawai::find($value);
-        $this->no_hp = old('no_hp', $pegawai->no_hp);
+        $this->no_hp = old('no_hp', $pegawai->no_wa);
         $this->alamat = old('alamat', $pegawai->alamat);
         $this->status_tipe = $pegawai->status_tipe;
         $this->sisa_cuti_tahunan_saat_ini =  $pegawai->sisa_cuti_tahunan;
