@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KenaikanPangkatController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
@@ -121,6 +122,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/profile/{admin:id}/password', [ProfileController::class, 'password'])->name('profile.password');
 
 
+
+
+        Route::prefix('jabatan')->name('jabatan.')->group(function(){
+            Route::get('/jabatan',[JabatanController::class, 'Demosiindex'])->name('demosi.index');
+        });
 
         // kenaikan pangkat
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){

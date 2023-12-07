@@ -41,6 +41,10 @@ class Pegawai extends Authenticatable
     {
         return $this->hasMany(KenaikanPangkat::class);
     }
+    public function jabatan()
+    {
+        return $this->hasMany(Jabatan::class);
+    }
     public function golongan()
     {
         return $this->belongsTo(Golongan::class, 'golongan_id');
