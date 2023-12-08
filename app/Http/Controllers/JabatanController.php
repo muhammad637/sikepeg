@@ -23,8 +23,10 @@ class JabatanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function Demosicreate()
     {
+
+        return view('pages.jabatan.demosi.create');
         //
     }
 
@@ -58,6 +60,7 @@ class JabatanController extends Controller
      */
     public function edit(Jabatan $jabatan)
     {
+        return view('pages.jabatan.demosi.edit');
         //
     }
 

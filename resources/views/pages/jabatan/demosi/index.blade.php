@@ -1,13 +1,15 @@
-@extends('main', ['title' => 'Data Cuti'])
+@extends('main', ['title' => 'Data Demosi'])
 @section('content')
-    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Cuti</h1>
+    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Demosi</h1>
     <!-- Page Heading -->
     <!-- DataTales Example -->
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h4 class="m-0 font-weight-bold text-dark">Data Cuti Pegawai : {{$pegawai->nama_lengkap ?? $pegawai->nama_depan}}</h4>
-                <h4>Sisa Cuti Tahunan : {{$pegawai->sisa_cuti_tahunan}}</h4>
+                <h4 class="m-0 font-weight-bold text-dark">Data Demosi Aktif Pegawai</h4>
+                <a href="{{ route('admin.jabatan.demosi.create') }}"
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i class="fas fa-plus-square ml-1"></i></a>
+
             </div>
         </div>
         <div class="card-body">
@@ -17,7 +19,7 @@
                     <thead>
                         <tr class="text-dark">
                             <th scope="col">No</th>
-                            {{-- <th scope="col">Nama</th> --}}
+                            <th scope="col">Nama Pegawai</th>
                             <th scope="col">Jenis Cuti</th>
                             <th scope="col">Alasan</th>
                             <th scope="col">Mulai Cuti</th>
@@ -28,6 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                       
                     </tbody>
                 </table>
             </div>
@@ -41,14 +44,19 @@
         $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.cuti.riwayat-cuti-pegawai',['id' => $id] )}}",
+            ajax: "{{ route('admin.cuti.data-cuti-aktif.index') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     searchable: false,
                     orderable: false,
                 },
-               
+
+                {
+                    data: 'nama_lengkap',
+                    name: 'nama_lengkap',
+
+                },
                 {
                     data: 'jenis_cuti',
                     name: 'jenis_cuti',

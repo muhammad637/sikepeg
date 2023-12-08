@@ -17,6 +17,7 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KenaikanPangkatController;
+use App\Models\Jabatan;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
@@ -125,8 +126,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
         Route::prefix('jabatan')->name('jabatan.')->group(function(){
-            Route::get('/jabatan',[JabatanController::class, 'Demosiindex'])->name('demosi.index');
-        });
+            Route::prefix('demosi')->name('demosi.')->group(function(){
+                Route::get('/',[JabatanController::class, 'Demosiindex'])->name('index');
+                Route::get('/create', [JabatanController::class, 'Demosicreate'])->name('create');
+                Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
+    
+            });
+});
 
         // kenaikan pangkat
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){
