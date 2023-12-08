@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('jabatans', function (Blueprint $table) {
             $table->id();
-            $table->pegawai_id()->constrained('pegawais');
+            $table->foreignId('pegawai_id')->constrained('pegawais');
             $table->string('jabatan_sebelumnya')->nullable() ;
             $table->string('jabatan_selanjutnya')->nullable();
             $table->string('tanggal_berlaku')->nullable();

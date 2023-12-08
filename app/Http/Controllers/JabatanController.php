@@ -38,6 +38,7 @@ class JabatanController extends Controller
      */
     public function store(Request $request)
     {
+        
         //
     }
 
