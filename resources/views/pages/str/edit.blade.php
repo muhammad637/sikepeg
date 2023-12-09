@@ -77,9 +77,9 @@
                         </div>
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group date" id="datepicker">
-                                <input type="date" class="form-control" id="date" style="height: 90%;"
-                                    value="{{ old('masa_berakhir_str', Carbon\Carbon::parse($str->masa_berakhir_str)->format('Y-m-d')) }}"
-                                    name="masa_berakhir_str" required>
+                                <input type="string" class="form-control" id="date" style="height: 90%;"
+                                    value="{{ old('masa_berakhir_str', 'seumur hidup') }}"
+                                    name="masa_berakhir_str" required readonly>
 
                             </div>
                         </div>

@@ -74,7 +74,7 @@ class   STRController extends Controller
      */
     public function create()
     {
-        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->doesntHave('str')->get();
         // return auth()->user();
         return view('pages.str.create', [
             'results' => $results
@@ -224,21 +224,20 @@ class   STRController extends Controller
             ->addColumn('surat','pages.surat.str-riwayat')
             ->addColumn('aksi','pages.str.part.aksi-riwayat')
             ->addColumn('status',function($q){
-                $data_warna = 'btn-secondary';
-                $data_status = 'nonaktif';
-                if($q->masa_berakhir_str > now()){
-                    $data_warna = 'btn-success';
-                    $data_status = 'aktif';
-                }
-                return "<button class='btn $data_warna'> $data_status</button>";
+                // $data_warna = 'btn-secondary';
+                // $data_status = 'nonaktif';
+                // if($q->masa_berakhir_str > now()){
+                //     $data_warna = 'btn-success';
+                //     $data_status = 'aktif';
+                // }
+                return "<button class='btn btn-success'> Aktif </button>";
             })
             ->addColumn('tanggal-terbit-str', function($item){
                 $tanggal = Carbon::parse($item->tanggal_terbit)->format('d-m-Y');
                 return $tanggal;
             })
             ->addColumn('masa-berakhir-str', function($item){
-                $tanggal = Carbon::parse($item->masa_berakhir_str)->format('d-m-Y');
-                return $tanggal;
+                return $item->masa_berakhir_str;
             })
             ->rawColumns(['surat','aksi','status','tanggal-terbit-str', 'masa-berakhir-str'])
             ->toJson();

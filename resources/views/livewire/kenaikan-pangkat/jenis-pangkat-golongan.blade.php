@@ -3,7 +3,7 @@
         <label for="status_tipe" class="col-sm-4 col-form-label">Status Tipe</label>
         <div class="col-sm-8">
             <input type="text" class="form-control" name="status_tipe" wire:model='status_tipe'
-                {{ $status_tipe }} readonly>
+                 readonly placeholder="Pilih Pegawai terlebih dahulu">
         </div>
     </div>
            
@@ -121,8 +121,8 @@
             <div class="row mb-3">
                 <label for="jabatan" class="col-sm-4 col-form-label">Jabatan</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" placeholder="Masukkan jabatan" required name="jabatan"
-                        wire:model='jabatan'>
+                    <input type="text" class="form-control" placeholder="Pilih Pegawai terlebih dahulu" required name="jabatan"
+                        wire:model='jabatan' readonly>
 
                 </div>
             </div>

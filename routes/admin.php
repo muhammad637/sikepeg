@@ -59,13 +59,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         // str
-        Route::resource('/str', STRController::class);
         Route::group(['prefix' => 'str'], function () {
             Route::get('/{pegawai:id}/riwayat', [STRController::class, 'riwayat'])->name('str.riwayat');
             Route::get('/show-riwayat/{str}', [STRController::class, 'showRiwayat'])->name('str.show-riwayat');
             Route::get('/edit-riwayat/{str}', [STRController::class, 'editRiwayat'])->name('str.edit-riwayat');
-            Route::get('/export', [STRController::class, 'export'])->name('str.export');
+            Route::get('/export', [STRController::class, 'export_excel'])->name('str.export');
         });
+        Route::resource('/str', STRController::class);
 
         // sip
         Route::prefix('/sip')->name('sip.')->group(function () {

@@ -18,11 +18,10 @@ class MutasiController extends Controller
     //
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $pegawai = Pegawai::query()->with(['mutasi' => function ($q) {
                 $q->orderBy('created_at', 'desc')->orderBy('tanggal_sk', 'desc');
-            }])->whereHas('mutasi')->get();
+            }])->whereHas('mutasi');
             $dataMutasi = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('nama', function ($item) {
@@ -49,11 +48,11 @@ class MutasiController extends Controller
                 ->addColumn('tanggal-berlaku', function ($item) {
                     return Carbon::parse($item->mutasi[0]->tanggal_berlaku)->format('d/m/Y');
                 })
-
                 ->addColumn('surat', 'pages.surat.mutasi')
                 ->addColumn('aksi', 'pages.mutasi.part.aksi-index')
                 ->rawColumns(['nama', 'ruangan-awal', 'ruangan-tujuan', 'instansi-awal', 'instansi-tujuan', 'jenis-mutasi', 'no-sk', 'tanggal-berlaku', 'surat', 'aksi'])
-                ->toJson();
+                // ->toJson()
+                ->make(true);
             return $dataMutasi;
         }
         $mutasi = Mutasi::orderBy('tanggal_sk', 'desc')->with('pegawai')->get();

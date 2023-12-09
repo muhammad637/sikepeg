@@ -61,4 +61,8 @@ class Pegawai extends Authenticatable
     {
         return Pegawai::all()->pluck('id');
     }
+    public function scopeTanpaSTR($query)
+    {
+        return $query->where('jenis_tenaga','nakes')->whereNull('str');
+    }
 }

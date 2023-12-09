@@ -61,8 +61,6 @@
                 {
                     data: 'nama_lengkap' ?? 'nama_depan',
                     name: 'nama_lengkap',
-                    searchable: false,
-                    orderable: false
                 },
                 {
                     data: 'jabatan',

@@ -39,6 +39,7 @@ class JenisMutasi extends Component
         $pegawai = Pegawai::find($value);
         if ($pegawai) {
             $this->ruangan_awal_id = $pegawai->ruangan->id;
+            
         }
     }
     public function render()

@@ -80,9 +80,13 @@ class KenaikanPangkatController extends Controller
 
     public function createriwayat(Pegawai $pegawai)
     {
+        if($pegawai->status_tenaga == 'non asn'){
+            alert()->error('pegawai bukan merupakan PNS ataupun PPPK');
+            return redirect()->route('admin.dashboard.index');
+        }
         $status_tipe = $pegawai->status_tipe;
         $pegawai_select = Pegawai::where('status_tenaga', 'asn')->get();
-        if($status_tipe = 'pppk'){
+        if($status_tipe == 'pppk'){
             $golongan = Golongan::where('jenis', 'pppk')->orderBy('nama_golongan', 'asc')->get();
         }
         else{
@@ -136,7 +140,7 @@ class KenaikanPangkatController extends Controller
         $validatedData = $request->validate(
             [
                 'pegawai_id' => '',
-                'jabatan' => 'required',
+                // 'jabatan' => 'required',
                 'tmt_pangkat_dari' => 'required|date',
                 'tmt_pangkat_sampai' => 'required|date',
                 'no_sk' => 'required',
@@ -149,7 +153,6 @@ class KenaikanPangkatController extends Controller
             [
                 'pegawai_id' => $request->pegawai_id,
                 'pangkat_id' => $pangkat_id ?? null,
-                'jabatan' => $request->jabatan,
                 'golongan_id' => $golongan_id,
                 'tmt_pangkat_dari' => $request->tmt_pangkat_dari,
                 'tmt_pangkat_sampai' => $request->tmt_pangkat_sampai,
@@ -164,27 +167,23 @@ class KenaikanPangkatController extends Controller
         if ($pegawai->status_tipe == 'pppk' && $tmt_pangkat) {
             $kenaikanpangkat->update([
                 'golongan_id_sebelumnya' => $pegawai->golongan_id,
-                'jabatan_sebelumnya' => $pegawai->jabatan,
+                
                 'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
             ]);
             $pegawai->update([
                 'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
                 'golongan_id' => $golongan_id,
-                'jabatan' => $request->jabatan
             ]);
         } elseif ($pegawai->status_tipe == 'pns' && $tmt_pangkat) {
             $kenaikanpangkat->update([
                 'golongan_id_sebelumnya' => $pegawai->golongan_id,
                 'pangkat_id_sebelumnya' => $pegawai->pangkat_id,
                 'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
-                'jabatan_sebelumnya' => $pegawai->jabatan,
-                
             ]);
             $pegawai->update([
                 'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
                 'golongan_id' => $golongan_id,
                 'pangkat_id' => $pangkat_id,
-                'jabatan' => $request->jabatan
             ]);
         }
         // return $pegawai->jabatan;
@@ -195,7 +194,10 @@ class KenaikanPangkatController extends Controller
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($pegawai->id);
         alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
-        return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'data kenaikan pangkat pegawai berhasil ditambahkan');
+        if($request->has('riwayat')){
+            return redirect()->route('admin.kenaikan-pangkat.riwayat',['pegawai' => $request->pegawai_id]);
+        }
+        return redirect()->route('admin.kenaikan-pangkat.index');
         } catch (\Throwable $th) {
             alert()->error($th->getMessage());
             return redirect()->back()->withInput();
@@ -224,7 +226,6 @@ class KenaikanPangkatController extends Controller
             // reset kenaikan pangkat pegawai sebelumnya
             $pegawaiSebelumnya = Pegawai::find($kenaikan_pangkat->pegawai_id);
             $pegawaiSebelumnya->update([
-                'jabatan_sebelumnya' => $kenaikan_pangkat->jabatan_sebelumnya ?? null,
                 'pangkat_id' => $kenaikan_pangkat->pangkat_id_sebelumnya ?? null,
                 'golongan_id' => $kenaikan_pangkat->golongan_id_sebelumnya,
                 'tmt_pangkat_terakhir' => $kenaikan_pangkat->tmt_sebelumnya 
@@ -235,20 +236,17 @@ class KenaikanPangkatController extends Controller
                 $kenaikan_pangkat->update([
                     'pangkat_id_sebelumnya' => $kenaikanPangkatSebelumnya->pangkat_id,
                     'golongan_id_sebelumnya' => $kenaikanPangkatSebelumnya->golongan_id,
-                    'jabatan_sebelumnya' => $kenaikanPangkatSebelumnya->jabatan,
                     'tmt_sebelumnya' => $kenaikanPangkatSebelumnya->tmt_seblumnya
                 ]);
             }else{
                 $kenaikan_pangkat->update([
                     'pangkat_id_sebelumnya' => $pegawaiUpdate->pangkat_id,
                     'golongan_id_sebelumnya' => $pegawaiUpdate->golongan_id,
-                    'jabatan_sebelumnya' => $pegawaiUpdate->jabatan,
                     'tmt_sebelumnya' => $pegawaiUpdate->tmt_pangkat_terakhir
                 ]);
             }
             $validatedData = $request->validate([
                 'pegawai_id' => '',
-                'jabatan' => 'required',
                 'tmt_pangkat_dari' => 'required',
                 'tmt_pangkat_sampai' => 'required',
                 'no_sk' => 'required',
@@ -302,21 +300,18 @@ class KenaikanPangkatController extends Controller
                 $pegawaiUpdate->update([
                     'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
                     'golongan_id' => $golongan_id,
-                    'jabatan' => $request->jabatan
                 ]);
             } elseif ($pegawaiUpdate->status_tipe == 'pns' && $tmt_pangkat) {
                 $pegawaiUpdate->update([
                     'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
                     'golongan_id' => $golongan_id,
                     'pangkat_id' => $pangkat_id,
-                    'jabatan' => $request->jabatan
                 ]);
             }
             $kenaikan_pangkat->update([
                 'pegawai_id' => $request->pegawai_id,
                 'pangkat_id' => $pangkat_id ?? null,
                 'golongan_id' => $golongan_id,
-                'jabatan' => $request->jabatan,
                 'tmt_pangkat_dari' => $request->tmt_pangkat_dari,
                 'tmt_pangkat_sampai' => $request->tmt_pangkat_sampai,
                 'no_sk' => $request->no_sk,
@@ -388,7 +383,6 @@ class KenaikanPangkatController extends Controller
             'tmt_pangkat_terakhir' => $riwayatKP->tmt_sebelumnya,
             'pangkat_id' => $riwayatKP->pangkat_id_sebelumnya,
             'golongan_id' => $riwayatKP->golongan_id_sebelumnya,
-            'jabatan' => $riwayatKP->jabatan_sebelumnya
         ]);
         $kenaikan_pangkat->delete();
         alert()->success('data berhasil dihapus');

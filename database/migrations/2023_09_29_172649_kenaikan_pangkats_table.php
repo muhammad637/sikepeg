@@ -22,9 +22,9 @@ return new class extends Migration
             $table->foreign('pangkat_id')->references('id')->on('pangkats');
             $table->string('pangkat_id_sebelumnya')->nullable();
             $table->string('golongan_id_sebelumnya')->nullable();
-            $table->string('jabatan_sebelumnya')->nullable();
+            // $table->string('jabatan_sebelumnya')->nullable();
             $table->string('tmt_sebelumnya')->nullable();
-            $table->string('jabatan')->nullable();
+            // $table->string('jabatan')->nullable();
             $table->date('tmt_pangkat_dari')->nullable();
             $table->date('tmt_pangkat_sampai')->nullable();
             $table->string('no_sk')->nullable();

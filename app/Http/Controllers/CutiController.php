@@ -37,7 +37,7 @@ class CutiController extends Controller
 
         // $cuti = Cuti::where('status', 'aktif')->orWhere('status', 'pending')->get();
         if ($request->ajax()) {
-            $cuti = Cuti::query()->where('mulai_cuti', '>=', now()->format('Y-m-d'));
+            $cuti = Cuti::query()->whereDate('selesai_cuti', '>=', now()->format('Y-m-d'));
             return  DataTables::of($cuti)
                 ->addIndexColumn()
                 ->addColumn('nama_lengkap', function ($item) {
@@ -48,14 +48,25 @@ class CutiController extends Controller
                     $tanggal_mulai = Carbon::parse($item->mulai_cuti)->format('Ymd');
                     $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
                     $tanggal_saat_ini = now()->format('Ymd');
-                    $status = null;
+                    $status = 'pending';
                     if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
                         $status = 'aktif';
-                    } elseif ($item->tanggal_mulai >= $tanggal_saat_ini) {
-                        $status = 'pending';
-                    }
+                    } 
+                    // if ($item->tanggal_mulai >= $tanggal_saat_ini) {
+                    //     $status = 'pending';
+                    // }
                     // return 'tes';
-                    return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : 'secondary') . ' border-0">' . $status . '</button>';
+                    return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : 'warning') . ' border-0">' . $status . '</button>';
+                })
+                ->filterColumn('status_tombol', function ($query, $keyword) {
+                    if ($keyword == 'pending') {
+                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '>', now()->format('Y-m-d'));
+                    }
+                    if ($keyword == 'aktif') {
+                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '<=', now()->format('Y-m-d'));
+                    } elseif ($keyword == 'nonaktif') {
+                        $query->where('selesai_cuti', '<', now()->format('Y-m-d'));
+                    }
                 })
                 ->addColumn('aksi', 'pages.cuti.data-cuti-aktif.part.aksi')
                 ->addColumn('surat', 'pages.cuti.data-cuti-aktif.part.surat')
@@ -346,36 +357,6 @@ class CutiController extends Controller
     }
     public function historiCuti(Request $request)
     {
-        // if ($request->ajax()) {
-        //     $pegawai = Pegawai::query()->with(['cuti' => function($q){
-        //         $q->orderBy('selesai_cuti','desc');
-        //     }])->whereHas('cuti', function ($q) {
-        //         $q->orderBy('selesai_cuti', 'desc');
-        //         // $q->where('status', 'nonaktif')->sortByDesc('selesai_cuti');
-        //     });
-        //     return DataTables::of($pegawai)
-        //         ->addIndexColumn()
-        //         ->addColumn('jenis_cuti', function ($item) {
-        //             return $item->cuti[0]->jenis_cuti;
-        //         })
-        //         ->addColumn('alasan_cuti', function ($item) {
-        //             return $item->cuti[0]->alasan_cuti;
-        //         })
-        //         ->addColumn('jumlah_hari', function ($item) {
-        //             return $item->cuti[0]->jumlah_hari;
-        //         })
-        //         ->addColumn('mulai_cuti', function ($item) {
-        //             $mulai_cuti = Carbon::parse($item->cuti[0]->mulai_cuti)->format('d-M-Y');
-        //             return $mulai_cuti;
-        //         })
-        //         ->addColumn('selesai_cuti', function ($item) {
-        //             $selesai_cuti = Carbon::parse($item->cuti[0]->selesai_cuti)->format('d-M-Y');
-        //             return $selesai_cuti;
-        //         })
-        //         ->addColumn('aksi', 'pages.cuti.histori-cuti.part.aksi')
-        //         ->rawColumns(['nama_lengkap', 'jenis_cuti', 'alasan_cuti', 'jumlah_hari', 'mulai_cuti', 'selesai_cuti', 'aksi'])
-        //         ->toJson();
-        // }
         if ($request->ajax()) {
             $cuti = Cuti::query()->orderBy('selesai_cuti', 'desc');
             $cuti = Cuti::query();
@@ -408,13 +389,24 @@ class CutiController extends Controller
                     $status = null;
                     if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
                         $status = 'aktif';
-                    } elseif ($item->tanggal_mulai >= $tanggal_saat_ini) {
+                    } elseif ($tanggal_mulai >= $tanggal_saat_ini) {
                         $status = 'pending';
                     } else {
                         $status = 'nonaktif';
                     }
                     // return 'tes';
                     return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : ($status == 'pending' ? 'warning'  : 'secondary')) . ' border-0">' . $status . '</button>';
+                })
+                ->filterColumn('status_tombol', function ($query, $keyword) {
+                    if ($keyword == 'pending') {
+                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti','>',now()->format('Y-m-d'));
+                    } 
+                    if ($keyword == 'aktif') {
+                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti','<=',now()->format('Y-m-d'));
+                    } 
+                    elseif ($keyword == 'nonaktif') {
+                        $query->where('selesai_cuti', '<', now()->format('Y-m-d'));
+                    }
                 })
                 ->addColumn('aksi', 'pages.cuti.histori-cuti.part.aksi')
                 // ->addColumn('surat', 'pages.cuti.part.surat')

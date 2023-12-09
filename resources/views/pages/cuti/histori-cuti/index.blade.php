@@ -99,7 +99,7 @@
                             <th scope="col">Mulai Cuti</th>
                             <th scope="col">Akhir Cuti</th>
                             <th scope="col">Jumlah hari</th>
-                            <th scope="col">Sisa Cuti Tahunan</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
