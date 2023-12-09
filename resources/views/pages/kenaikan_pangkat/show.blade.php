@@ -47,13 +47,7 @@
                                 readonly>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-4 col-form-label">Jabatan</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputEmail3"
-                                value="{{ $kenaikan_pangkat->jabatan }}" readonly>
-                        </div>
-                    </div>
+                    
 
                 </form>
             </div>

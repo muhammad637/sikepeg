@@ -21,6 +21,11 @@ class JenisPangkatGolongan extends Component
     public function mount()
     {
         $this->pegawai = old('pegawai', null);
+        $this->pangkat_id = old('pangkat_id', null);
+        $this->golongan_id = old('golongan_id', null);
+        $this->nama_golongan = old('nama_golongan', null);
+        $this->nama_pangkat = old('nama_pangkat', null);
+        $this->jabatan = old('jabatan', null);
         if ($this->pegawai) {
             $this->resultGolongan =
                 Golongan::where('jenis', $this->pegawai->status_tipe)->orderBy('nama_golongan', 'asc')->get();
@@ -28,11 +33,7 @@ class JenisPangkatGolongan extends Component
                 Pangkat::orderBy('nama_pangkat', 'asc')->get();
             $this->jabatan = old('jabatan', $this->pegawai->jabatan);
         }
-        $this->pangkat_id = old('pangkat_id', null);
-        $this->golongan_id = old('golongan_id', null);
-        $this->nama_golongan = old('nama_golongan', null);
-        $this->nama_pangkat = old('nama_pangkat', null);
-        $this->jabatan = old('jabatan', null);
+       
     }
     public function updatedPegawai($value)
     {
@@ -41,17 +42,13 @@ class JenisPangkatGolongan extends Component
             $this->status_tipe = $pegawai->status_tipe ?? 'pns';
             $this->resultGolongan = Golongan::where('jenis', $pegawai->status_tipe)->get();
             $this->resultPangkat = Pangkat::all();
+            $this->jabatan = $pegawai->jabatan;
         }
     }
 
     public function updateId($data){
         $this->pegawai = $data;
     }
-
-    
-
-
-
     public function render()
     {
         return view('livewire.kenaikan-pangkat.jenis-pangkat-golongan');

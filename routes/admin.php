@@ -15,7 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
-use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\PromosiDemosiController;
 use App\Http\Controllers\KenaikanPangkatController;
 use App\Models\Jabatan;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -61,13 +61,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         // str
-        Route::resource('/str', STRController::class);
         Route::group(['prefix' => 'str'], function () {
             Route::get('/{pegawai:id}/riwayat', [STRController::class, 'riwayat'])->name('str.riwayat');
             Route::get('/show-riwayat/{str}', [STRController::class, 'showRiwayat'])->name('str.show-riwayat');
             Route::get('/edit-riwayat/{str}', [STRController::class, 'editRiwayat'])->name('str.edit-riwayat');
-            Route::get('/export', [STRController::class, 'export'])->name('str.export');
+            Route::get('/export', [STRController::class, 'export_excel'])->name('str.export');
         });
+        Route::resource('/str', STRController::class);
 
         // sip
         Route::prefix('/sip')->name('sip.')->group(function () {
@@ -87,7 +87,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('cuti')->name('cuti.')->group(function () {
             Route::post('/tambah-cuti-masa-lalu', [CutiController::class,'tambahCutiMasaLalu'])->name('tambah-cuti-masa-lalu');
-            Route::get('/riwayat-cuti-pegawai/{id}', [CutiController::class,'riwayatCutiPegawai'])->name('riwayat-cuti-pegawai');
             Route::get('/show/{cuti:id}',[CutiController::class, 'show'])->name('show');
             Route::group(['prefix' => '/data-cuti-aktif'], function () {
                 Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
@@ -97,8 +96,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('/store', [CutiController::class, 'store'])->name('data-cuti-aktif.store');
                 Route::put('/update/{cuti:id}', [CutiController::class, 'update'])->name('data-cuti-aktif.update');
             });
-            Route::group(['prefix' => 'histori-cuti'], function () {
-                Route::get('/', [CutiController::class, 'historiCuti'])->name('histori-cuti.index');
+            Route::prefix('/histori-cuti')->name('histori-cuti.')->group(function () {
+                Route::get('/', [CutiController::class, 'historiCuti'])->name('index');
+                Route::get('/pegawai/{id}', [CutiController::class, 'riwayatCutiPegawai'])->name('pegawai');
+                Route::get('/exportAll', [CutiController::class, 'exportAll'])->name('export-all');
+                Route::get('/exportPertahun', [CutiController::class, 'exportPertahun'])->name('export-year');
+                Route::get('/show/{cuti:id}', [CutiController::class, 'showRiwayat'])->name('showRiwayat');
+                Route::get('/edit/{cuti:id}', [CutiController::class, 'editRiwayat'])->name('editRiwayat');
             });
         });
         
@@ -127,10 +131,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('jabatan')->name('jabatan.')->group(function(){
             Route::prefix('demosi')->name('demosi.')->group(function(){
-                Route::get('/',[JabatanController::class, 'Demosiindex'])->name('index');
-                Route::get('/create', [JabatanController::class, 'Demosicreate'])->name('create');
-                Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
-    
+                Route::get('/',[PromosiDemosiController::class, 'Demosiindex'])->name('index');
+                Route::get('/create', [PromosiDemosiController::class, 'Demosicreate'])->name('create');
+            });
+            Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
+            Route::prefix('promosi')->name('promosi.')->group(function(){
+                Route::get('/',[PromosiDemosiController::class, 'Promosiindex'])->name('index');
+                Route::get('/create', [PromosiDemosiController::class, 'Promosicreate'])->name('create');
+                Route::post('/store', [PromosiDemosiController::class, 'PromosiStore'])->name('store');
             });
 });
 

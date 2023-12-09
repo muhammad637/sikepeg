@@ -41,9 +41,9 @@ class Pegawai extends Authenticatable
     {
         return $this->hasMany(KenaikanPangkat::class);
     }
-    public function jabatan()
+    public function promosiDemosi()
     {
-        return $this->hasMany(Jabatan::class);
+        return $this->hasMany(PromosiDemosi::class);
     }
     public function golongan()
     {
@@ -64,5 +64,9 @@ class Pegawai extends Authenticatable
     public static function pegawaiId()
     {
         return Pegawai::all()->pluck('id');
+    }
+    public function scopeTanpaSTR($query)
+    {
+        return $query->where('jenis_tenaga','nakes')->whereNull('str');
     }
 }
