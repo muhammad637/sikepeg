@@ -132,7 +132,6 @@ class PromosiDemosiController extends Controller
         $jabatan_terakhir = Pegawai::whereHas('promosiDemosi', function ($q) {
             $q->orderBy('created_at', 'desc');
         })->with('promosiDemosi')->get();
-        return $jabatan_terakhir;
         if ($request->ajax()) {
             if ($request->has('pegawai')) {
                 $promosi->where('pegawai_id', 'pegawai');
