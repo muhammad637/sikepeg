@@ -9,6 +9,7 @@ use App\Exports\Export;
 use App\Models\Pegawai;
 use App\Models\Ruangan;
 use App\Models\Notifikasi;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
@@ -51,7 +52,7 @@ class CutiController extends Controller
                     $status = 'pending';
                     if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
                         $status = 'aktif';
-                    } 
+                    }
                     // if ($item->tanggal_mulai >= $tanggal_saat_ini) {
                     //     $status = 'pending';
                     // }
@@ -59,12 +60,12 @@ class CutiController extends Controller
                     return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : 'warning') . ' border-0">' . $status . '</button>';
                 })
                 ->filterColumn('status_tombol', function ($query, $keyword) {
-                    if ($keyword == 'pending') {
+                    if (Str::contains('pending', $keyword)) {
                         $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '>', now()->format('Y-m-d'));
                     }
-                    if ($keyword == 'aktif') {
+                    if (Str::contains('aktif', $keyword)) {
                         $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '<=', now()->format('Y-m-d'));
-                    } elseif ($keyword == 'nonaktif') {
+                    } elseif (Str::contains('nonaktif', $keyword)) {
                         $query->where('selesai_cuti', '<', now()->format('Y-m-d'));
                     }
                 })
@@ -361,7 +362,7 @@ class CutiController extends Controller
             $cuti = Cuti::query()->orderBy('selesai_cuti', 'desc');
             $cuti = Cuti::query();
             if ($request->input('tahun') != null) {
-                $cuti = $cuti->where('mulai_cuti','like','%'. $request->tahun.'%' );
+                $cuti = $cuti->where('mulai_cuti', 'like', '%' . $request->tahun . '%');
             }
             if ($request->input('pegawai') != null) {
                 $cuti = $cuti->where('pegawai_id', $request->pegawai);
@@ -398,13 +399,12 @@ class CutiController extends Controller
                     return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : ($status == 'pending' ? 'warning'  : 'secondary')) . ' border-0">' . $status . '</button>';
                 })
                 ->filterColumn('status_tombol', function ($query, $keyword) {
-                    if ($keyword == 'pending') {
-                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti','>',now()->format('Y-m-d'));
-                    } 
-                    if ($keyword == 'aktif') {
-                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti','<=',now()->format('Y-m-d'));
-                    } 
-                    elseif ($keyword == 'nonaktif') {
+                    if (Str::contains('pending', $keyword)) {
+                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '>', now()->format('Y-m-d'));
+                    }
+                    if (Str::contains('aktif', $keyword)) {
+                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '<=', now()->format('Y-m-d'));
+                    } elseif (Str::contains('nonaktif', $keyword)) {
                         $query->where('selesai_cuti', '<', now()->format('Y-m-d'));
                     }
                 })
@@ -416,7 +416,7 @@ class CutiController extends Controller
         }
         return view('pages.cuti.histori-cuti.index', [
             'pegawai' => Pegawai::orderBy('nama_lengkap', 'asc')->get(),
-            'ruangans' => Ruangan::orderBy('nama_ruangan','asc')->get() 
+            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
         ]);
     }
 
@@ -521,7 +521,7 @@ class CutiController extends Controller
     public function exportPertahun(Request $request)
     {
         // return 'testing';
-        $cuti = Cuti::where('mulai_cuti' ,'like','%'.$request->year.'%')->orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc')->get();
+        $cuti = Cuti::where('mulai_cuti', 'like', '%' . $request->year . '%')->orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc')->get();
         return $this->dataLaporan($cuti);
     }
 }

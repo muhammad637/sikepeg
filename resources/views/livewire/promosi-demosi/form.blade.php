@@ -1,4 +1,5 @@
 <div>
+    <input type="hidden" wire:model='ruangan_id' name="ruangan_id">
     <div>
         <div class="row mb-3">
             <label for="status_tipe" class="col-sm-4 col-form-label">Ruangan</label>

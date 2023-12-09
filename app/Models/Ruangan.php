@@ -17,5 +17,8 @@ class Ruangan extends Model
     public function pegawai(){
         return $this->hasMany(Pegawai::class);
     }
+    public function promosiDemosi(){
+        return $this->hasMany(PromosiDemosi::class);
+    }
 
 }
