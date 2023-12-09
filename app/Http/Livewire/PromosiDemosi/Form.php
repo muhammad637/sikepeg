@@ -8,6 +8,7 @@ use Livewire\Component;
 class Form extends Component
 {
     public $pegawai;
+    public $ruangan_id;
     public $ruangan;
     public $jabatanLama;
 
@@ -16,6 +17,7 @@ class Form extends Component
         $pegawai = Pegawai::find($this->pegawai);
         if ($pegawai) {
             $this->ruangan = $pegawai->ruangan->nama_ruangan;
+            $this->ruangan_id = $pegawai->ruangan->id;
             $this->jabatanLama = $pegawai->jabatan;
         }
     }
@@ -24,6 +26,7 @@ class Form extends Component
         $searchPegawai = Pegawai::find($this->pegawai);
         if ($searchPegawai) {
             $this->ruangan = $searchPegawai->ruangan->nama_ruangan;
+            $this->ruangan_id = $searchPegawai->ruangan_id;
             $this->jabatanLama = $searchPegawai->jabatan;
         }
     }
