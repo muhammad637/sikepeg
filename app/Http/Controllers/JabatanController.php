@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 
 class JabatanController extends Controller
@@ -26,7 +27,8 @@ class JabatanController extends Controller
     public function Demosicreate()
     {
 
-        return view('pages.jabatan.demosi.create');
+        $pegawai = Pegawai::all();
+        return view('pages.jabatan.demosi.create', ['pegawai'=> $pegawai]);
         //
     }
 
@@ -38,7 +40,39 @@ class JabatanController extends Controller
      */
     public function store(Request $request)
     {
-        
+       $request->validate(
+            [
+                'pegawai_id',
+                'jabatan_sebelumnya' => 'required',
+                'jabatan_selanjutnya' => 'required',
+                'tanggal_berlaku' => 'required',
+                'no_sk' => 'required',
+                'tanggal_sk' => 'required|date',
+                'link_sk' => 'required',
+                'type' => 'required'
+            ]
+            );
+            $jabatan = Jabatan::create([
+                'pegawai' => $request->pegawai_id,
+                'jabatan_sebelumnya' => $request->jabatan_sebelumnya,
+                'jabatan_selanjutnya' => $request->jabatan_selanjutnya,
+                'no_sk' => $request->no_sk,
+                'tanggal_sk' => $request->tanggal_sk,
+                'link_sk' => $request->link_sk
+            ]);
+            $pegawai = Pegawai::find($request->pegawai_id);
+            $pegawai->update(['jabatan' => $request->jabatan_selanjutnya]);
+            $validatedData = $request->validate(
+                [
+                    'pegawai_id' => '',
+                    'jabatan_sebelumnya' => 'required',
+                    'jabatan_selanjutnya' => 'required',
+                    'tanggal_sk' => 'required|date',
+                    'link_sk' => 'required',
+                    'type' => 'required'
+                ]
+                );
+                $jabatan = Jabatan::create(request()->all());
         //
     }
 
