@@ -21,11 +21,11 @@
                         <div class="col-sm-8 text-secondary">
                             <select class="form-control" id="pegawai" name="pegawai_id" required>
                                 <option value="">Pilih Nama Pegawai</option>
-                                {{-- @foreach ($pegawai as $item)
+                                @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}" {{ old($item->id) == $item->id ? 'selected' : '' }}>
                                         {{ $item->nama_lengkap ?? $item->nama_depan }}
                                     </option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -85,41 +85,12 @@
 
             // alert('oke')
             $('#pegawai').select2();
-            $('#tanggal_mulai').on('change', function() {
-                let tanggal_mulai = $('#tanggal_mulai').val()
-                let split = tanggal_mulai.split('-')
-                console.log(split[0])
-                $('#tahun').val(split[0])
-                console.log("Jumlah Hari Antara Kedua Tanggal: " + jumlahHari +
-                    " hari");
-                if ($('#tanggal_selesai').val() != null) {
-                    let tanggal_selesai = $('#tanggal_selesai').val()
-                    var tanggalAwal = new Date(tanggal_mulai);
-                    var tanggalAkhir = new Date(tanggal_selesai);
-                    var selisihMilidetik = tanggalAkhir - tanggalAwal;
-                    var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
-                     $('#jumlah-hari').val(jumlahHari)
-                     $('#jumlah-jam').val(jumlahHari*5)
-                }
+            $('#pegawai').on('change',function(){
+                let val = $('#pegawai').val()
+                @php
+                    
+                @endphp
             })
-            $('#tanggal_selesai').on('change', function() {
-                let tanggal_selesai = $('#tanggal_selesai').val()
-                if ($('#tanggal_mulai').val() != null) {
-                    let tanggal_mulai = $('#tanggal_mulai').val()
-                    var tanggalAwal = new Date(tanggal_mulai);
-                    var tanggalAkhir = new Date(tanggal_selesai);
-                    var selisihMilidetik = tanggalAkhir - tanggalAwal;
-                    var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
-                     $('#jumlah-hari').val(jumlahHari)
-                     $('#jumlah-jam').val(jumlahHari*5)
-                }
-            })
-            $('#jumlah-hari').on('change', function() {
-                let jumlah_hari = $('#jumlah-hari').val()
-                let jam = jumlah_hari * 5
-                $('#jumlah-jam').val(jam)
-            })
-
             // $('.nip').val('tes')
         });
     </script>

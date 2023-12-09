@@ -15,7 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HariBesarController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
-use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\PromosiDemosiController;
 use App\Http\Controllers\KenaikanPangkatController;
 use App\Models\Jabatan;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -131,10 +131,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('jabatan')->name('jabatan.')->group(function(){
             Route::prefix('demosi')->name('demosi.')->group(function(){
-                Route::get('/',[JabatanController::class, 'Demosiindex'])->name('index');
-                Route::get('/create', [JabatanController::class, 'Demosicreate'])->name('create');
-                Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
-    
+                Route::get('/',[PromosiDemosiController::class, 'Demosiindex'])->name('index');
+                Route::get('/create', [PromosiDemosiController::class, 'Demosicreate'])->name('create');
+            });
+            Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
+            Route::prefix('promosi')->name('promosi.')->group(function(){
+                Route::get('/',[PromosiDemosiController::class, 'Promosiindex'])->name('index');
+                Route::get('/create', [PromosiDemosiController::class, 'Promosicreate'])->name('create');
+                Route::post('/store', [PromosiDemosiController::class, 'PromosiStore'])->name('store');
             });
 });
 

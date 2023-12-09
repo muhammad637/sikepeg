@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jabatans', function (Blueprint $table) {
+        Schema::create('promosi_demosis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais');
-            $table->string('jabatan_sebelumnya')->nullable() ;
+            $table->string('jabatan_sebelumnya')->nullable();
             $table->string('jabatan_selanjutnya')->nullable();
             $table->string('tanggal_berlaku')->nullable();
             $table->string('no_sk')->nullable();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jabatans');
+        Schema::dropIfExists('promosi_demosis');
     }
 };

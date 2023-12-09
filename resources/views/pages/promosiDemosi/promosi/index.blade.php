@@ -1,13 +1,15 @@
-@extends('main', ['title' => 'Data Cuti'])
+@extends('main', ['title' => 'Data Demosi'])
 @section('content')
-    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Cuti</h1>
+    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Promosi</h1>
     <!-- Page Heading -->
     <!-- DataTales Example -->
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h4 class="m-0 font-weight-bold text-dark">Data Cuti Pegawai : {{$pegawai->nama_lengkap ?? $pegawai->nama_depan}}</h4>
-                <h4>Sisa Cuti Tahunan : {{$pegawai->sisa_cuti_tahunan}}</h4>
+                <h4 class="m-0 font-weight-bold text-dark">Data Promosi Aktif Pegawai</h4>
+                <a href="{{ route('admin.jabatan.promosi.create') }}"
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i class="fas fa-plus-square ml-1"></i></a>
+
             </div>
         </div>
         <div class="card-body">
@@ -17,17 +19,17 @@
                     <thead>
                         <tr class="text-dark">
                             <th scope="col">No</th>
-                            {{-- <th scope="col">Nama</th> --}}
-                            <th scope="col">Jenis Cuti</th>
-                            <th scope="col">Alasan</th>
-                            <th scope="col">Mulai Cuti</th>
-                            <th scope="col">Akhir Cuti</th>
-                            <th scope="col">Surat</th>
+                            <th scope="col">Nama Pegawai</th>
+                            <th scope="col">Ruangan</th>
+                            <th scope="col">Jabatan Sebelumnya</th>
+                            <th scope="col">Jabatan Baru</th>
+                            <th scope="col">tanggalSK</th>
                             <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
+                       
                     </tbody>
                 </table>
             </div>
@@ -41,41 +43,41 @@
         $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.cuti.riwayat-cuti-pegawai',['id' => $id] )}}",
+            ajax: "{{ route('admin.jabatan.promosi.index') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     searchable: false,
                     orderable: false,
                 },
-               
+
                 {
-                    data: 'jenis_cuti',
-                    name: 'jenis_cuti',
+                    data: 'nama_lengkap',
+                    name: 'nama_lengkap',
 
                 },
                 {
-                    data: 'alasan_cuti',
-                    name: 'alasan_cuti',
+                    data: 'ruangan',
+                    name: 'ruangan',
 
                 },
                 {
-                    data: 'mulai_cuti',
-                    name: 'mulai_cuti',
+                    data: 'jabatan_sebelumnya',
+                    name: 'jabatan_sebelumnya',
 
                 },
                 {
-                    data: 'selesai_cuti',
-                    name: 'selesai_cuti',
+                    data: 'jabatan_selanjutnya',
+                    name: 'jabatan_selanjutnya',
 
                 },
-
                 {
-                    data: 'surat',
-                    name: 'surat',
-                    searchable: false,
-                    orderable: false,
+                    data: 'tanggal_sk',
+                    name: 'tanggal_sk',
+
                 },
+
+
                 {
                     data: 'status_tombol',
                     name: 'status_tombol',

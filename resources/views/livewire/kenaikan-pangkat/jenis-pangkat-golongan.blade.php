@@ -138,7 +138,6 @@
                     $('#pegawai').on('change', function(e) {
                         var data = $('#pegawai').select2("val")
                         @this.set("pegawai", data)
-                  
                     });
                     var data = $('#pegawai').select2("val")
                     if (data) {

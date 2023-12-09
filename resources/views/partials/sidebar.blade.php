@@ -54,8 +54,8 @@
                 <h6 class="collapse-header">Menu Jabatan</h6>
                 <a class="collapse-item {{ Request::routeIs('admin.jabatan.demosi.*') ? 'active' : '' }}"
                     href="{{ route('admin.jabatan.demosi.index') }}">Demosi</a>
-                <a class="collapse-item {{ Request::routeIs('admin.cuti.histori-cuti.*') ? 'active' : '' }}"
-                    href="">Promosi</a>
+                <a class="collapse-item {{ Request::routeIs('admin.cuti.promosi.*') ? 'active' : '' }}"
+                    href="{{route('admin.jabatan.promosi.index')}}">Promosi</a>
             </div>
         </div>
     </li>
