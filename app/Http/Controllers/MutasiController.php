@@ -18,49 +18,64 @@ class MutasiController extends Controller
     //
     public function index(Request $request)
     {
-        $ruangan = Ruangan::orderBy('nama_ruangan', 'asc');
-
+        $ruangan = Ruangan::orderBy('nama_ruangan', 'asc')->get();
+        $mutasi_terakhir = Pegawai::whereHas('mutasi')->with(['mutasi' => function ($q) {
+            $q->orderBy('tanggal_sk', 'desc');
+        }])->get();
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->with(['mutasi' => function ($q) {
-                $q->orderBy('created_at', 'desc')->orderBy('tanggal_sk', 'desc');
-            }])->whereHas('mutasi');
+            $mutasi = Mutasi::query()->orderBy('pegawai_id', 'asc')->orderBy('tanggal_sk', 'desc');
+            if ($request->input('ruangan_awal') != null) {
+                $mutasi->where('ruangan_awal_id', $request->ruangan_awal);
+            }
             if ($request->input('ruangan_tujuan') != null) {
-                $pegawai->where('ruangan_id', $request->ruangan_tujuan);
+                $mutasi->where('ruangan_tujuan_id', $request->ruangan_tujuan);
+            }
+            if ($request->input('tahun') != null) {
+                $mutasi->where('tanggal_sk', 'like', '%' . $request->tahun . '%');
             }
             if ($request->input('jenis_mutasi') != null) {
-                $pegawai->whereHas('mutasi', function ($q) use ($request) {
-                    $q->where('jenis_mutasi', $request->jenis_mutasi);
-                });
+                $mutasi->where('jenis_mutasi', $request->jenis_mutasi);
             }
-            $dataMutasi = DataTables::of($pegawai)
+            $dataMutasi = DataTables::of($mutasi)
                 ->addIndexColumn()
                 ->addColumn('nama', function ($item) {
-                    return $item->nama_lengkap ?? $item->nama_depan;
+                    return $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan;
                 })
                 ->addColumn('ruangan-awal', function ($item) {
-                    return $item->mutasi[0]->ruanganAwal->nama_ruangan ?? '-';
+                    return $item->ruanganAwal->nama_ruangan ?? '-';
                 })
                 ->addColumn('ruangan-tujuan', function ($item) {
-                    return $item->mutasi[0]->ruanganTujuan->nama_ruangan ?? '-';
+                    return $item->ruanganTujuan->nama_ruangan ?? '-';
                 })
                 ->addColumn('instansi-awal', function ($item) {
-                    return $item->mutasi[0]->instansi_awal ?? '-';
+                    return $item->instansi_awal ?? '-';
                 })
                 ->addColumn('instansi-tujuan', function ($item) {
-                    return $item->mutasi[0]->instansi_tujuan ?? '-';
+                    return $item->instansi_tujuan ?? '-';
                 })
                 ->addColumn('jenis-mutasi', function ($item) {
-                    return $item->mutasi[0]->jenis_mutasi;
+                    return $item->jenis_mutasi;
                 })
                 ->addColumn('no-sk', function ($item) {
-                    return $item->mutasi[0]->no_sk;
+                    return $item->no_sk;
                 })
                 ->addColumn('tanggal-berlaku', function ($item) {
-                    return Carbon::parse($item->mutasi[0]->tanggal_berlaku)->format('d/m/Y');
+                    return Carbon::parse($item->tanggal_berlaku)->format('d/m/Y');
+                })
+                ->addColumn('status_tombol', function ($item) use ($mutasi_terakhir) {
+                    $data = 'nonaktif';
+                    foreach ($mutasi_terakhir as $pegawai) {
+                        if (isset($pegawai->mutasi) &&  $pegawai->mutasi[0]->id == $item->id) {
+                            $data = 'aktif';
+                            break;
+                        }
+                    }
+                    $warna = $data == 'aktif' ? 'btn btn-success' : 'btn btn-secondary';
+                    return "<div class='$warna'>$data</div>";
                 })
                 ->addColumn('surat', 'pages.surat.mutasi')
                 ->addColumn('aksi', 'pages.mutasi.part.aksi-index')
-                ->rawColumns(['nama', 'ruangan-awal', 'ruangan-tujuan', 'instansi-awal', 'instansi-tujuan', 'jenis-mutasi', 'no-sk', 'tanggal-berlaku', 'surat', 'aksi'])
+                ->rawColumns(['nama', 'ruangan-awal', 'ruangan-tujuan', 'instansi-awal', 'instansi-tujuan', 'jenis-mutasi', 'no-sk', 'tanggal-berlaku', 'surat', 'status_tombol', 'aksi'])
                 // ->toJson()
                 ->make(true);
             return $dataMutasi;
