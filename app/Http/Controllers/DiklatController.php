@@ -12,6 +12,7 @@ use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Models\Ruangan;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DiklatController extends Controller
@@ -62,7 +63,9 @@ class DiklatController extends Controller
                 ->toJson();
             return $dataPegawaiDiklat;
         }
-        return view('pages.diklat.index');
+        return view('pages.diklat.index', [
+            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
+        ]);
     }
 
     public function create()
@@ -137,7 +140,8 @@ class DiklatController extends Controller
             'tahun' => 'required',
             'no_sertifikat' => 'required',
             'tanggal_sertifikat' => 'required|date',
-            'link_sertifikat' => 'required'
+            'link_sertifikat' => 'required',
+            'ruangan_id' => 'required'
         ]);
         $diklat = Diklat::create([
             'pegawai_id' => $request->pegawai_id,
@@ -151,7 +155,8 @@ class DiklatController extends Controller
             'tahun' => $request->tahun,
             'no_sertifikat' => $request->no_sertifikat,
             'tanggal_sertifikat' => $request->tanggal_sertifikat,
-            'link_sertifikat' => $request->link_sertifikat
+            'link_sertifikat' => $request->link_sertifikat,
+            'ruangan_id' => $request->ruangan_id
         ]);
         $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
         $createNotif = Notifikasi::create($notif);

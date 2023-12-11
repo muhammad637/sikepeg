@@ -9,6 +9,57 @@
                 <h4 class="m-0 font-weight-bold text-dark">Data Mutasi Pegawai</h4>
                 <a href="{{ route('admin.mutasi.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i
                         class="fas fa-plus-square ml-1"></i></a>
+                <a href="#export-semua-jabatan" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1"
+                    data-toggle="modal">Export Excel</a>
+                {{-- modal export --}}
+                <div class="modal fade" role="dialog" id="export-semua-jabatan">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Export Rekap Promosi</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('admin.jabatan.export-semua-jabatan') }}" method="get">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="pilih-tahun">Pilih Tahun</label>
+                                        <select name="year" id="pilih-tahun" class="form-control">
+                                            <option value="">Semua Tahun</option>
+                                            @for ($year = date('Y'); $year >= 2000; $year--)
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pilih-tahun" class="d-block">Pilih Ruangan Tujuan (Baru)</label>
+                                        <select name="ruangan_tujuan" id="select-ruangan" class="form-control w-100"
+                                            style="width: 100%">
+                                            <option value="">Semua Ruangan</option>
+                                            @foreach ($ruangans as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nama_lengkap }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pilih-tahun">Pilih Tipe</label>
+                                        <select name="type" id="pilih-tahun" class="form-control">
+                                            <option value="">Semua tipe</option>
+                                            <option value="promosi" selected>Promosi</option>
+                                            <option value="demosi">Demosi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -32,7 +83,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>

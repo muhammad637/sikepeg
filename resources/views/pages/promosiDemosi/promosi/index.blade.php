@@ -14,9 +14,56 @@
                     <a href="{{ route('admin.jabatan.promosi.create') }}"
                         class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1">Tambah <i
                             class="fas fa-plus-square ml-1"></i></a>
-                    <a href="{{ route('admin.jabatan.promosi.create') }}"
-                        class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Expport Excel <i
-                            class="fas fa-plus-square ml-1"></i></a>
+                    <a href="#export-semua-jabatan" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1"
+                        data-toggle="modal">Export Excel</a>
+                    {{-- modal export --}}
+                    <div class="modal fade" role="dialog" id="export-semua-jabatan">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Export Rekap Promosi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{ route('admin.jabatan.export-semua-jabatan') }}" method="get">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="pilih-tahun">Pilih Tahun</label>
+                                            <select name="year" id="pilih-tahun" class="form-control">
+                                                <option value="">Semua Tahun</option>
+                                                @for ($year = date('Y'); $year >= 2000; $year--)
+                                                    <option value="{{ $year }}">{{ $year }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pilih-tahun" class="d-block">Pilih Pegawai</label>
+                                            <select name="pegawai_id" id="select-pegawai" class="form-control w-100" style="width: 100%">
+                                                <option value="">Semua Pegawai</option>
+                                                @foreach ($pegawais as $item)
+                                                    <option value="{{$item->id}}">{{$item->nama_lengkap}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pilih-tahun">Pilih Tipe</label>
+                                            <select name="type" id="pilih-tahun" class="form-control">
+                                                <option value="">Semua tipe</option>
+                                                <option value="promosi" selected >Promosi</option>
+                                                <option value="demosi">Demosi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,7 +75,8 @@
                     <select name="status_tipe" id="pegawai" class="form-control filter">
                         <option value="">Pilih Pegawai</option>
                         @foreach ($pegawais as $item)
-                            <option value="{{$item->id}}">{{$item->nama_lengkap}} - {{$item->ruangan->nama_ruangan}}</option>
+                            <option value="{{ $item->id }}">{{ $item->nama_lengkap }} -
+                                {{ $item->ruangan->nama_ruangan }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -37,7 +85,7 @@
                     <select name="status_tipe" id="ruangan" class="form-control filter">
                         <option value="">Pilih Ruangan</option>
                         @foreach ($ruangans as $item)
-                            <option value="{{$item->id}}">{{$item->nama_ruangan}}</option>
+                            <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -81,9 +129,10 @@
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('#ruangan').select2()
             $('#pegawai').select2()
+            $('#select-pegawai').select2()
             let pegawai = $('#pegawai').val()
             let ruangan = $('#ruangan').val()
             let tahun = $('#tahun').val()
@@ -107,48 +156,48 @@
                         searchable: false,
                         orderable: false,
                     },
-    
+
                     {
                         data: 'nama_lengkap',
                         name: 'nama_lengkap',
-    
+
                     },
                     {
                         data: 'ruangan',
                         name: 'ruangan',
-    
+
                     },
                     {
                         data: 'jabatan_sebelumnya',
                         name: 'jabatan_sebelumnya',
-    
+
                     },
                     {
                         data: 'jabatan_selanjutnya',
                         name: 'jabatan_selanjutnya',
-    
+
                     },
                     {
                         data: 'tanggal_sk',
                         name: 'tanggal_sk',
-    
+
                     },
-    
-    
+
+
                     {
                         data: 'status_tombol',
                         name: 'status_tombol',
-    
+
                     },
                     {
                         data: 'aksi',
                         name: 'aksi',
                         searchable: false,
                         orderable: false,
-    
+
                     },
-    
-    
+
+
                 ]
             })
             $('.filter').on('change', function() {

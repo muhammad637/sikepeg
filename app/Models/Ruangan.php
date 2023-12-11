@@ -20,5 +20,8 @@ class Ruangan extends Model
     public function promosiDemosi(){
         return $this->hasMany(PromosiDemosi::class);
     }
+    public function diklat(){
+        return $this->hasMany(Diklat::class);
+    }
 
 }

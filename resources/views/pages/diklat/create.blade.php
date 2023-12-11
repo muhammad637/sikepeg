@@ -29,6 +29,7 @@
                             </select>
                         </div>
                     </div>
+                    @livewire('diklat.form')
                     <div class="row mb-3">
                         <label for="nama_diklat" class="col-sm-4 col-form-label">Nama Diklat</label>
                         <div class="col-sm-8">

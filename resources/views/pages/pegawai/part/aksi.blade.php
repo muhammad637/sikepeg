@@ -7,23 +7,34 @@
         <div class='dropdown-menu'>
             <a class='dropdown-item' href={{ route('admin.cuti.histori-cuti.pegawai', ['id' => $model->id]) }}
                 target='_blank'>History Cuti</a>
+            {{-- mutasi --}}
             @if ($model->mutasi->count() > 0)
                 <a class='dropdown-item' href="{{ route('admin.mutasi.history', [$model->id]) }}"
                     target='_blank'>History Mutasi</a>
             @else
-                <a class='dropdown-item' href="#diklat-{{$model->id}}" data-toggle="modal">History Mutasi</a>
+                <a class='dropdown-item' href="#mutasi-{{ $model->id }}" data-toggle="modal">History Mutasi</a>
             @endif
+            {{-- jabatan --}}
+            @if ($model->promosiDemosi->count() > 0)
+                <a class='dropdown-item' href="{{ route('admin.jabatan.riwayat', [$model->id]) }}"
+                    target='_blank'>History Jabatan</a>
+            @else
+                <a class='dropdown-item' href="#jabatan-{{ $model->id }}" data-toggle="modal">History Jabatan</a>
+            @endif
+            {{-- diklat --}}
             @if ($model->diklat->count() > 0)
                 <a class='dropdown-item' href="{{ route('admin.diklat.riwayat', [$model->id]) }}"
                     target='_blank'>History Diklat</a>
             @else
-                <a class='dropdown-item' href="#diklat-{{$model->id}}" data-toggle="modal">History Diklat</a>
+                <a class='dropdown-item' href="#diklat-{{ $model->id }}" data-toggle="modal">History Diklat</a>
             @endif
+            {{-- kenaikan pangkat --}}
             @if ($model->kenaikanpangkat->count() > 0)
                 <a class='dropdown-item' href="{{ route('admin.kenaikan-pangkat.riwayat', [$model->id]) }}"
                     target='_blank'>History Kenaikan Pangkat</a>
             @else
-                <a class='dropdown-item' href="#kenaikanPangkat-{{$model->id}}" data-toggle="modal">History Kenaikan Pangkat</a>
+                <a class='dropdown-item' href="#kenaikanPangkat-{{ $model->id }}" data-toggle="modal">History
+                    Kenaikan Pangkat</a>
             @endif
             <a class='dropdown-item' href="{{ route('admin.pegawai.show', [$model->id]) }}" target='_blank'>Personal
                 File</a>
@@ -32,71 +43,92 @@
     <a href="{{ route('admin.pegawai.edit', ['pegawai' => $model->id]) }}" class='btn btn-warning text-white  mr-1'><i
             class='fas fa-pen'></i></a>
 </div>
-    <!-- Button trigger modal -->
-    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+<!-- Button trigger modal -->
+{{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
     </button> --}}
 
-    <!-- mutasi -->
-    <div class="modal fade" id="mutasi-{{$model->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Data Pegawai {{$model->nama_lengkap}} tidak memiliki riwayat Mutasi
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                </div>
+<!-- mutasi -->
+<div class="modal fade" id="mutasi-{{ $model->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data Pegawai {{ $model->nama_lengkap }} tidak memiliki riwayat Mutasi
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
             </div>
         </div>
     </div>
-    {{-- diklat --}}
-    <div class="modal fade" id="diklat-{{$model->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Data Pegawai {{$model->nama_lengkap}} tidak memiliki riwayat Diklat
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                </div>
+</div>
+{{-- jabatan --}}
+<div class="modal fade" id="jabatan-{{ $model->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data Pegawai {{ $model->nama_lengkap }} tidak memiliki riwayat Jabatan
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
             </div>
         </div>
     </div>
-    {{-- kenaikan pangkat --}}
-    <div class="modal fade" id="kenaikanPangkat-{{$model->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Data Pegawai {{$model->nama_lengkap}} tidak memiliki riwayat kenaikan pangkat
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                </div>
+</div>
+{{-- diklat --}}
+<div class="modal fade" id="diklat-{{ $model->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data Pegawai {{ $model->nama_lengkap }} tidak memiliki riwayat Diklat
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
             </div>
         </div>
     </div>
+</div>
+{{-- kenaikan pangkat --}}
+<div class="modal fade" id="kenaikanPangkat-{{ $model->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data Pegawai {{ $model->nama_lengkap }} tidak memiliki riwayat kenaikan pangkat
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
