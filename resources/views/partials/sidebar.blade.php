@@ -41,9 +41,8 @@
              <span>Kenaikan Pangkat</span></a>
      </li>
      <li class="nav-item">
-        <a class="nav-link collapsed {{ Request::routeIs('admin.cuti.*') || Request::routeIs('admin.histori-cuti.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#jabatanCollapse"
+        <a class="nav-link collapsed {{ Request::routeIs('admin.jabatan.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#jabatanCollapse"
             aria-expanded="true" aria-controls="CuetiCollapse">
-            {{-- <i class="fas fa-id-card-o {{ Request::routeIs('admin.cuti*') || Request::routeIs('admin.histori-cuti*') ? 'text-white' : '' }}"></i> --}}
             <i class="fas fa-regular fa-id-card"></i>
             <span>Jabatan</span>
         </a>
@@ -54,7 +53,7 @@
                 <h6 class="collapse-header">Menu Jabatan</h6>
                 <a class="collapse-item {{ Request::routeIs('admin.jabatan.demosi.*') ? 'active' : '' }}"
                     href="{{ route('admin.jabatan.demosi.index') }}">Demosi</a>
-                <a class="collapse-item {{ Request::routeIs('admin.cuti.promosi.*') ? 'active' : '' }}"
+                <a class="collapse-item {{ Request::routeIs('admin.jabatan.promosi.*') ? 'active' : '' }}"
                     href="{{route('admin.jabatan.promosi.index')}}">Promosi</a>
             </div>
         </div>

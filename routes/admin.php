@@ -52,6 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/template-pns', [PegawaiController::class, 'templatePNS'])->name('template-pns');
             Route::get('/dataPegawai', [PegawaiController::class, 'dataPegawai'])->name('dataPegawai');
             Route::get('/', [PegawaiController::class, 'index'])->name('index');
+            
             Route::get('/searchPegawai',[PegawaiController::class,'searchPegawai'])->name('searchPegawai');         
             Route::get('/create', [PegawaiController::class,'create'])->name('create');         
             Route::get('/{pegawai:id}/edit',[PegawaiController::class,'edit'])->name('edit');         
@@ -130,15 +131,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
         Route::prefix('jabatan')->name('jabatan.')->group(function(){
-            Route::prefix('demosi')->name('demosi.')->group(function(){
-                Route::get('/',[PromosiDemosiController::class, 'Demosiindex'])->name('index');
+            Route::prefix('demosi')->name('demosi.')->group(function () {
+                Route::get('/', [PromosiDemosiController::class, 'Demosiindex'])->name('index');
+                Route::get('/show/{promosiDemosi:id}', [PromosiDemosiController::class, 'PromosiShow'])->name('show');
                 Route::get('/create', [PromosiDemosiController::class, 'Demosicreate'])->name('create');
+                Route::post('/store', [PromosiDemosiController::class, 'DemosiStore'])->name('store');
+                Route::get('/edit/{promosiDemosi:id}', [PromosiDemosiController::class, 'DemosiEdit'])->name('edit');
+                Route::put('/update/{promosiDemosi:id}', [PromosiDemosiController::class, 'DemosiUpdate'])->name('update');
+                Route::delete('/delete/{promosiDemosi:id}', [PromosiDemosiController::class, 'DemosiDestroy'])->name('destroy');
             });
-            Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
+            Route::get('/export-semua-jabatan',[PromosiDemosiController::class,'export_excel'])->name('export-semua-jabatan');
+            Route::get('/riwayat-jabatan/{pegawai:id}',[PromosiDemosiController::class,'riwayat'])->name('riwayat');
+            // Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
             Route::prefix('promosi')->name('promosi.')->group(function(){
                 Route::get('/',[PromosiDemosiController::class, 'Promosiindex'])->name('index');
+                Route::get('/show/{promosiDemosi:id}',[PromosiDemosiController::class, 'PromosiShow'])->name('show');
                 Route::get('/create', [PromosiDemosiController::class, 'Promosicreate'])->name('create');
                 Route::post('/store', [PromosiDemosiController::class, 'PromosiStore'])->name('store');
+                Route::get('/edit/{promosiDemosi:id}', [PromosiDemosiController::class, 'PromosiEdit'])->name('edit');
+                Route::put('/update/{promosiDemosi:id}', [PromosiDemosiController::class, 'PromosiUpdate'])->name('update');
+                Route::delete('/delete/{promosiDemosi:id}', [PromosiDemosiController::class, 'PromosiDestroy'])->name('destroy');
             });
 });
 

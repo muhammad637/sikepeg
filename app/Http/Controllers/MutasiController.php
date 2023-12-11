@@ -18,10 +18,20 @@ class MutasiController extends Controller
     //
     public function index(Request $request)
     {
+        $ruangan = Ruangan::orderBy('nama_ruangan', 'asc');
+
         if ($request->ajax()) {
             $pegawai = Pegawai::query()->with(['mutasi' => function ($q) {
                 $q->orderBy('created_at', 'desc')->orderBy('tanggal_sk', 'desc');
             }])->whereHas('mutasi');
+            if ($request->input('ruangan_tujuan') != null) {
+                $pegawai->where('ruangan_id', $request->ruangan_tujuan);
+            }
+            if ($request->input('jenis_mutasi') != null) {
+                $pegawai->whereHas('mutasi', function ($q) use ($request) {
+                    $q->where('jenis_mutasi', $request->jenis_mutasi);
+                });
+            }
             $dataMutasi = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('nama', function ($item) {
@@ -64,6 +74,7 @@ class MutasiController extends Controller
             'pages.mutasi.index',
             [
                 'pegawai' => $pegawai,
+                'ruangans' => $ruangan,
                 'i' => 0,
             ]
         );
@@ -193,7 +204,7 @@ class MutasiController extends Controller
     }
 
 
-   
+
 
     public function update(Request $request, Mutasi $mutasi)
     {

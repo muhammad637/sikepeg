@@ -31,7 +31,6 @@
                         </div>
                     </div>
                     @livewire('promosi-demosi.form')
-                   
                     <div class="row mb-3">
                         <label for="jumlah-hari" class="col-sm-4 col-form-label">Jabatan Baru<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
@@ -59,7 +58,7 @@
                     <div class="row mb-3">
                         <label for="uploadLinkSK" class="col-sm-4 col-form-label">Upload Link SK<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="uploadLinkSK" name="uploadLinkSK" required value="{{old('link_sk')}}">
+                            <input type="text" class="form-control" id="uploadLinkSK" name="link_sk" required value="{{old('link_sk')}}">
                         </div>
                     </div>
         </form>
