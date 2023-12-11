@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jabatan;
+use App\Models\PromosiDemosi;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class JabatanController extends Controller
      */
     public function Demosiindex()
     {
-        return view('pages.jabatan.demosi.index');
+        return view('pages.promosiDemosi.demosi.index');
         //
     }
 
@@ -28,7 +28,7 @@ class JabatanController extends Controller
     {
 
         $pegawai = Pegawai::all();
-        return view('pages.jabatan.demosi.create', ['pegawai'=> $pegawai]);
+        return view('pages.promosiDemosi.demosi.create', ['pegawai'=> $pegawai]);
         //
     }
 
@@ -52,7 +52,7 @@ class JabatanController extends Controller
                 'type' => 'required'
             ]
             );
-            $jabatan = Jabatan::create([
+            $promosiDemosi = PromosiDemosi::create([
                 'pegawai' => $request->pegawai_id,
                 'jabatan_sebelumnya' => $request->jabatan_sebelumnya,
                 'jabatan_selanjutnya' => $request->jabatan_selanjutnya,
@@ -61,7 +61,7 @@ class JabatanController extends Controller
                 'link_sk' => $request->link_sk
             ]);
             $pegawai = Pegawai::find($request->pegawai_id);
-            $pegawai->update(['jabatan' => $request->jabatan_selanjutnya]);
+            $pegawai->update(['promosiDemosi' => $request->jabatan_selanjutnya]);
             $validatedData = $request->validate(
                 [
                     'pegawai_id' => '',
@@ -72,17 +72,17 @@ class JabatanController extends Controller
                     'type' => 'required'
                 ]
                 );
-                $jabatan = Jabatan::create(request()->all());
+                $promosiDemosi = PromosiDemosi::create(request()->all());
         //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Jabatan  $jabatan
+     * @param  \App\Models\PromosiDemosi  $promosiDemosi
      * @return \Illuminate\Http\Response
      */
-    public function show(Jabatan $jabatan)
+    public function show(PromosiDemosi $promosiDemosi)
     {
         //
     }
@@ -90,12 +90,12 @@ class JabatanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Jabatan  $jabatan
+     * @param  \App\Models\PromosiDemosi  $promosiDemosi
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jabatan $jabatan)
+    public function edit(PromosiDemosi $promosiDemosi)
     {
-        return view('pages.jabatan.demosi.edit');
+        return view('pages.promosiDemosi.demosi.edit');
         //
     }
 
@@ -103,10 +103,10 @@ class JabatanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Jabatan  $jabatan
+     * @param  \App\Models\PromosiDemosi  $promosiDemosi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jabatan $jabatan)
+    public function update(Request $request, PromosiDemosi $promosiDemosi)
     {
         //
     }
@@ -114,10 +114,10 @@ class JabatanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Jabatan  $jabatan
+     * @param  \App\Models\PromosiDemosi  $promosiDemosi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jabatan $jabatan)
+    public function destroy(PromosiDemosi $promosiDemosi)
     {
         //
     }

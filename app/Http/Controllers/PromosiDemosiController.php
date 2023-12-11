@@ -132,6 +132,7 @@ class PromosiDemosiController extends Controller
     {
         $jabatan_terakhir = Pegawai::whereHas('promosiDemosi')->with(['promosiDemosi' => function ($q) {
             $q->orderBy('created_at', 'desc');
+        }]);
         if ($request->ajax()) {
             $promosi = PromosiDemosi::query()->where('type', 'promosi')->orderBy('created_at', 'desc');
             if ($request->input('pegawai') != null) {
@@ -164,7 +165,7 @@ class PromosiDemosiController extends Controller
                 ->rawColumns(['nama_lengkap', 'aksi', 'status_tombol', 'ruangan'])
                 ->make(true);
         }
-        // return Ruangan::all();
+        // // return Ruangan::all();
         return view(
             'pages.promosiDemosi.promosi.index',
             [
@@ -173,4 +174,5 @@ class PromosiDemosiController extends Controller
             ]
         );
     }
+
 }
