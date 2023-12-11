@@ -23,5 +23,8 @@ class Ruangan extends Model
     public function diklat(){
         return $this->hasMany(Diklat::class);
     }
+    public function kenaikan_pangkat(){
+        return $this->hasMany(KenaikanPangkat::class);
+    }
 
 }

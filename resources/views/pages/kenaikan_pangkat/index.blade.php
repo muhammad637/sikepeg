@@ -23,7 +23,7 @@
                         <tr class="text-dark">
                             <th scope="col">No</th>
                             <th scope="col">Nama Pegawai</th>
-                            <th scope="col">Ruangan</th>
+                            <th scope="col">Nama Ruangan</th>
                             <th scope="col">Pangkat</th>
                             <th scope="col">Golongan</th>
                             <th scope="col">No SK</th>

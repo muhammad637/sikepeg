@@ -18,6 +18,7 @@ class JenisPangkatGolongan extends Component
     public $resultGolongan = [];
     public $resultPangkat = [];
     public $jabatan;
+    public $ruangan;
     public function mount()
     {
         $this->pegawai = old('pegawai', null);
@@ -26,6 +27,7 @@ class JenisPangkatGolongan extends Component
         $this->nama_golongan = old('nama_golongan', null);
         $this->nama_pangkat = old('nama_pangkat', null);
         $this->jabatan = old('jabatan', null);
+        $this->ruangan = old('nama_ruangan', null);
         if ($this->pegawai) {
             $this->resultGolongan =
                 Golongan::where('jenis', $this->pegawai->status_tipe)->orderBy('nama_golongan', 'asc')->get();
