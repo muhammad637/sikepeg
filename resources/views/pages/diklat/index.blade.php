@@ -39,12 +39,9 @@
             <h2 class="" style="color:rgb(53, 45, 45);font-weight:bold;">Filter Diklat </h2>
             <div class="row">
                 <div class="col-sm-12 col-md-4">
-                    <label for="filter-statusTipe" class="font-weight-bold">Status Tipe</label>
-                    <select name="status_tipe" id="filter-statusTipe" class="form-control filter">
-                        <option value="">Pilih Status Tipe</option>
-                        <option value="pns">PNS</option>
-                        <option value="pppk">PPPK</option>
-                        <option value="thl">THL</option>
+                    <label for="filter-statusTipe" class="font-weight-bold">Nama Diklat</label>
+                    <select name="nama_diklat" id="filter-statusTipe" class="form-control filter">
+                        <option value="">Pilih Nama Diklat</option>
                     </select>
                 </div>
                 <div class="col-sm-12 col-md-4">
@@ -72,7 +69,7 @@
                     cellspacing="0">
                     <thead>
                         <tr class="text-dark">
-                            <th scope="col">No</th>
+                            <th scope="col">NO</th>
                             <th scope="col">Nama Pegawai</th>
                             <th scope="col">Nama Diklat</th>
                             <th scope="col">Nama Ruangan</th>
@@ -157,7 +154,7 @@
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
+    {{-- <script>
         $('#dataTable').DataTable({
             serverSide: true,
             processing: true,
@@ -198,32 +195,36 @@
                 },
             ],
         })
-    </script>
-        {{-- <script>
-            $(document).ready(function() {
-                alert('oke')
-                 let status_tipe = $('#filter-statusTipe').val()
-                    let jenis_tenaga = $('#filter-jenisTenaga').val()
-                    let ruangan = $('#filter-ruangan').val()
-                const table = $('#dataTable').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url : "{{ route('admin.diklat.index') }}",
-                        type : 'GET',
-                        data : function(d){
-                            d.ruangan = ruangan;
-                            d.jenis_tenaga = jenis_tenaga;
-                            d.status_tipe = status_tipe;
-                            return d
-                        }
-                    },
-                    columns: [{
+    </script> --}}
+      <script>
+        $(document).ready(function() {
+            $('#ruangan').select2()
+            $('#pegawai').select2()
+            $('#select-pegawai').select2()
+            let pegawai = $('#pegawai').val()
+            let ruangan = $('#ruangan').val()
+            let tahun = $('#tahun').val()
+            const table = $('#dataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                // ajax: "{{ route('admin.jabatan.demosi.index') }}",
+                ajax: {
+                    url: "{{ route('admin.diklat.index') }}",
+                    type: 'GET',
+                    data: function(d) {
+                        d.ruangan = ruangan;
+                        d.pegawai = pegawai;
+                        d.tahun = tahun;
+                        return d
+                    }
+                },
+                columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     searchable: false,
                     orderable: false,
                 },
+                
                 {
                     data: 'nama',
                     name: 'nama'
@@ -236,7 +237,6 @@
                     data: 'nama_ruangan',
                     name: 'nama_ruangan'
                 },
-                
                 {
                     data: 'penyelenggara',
                     name: 'penyelenggara'
@@ -258,16 +258,14 @@
                     name: 'aksi'
                 },
             ],
-        })                $('#filter-ruangan').select2({
-                    height: '30px'
-                })
-                $('.filter').on('change', function() {
-                     status_tipe = $('#filter-statusTipe').val()
-                     jenis_tenaga = $('#filter-jenisTenaga').val()
-                    ruangan = $('#filter-ruangan').val()
-                    console.log([status_tipe,jenis_tenaga,ruangan])
-                    table.ajax.reload(null, false)
-                })
+        })
+
+            $('.filter').on('change', function() {
+                pegawai = $('#pegawai').val()
+                ruangan = $('#ruangan').val()
+                tahun = $('#tahun').val()
+                table.ajax.reload(null, false)
             })
-        </script> --}}
+        })
+    </script>
 @endpush

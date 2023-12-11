@@ -28,27 +28,32 @@ class DiklatController extends Controller
 
         // return $pegawai;
         if ($request->ajax()) {
-            $pegawai = Pegawai::query()->where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
-                $query;
-            }])->whereHas('diklat', function ($query) {
-                $query->orderBy('created_at', 'desc');
-            });
-            $dataPegawaiDiklat = DataTables::of($pegawai)
+            $diklat = Diklat::query()->orderBy('tanggal_selesai', 'desc');
+            if ($request->input('diklat') != null) {
+                $diklat->where('nama_diklat', $request->nama_diklat);
+            }
+            if ($request->input('ruangan') != null) {
+                $diklat->where('ruangan_id', $request->ruangan->nama_ruangan);
+            }
+            $dataPegawaiDiklat = DataTables::of($diklat)
                 ->addIndexColumn()
                 ->addColumn('nama', function ($item) {
-                    return $item->nama_lengkap ?? $item->nama_depan;
+                    return $item->pegawai->nama_lengkap ?? $item->nama_depan;
                 })
                 ->addColumn('nama_diklat', function ($item) {
-                    return $item->diklat[0]->nama_diklat;
+                    return $item->nama_diklat;
+                })
+                ->addColumn('nama_ruangan', function ($item){
+                    return $item->ruangan->nama_ruangan;
                 })
                 ->addColumn('penyelenggara', function ($item) {
-                    return $item->diklat[0]->penyelenggara;
+                    return $item->penyelenggara;
                 })
                 ->addColumn('tahun', function ($item) {
-                    return $item->diklat[0]->tahun;
+                    return $item->tahun;
                 })
                 ->addColumn('no_sertifikat', function ($item) {
-                    return $item->diklat[0]->no_sertifikat;
+                    return $item->no_sertifikat;
                 })
                 ->addColumn('surat', 'pages.surat.diklat-index')
                 // ->addColumn('aksi', function($item){
@@ -59,7 +64,7 @@ class DiklatController extends Controller
                 //     return "<div class='d-flex'>$show $edit</div>";
                 // })
                 ->addColumn('aksi', 'pages.diklat.part.aksi-index')
-                ->rawColumns(['nama', 'nama_diklat', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
+                ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan','penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
                 ->toJson();
             return $dataPegawaiDiklat;
         }
@@ -94,7 +99,8 @@ class DiklatController extends Controller
                 'tahun' => 'required',
                 'no_sertifikat' => 'required',
                 'tanggal_sertifikat' => 'required',
-                'link_sertifikat' => 'required'
+                'link_sertifikat' => 'required',
+                'ruangan_id' => 'required'
             ]);
             $diklat->update(
                 [
@@ -109,7 +115,8 @@ class DiklatController extends Controller
                     'tahun' => $request->tahun,
                     'no_sertifikat' => $request->no_sertifikat,
                     'tanggal_sertifikat' => $request->tanggal_sertifikat,
-                    'link_sertifikat' => $request->link_sertifikat
+                    'link_sertifikat' => $request->link_sertifikat,
+                    'ruangan_id' => $request->ruangan_id
                 ]
             );
             $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
@@ -158,6 +165,7 @@ class DiklatController extends Controller
             'link_sertifikat' => $request->link_sertifikat,
             'ruangan_id' => $request->ruangan_id
         ]);
+  
         $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
