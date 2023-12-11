@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Export;
+
 
 
 class MutasiController extends Controller
@@ -419,5 +422,50 @@ class MutasiController extends Controller
         return view('pages.mutasi.riwayat.show', [
             'mutasi' => $mutasi
         ]);
+    }
+    private function dataLaporan($promosiDemosi)
+    {
+        $dataLaporan = [];
+        foreach ($promosiDemosi as $item) {
+            array_push($dataLaporan, [
+                'Nama Pegawai' => $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan,
+                'Jenis' => $item->jenis_mutasi,
+                'Ruangan sebelumnya' => $item->ruanganAwal->nama_ruangan ?? '-',
+                'Ruangan Baru' => $item->ruanganTujuan->nama_ruangan ?? '-',
+                'Instansi sebelumnya' => $item->instansi_awal ?? '-',
+                'Instansi Baru' => $item->instansi_tujuan ?? '-',
+                'No SK' => $item->no_sk,
+                'Tanggal Berlaku' => Carbon::parse($item->tanggal_berlaku)->format('d/m/Y'),
+                'Tanggal SK' => Carbon::parse($item->tanggal_sk)->format('d/m/Y'),
+                'link SK' => $item->link_sk ?? '-',
+            ]);
+        }
+        // return $dataLaporan;
+        $laporan = new Export([
+            ['Nama Pegawai', 'Jenis', 'Ruangan Sebelumnya', 'Ruangan Baru', 'Instansi Sebelumnya', 'Instansi Baru', 'No SK', 'Tanggal Berlaku', 'Tanggal SK', 'Link SK'],
+            [...$dataLaporan]
+        ]);
+
+        return Excel::download($laporan, 'jabatan.xlsx');
+    }
+
+    public function export_excel(Request $request)
+    {
+        // return 'testing';
+        $mutasi = Mutasi::orderBy('tanggal_berlaku', 'desc')->orderBy('pegawai_id', 'asc');
+        if ($request->input('ruangan_awal') != null) {
+            $mutasi->where('ruangan_awal_id', $request->ruangan_awal);
+        }
+        if ($request->input('ruangan_tujuan') != null) {
+            $mutasi->where('ruangan_tujuan_id', $request->ruangan_tujuan);
+        }
+        if ($request->input('tahun') != null) {
+            $mutasi->where('tanggal_sk', 'like', '%' . $request->tahun . '%');
+        }
+        if ($request->input('jenis_mutasi') != null) {
+            $mutasi->where('jenis_mutasi', $request->jenis_mutasi);
+        }
+        // return $mutasi->get();
+        return $this->dataLaporan($mutasi->get());
     }
 }

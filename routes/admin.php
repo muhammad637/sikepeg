@@ -107,6 +107,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             });
         });
         
+        Route::get('/mutasi/export-excel', [MutasiController::class, 'export_excel'])->name('mutasi.export-excel');
         Route::resource('/mutasi', MutasiController::class);
         Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class, 'history'])->name('mutasi.history');
         Route::get('/mutasi/edit-history/{mutasi:id}', [MutasiController::class, 'historyEdit'])->name('mutasi.history-edit');
@@ -142,7 +143,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             });
             Route::get('/export-semua-jabatan',[PromosiDemosiController::class,'export_excel'])->name('export-semua-jabatan');
             Route::get('/riwayat-jabatan/{pegawai:id}',[PromosiDemosiController::class,'riwayat'])->name('riwayat');
-            // Route::get('/edit', [JabatanController::class, 'edit'])->name('edit');
             Route::prefix('promosi')->name('promosi.')->group(function(){
                 Route::get('/',[PromosiDemosiController::class, 'Promosiindex'])->name('index');
                 Route::get('/show/{promosiDemosi:id}',[PromosiDemosiController::class, 'PromosiShow'])->name('show');

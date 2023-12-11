@@ -22,21 +22,31 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Export Rekap Promosi</h5>
+                                <h5 class="modal-title">Export Rekap Mutasi</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="{{ route('admin.jabatan.export-semua-jabatan') }}" method="get">
+                            <form action="{{ route('admin.mutasi.export-excel') }}" method="get">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="pilih-tahun">Pilih Tahun</label>
-                                        <select name="year" id="pilih-tahun" class="form-control">
+                                        <select name="tahun" id="pilih-tahun" class="form-control">
                                             <option value="">Semua Tahun</option>
                                             @for ($year = date('Y'); $year >= 2000; $year--)
                                                 <option value="{{ $year }}">{{ $year }}</option>
                                             @endfor
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pilih-tahun" class="d-block">Pilih Ruangan Sebelumnya (Lama)</label>
+                                        <select name="ruangan_awal" id="select-ruangan" class="form-control w-100"
+                                            style="width: 100%">
+                                            <option value="">Semua Ruangan</option>
+                                            @foreach ($ruangans as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -45,16 +55,16 @@
                                             style="width: 100%">
                                             <option value="">Semua Ruangan</option>
                                             @foreach ($ruangans as $item)
-                                                <option value="{{ $item->id }}">{{ $item->nama_lengkap }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="pilih-tahun">Pilih Tipe</label>
-                                        <select name="type" id="pilih-tahun" class="form-control">
-                                            <option value="">Semua tipe</option>
-                                            <option value="promosi" selected>Promosi</option>
-                                            <option value="demosi">Demosi</option>
+                                        <label for="pilih-tahun">Pilih Jenis Mutasi</label>
+                                        <select name="jenis_mutasi" id="pilih-tahun" class="form-control">
+                                            <option value="">Semua Jenis Mutasi</option>
+                                            <option value="internal" selected>Internal</option>
+                                            <option value="eksternal">Eksternal</option>
                                         </select>
                                     </div>
                                 </div>
@@ -150,23 +160,27 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        $('#jenis_mutasi').select2()
-        $('#tahun').select2()
-        $('#ruangan_awal').select2()
-        $('#ruangan_tujuan').select2()
-        let jenis_mutasi = $('#jenis_mutasi').val()
-        let tahun = $('#tahun').val()
-        let ruangan_awal = $('#ruangan_awal').val()
-        let ruangan_tujuan = $('#ruangan_tujuan').val()
-        const table = $(document).ready(function() {
-            $('#dataTable').DataTable({
+        $(document).ready(function() {
+            // $('#jenis_mutasi').select2()
+            // $('#tahun').select2()
+            // $('#ruangan_awal').select2()
+            // $('#ruangan_tujuan').select2()
+            let jenis_mutasi = $('#jenis_mutasi').val()
+            let tahun = $('#tahun').val()
+            let ruangan_awal = $('#ruangan_awal').val()
+            let ruangan_tujuan = $('#ruangan_tujuan').val()
+            const table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: "{{ route('admin.mutasi.index') }}",
                     type: 'GET',
-                    response: function(d){
-                        ruangan = d.ruangan
+                    data: function(d) {
+                        d.ruangan_awal = ruangan_awal
+                        d.ruangan_tujuan = ruangan_tujuan
+                        d.jenis_mutasi = jenis_mutasi
+                        d.tahun = tahun
+                        return d
                     },
                 },
                 columns: [{
@@ -228,12 +242,15 @@
                     },
                 ]
             })
-        })
-        $('.filter').on('change',function(){
-         jenis_mutasi = $('#jenis_mutasi').val()
-         tahun = $('#tahun').val()
-         ruangan_awal = $('#ruangan_awal').val()
-         ruangan_tujuan = $('#ruangan_tujuan').val()
+            $('.filter').on('change', function() {
+                 jenis_mutasi = $('#jenis_mutasi').val()
+                 tahun = $('#tahun').val()
+                 ruangan_awal = $('#ruangan_awal').val()
+                 ruangan_tujuan = $('#ruangan_tujuan').val()
+                // console.log(filter)
+                console.log([jenis_mutasi, tahun, ruangan_awal, ruangan_tujuan])
+                table.ajax.reload(null, false)
+            })
         })
     </script>
 @endpush
