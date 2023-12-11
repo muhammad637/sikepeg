@@ -40,8 +40,11 @@
             <div class="row">
                 <div class="col-sm-12 col-md-4">
                     <label for="filter-statusTipe" class="font-weight-bold">Nama Diklat</label>
-                    <select name="nama_diklat" id="filter-statusTipe" class="form-control filter">
-                        <option value="">Pilih Nama Diklat</option>
+                    <select name="nama_diklat" id="pegawai" class="form-control filter">
+                        <option value="">Pilih Diklat</option>
+                        @foreach ($diklats as $item)
+                            <option value="">{{ $item->nama_diklat }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-sm-12 col-md-4">
@@ -55,11 +58,12 @@
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label for="filter-jenisTenaga" class="font-weight-bold">Jenis Tenaga</label>
-                    <select name="jenis_tenaga" id="filter-jenisTenaga" class="form-control filter">
-                        <option value="">Pilih Jenis Tenaga</option>
-                        <option value="struktural">Struktural</option>
-                        <option value="nakes">Tenaga Kesehatan</option>
-                        <option value="umum">Umum</option>
+                    <select name="tahun" id="tahun" class="form-control filter">
+                        <option value="">Pilih Tahun</option>
+                        @for ($date = date('Y'); $date >= 2000; $date--)
+                            <option value="{{ $date }}">{{ $date }}</option>
+                        @endfor
+
                     </select>
                 </div>
             </div>

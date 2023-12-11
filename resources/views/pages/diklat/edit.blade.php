@@ -20,17 +20,27 @@
                             <span class="mb-0 text-dark ">Pegawai</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <select class="form-control" id="select2" name="pegawai_id">
-                                <option value="">Pilih Nama Pegawai</option>
-                                @foreach ($results as $pegawai)
-                                    <option value="{{ $pegawai->id }}"
-                                        {{ old('pegawai_id',$diklat->pegawai->id) == $pegawai->id ? 'selected' : '' }}>
-                                        {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control" id="nama_pegawai" value="{{ old('nama_pegawai',$diklat->pegawai->nama_lengkap) }}"
+                                name="nama_pegawai" readonly>
                             {{-- <input class="form-control" id="pegawai" name="pegawai_id"
                                 value="{{ $diklat->pegawai->nama_depan }} {{ $diklat->pegawai->nama_belakang }}" readonly> --}}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 mb-2  fw-italic text-end">
+                        </div>
+                        <div class="col-sm-8 text-secondary">
+                            <input type="text" class="form-control" id="nama_pegawai" value="{{ $diklat->pegawai_id }}"
+                                name="pegawai_id" hidden>
+                            {{-- <input class="form-control" id="pegawai" name="pegawai_id"
+                                value="{{ $diklat->pegawai->nama_depan }} {{ $diklat->pegawai->nama_belakang }}" readonly> --}}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="nama_ruangan" class="col-sm-4 col-form-label">Nama Ruangan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="nama_ruangan" value="{{ old('nama_ruangan',$diklat->ruangan->nama_ruangan) }}"
+                                name="nama_ruangan" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">

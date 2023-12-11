@@ -35,6 +35,9 @@ class DiklatController extends Controller
             if ($request->input('ruangan') != null) {
                 $diklat->where('ruangan_id', $request->ruangan->nama_ruangan);
             }
+            if ($request->input('tahun') != null) {
+                $diklat->where('tanggal_selesai', 'like', '%' . $request->tahun . '%');
+            }
             $dataPegawaiDiklat = DataTables::of($diklat)
                 ->addIndexColumn()
                 ->addColumn('nama', function ($item) {
@@ -69,7 +72,8 @@ class DiklatController extends Controller
             return $dataPegawaiDiklat;
         }
         return view('pages.diklat.index', [
-            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
+            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get(),
+            'diklats' => Diklat::orderBy('nama_diklat', 'asc')->get()
         ]);
     }
 
@@ -100,7 +104,7 @@ class DiklatController extends Controller
                 'no_sertifikat' => 'required',
                 'tanggal_sertifikat' => 'required',
                 'link_sertifikat' => 'required',
-                'ruangan_id' => 'required'
+                'ruangan_id' => ''
             ]);
             $diklat->update(
                 [
@@ -116,7 +120,6 @@ class DiklatController extends Controller
                     'no_sertifikat' => $request->no_sertifikat,
                     'tanggal_sertifikat' => $request->tanggal_sertifikat,
                     'link_sertifikat' => $request->link_sertifikat,
-                    'ruangan_id' => $request->ruangan_id
                 ]
             );
             $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
