@@ -157,7 +157,9 @@ class PromosiDemosiController extends Controller
             if ($request->input('pegawai') != null) {
                 $promosi->where('pegawai_id', $request->pegawai);
             }
-
+            if ($request->input('ruangan') != null) {
+                $promosi->where('ruangan_id', $request->ruangan);
+            }
             if ($request->input('tahun') != null) {
                 $promosi->where('tanggal_sk', 'like', '%' . $request->tahun . '%');
             }
@@ -281,7 +283,9 @@ class PromosiDemosiController extends Controller
             if ($request->input('pegawai') != null) {
                 $promosi->where('pegawai_id', $request->pegawai);
             }
-
+            if ($request->input('ruangan') != null) {
+                $promosi->where('ruangan_id', $request->ruangan);
+            }
             if ($request->input('tahun') != null) {
                 $promosi->where('tanggal_sk', 'like', '%' . $request->tahun . '%');
             }
