@@ -25,4 +25,8 @@ class KenaikanPangkat extends Model
     public function golongan(){
         return $this->belongsTo(Golongan::class, 'golongan_id');
     }
+
+    public function ruangan(){
+        return $this->belongsTo(Ruangan::class, 'ruangan_id');
+    }
 }

@@ -15,4 +15,7 @@ class Diklat extends Model
     public function pegawai(){
         return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
+    public function ruangan(){
+        return $this->belongsTo(Ruangan::class, 'ruangan_id');
+    }
 }

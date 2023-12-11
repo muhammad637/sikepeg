@@ -145,7 +145,7 @@ class MutasiController extends Controller
             }
             $pegawai = Pegawai::find($request->pegawai_id);
             $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->first();
-            // if()
+            // if()php
             if ($request->jenis_mutasi == 'internal') {
                 if ($mutasi) {
                     Carbon::parse($mutasi->tanggal_sk) <= Carbon::parse($request->tanggal_sk) ? $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]) : null;

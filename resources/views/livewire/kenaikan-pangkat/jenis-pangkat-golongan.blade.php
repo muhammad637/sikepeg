@@ -6,6 +6,13 @@
                  readonly placeholder="Pilih Pegawai terlebih dahulu">
         </div>
     </div>
+    <div class="row mb-3">
+        <label for="status_tipe" class="col-sm-4 col-form-label">Nama Ruangan</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="nama_ruangan" wire:model='nama_ruangan'
+                 readonly placeholder="Pilih Pegawai terlebih dahulu">
+        </div>
+    </div>
            
             {{-- {{$pegawai_id}} --}}
             @if ($status_tipe == 'pns')
