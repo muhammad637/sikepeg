@@ -59,6 +59,14 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label for="penerbit_str" class="col-sm-4 col-form-label">Penerbit STR</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputPassword3"
+                                value="{{ old('penerbit_str', $str->penerbit_str) }}" name="penerbit_str">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
                             <span class="mb-0 text-dark " style="text-decoration: none;">Tanggal Terbit</span>
                         </div>

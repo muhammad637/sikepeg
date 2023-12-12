@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('no_str')->nullable();
             $table->string('no_sip');
             $table->string('no_rekomendasi')->nullable();
+            $table->string('penerbit_sip')->nullable();
             $table->string('tanggal_terbit_sip');
             $table->string('masa_berakhir_sip');
             $table->string('link_sip');

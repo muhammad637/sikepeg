@@ -93,6 +93,7 @@ class   STRController extends Controller
         // return $request->all();
         $validatedData = $request->validate([
             'no_str' => 'required',
+            'penerbit_str' => 'required',
             'tanggal_terbit_str' => 'required',
             'no_sertikom' => 'required',
             'kompetensi' => 'required',
@@ -106,6 +107,7 @@ class   STRController extends Controller
             'no_sip' => $request->no_sip,
             'no_sertikom' => $request->no_sertikom,
             'kompetensi' => $request->kompetensi,
+            'penerbit_str' => $request->penerbit_str,
             'tanggal_terbit_str' => $request->tanggal_terbit_str,
             'masa_berakhir_str' => $request->masa_berakhir_str,
             'link_str' => $request->link_str
@@ -167,6 +169,7 @@ class   STRController extends Controller
             //code...
             $validatedData = $request->validate([
                 'no_str' => 'required',
+                'penerbit_str' => 'required',
                 'kompetensi' => 'required',
                 'no_sertikom' => 'required',
                 'tanggal_terbit_str' => 'required',
@@ -179,6 +182,7 @@ class   STRController extends Controller
                 'no_sip' => $request->no_sip,
                 'kompetensi' => $request->kompetensi,
                 'no_sertikom' => $request->no_sertikom,
+                'penerbit_str' => $request->penerbit_str,
                 'tanggal_terbit_str' => $request->tanggal_terbit_str,
                 'masa_berakhir_str' => $request->masa_berakhir_str,
                 'link_str' => $request->link_str
