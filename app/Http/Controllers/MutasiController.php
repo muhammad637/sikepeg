@@ -446,7 +446,7 @@ class MutasiController extends Controller
             [...$dataLaporan]
         ]);
 
-        return Excel::download($laporan, 'jabatan.xlsx');
+        return Excel::download($laporan, 'mutasi.xlsx');
     }
 
     public function export_excel(Request $request)
