@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('no_str');
             $table->string('kompetensi')->nullable();
             $table->string('no_sertikom')->nullable();
+            $table->string('penerbit_str')->nullable();
             $table->string('tanggal_terbit_str');
             $table->string('masa_berakhir_str');
             $table->string('link_str');
