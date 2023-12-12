@@ -13,9 +13,39 @@
         </div>
 
         <div class="card-body">
-            {{-- @if (session()->has('success'))
-                {{ session()->get('success') }}
-            @endif --}}
+            <div>
+                <h2 class="" style="color:rgb(53, 45, 45);font-weight:bold;">Filter Kenaikan Pangkat </h2>
+                <div class="row align-items-end">
+                    <div class="col-sm-12 col-md-4">
+                        <label for="filter-statusTipe" class="font-weight-bold">Status Pegawai</label>
+                        <select name="status_tipe" id="status_tipe" class="form-control filter">
+                            <option value="">Semua Pegawai</option>
+                            <option value="pns">Pegawai PNS</option>
+                            <option value="pppk">Pegawai PPPK</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label for="filter-statusTipe" class="font-weight-bold">Ruangan</label>
+                        <select name="ruangan" id="ruangan" class="form-control filter">
+                            <option value="">Semua Ruangan</option>
+                            @foreach ($ruangans as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label for="tahun" class="font-weight-bold">Tahun SK</label>
+                        <select name="tahun" id="tahun" class="form-control filter">
+                            <option value="">Pilih Tahun</option>
+                            @for ($date = $data ; $date >= 2000; $date--)
+                                <option value="{{ $date }}">{{ $date }}</option>
+                            @endfor
+
+                        </select>
+                    </div>
+                </div>
+                <hr>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
                     cellspacing="0">
@@ -77,10 +107,22 @@
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable({
+            let status_tipe = $('#status_tipe').val()
+            let ruangan = $('#ruangan').val();
+            let tahun = $('#tahun').val();
+            const table = $('#dataTable').DataTable({
                 serverside: true,
                 processing: true,
-                ajax: "{{ route('admin.kenaikan-pangkat.index') }}",
+                ajax: {
+                    url: "{{ route('admin.kenaikan-pangkat.index') }}",
+                    type: 'GET',
+                    data: function(d) {
+                        d.status_tipe = status_tipe;
+                        d.ruangan = ruangan;
+                        d.tahun = tahun;
+                        return d;
+                    }
+                },
                 columns: [{
                         data: "DT_RowIndex",
                         name: "DT_RowIndex",
@@ -128,6 +170,12 @@
                     },
 
                 ]
+            })
+            $('.filter').on('change', function() {
+                status_tipe = $('#status_tipe').val()
+                ruangan = $('#ruangan').val();
+                tahun = $('#tahun').val();
+                table.ajax.reload(null, false)
             })
         })
     </script>
