@@ -17,6 +17,8 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\PromosiDemosiController;
 use App\Http\Controllers\KenaikanPangkatController;
+use App\Http\Controllers\MasterDataTahunCuti;
+use App\Http\Controllers\MasterDataKenaikanPangkatController;
 use App\Models\Jabatan;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
@@ -170,6 +172,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
            
         });
         Route::prefix('master-data')->name('master-data.')->group(function () {
+            Route::prefix('cuti-pegawai')->name('cuti-pegawai.')->group(function(){
+                Route::get('/',[MasterDataTahunCuti::class,'index'])->name('index');
+                Route::put('/update',[MasterDataTahunCuti::class,'update'])->name('update');
+            });
+            Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat')->group(function(){
+                Route::get('/',[MasterDataKenaikanPangkatController::class,'index'])->name('index');
+            });
             // hari-besar
             Route::prefix('hari-besar')->name('hari-besar.')->group(function () {
                 Route::get('/', [HariBesarController::class, 'index'])->name('index');

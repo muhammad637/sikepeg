@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('no_ijazah')->nullable();
             $table->string('jabatan')->nullable();
             $table->integer('cuti_tahunan')->default(12)->nullable();
+            $table->integer('tahun_cuti')->default(date('Y'));
             $table->integer('sisa_cuti_tahunan')->nullable();
             $table->string('masa_kerja')->nullable();
             $table->enum('status_tenaga', ['asn', 'non asn'])->nullable();
@@ -60,7 +61,6 @@ return new class extends Migration
             $table->string('niPtt_pkThl')->nullable();
             $table->string('tanggal_masuk')->nullable();
             $table->timestamps();
-
             // asn umum
             $table->string('no_karpeg')->nullable();
             $table->string('no_taspen')->nullable();

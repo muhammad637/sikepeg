@@ -18,7 +18,8 @@ class KenaikanPangkatController extends Controller
 {
     public function index(Request $request)
     {
-        $data = KenaikanPangkat::orderBy('tanggal_sk','desc')->first();
+        $data = KenaikanPangkat::orderBy('tanggal_sk', 'desc')->first();
+        // return [$data,$data->pegawai];
         $tahun = $data ? Carbon::parse($data->tanggal_sk)->format('Y') : date('Y');
         if ($request->ajax()) {
             $kenaikanPangkat = KenaikanPangkat::query()
@@ -193,30 +194,19 @@ class KenaikanPangkatController extends Controller
                     'link_sk' => $request->link_sk
                 ]
             );
-            $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('d-m-y') >= Carbon::parse($pegawai->tmt_pangkat_terakhir)->format('d-m-y');
-            // return $tmt_pangkat;
-            if ($pegawai->status_tipe == 'pppk' && $tmt_pangkat) {
-                $kenaikanpangkat->update([
-                    'golongan_id_sebelumnya' => $pegawai->golongan_id,
-                    'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
-                ]);
+            $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('d-m-y') <= date('d-m-y') && Carbon::parse($request->tmt_pangkat_sampai)->format('d-m-y') >= date('d-m-y') ? 'aktif' : '-';
+            $kenaikanpangkat->update([
+                'golongan_id_sebelumnya' => $pegawai->golongan_id,
+                'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
+                'pangkat_id_sebelumnya' => $pegawai->pangkat_id,
+            ]);
+            if ($tmt_pangkat == 'aktif') {
                 $pegawai->update([
                     'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
                     'golongan_id' => $golongan_id,
-                ]);
-            } elseif ($pegawai->status_tipe == 'pns' && $tmt_pangkat) {
-                $kenaikanpangkat->update([
-                    'golongan_id_sebelumnya' => $pegawai->golongan_id,
-                    'pangkat_id_sebelumnya' => $pegawai->pangkat_id,
-                    'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
-                ]);
-                $pegawai->update([
-                    'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
-                    'golongan_id' => $golongan_id,
-                    'pangkat_id' => $pangkat_id,
+                    'pangkat_id' => $pangkat_id ?? null,
                 ]);
             }
-            // return $pegawai->jabatan;
             $notif = Notifikasi::notif('kenaikan pangkat', 'data cuti  pegawai ' . $pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-day');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
@@ -260,7 +250,7 @@ class KenaikanPangkatController extends Controller
             'tmt_pangkat_terakhir' => $kenaikan_pangkat->tmt_sebelumnya
         ]);
         if ($pegawaiUpdate->kenaikanpangkat->count() > 1) {
-            $kenaikanPangkatSebelumnya =  $pegawaiUpdate->kenaikanpangkat->sortByDesc('tmt_pangkat_sampai')->sortByDesc('tmt_pangkat_sampai')->first();
+            $kenaikanPangkatSebelumnya =  $pegawaiUpdate->kenaikanpangkat->sortByDesc('tmt_pangkat_sampai')->first();
             // return $kenaikanPangkatSebelumnya;
             $kenaikan_pangkat->update([
                 'pangkat_id_sebelumnya' => $kenaikanPangkatSebelumnya->pangkat_id,
@@ -324,17 +314,12 @@ class KenaikanPangkatController extends Controller
             ]);
             $golongan_id = $golongan->id;
         }
-        $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('d-m-y') >= Carbon::parse($pegawaiUpdate->tmt_pangkat_terakhir)->format('d-m-y');
-        if ($pegawaiUpdate->status_tipe == 'pppk' && $tmt_pangkat) {
+        $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('d-m-y') <= date('d-m-y') && Carbon::parse($request->tmt_pangkat_sampai)->format('d-m-y') >= date('d-m-y') ? 'aktif' : '-';
+        if ($tmt_pangkat == 'aktif') {
             $pegawaiUpdate->update([
                 'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
                 'golongan_id' => $golongan_id,
-            ]);
-        } elseif ($pegawaiUpdate->status_tipe == 'pns' && $tmt_pangkat) {
-            $pegawaiUpdate->update([
-                'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
-                'golongan_id' => $golongan_id,
-                'pangkat_id' => $pangkat_id,
+                'pangkat_id' => $pangkat_id ?? null,
             ]);
         }
         $kenaikan_pangkat->update([
@@ -349,6 +334,7 @@ class KenaikanPangkatController extends Controller
             'penerbit_sk' => $request->penerbit_sk,
             'link_sk' => $request->link_sk,
         ]);
+        // return [$kenaikan_pangkat,$kenaikan_pangkat->pegawai];
         $notif = Notifikasi::notif('kenaikan pangkat', 'data kenaikan pangkat  pegawai ' . $kenaikan_pangkat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-day');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
@@ -358,13 +344,6 @@ class KenaikanPangkatController extends Controller
             return redirect()->route('admin.kenaikan-pangkat.riwayat', ['pegawai' => $request->pegawai_id])->with('success', 'kenaikan pangkat pegawai berhasil diupdate');
         }
         return redirect()->route('admin.kenaikan-pangkat.index')->with('success', 'kenaikan pangkat pegawai berhasil diupdate');
-        //code...
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        //     // alert()->error('gagal', 'data kenaikan pangkat gagal diupdate oleh ' . auth()->user()->name);
-        //     // return redirect()->back()->withInput();
-        //     return $th->getMessage();
-        // }
     }
 
 
@@ -406,15 +385,28 @@ class KenaikanPangkatController extends Controller
 
     public function destroy(KenaikanPangkat $kenaikan_pangkat)
     {
-        $riwayatKP = KenaikanPangkat::where('pegawai_id', $kenaikan_pangkat->pegawai_id)
-            ->orderBy('tanggal_sk', 'desc')
-            ->first();
+        // $riwayatKP = KenaikanPangkat::where('pegawai_id', $kenaikan_pangkat->pegawai_id)
+        //     ->orderBy('tanggal_sk', 'desc')
+        //     ->first();
         // return $riwayatKP;
-        $riwayatKP->pegawai->update([
-            'tmt_pangkat_terakhir' => $riwayatKP->tmt_sebelumnya,
-            'pangkat_id' => $riwayatKP->pangkat_id_sebelumnya,
-            'golongan_id' => $riwayatKP->golongan_id_sebelumnya,
-        ]);
+        $tanggal_mulai = Carbon::parse($kenaikan_pangkat->tmt_pangkat_dari)->format('Ymd');
+        $tanggal_selesai = Carbon::parse($kenaikan_pangkat->tmt_pangkat_sampai)->format('Ymd');
+        $tanggal_saat_ini = now()->format('Ymd');
+        $status = null;
+        if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
+            $status = 'aktif';
+        } elseif ($tanggal_mulai >= $tanggal_saat_ini) {
+            $status = 'pending';
+        } else {
+            $status = 'nonaktif';
+        }
+        if ($status == 'aktif') {
+            $kenaikan_pangkat->pegawai->update([
+                'tmt_pangkat_terakhir' => $kenaikan_pangkat->tmt_sebelumnya,
+                'pangkat_id' => $kenaikan_pangkat->pangkat_id_sebelumnya,
+                'golongan_id' => $kenaikan_pangkat->golongan_id_sebelumnya,
+            ]);
+        }
         $kenaikan_pangkat->delete();
         alert()->success('data berhasil dihapus');
         return redirect()->back();

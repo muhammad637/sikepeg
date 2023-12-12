@@ -15,9 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('update:cutiPegawai')->dailyAt('10:00'); // Menjadwalkan setiap tahun pada tanggal 1 Januari
+        // $schedule->command('update:cutiPegawai')->yearlyOn(1, 1); // Menjadwalkan setiap tahun pada tanggal 1 Januari
         // $schedule->command('inspire')->hourly();
-        $schedule->command('cuti:pegawai')->dailyAt('03:00');
-        $schedule->command('reminder:ulangtahun')->dailyAt('03:00');
+        // $schedule->command('cuti:pegawai')->dailyAt('03:00');
+        // $schedule->command('reminder:ulangtahun')->dailyAt('03:00');
         // $schedule->command('cuti:pegawai')->everyMinute();
     }
 

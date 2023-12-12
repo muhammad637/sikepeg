@@ -331,7 +331,7 @@ class PegawaiController extends Controller
     public function show(Pegawai $pegawai)
     {
 
-
+        // return $pegawai->golongan;
         return view('pages.pegawai.show', [
             'pegawai' => $pegawai
         ]);
