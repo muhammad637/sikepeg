@@ -1,4 +1,5 @@
 <div>
+    <input type="hidden" wire:model='status_tipe' name="status_tipe">
     @if ($status_tipe == 'pns')
     <div class="row mb-3">
         <label for="pangkat" class="col-sm-4 col-form-label">Pangkat</label>

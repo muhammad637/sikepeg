@@ -31,7 +31,8 @@ return new class extends Migration
             $table->string('no_sk')->nullable();
             $table->string('tanggal_sk')->nullable();
             $table->string('penerbit_sk')->nullable();
-            $table->string('link_sk')->nullable();
+            $table->text('link_sk')->nullable();
+            $table->string('status_tipe')->nullable();
             $table->timestamps();
 
         });

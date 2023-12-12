@@ -6,27 +6,37 @@ use Carbon\Carbon;
 use App\Models\Admin;
 use App\Models\Pangkat;
 use App\Models\Pegawai;
+use App\Models\Ruangan;
 use App\Models\Golongan;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\KenaikanPangkat;
-use App\Http\Controllers\Controller;
 use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Controller;
 
 class KenaikanPangkatController extends Controller
 {
     public function index(Request $request)
     {
-       
+        $data = KenaikanPangkat::orderBy('tanggal_sk','desc')->first();
+        $tahun = $data ? Carbon::parse($data->tanggal_sk)->format('Y') : date('Y');
         if ($request->ajax()) {
             $kenaikanPangkat = KenaikanPangkat::query()
                 ->orderBy('tmt_pangkat_dari', 'desc')
                 ->orderBy('pegawai_id', 'desc');
-         
+            if ($request->input('status_tipe') != null) {
+                $kenaikanPangkat->where('status_tipe', $request->status_tipe);
+            }
+            if ($request->input('tahun') != null) {
+                $kenaikanPangkat->where('tanggal_sk', 'like', '%' . $request->tahun . '%');
+            }
+            if ($request->input('ruangan') != null) {
+                $kenaikanPangkat->where('ruangan_id', $request->ruangan);
+            }
             $dataKenaikanPangkat = DataTables::of($kenaikanPangkat)
                 ->addIndexColumn()
                 ->addColumn('nama_lengkap', function ($item) {
-                    return $item->pegawai->nama_lengkap;
+                    return $item->pegawai ? $item->pegawai->nama_lengkap : '-';
                 })
                 ->addColumn('ruangan', function ($item) {
                     return $item->ruangan->nama_ruangan;
@@ -55,9 +65,9 @@ class KenaikanPangkatController extends Controller
                     // return 'tes';
                     return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : ($status == 'pending' ? 'secondary'  : 'secondary')) . ' border-0">' . $status . '</button>';
                 })
-                ->filteredColumn('nama_lengkap', function($query,$keyword){
-                    $query->with('pegawai', function(){
-                        
+                ->filterColumn('nama_lengkap', function ($query, $keyword) {
+                    $query->wherHas('pegawai', function ($item) use ($keyword) {
+                        $item->where('nama_lengkap', 'like', '%' . $keyword . '%');
                     });
                 })
                 ->addColumn('penerbit_sk', function ($item) {
@@ -68,7 +78,7 @@ class KenaikanPangkatController extends Controller
                 })
                 ->addColumn('sk', 'pages.surat.kenaikanpangkat')
                 ->addColumn('aksi', 'pages.kenaikan_pangkat.part.aksi-index')
-                ->rawColumns(['status','nama_lengkap', 'ruangan', 'pangkat', 'golongan', 'no_sk', 'tmt', 'penerbit_sk', 'sk', 'aksi'])
+                ->rawColumns(['status', 'nama_lengkap', 'ruangan', 'pangkat', 'golongan', 'no_sk', 'tmt', 'penerbit_sk', 'sk', 'aksi'])
                 ->toJson();
             return $dataKenaikanPangkat;
             // $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['kenaikanpangkat' => function ($q) {
@@ -83,6 +93,8 @@ class KenaikanPangkatController extends Controller
             [
                 // 'KenaikanPangkat' => $kenaikanpangkat,
                 'i' => 0,
+                'data' => $tahun,
+                'ruangans' => Ruangan::orderBy('nama_ruangan', 'desc')->get(),
             ]
         );
     }
@@ -170,6 +182,7 @@ class KenaikanPangkatController extends Controller
                 [
                     'pegawai_id' => $request->pegawai_id,
                     'ruangan_id' => $request->ruangan_id,
+                    'status_tipe' => $request->status_tipe,
                     'pangkat_id' => $pangkat_id ?? null,
                     'golongan_id' => $golongan_id,
                     'tmt_pangkat_dari' => $request->tmt_pangkat_dari,
@@ -185,7 +198,6 @@ class KenaikanPangkatController extends Controller
             if ($pegawai->status_tipe == 'pppk' && $tmt_pangkat) {
                 $kenaikanpangkat->update([
                     'golongan_id_sebelumnya' => $pegawai->golongan_id,
-
                     'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
                 ]);
                 $pegawai->update([
@@ -205,8 +217,6 @@ class KenaikanPangkatController extends Controller
                 ]);
             }
             // return $pegawai->jabatan;
-
-
             $notif = Notifikasi::notif('kenaikan pangkat', 'data cuti  pegawai ' . $pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-day');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
@@ -330,6 +340,7 @@ class KenaikanPangkatController extends Controller
         $kenaikan_pangkat->update([
             'pegawai_id' => $request->pegawai_id,
             'pangkat_id' => $pangkat_id ?? null,
+            'status_tipe' => $request->status_tipe,
             'golongan_id' => $golongan_id,
             'tmt_pangkat_dari' => $request->tmt_pangkat_dari,
             'tmt_pangkat_sampai' => $request->tmt_pangkat_sampai,

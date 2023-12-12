@@ -3,7 +3,7 @@
     <div class="row mb-3">
         <label for="status_tipe" class="col-sm-4 col-form-label">Status Tipe</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" name="status_tipe" wire:model='status_tipe'
+            <input type="text" class="form-control" name="status_tipe" wire:model='status_tipe' name="status_tipe"
                  readonly placeholder="Pilih Pegawai terlebih dahulu">
         </div>
     </div>
