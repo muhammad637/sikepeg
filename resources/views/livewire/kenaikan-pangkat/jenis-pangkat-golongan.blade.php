@@ -1,4 +1,5 @@
 <div>
+    <input type="hidden" value="{{$ruangan_id}}" name="ruangan_id">
     <div class="row mb-3">
         <label for="status_tipe" class="col-sm-4 col-form-label">Status Tipe</label>
         <div class="col-sm-8">
@@ -9,7 +10,7 @@
     <div class="row mb-3">
         <label for="status_tipe" class="col-sm-4 col-form-label">Nama Ruangan</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" name="nama_ruangan" wire:model='nama_ruangan'
+            <input type="text" class="form-control" name="ruangan" wire:model='ruangan'
                  readonly placeholder="Pilih Pegawai terlebih dahulu">
         </div>
     </div>

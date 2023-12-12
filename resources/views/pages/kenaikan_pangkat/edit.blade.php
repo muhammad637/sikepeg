@@ -16,21 +16,13 @@
         @csrf
         <div class="row">
             <div class="col-sm-12 col-xl-12">
-
+                <input type="hidden" id="data-pegawai" value="{{$kenaikan_pangkat->pegawai_id}}" name="pegawai_id">
                 <div class="row mb-2">
                     <div class="col-sm-4 mb-2  fw-italic text-end">
                         <span class="mb-0 text-dark ">Pegawai</span>
                     </div>
                     <div class="col-sm-8 text-secondary">
-                        <select class="form-control" id="pegawai" name="pegawai_id">
-                            <option value="">Pilih Nama Pegawai</option>
-                            @foreach ($pegawai as $item)
-                            <option value="{{ $item->id }}" {{ old('pegawai_id',$kenaikan_pangkat->pegawai_id) ==
-                                $item->id ? 'selected' : '' }}>
-                                {{ $item->nama_lengkap ?? $item->nama_depan }}
-                            </option>
-                            @endforeach
-                        </select>
+                        <input type="text" value="{{$kenaikan_pangkat->pegawai->nama_lengkap}}" class="form-control" readonly>
                     </div>
                 </div>
                 @livewire('kenaikan-pangkat.edit-jenis-golongan',['kenaikan_pangkat' => $kenaikan_pangkat])
@@ -38,19 +30,24 @@
                     <label for="nama_jabatan_fungsional" class="col-sm-4 col-form-label">Jabatan</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="inputPassword3" name="jabatan"
-                            value="{{old('jabatan', $kenaikan_pangkat->pegawai->jabatan)}}">
+                            value="{{old('jabatan', $kenaikan_pangkat->pegawai->jabatan)}}" readonly>
                     </div>
                 </div>
-                <div class="row mb-3">  
+                <div class="row mb-3"> 
                     <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
-                    <div class="col-md-4 col-sm-12 mb-1">
+                    <div class="col-md-8 col-sm-8">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 mb-1">
                         <label for="" style="font-size: 15px">Mulai</label>
                         <input type="date" class="form-control" name="tmt_pangkat_dari" required value="{{old('tmt_pangkat_dari',$kenaikan_pangkat->tmt_pangkat_dari)}}">
                     </div>
-                    <div class="col-md-4 col-sm-12 mb-1">
+                    <div class="col-md-6 col-sm-12 mb-1">
                         <label for="" style="font-size: 15px">Sampai</label>
                         <input type="date" class="form-control" name="tmt_pangkat_sampai" required value="{{old('tmt_pangakt_sampai', $kenaikan_pangkat->tmt_pangkat_sampai)}}">
                     </div>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="row mb-3">
                     <label for="no_sk" class="col-sm-4 col-form-label">No SK</label>

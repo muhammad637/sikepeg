@@ -19,6 +19,7 @@ class JenisPangkatGolongan extends Component
     public $resultPangkat = [];
     public $jabatan;
     public $ruangan;
+    public $ruangan_id;
     public function mount()
     {
         $this->pegawai = old('pegawai', null);
@@ -27,13 +28,15 @@ class JenisPangkatGolongan extends Component
         $this->nama_golongan = old('nama_golongan', null);
         $this->nama_pangkat = old('nama_pangkat', null);
         $this->jabatan = old('jabatan', null);
-        $this->ruangan = old('nama_ruangan', null);
+        $this->ruangan = old('ruangan', null);
         if ($this->pegawai) {
             $this->resultGolongan =
                 Golongan::where('jenis', $this->pegawai->status_tipe)->orderBy('nama_golongan', 'asc')->get();
             $this->resultPangkat =
                 Pangkat::orderBy('nama_pangkat', 'asc')->get();
             $this->jabatan = old('jabatan', $this->pegawai->jabatan);
+            $this->ruangan = old('ruangan',$this->pegawai->ruangan->nama_ruangan);
+            $this->ruangan_id = old('ruangan',$this->pegawai->ruangan_id);
         }
        
     }
@@ -45,6 +48,8 @@ class JenisPangkatGolongan extends Component
             $this->resultGolongan = Golongan::where('jenis', $pegawai->status_tipe)->get();
             $this->resultPangkat = Pangkat::all();
             $this->jabatan = $pegawai->jabatan;
+            $this->ruangan = $pegawai->ruangan->nama_ruangan;
+            $this->ruangan_id = $pegawai->ruangan_id;
         }
     }
 

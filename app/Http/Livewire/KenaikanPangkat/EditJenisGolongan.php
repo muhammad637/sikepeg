@@ -16,6 +16,8 @@ class EditJenisGolongan extends Component
     public $pangkat_id;
     public $resultGolongan = [];
     public $resultPangkat = [];
+    public $ruangan;
+    public $ruangan_id;
     public function mount(){
         $pegawai = Pegawai::find($this->pegawai);
         $this->golongan_id = old('golongan_id', $this->kenaikan_pangkat->golongan_id);
@@ -24,6 +26,7 @@ class EditJenisGolongan extends Component
             $this->status_tipe =  $pegawai->status_tipe;  
             $this->resultGolongan =  Golongan::where('jenis', $pegawai->status_tipe)->orderBy('nama_golongan', 'asc')->get();
             $this->resultPangkat =  pangkat::orderBy('nama_pangkat', 'asc')->get();
+            $this->ruangan = $pegawai->ruangan->nama_ruangan;
         }
     }
     public function updatedPegawai($value){

@@ -29,6 +29,7 @@
                             <th scope="col">No SK</th>
                             <th scope="col">Tanggal Mulai Terhitung</th>
                             <th scope="col">Penerbit SK</th>
+                            <th scope="col">status</th>
                             <th scope="col">SK</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -80,50 +81,53 @@
                 serverside: true,
                 processing: true,
                 ajax: "{{ route('admin.kenaikan-pangkat.index') }}",
-                columns: [
+                columns: [{
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex",
+                    },
+
                     {
-                    data: "DT_RowIndex",
-                    name: "DT_RowIndex",
-                },
-                
+                        data: "nama_lengkap",
+                        name: "nama_lengkap",
+                    },
                     {
-                    data: "nama_lengkap",
-                    name: "nama_lengkap",
-                },
+                        data: "ruangan",
+                        name: "ruangan",
+                    },
                     {
-                    data: "ruangan",
-                    name: "ruangan",
-                },
+                        data: "pangkat",
+                        name: "pangkat",
+                    },
                     {
-                    data: "pangkat",
-                    name: "pangkat",
-                },
+                        data: "golongan",
+                        name: "golongan",
+                    },
                     {
-                    data: "golongan",
-                    name: "golongan",
-                },
+                        data: "no_sk",
+                        name: "no_sk",
+                    },
                     {
-                    data: "no_sk",
-                    name: "no_sk",
-                },
+                        data: "tmt",
+                        name: "tmt",
+                    },
                     {
-                    data: "tmt",
-                    name: "tmt",
-                },
+                        data: "penerbit_sk",
+                        name: "penerbit_sk",
+                    },
                     {
-                    data: "penerbit_sk",
-                    name: "penerbit_sk",
-                },
+                        data: "status",
+                        name: "status",
+                    },
                     {
-                    data: "sk",
-                    name: "sk",
-                },
+                        data: "sk",
+                        name: "sk",
+                    },
                     {
-                    data: "aksi",
-                    name: "aksi",
-                },
-                   
-            ]
+                        data: "aksi",
+                        name: "aksi",
+                    },
+
+                ]
             })
         })
     </script>

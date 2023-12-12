@@ -104,17 +104,19 @@
 @push('script')
 <script>
     $(document).ready(function() {
-                   
-            $('#pegawai').select2();
-            $('#pegawai').on('change', function(e) {
-                // console.log(e)
-                var data = $('#pegawai').select2("val")
-                @this.set("pegawai", data)
-            });
-            var data = $('#pegawai').select2("val")
-            if (data){
-            @this.set('pegawai',data)
-            }
+        data =  $('#data-pegawai').val();
+        // console.log($('#data-pegawai').val())
+        @this.set('pegawai', data)    
+            // $('#pegawai').select2();
+            // $('#pegawai').on('change', function(e) {
+            //     // console.log(e)
+            //     var data = $('#pegawai').select2("val")
+            //     @this.set("pegawai", data)
+            // });
+            // var data = $('#pegawai').select2("val")
+            // if (data){
+            // @this.set('pegawai',data)
+            // }
         });
 </script>
 @endpush

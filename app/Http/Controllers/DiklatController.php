@@ -27,13 +27,20 @@ class DiklatController extends Controller
         // })->get();
 
         // return $pegawai;
+        $dataNamaDiklat = [];
+        $nama_diklats = Diklat::orderBy('nama_diklat', 'asc')->get();
+        foreach ($nama_diklats as $item) {
+            if (!in_array($item->nama_diklat, $dataNamaDiklat)) {
+                $dataNamaDiklat[] = $item->nama_diklat;
+            }
+        }
         if ($request->ajax()) {
             $diklat = Diklat::query()->orderBy('tanggal_selesai', 'desc');
-            if ($request->input('diklat') != null) {
+            if ($request->input('nama_diklat') != null) {
                 $diklat->where('nama_diklat', $request->nama_diklat);
             }
             if ($request->input('ruangan') != null) {
-                $diklat->where('ruangan_id', $request->ruangan->nama_ruangan);
+                $diklat->where('ruangan_id', $request->ruangan);
             }
             if ($request->input('tahun') != null) {
                 $diklat->where('tanggal_selesai', 'like', '%' . $request->tahun . '%');
@@ -46,7 +53,7 @@ class DiklatController extends Controller
                 ->addColumn('nama_diklat', function ($item) {
                     return $item->nama_diklat;
                 })
-                ->addColumn('nama_ruangan', function ($item){
+                ->addColumn('nama_ruangan', function ($item) {
                     return $item->ruangan->nama_ruangan;
                 })
                 ->addColumn('penyelenggara', function ($item) {
@@ -67,13 +74,13 @@ class DiklatController extends Controller
                 //     return "<div class='d-flex'>$show $edit</div>";
                 // })
                 ->addColumn('aksi', 'pages.diklat.part.aksi-index')
-                ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan','penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
+                ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
                 ->toJson();
             return $dataPegawaiDiklat;
         }
         return view('pages.diklat.index', [
             'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get(),
-            'diklats' => Diklat::orderBy('nama_diklat', 'asc')->get()
+            'dataNamaDiklat' => $dataNamaDiklat
         ]);
     }
 
@@ -104,7 +111,6 @@ class DiklatController extends Controller
                 'no_sertifikat' => 'required',
                 'tanggal_sertifikat' => 'required',
                 'link_sertifikat' => 'required',
-                'ruangan_id' => ''
             ]);
             $diklat->update(
                 [
@@ -168,7 +174,7 @@ class DiklatController extends Controller
             'link_sertifikat' => $request->link_sertifikat,
             'ruangan_id' => $request->ruangan_id
         ]);
-  
+
         $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
@@ -279,10 +285,21 @@ class DiklatController extends Controller
         return $this->dataLaporan($pegawai);
     }
 
-    public function exportAll()
+    public function exportAll(Request $request)
     {
-        $diklats = Diklat::orderBy('created_at', 'desc')->get();
-        return $this->dataLaporan($diklats);
+        $diklats = Diklat::query()->orderBy('created_at','desc');
+        if ($request->input('diklat') != null) {
+            $diklats->where('nama_diklat', $request->diklat);
+        }
+        if ($request->input('ruangan') != null) {
+            $diklats->where('ruangan_id', $request->ruangan);
+        }
+        if ($request->input('tahun') != null) {
+            $diklats->where('tahun', $request->tahun);
+        }
+        // return $request->all();
+        // return $diklats->get();
+        return $this->dataLaporan($diklats->get());
     }
 
     public function exportYear(Request $request)
@@ -292,7 +309,7 @@ class DiklatController extends Controller
     }
     public function exportYearRange(Request $request)
     {
-        if($request->yearAwal > $request->yearAkhir){
+        if ($request->yearAwal > $request->yearAkhir) {
             alert()->error('mohon masukan rentang tahun dengan baik dan benar');
             return redirect()->back();
         }

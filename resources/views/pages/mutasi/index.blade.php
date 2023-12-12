@@ -104,7 +104,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <span class="text-info">Sebelumnya</span>
+                                <span class="text-info">Baru</span>
                                 <select name="status_tipe" id="ruangan_tujuan" class="form-control filter">
                                     <option value="">Semua Ruangan</option>
                                     @foreach ($ruangans as $item)
