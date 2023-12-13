@@ -194,7 +194,7 @@ class KenaikanPangkatController extends Controller
                     'link_sk' => $request->link_sk
                 ]
             );
-            $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('d-m-y') <= date('d-m-y') && Carbon::parse($request->tmt_pangkat_sampai)->format('d-m-y') >= date('d-m-y') ? 'aktif' : '-';
+            $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('Ymd') <= date('Ymd') && Carbon::parse($request->tmt_pangkat_sampai)->format('Ymd') >= date('Ymd') ? 'aktif' : '-';
             $kenaikanpangkat->update([
                 'golongan_id_sebelumnya' => $pegawai->golongan_id,
                 'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
@@ -238,11 +238,9 @@ class KenaikanPangkatController extends Controller
     }
     public function update(Request $request, KenaikanPangkat $kenaikan_pangkat)
     {
-        // try {
-        // return request()->all();
+        
         $pegawaiUpdate = Pegawai::find($request->pegawai_id);
 
-        // reset kenaikan pangkat pegawai sebelumnya
         $pegawaiSebelumnya = Pegawai::find($kenaikan_pangkat->pegawai_id);
         $pegawaiSebelumnya->update([
             'pangkat_id' => $kenaikan_pangkat->pangkat_id_sebelumnya ?? null,
@@ -314,7 +312,7 @@ class KenaikanPangkatController extends Controller
             ]);
             $golongan_id = $golongan->id;
         }
-        $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('d-m-y') <= date('d-m-y') && Carbon::parse($request->tmt_pangkat_sampai)->format('d-m-y') >= date('d-m-y') ? 'aktif' : '-';
+        $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('Ymd') <= date('Ymd') && Carbon::parse($request->tmt_pangkat_sampai)->format('Ymd') >= date('Ymd') ? 'aktif' : '-';
         if ($tmt_pangkat == 'aktif') {
             $pegawaiUpdate->update([
                 'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,

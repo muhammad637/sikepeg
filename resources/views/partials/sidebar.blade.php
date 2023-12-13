@@ -108,6 +108,7 @@
                  <a class="collapse-item {{Request::routeIs('admin.master-data.ruangan.*') ? 'active' : ''}}" href="{{route('admin.master-data.ruangan.index')}}">Ruangan</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.hari-besar.*') ? 'active' : ''}}" href="{{ route('admin.master-data.hari-besar.index') }}">Hari Besar</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.cuti-pegawai.*') ? 'active' : ''}}" href="{{ route('admin.master-data.cuti-pegawai.index') }}">Cuti Pegawai</a>
+                 <a class="collapse-item {{Request::routeIs('admin.master-data.kenaikan-pangkat.*') ? 'active' : ''}}" href="{{ route('admin.master-data.kenaikan-pangkat.index') }}">Kenaikan Pangkat</a>
              </div>
          </div>
      </li>

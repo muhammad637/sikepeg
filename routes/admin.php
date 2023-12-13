@@ -176,8 +176,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/',[MasterDataTahunCuti::class,'index'])->name('index');
                 Route::put('/update',[MasterDataTahunCuti::class,'update'])->name('update');
             });
-            Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat')->group(function(){
+            Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){
                 Route::get('/',[MasterDataKenaikanPangkatController::class,'index'])->name('index');
+                Route::put('/update',[MasterDataKenaikanPangkatController::class,'update'])->name('update');
             });
             // hari-besar
             Route::prefix('hari-besar')->name('hari-besar.')->group(function () {
