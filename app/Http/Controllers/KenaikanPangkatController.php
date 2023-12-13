@@ -427,12 +427,11 @@ class KenaikanPangkatController extends Controller
                 'No SK' => $item->no_sk,
                 'Tanggal Mulai Terhitung' => Carbon::parse($item->tmt_pangkat_dari)->format('d/m/Y') .' - '.Carbon::parse($item->tmt_pangkat_dari)->format('d/m/Y'),
                 'Penerbit SK' => $item->penerbit_sk,
-                'Status' => $item->status
             ]);
         }
         // return $dataLaporan;
         $laporan = new Export([
-            ['Nama Pegawai', 'Status Tipe', 'Ruangan', 'Pangkat', 'Golongan', 'No SK', 'Tanggal Mulai Terhitung', 'Penerbit SK', 'Status'],
+            ['Nama Pegawai', 'Status Tipe', 'Ruangan', 'Pangkat', 'Golongan', 'No SK', 'Tanggal Mulai Terhitung', 'Penerbit SK'],
             [...$dataLaporan]
         ]);
         // return $dataLaporan;
