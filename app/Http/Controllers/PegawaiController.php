@@ -124,16 +124,16 @@ class PegawaiController extends Controller
         // return Asn::all();
         if ($request->ajax()) {
             $pegawai = Pegawai::query();
-            if($request->input('ruangan') != null){
+            if ($request->input('ruangan') != null) {
                 $pegawai = $pegawai->where('ruangan_id', $request->ruangan);
             }
-            if($request->input('jenis_tenaga') != null){
+            if ($request->input('jenis_tenaga') != null) {
                 $pegawai = $pegawai->where('jenis_tenaga', $request->jenis_tenaga);
             }
-            if($request->input('status_tipe') != null){
+            if ($request->input('status_tipe') != null) {
                 $pegawai = $pegawai->where('status_tipe', $request->status_tipe);
             }
-            $pegawai->orderBy('created_at','desc');
+            $pegawai->orderBy('created_at', 'desc');
             $dataPegawai = DataTables::of($pegawai)
                 ->addIndexColumn()
                 ->addColumn('jenis_kelamin', function ($item) {
@@ -208,6 +208,20 @@ class PegawaiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    private function gelarDepan($gelar_depan){
+        $data_gelar_depan = $gelar_depan ?? null;
+        if (strpos($data_gelar_depan, '.') == false && $gelar_depan != null) {
+            $data_gelar_depan = $gelar_depan . '.';
+        }
+        return $data_gelar_depan;
+    }
+    private function gelarBelakang($gelar_belakang){
+        $data_gelar_belakang = $gelar_belakang ?? null;
+        if (strpos($data_gelar_belakang, ',') == false && $gelar_belakang != null) {
+            $data_gelar_belakang = ','.$gelar_belakang;
+        }
+        return $data_gelar_belakang;
+    }
     public function store(Request $request)
     {
         $pegawai = [];
@@ -215,7 +229,9 @@ class PegawaiController extends Controller
         $validatedData = $request->validate($this->rulesPegawai);
         $parseTanggalLahir = Carbon::parse($request->tanggal_lahir)->format('dmY');
         $password = Hash::make($parseTanggalLahir);
-        $nama_lengkap = $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang;
+        $data_gelar_depan = $this->gelarDepan($request->gelar_depan);
+        $data_gelar_belakang = $this->gelarBelakang($request->gelar_belakang);
+        $nama_lengkap = $data_gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $data_gelar_belakang;
         $ruangan = $request->ruangan_id;
         if ($request->ruangan_id == 'ruangan_lainnya') {
             $request->validate(
@@ -379,8 +395,10 @@ class PegawaiController extends Controller
             ]);
             $ruangan_id = $ruangan->id;
         }
+        $data_gelar_depan = $this->gelarDepan($request->gelar_depan);
+        $data_gelar_belakang = $this->gelarBelakang($request->gelar_belakang);
         $pegawai->update([
-            'nama_lengkap' =>  $request->gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $request->gelar_belakang,
+            'nama_lengkap' => $data_gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " .  $data_gelar_belakang,
             'password' => $password,
             'ruangan_id' =>  $ruangan_id
 
