@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\KenaikanPangkat;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SIPController;
 use App\Http\Controllers\STRController;
@@ -157,7 +158,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
         // kenaikan pangkat
+        
+       
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function(){
+            Route::get('/export_excel', [KenaikanPangkatController::class, 'export_excel'])->name('export-excel');
             Route::delete('/{kenaikan_pangkat:id}/delete', [KenaikanPangkatController::class, 'destroy'])->name('destroy');
             Route::get('/', [KenaikanPangkatController::class,'index'])->name('index');
             Route::get('/create',[KenaikanPangkatController::class,'create'])->name('create');

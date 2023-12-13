@@ -276,11 +276,13 @@ class   STRController extends Controller
                 // 'Status' => ,
                 'Status' =>  isset($str->masa_berakhir_str) ?( $str->masa_berakhir_str >= Carbon::parse(now())->format('Y-m-d') ? 'active' : 'expired') : null ,
                 // 'Status' =>  $str->masa_berakhir_str ?? null,
-                'Link STR' => $str->link_str ?? null
+                'Link STR' => $str->link_str ?? null,
+                'Penerbit' => $str->penerbit_str ?? null,
+                'Tanggal Terbit' => $str->tanggal_terbit_str ?? null
             ]);
         }
         $laporan = new STRExport([
-            ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Link STR'],
+            ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Link STR', 'Penerbit', 'Tanggal Terbit'],
             [...$dataLaporan]
         ]);
         return Excel::download($laporan, 'STR.xlsx');
