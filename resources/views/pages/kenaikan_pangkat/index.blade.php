@@ -7,9 +7,61 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Data Kenaikan Pangkat Pegawai</h4>
-                <a href="{{ route('admin.kenaikan-pangkat.create') }}"
-                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i class="fas fa-plus-square ml-1"></i></a>
-            </div>
+                <div class="d-flex">
+                    <a href="{{ route('admin.kenaikan-pangkat.create') }}"
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1">Tambah <i class="fas fa-plus-square ml-1"></i></a>
+                <a href="#export-semua-jabatan" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1"
+                        data-toggle="modal">Export Excel</a>
+                </div>
+                <div class="modal fade" role="dialog" id="export-semua-jabatan">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Export Rekap Kenaikan Pangkat</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('admin.kenaikan-pangkat.export-excel') }}" method="get">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="pilih-tahun">Pilih Tahun</label>
+                                        <select name="tahun" id="pilih-tahun" class="form-control">
+                                            <option value="">Semua Tahun</option>
+                                            @for ($year = date('Y'); $year >= 2000; $year--)
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pilih-tahun" class="d-block">Pilih Ruangan</label>
+                                        <select name="nama_ruangan" id="select-ruangan" class="form-control w-100"
+                                            style="width: 100%">
+                                            <option value="">Semua Ruangan</option>
+                                            @foreach ($ruangans as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pilih-tahun">Pilih Status Pegawai</label>
+                                        <select name="status_tipe" id="pilih-tahun" class="form-control">
+                                            <option value="">Semua Status Pegawai</option>
+                                            <option value="pns">Pegawai PNS</option>
+                                            <option value="pppk">Pegawai PPPK</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> 
         </div>
 
         <div class="card-body">
@@ -100,6 +152,7 @@
                 </table>
             </div>
         </div>
+        
     </div>
 @endsection
 @push('script')

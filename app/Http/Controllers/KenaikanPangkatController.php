@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Models\KenaikanPangkat;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\Export;
 
 class KenaikanPangkatController extends Controller
 {
@@ -410,4 +412,44 @@ class KenaikanPangkatController extends Controller
         return redirect()->back();
     }
     //
+
+    private function dataLaporan($kenaikan_pangkat
+    )
+    {
+        $dataLaporan = [];
+        foreach ($kenaikan_pangkat as $item) {
+            array_push($dataLaporan, [
+                'Nama Pegawai' => $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan,
+                'Status Tipe' => $item->status_tipe,
+                'Ruangan' => $item->ruangan->nama_ruangan ?? '-',
+                'Pangkat' => $item->pangkat->nama_pangkat ?? '-',
+                'Golongan' => $item->golongan->nama_golongan ?? '-',
+                'No SK' => $item->no_sk,
+                'Tanggal Mulai Terhitung' => Carbon::parse($item->tmt_pangkat_dari)->format('d/m/Y') .' - '.Carbon::parse($item->tmt_pangkat_dari)->format('d/m/Y'),
+                'Penerbit SK' => $item->penerbit_sk,
+                'Status' => $item->status
+            ]);
+        }
+        // return $dataLaporan;
+        $laporan = new Export([
+            ['Nama Pegawai', 'Status Tipe', 'Ruangan', 'Pangkat', 'Golongan', 'No SK', 'Tanggal Mulai Terhitung', 'Penerbit SK', 'Status'],
+            [...$dataLaporan]
+        ]);
+        // return $dataLaporan;
+        return Excel::download($laporan, 'kenaikan-pangkat.xlsx');
+    }
+
+    public function export_excel(Request $request)
+    {
+        // return 'testing';
+        $kenaikan_pangkat = KenaikanPangkat::orderBy('tmt_pangkat_dari', 'desc')->orderBy('pegawai_id', 'asc');
+        if ($request->input('status_tipe') != null) {
+            $kenaikan_pangkat->where('status_tipe', $request->status_tipe);
+        }
+        if ($request->input('tahun') != null) {
+            $kenaikan_pangkat->where('tmt_pangkat_dari', 'like', '%' . $request->tahun . '%');
+        }
+        // return $mutasi->get();
+        return $this->dataLaporan($kenaikan_pangkat->get());
+    }
 }
