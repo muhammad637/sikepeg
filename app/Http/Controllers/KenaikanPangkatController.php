@@ -446,6 +446,9 @@ class KenaikanPangkatController extends Controller
         if ($request->input('status_tipe') != null) {
             $kenaikan_pangkat->where('status_tipe', $request->status_tipe);
         }
+        if ($request->input('ruangan') != null) {
+            $kenaikan_pangkat->where('ruangan_id', $request->ruangan);
+        }
         if ($request->input('tahun') != null) {
             $kenaikan_pangkat->where('tmt_pangkat_dari', 'like', '%' . $request->tahun . '%');
         }

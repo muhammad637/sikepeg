@@ -1,4 +1,8 @@
 @extends('main', ['title' => 'Kenaikan Pangkat'])
+@push('style-css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+@endpush
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Kenaikan Pangkat</h1>
     <!-- Page Heading -->
@@ -36,7 +40,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="pilih-tahun" class="d-block">Pilih Ruangan</label>
-                                        <select name="nama_ruangan" id="select-ruangan" class="form-control w-100"
+                                        <select name="ruangan" id="select-export-ruangan" class="form-control w-100"
                                             style="width: 100%">
                                             <option value="">Semua Ruangan</option>
                                             @foreach ($ruangans as $item)
@@ -158,8 +162,12 @@
 @push('script')
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
         $(document).ready(function() {
+            $('#ruangan').select2()
+            $('#select-export-ruangan').select2()
             let status_tipe = $('#status_tipe').val()
             let ruangan = $('#ruangan').val();
             let tahun = $('#tahun').val();
