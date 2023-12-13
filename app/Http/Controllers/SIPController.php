@@ -317,11 +317,13 @@ class SIPController extends Controller
                 // 'Status' => ,
                 'Status' =>  isset($sip->masa_berakhir_sip) ? ($sip->masa_berakhir_sip >= Carbon::parse(now())->format('Y-m-d') ? 'aktif' : 'non-aktif') : null,
                 // 'Status' =>  $sip->masa_berakhir_str ?? null,
-                'Link SIP' => $sip->link_sip ?? null
+                'Link SIP' => $sip->link_sip ?? null,
+                'Penerbit' => $sip->penerbit_sip ?? null,
+                'Tanggal Terbit' => $sip->tanggal_terbit_sip ?? null
             ]);
         }
         $laporan = new SIPExport([
-            ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Link SIP'],
+            ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Penerbit', 'Tanggal Terbit', 'Link SIP'],
             [...$dataLaporan]
         ]);
         return Excel::download($laporan, 'SIP.xlsx');
