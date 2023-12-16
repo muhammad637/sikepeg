@@ -1,4 +1,4 @@
-@extends('main',['title'=>'Golongan Master Data'])
+@extends('main', ['title' => 'Golongan Master Data'])
 @section('content')
     <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Master Data</h1>
     <!-- Page Heading -->
@@ -7,8 +7,8 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Daftar Golongan</h4>
-                <a href="{{ route('admin.master-data.golongan.create') }}" class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i
-                        class="fas fa-plus-square ml-1"></i></a>
+                <a href="{{ route('admin.master-data.golongan.create') }}"
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">create <i class="fas fa-plus-square ml-1"></i></a>
 
             </div>
         </div>
@@ -47,6 +47,11 @@
     </div>
 @endsection
 @push('script')
-    <script src="{{asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js')}}"></script>
- <script src="{{asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            const table = $('#dataTable').DataTable()
+        })
+    </script>
 @endpush
