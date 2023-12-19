@@ -31,14 +31,20 @@ class MasterDataTahunCuti extends Controller
     }
     private function dataUpdate($pegawai)
     {
-        if ($pegawai->tahun_cuti < date('Y') && $pegawai->sisa_cuti_tahunan >= 6) {
-            $pegawai->update([
-                'sisa_cuti_tahunan' => 18,
-            ]);
-        }
-        if ($pegawai->tahun_cuti < date('Y') && $pegawai->sisa_cuti_tahunan < 6) {
-            $pegawai->update([
-                'sisa_cuti_tahunan' => $pegawai->sisa_cuti_tahunan + 12,
+        if ($pegawai->status_tipe == 'pns') {
+            if ($pegawai->tahun_cuti < date('Y') && $pegawai->sisa_cuti_tahunan >= 6) {
+                return $pegawai->update([
+                    'sisa_cuti_tahunan' => 18,
+                ]);
+            }
+            if ($pegawai->tahun_cuti < date('Y') && $pegawai->sisa_cuti_tahunan < 6) {
+                return   $pegawai->update([
+                    'sisa_cuti_tahunan' => $pegawai->sisa_cuti_tahunan + 12,
+                ]);
+            }
+        } else {
+            return  $pegawai->update([
+                'sisa_cuti_tahunan' => 12,
             ]);
         }
     }
