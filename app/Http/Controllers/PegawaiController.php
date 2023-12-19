@@ -104,7 +104,7 @@ class PegawaiController extends Controller
         'masa_berakhir_sip' => 'required',
         'link_sip' => 'required'
     ];
-    private $rulesUmum = [
+    private $rulesNonNakes = [
         'masa_kerja' => '',
         'no_karpeg' => '',
         'no_taspen' => '',
@@ -304,10 +304,10 @@ class PegawaiController extends Controller
             'status_tipe' => $request->status_tipe
         ], $validatedAsn, $data, $status_tipe);
         if ($request->jenis_tenaga == 'umum') {
-            $validatedDataUmum = $request->validate($this->rulesUmum);
+            $validatedDataUmum = $request->validate($this->rulesNonNakes);
             $pegawai = array_merge($data, $validatedDataUmum);
         } else if ($request->jenis_tenaga == 'struktural') {
-            $validatedDataUmum = $request->validate($this->rulesUmum);
+            $validatedDataUmum = $request->validate($this->rulesNonNakes);
             $pegawai = array_merge($data, $validatedDataUmum);
         } else if ($request->jenis_tenaga == 'nakes') {
             $createPegawai = Pegawai::create($data);
@@ -535,7 +535,7 @@ class PegawaiController extends Controller
         if ($request->jenis_tenaga == 'umum' || $request->jenis_tenaga == 'struktural') {
             count($pegawai->str) > 0 ? STR::destroy($pegawai->str->pluck('id')->toArray()) : null;
             count($pegawai->sip) > 0 ? SIP::destroy($pegawai->sip->pluck('id')->toArray()) : null;
-            $validatedDataUmum = $request->validate($this->rulesUmum);
+            $validatedDataUmum = $request->validate($this->rulesNonNakes);
             $pegawai->update($validatedDataUmum);
             $notif = Notifikasi::notif('pegawai', 'pegawai berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
             $createNotif = Notifikasi::create($notif);

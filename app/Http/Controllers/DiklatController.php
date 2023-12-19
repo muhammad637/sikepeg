@@ -276,14 +276,14 @@ class DiklatController extends Controller
         return Excel::download($laporan, 'diklat.xlsx');
     }
 
-    public function export_excel(Request $request)
-    {
-        // return 'testing';
-        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-            $query->orderBy('masa_berakhir_str', 'desc');
-        })->get();
-        return $this->dataLaporan($pegawai);
-    }
+    // public function export_excel(Request $request)
+    // {
+    //     // return 'testing';
+    //     $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
+    //         $query->orderBy('masa_berakhir_str', 'desc');
+    //     })->get();
+    //     return $this->dataLaporan($pegawai);
+    // }
 
     public function exportAll(Request $request)
     {
