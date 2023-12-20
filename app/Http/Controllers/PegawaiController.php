@@ -13,6 +13,7 @@ use App\Models\Golongan;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Imports\PegawaiImport;
+use App\Models\PangkatGolongan;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -180,14 +181,10 @@ class PegawaiController extends Controller
         $file = $request->file('file');
         $nama_file = rand() . $file->getClientOriginalName();
         $file->move('file_pegawai', $nama_file);
-        Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
+       Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
         alert()->success('berhasil', 'data pegawai berhasil di import');
         return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
-        // } catch (\Throwable $th) {
-        //     return $th->getMessage();
-        //     alert()->error('erorr', 'data pegawai gagal di import ');
-        //     return redirect()->back();
-        // }
+        
     }
 
     /**
@@ -208,20 +205,24 @@ class PegawaiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    private function gelarDepan($gelar_depan){
+    private function gelarDepan($gelar_depan)
+    {
         $data_gelar_depan = $gelar_depan ?? null;
         if (strpos($data_gelar_depan, '.') == false && $gelar_depan != null) {
             $data_gelar_depan = $gelar_depan . '.';
         }
         return $data_gelar_depan;
     }
-    private function gelarBelakang($gelar_belakang){
+
+    private function gelarBelakang($gelar_belakang)
+    {
         $data_gelar_belakang = $gelar_belakang ?? null;
         if (strpos($data_gelar_belakang, ',') == false && $gelar_belakang != null) {
-            $data_gelar_belakang = ','.$gelar_belakang;
+            $data_gelar_belakang = ',' . $gelar_belakang;
         }
         return $data_gelar_belakang;
     }
+
     public function store(Request $request)
     {
         $pegawai = [];
@@ -260,39 +261,30 @@ class PegawaiController extends Controller
             return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
         }
 
-        $pangkat_id = $request->pangkat_id;
-        if ($request->pangkat_id == 'pangkat_lainnya') {
+        $pangkat_golongan_id = $request->pangkat_golongan_id;
+        if ($request->pangkat_golongan_id == 'pangkat_golongan_lainnya') {
             $request->validate([
-                'nama_pangkat' => 'unique:pangkats,nama_pangkat'
+                'nama_pangkat_golongan' => 'unique:pangkat_golongans,nama'
             ]);
-            $pangkat = Pangkat::create([
-                'nama_pangkat' => strtolower($request->nama_pangkat),
+            $pangkat_golongan = PangkatGolongan::create([
+                'nama' => $request->nama_pangkat_golongan,
+                'nama_kecil' => strtolower(
+                    $request->nama_pangkat_golongan
+                ),
             ]);
-            $pangkat_id = $pangkat->id;
-        }
-        $golongan_id = $request->golongan_id;
-        if ($request->golongan_id == 'golongan_lainnya') {
-            $request->validate([
-                'nama_golongan' => 'required',
-            ]);
-            $golongan = Golongan::create([
-                'nama_golongan' => strtolower($request->nama_golongan),
-                'jenis' => $request->status_tipe
-            ]);
-            $golongan_id = $golongan->id;
+            $pangkat_golongan_id = $pangkat_golongan->id;
         }
         if ($request->status_tipe == 'pns') {
             $masa_kerja = $this->lama($request->tmt_pns);
             $status_tipe = [
-                'pangkat_id' => $pangkat_id,
-                'golongan_id' => $golongan_id,
+                'pangkat_golongan_id' => $pangkat_golongan_id,
                 'tmt_pns' => $request->tmt_pns,
                 'tmt_cpns' => $request->tmt_cpns,
             ];
         } elseif ($request->status_tipe == 'pppk') {
             $masa_kerja = $this->lama($request->tmt_pppk);
             $status_tipe = [
-                'golongan_id' => $golongan_id,
+                'pangkat_golongan_id' => $pangkat_golongan_id,
                 'tmt_pppk' => $request->tmt_pppk,
             ];
         }
@@ -405,55 +397,27 @@ class PegawaiController extends Controller
         ]);
         $usia = $this->lama($request->tanggal_lahir);
         $pegawai->update(array_merge(['usia' => $usia], $validatedData));
-        if ($request->status_tipe == 'pns') {
-            $request->validate([
-                'golongan_id' => 'required',
-                'pangkat_id' => 'required'
-            ], [
-                'pangkat_id.required' => 'pangkat_id masih kosong',
-                'golongan_id.required' => 'golongna_id masih kosong',
-            ]);
-        } elseif ($request->status_tipe == 'pppk') {
-            $request->validate([
-                'golongan_id' => 'required',
-            ]);
-        }
-        if (isset($request->pangkat_id) || isset($request->golongan_id)) {
-            $pangkat_id = $request->pangkat_id;
-            if (
-                $request->pangkat_id == 'pangkat_lainnya'
-            ) {
-                $pangkat = Pangkat::create([
-                    'nama_pangkat' => strtolower($request->nama_pangkat),
+
+        if (isset($request->pangkat_golongan_id)) {
+            $pangkat_golongan_id = $request->pangkat_golongan_id;
+            if ($request->pangkat_golongan_id == 'pangkat_golongan_lainnya') {
+                $request->validate([
+                    'nama_pangkat_golongan' => 'unique:pangkat_golongans,nama'
                 ]);
-                $pangkat_id = $pangkat->id;
-            }
-
-            $golongan_id = $request->golongan_id;
-            if ($request->golongan_id == 'golongan_lainnya') {
-                $golongan = Golongan::create([
-                    'nama_golongan' => strtolower($request->nama_golongan),
-                    'jenis' => $request->status_tipe
+                $pangkat_golongan = PangkatGolongan::create([
+                    'nama' => $request->nama_pangkat_golongan,
+                    'nama_kecil' => strtolower(
+                        $request->nama_pangkat_golongan
+                    ),
                 ]);
-                $golongan_id = $golongan->id;
+                $pangkat_golongan_id = $pangkat_golongan->id;
             }
-
-            if (
-                $request->status_tipe == 'pns'
-            ) {
-
-                $dataTambahan = [
-                    'pangkat_id' => $pangkat_id,
-                    'golongan_id' => $golongan_id,
-                    'tmt_pns' => $request->tmt_pns,
-                    'tmt_cpns' => $request->tmt_cpns,
-                ];
-            } elseif ($request->status_tipe == 'pppk') {
-                $dataTambahan = [
-                    'golongan_id' => $golongan_id,
-                    'tmt_pppk' => $request->tmt_pppk
-                ];
-            }
+            $dataTambahan = [
+                'pangkat_golongan_id' => $pangkat_golongan_id ?? null,
+                'tmt_pns' => $request->tmt_pns ?? null,
+                'tmt_cpns' => $request->tmt_cpns ?? null,
+                'tmt_pppk' => $request->tmt_pppk ?? null
+            ];
         }
         if (isset($request->cuti_tahunan)) {
             $pegawai->update(['cuti_tahunan' => $request->cuti_tahunan]);
@@ -633,30 +597,5 @@ class PegawaiController extends Controller
         return [$request->search, $pegawaiDalamRuangan];
     }
 
-    public function templatePNS()
-    {
-
-        $headers = array(
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=pegawai_template.csv",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0",
-        );
-
-        $handle = fopen('php://output', 'w');
-
-        // Tambahkan header kolom sesuai dengan struktur data pegawai
-        fputcsv($handle, ['nama', 'jabatan', 'gaji']);
-
-        fclose($handle);
-
-        return new StreamedResponse(
-            function () use ($handle) {
-                fclose($handle);
-            },
-            200,
-            $headers
-        );
-    }
+ 
 }

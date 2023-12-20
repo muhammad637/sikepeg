@@ -49,10 +49,11 @@ class PegawaiFactory extends Factory
             'masa_kerja' => 12,
             'tmt_pppk' => '2022-10-10',
             'tmt_pangkat_terakhir' => now()->format('Y-m-d'),
-            'golongan_id' => 1,
+            // 'golongan_id' => 1,
             'sekolah' => 'Politeknik Negeri Banyuwangi',
             'jenis_tenaga' => 'nakes',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
+            'pangkat_golongan_id' => 1
         ];
     }
 }

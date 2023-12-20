@@ -7,6 +7,7 @@ use App\Models\Pangkat;
 use App\Models\Pegawai;
 use App\Models\Ruangan;
 use App\Models\Golongan;
+use App\Models\PangkatGolongan;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -14,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class PegawaiImport implements ToModel, WithHeadingRow
 {
-    
+
     /**
      * @param array $row
      *
@@ -26,28 +27,21 @@ class PegawaiImport implements ToModel, WithHeadingRow
         // dd($row);
         $pangkatDefault = 'juru muda';
         $ruangan = Ruangan::firstOrCreate(['nama_ruangan' => strtolower($row['nama_ruangan'])]);
+        // $pangkat_golongan = PangkatGolongan::firstOrCreate(['nama_ruangan' => strtolower($row['nama_ruangan'])]);
+
         // $ruangan = Ruangan::firstOrCreate(['nama_ruangan' => strtolower($row['nama_ruangan'])]);
-        if (strtolower($row['status_tipe']) == 'pns') {
+        if (strtolower($row['status_tipe']) == 'pns' || strtolower($row['status_tipe']) == 'pppk') {
             // Jika status adalah ASN, tambahkan juga pangkat dan golongan
-            $pangkat = Pangkat::firstOrCreate(['nama_pangkat' => $row['pangkat']]);
-            $golongan =
-                Golongan::firstOrCreate(
+            $pangkat_golongan =
+                PangkatGolongan::firstOrCreate(
                     [
-                        'nama_golongan' => strtolower($row['gol']),
-                        'jenis' => strtolower($row['status_tipe'])
-                    ]
-                );
-        } elseif (strtolower($row['status_tipe']) == 'pppk') {
-            $golongan =
-                Golongan::firstOrCreate(
-                    [
-                        'nama_golongan' => strtolower($row['gol']),
+                        'nama_kecil' => strtolower($row['pangkat_golongan']),
+                        'nama' => $row['pangkat_golongan'],
                         'jenis' => strtolower($row['status_tipe'])
                     ]
                 );
         }
         if ($row['nik'] !== null) {
-            // dd($row);
             // dd(Date::excelToDateTimeObject($row['tmt_pangkat_terakhir'])->format('Y-m-d'));
             $pegawai = new Pegawai([
                 'nik' => $row['nik'],
@@ -58,7 +52,7 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 'nama_belakang' => $row['nama_belakang'],
                 'gelar_belakang' => $row['gelar_belakang'],
                 'nama_lengkap' => $row['gelar_depan'] . ' ' . $row['nama_depan'] . ' ' . $row['nama_belakang'] . ' ' . $row['gelar_belakang'],
-                'jenis_kelamin' => strtolower($row['jenis_kel']) ,
+                'jenis_kelamin' => strtolower($row['jenis_kel']),
                 'tempat_lahir' => $row['tempat_lahir'],
                 'tanggal_lahir' =>   Date::excelToDateTimeObject($row['tgl_lahir'])->format('Y-m-d'),
                 'usia' => $row['usia'] ?? null,
@@ -80,21 +74,17 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 'tanggal_masuk' => isset($row['tgl_masuk']) ? Date::excelToDateTimeObject($row['tgl_masuk'])->format('Y-m-d') : null,
 
                 'sekolah' => isset($row['sekolah_perguruan_tinggi']) ? $row['sekolah_perguruan_tinggi'] : null,
-                'tmt_cpns' => isset($row['tmt_cpns'])  ? Date::excelToDateTimeObject($row['tmt_cpns'])->format('Y-m-d'): null,
-                'tmt_pns' => isset($row['tmt_pns']) ? Date::excelToDateTimeObject($row['tmt_pns'])->format('Y-m-d'): null,
-                'tmt_pangkat_terakhir' => isset($row['tmt_pangkat_terakhir']) ? Date::excelToDateTimeObject($row['tmt_pangkat_terakhir'])->format('Y-m-d'): null,
-                'tmt_pppk' => isset($row['tmt_pppk']) ? Date::excelToDateTimeObject($row['tmt_pppk'])->format('Y-m-d'): null,
+                'tmt_cpns' => isset($row['tmt_cpns'])  ? Date::excelToDateTimeObject($row['tmt_cpns'])->format('Y-m-d') : null,
+                'tmt_pns' => isset($row['tmt_pns']) ? Date::excelToDateTimeObject($row['tmt_pns'])->format('Y-m-d') : null,
+                'tmt_pangkat_terakhir' => isset($row['tmt_pangkat_terakhir']) ? Date::excelToDateTimeObject($row['tmt_pangkat_terakhir'])->format('Y-m-d') : null,
+                'tmt_pppk' => isset($row['tmt_pppk']) ? Date::excelToDateTimeObject($row['tmt_pppk'])->format('Y-m-d') : null,
                 'password' =>  Hash::make(Date::excelToDateTimeObject($row['tgl_lahir'])->format('dmY')),
                 'ruangan_id' => $ruangan->id,
-                'pangkat_id' => $pangkat->id ?? null,
-                'golongan_id' => $golongan->id ?? null,
+                'pangkat_golongan_id' => $pangkat_golongan->id ?? null,
 
             ]);
             return $pegawai;
-            
         }
         return null;
     }
-
-    
 }

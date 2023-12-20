@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('jenis_kelamin')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->string('tanggal_lahir')->nullable();
-            $table->string('usia')->nullable();
             $table->string('alamat')->nullable();
+            $table->string('usia')->nullable();
             $table->string('agama')->nullable();
             $table->string('no_wa')->nullable();
             $table->string('status_pegawai')->nullable();
@@ -50,9 +50,11 @@ return new class extends Migration
             $table->string('tmt_pppk')->nullable();
             $table->string('tmt_pangkat_terakhir')->nullable();
             $table->unsignedBigInteger('pangkat_id')->nullable();
-            $table->foreign('pangkat_id')->references('id')->on('pangkats');
-            $table->unsignedBigInteger('golongan_id')->nullable();
-            $table->foreign('golongan_id')->references('id')->on('golongans');
+            // $table->foreign('pangkat_id')->references('id')->on('pangkats');
+            // $table->unsignedBigInteger('golongan_id')->nullable();
+            // $table->foreign('golongan_id')->references('id')->on('golongans');
+            $table->unsignedBigInteger('pangkat_golongan_id')->nullable();
+            $table->foreign('pangkat_golongan_id')->references('id')->on('pangkat_golongans');
             // $table->foreignId('pangkat_id')->constrained('pangkats')->onUpdate('cascade')->onDelete('cascade')->nullable();
             // $table->foreignId('golongan_id')->constrained('golongans')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->string('sekolah')->nullable();
