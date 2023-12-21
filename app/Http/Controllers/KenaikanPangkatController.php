@@ -21,13 +21,15 @@ class KenaikanPangkatController extends Controller
 {
     public function index(Request $request)
     {
+        // return KenaikanPangkat::all();
         $data = KenaikanPangkat::orderBy('tanggal_sk', 'desc')->first();
         // return [$data,$data->pegawai];
         $tahun = $data ? Carbon::parse($data->tanggal_sk)->format('Y') : date('Y');
         if ($request->ajax()) {
             $kenaikanPangkat = KenaikanPangkat::query()
-                ->orderBy('tmt_pangkat_dari', 'desc')
-                ->orderBy('pegawai_id', 'desc');
+            ->orderBy('tmt_pangkat_dari', 'desc')
+            ->orderBy('pegawai_id', 'desc')
+            ->orderBy('id', 'desc');
             if ($request->input('status_tipe') != null) {
                 $kenaikanPangkat->where('status_tipe', $request->status_tipe);
             }
@@ -45,8 +47,11 @@ class KenaikanPangkatController extends Controller
                 ->addColumn('ruangan', function ($item) {
                     return $item->ruangan->nama_ruangan;
                 })
+                ->addColumn('pangkat_golongan_sebelumnya', function ($item) {
+                    return $item->pangkatGolonganSebelumnya->nama ;
+                })
                 ->addColumn('pangkat_golongan', function ($item) {
-                    return $item->pangkatGolonganSebelumnya->nama . " --> " . $item->pangkatGolongan->nama;
+                    return $item->pangkatGolongan->nama;
                 })
                 ->addColumn('no_sk', function ($item) {
                     return $item->no_sk;
@@ -82,7 +87,7 @@ class KenaikanPangkatController extends Controller
                 })
                 ->addColumn('sk', 'pages.surat.kenaikanpangkat')
                 ->addColumn('aksi', 'pages.kenaikan_pangkat.part.aksi-index')
-                ->rawColumns(['status', 'nama_lengkap', 'ruangan', 'no_sk', 'tmt_terbit', 'tmt_sampai', 'penerbit_sk', 'sk', 'aksi', 'pangkat_golongan'])
+                ->rawColumns(['status', 'nama_lengkap', 'ruangan', 'no_sk', 'tmt_terbit', 'tmt_sampai', 'penerbit_sk', 'sk', 'aksi', 'pangkat_golongan_sebelumnya', 'pangkat_golongan'])
                 ->toJson();
             return $dataKenaikanPangkat;
             // $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['kenaikanpangkat' => function ($q) {
@@ -147,16 +152,19 @@ class KenaikanPangkatController extends Controller
             return 'pegawai tidak ada';
         }
         $pangkat_golongan_id = $request->pangkat_golongan_id;
+        // return $request->pangkat_golongan_id;
         // jika pangkat golongan id value nya laiinya
-        if ($request->pangkat_golongan_id == 'lainnya') {
+        if ($pangkat_golongan_id == 'lainnya') {
             $request->validate([
-                'nama' => 'required|unique:pangkat_golongans,nama_pangkat'
+                'nama' => 'required|unique:pangkat_golongans,nama'
             ], [
                 'nama.unique' => 'nama pangkat golongan sudah ada'
             ]);
 
-            $pangkat_golongan = Pangkat::create([
-                'nama' => $request->nama_pangkat_golongan
+            $pangkat_golongan = PangkatGolongan::create([
+                'nama' => $request->nama,
+                'nama_kecil' => strtolower($request->nama),
+                'jenis' => $request->status_tipe
             ]);
             $pangkat_golongan_id = $pangkat_golongan->id;
         }
@@ -189,11 +197,7 @@ class KenaikanPangkatController extends Controller
             ]
         );
         $tmt_pangkat =  Carbon::parse($request->tmt_pangkat_dari)->format('Ymd') <= date('Ymd') && Carbon::parse($request->tmt_pangkat_sampai)->format('Ymd') >= date('Ymd') ? 'aktif' : '-';
-        // $kenaikanpangkat->update([
-        //     'golongan_id_sebelumnya' => $pegawai->golongan_id,
-        //     'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
-        //     'pangkat_id_sebelumnya' => $pegawai->pangkat_id,
-        // ]);
+       
         if ($tmt_pangkat == 'aktif') {
             $pegawai->update([
                 'tmt_pangkat_terakhir' => $request->tmt_pangkat_dari,
@@ -370,8 +374,7 @@ class KenaikanPangkatController extends Controller
                 'Nama Pegawai' => $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan,
                 'Status Tipe' => $item->status_tipe,
                 'Ruangan' => $item->ruangan->nama_ruangan ?? '-',
-                'Pangkat' => $item->pangkat->nama_pangkat ?? '-',
-                'Golongan' => $item->golongan->nama_golongan ?? '-',
+                'Pangkat_golongan' => $item->pangkatGolongan->nama ,
                 'No SK' => $item->no_sk,
                 'Tanggal Mulai Terhitung' => Carbon::parse($item->tmt_pangkat_dari)->format('d/m/Y') . ' - ' . Carbon::parse($item->tmt_pangkat_dari)->format('d/m/Y'),
                 'Penerbit SK' => $item->penerbit_sk,

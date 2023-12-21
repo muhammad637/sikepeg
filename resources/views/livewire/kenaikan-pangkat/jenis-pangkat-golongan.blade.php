@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="row mb-3 {{ $pangkat_golongan_id == 'lainnya' ? '' : 'd-none' }}">
-            <label for="nama_pangkat" class="col-sm-4 col-form-label">Jenis Pangkat Lainnya</label>
+            <label for="nama_pangkat" class="col-sm-4 col-form-label">Pangkat / Gol. Ruang Lainnya</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" name="nama" wire:model='nama_pangkat_golongan'
                     {{ $pangkat_golongan_id == 'lainnya' ? 'required' : '' }}>

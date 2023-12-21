@@ -110,7 +110,8 @@
                             <th scope="col">No</th>
                             <th scope="col">Nama Pegawai</th>
                             <th scope="col">Nama Ruangan</th>
-                            <th scope="col">Pangkat / Gol. Ruang</th>
+                            <th scope="col">Pangkat / Gol. Ruang Sebelumnya</th>
+                            <th scope="col">Pangkat / Gol. Ruang Saat ini</th>
                             <th scope="col">No SK</th>
                             <th scope="col">TMT Terbit</th>
                             <th scope="col">TMT Sampai</th>
@@ -165,6 +166,10 @@
                     {
                         data: "ruangan",
                         name: "ruangan",
+                    },
+                    {
+                        data: "pangkat_golongan_sebelumnya",
+                        name: "pangkat_golongan_sebelumnya",
                     },
                     {
                         data: "pangkat_golongan",
