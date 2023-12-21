@@ -212,6 +212,11 @@
                                             <td scope="col">{{ $pegawai->sekolah }}</td>
                                         </tr>
                                         <tr>
+                                            <th scope="col" class="judul-text">Pangkat / Gol. Ruang</th>
+                                            <td scope="col" class="text-uppercase">
+                                                {{ $pegawai->pangkatGolongan->nama  }} <a href="{{route('admin.kenaikan-pangkat.riwayat',[ 'pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->kenaikanpangkat->count() > 0 ? "" : "d-none"}}">Lihat</a></td>
+                                        </tr>
+                                        <tr>
                                             <th scope="col" class="judul-text">TMT PPPK</th>
                                             <td scope="col">{{ $pegawai->tmt_pppk }}</td>
                                         </tr>
