@@ -59,14 +59,14 @@ class Pegawai extends Authenticatable
     }
     public function notifikasi()
     {
-        return $this->belongsToMany(Notifikasi::class, 'notifikasi_pegawai', 'pegawai_id','notifikasi_id');
+        return $this->belongsToMany(Notifikasi::class, 'notifikasi_pegawai', 'pegawai_id', 'notifikasi_id');
     }
     public static function pegawaiId()
     {
         return Pegawai::all()->pluck('id');
     }
-    public function scopeTanpaSTR($query)
+    public function pangkatGolongan()
     {
-        return $query->where('jenis_tenaga','nakes')->whereNull('str');
+        return $this->belongsTo(PangkatGolongan::class, 'pangkat_golongan_id');
     }
 }

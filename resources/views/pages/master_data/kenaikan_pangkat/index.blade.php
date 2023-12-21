@@ -23,8 +23,7 @@
                             <th scope="col">No</th>
                             <th scope="col">Nama</th>
                             <th scope="col">Ruangan</th>
-                            <th scope="col">Pangkat</th>
-                            <th scope="col">Golongan</th>
+                            <th scope="col">Pangkat / Gol. Ruang</th>
                             <th scope="col">TMT Pangkat</th>
                         </tr>
                     </thead>
@@ -57,13 +56,10 @@
                         name: 'ruangan'
                     },
                     {
-                        data: 'pangkat',
-                        name: 'pangkat'
+                        data: 'pangkat_golongan',
+                        name: 'pangkat_golongan'
                     },
-                    {
-                        data: 'golongan',
-                        name: 'golongan'
-                    },
+                    
                     {
                         data: 'tmt_pangkat',
                         name: 'tmt_pangkat'

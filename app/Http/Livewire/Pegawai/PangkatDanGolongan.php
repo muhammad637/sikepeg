@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Pegawai;
 use App\Models\Pangkat;
 use Livewire\Component;
 use App\Models\Golongan;
-
+use App\Models\PangkatGolongan;
 
 class PangkatDanGolongan extends Component
 {
@@ -26,14 +26,13 @@ class PangkatDanGolongan extends Component
     public $tmt_pns;
     public $tmt_pppk;
     public $tmt_pangkat_terakhir;
-    public $pangkats = []; #pns saja
-    public $pangkat_id; #pns saja
-    public $golongans = []; #pns atau pppk
-    public $golongan_id; #pns atau pppk
-    public $nama_pangkat; #jika memilih pangkat lainnya
-    public $nama_golongan; #jika memilih golongan lainnya
+
+
     public $sekolah;
     public $jenis_tenaga;
+    public $pangkat_golongan_id;
+    public $pangkat_golongan = [];
+    public $nama_pangkat_golongan;
 
     // nakes
     public $no_str;
@@ -64,7 +63,7 @@ class PangkatDanGolongan extends Component
         $this->jabatan = old('jabatan', null);
         $this->tanggal_masuk = old('tanggal_masuk', null);
         $this->masa_kerja = old('masa_kerja', null);
-        $this->cuti_tahunan = old('cuti_tahunan',12);
+        $this->cuti_tahunan = old('cuti_tahunan', 12);
         // asn
         $this->tmt_cpns = old('tmt_cpns', null);
         $this->status_tipe = old('status_tipe', null);
@@ -72,16 +71,12 @@ class PangkatDanGolongan extends Component
         $this->tmt_pppk = old('tmt_pppk', null);
         $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', null);
         $this->status_tipe = old('status_tipe', null);
-        if ($this->status_tipe == 'pns') {
-            $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
-            $this->golongans = Golongan::where('jenis', 'pns')->orderBy('nama_golongan', 'asc')->get();
-        } elseif ($this->status_tipe == 'pppk') {
-            $this->golongans = Golongan::where('jenis', 'pppk')->orderBy('nama_golongan', 'asc')->get();
+        if ($this->status_tipe == 'pns' || $this->status_tipe == 'pppk') {
+            $this->pangkat_golongan = PangkatGolongan::where('jenis', $this->status_tipe)->get();
         }
-        $this->pangkat_id = old('pangkat_id', null);
-        $this->golongan_id = old('golongan_id', null);
-        $this->nama_pangkat = old('nama_pangkat', null);
-        $this->nama_golongan = old('nama_golongan', null);
+        $this->pangkat_golongan_id = old('pangkat_golongan_id', null);
+        $this->nama_pangkat_golongan = old('nama_pangkat_golongan', null);
+
         $this->sekolah = old('sekolah', null);
         // nakes
         $this->tanggal_terbit_str = old('tanggal_terbit_str', null);
@@ -111,8 +106,7 @@ class PangkatDanGolongan extends Component
     }
     public function updatedStatusTipe($value)
     {
-        $this->golongans = Golongan::where('jenis', $value)->orderBy('nama_golongan', 'asc')->get();
-        $this->pangkats = Pangkat::orderBy('nama_pangkat', 'asc')->get();
+        $this->pangkat_golongan = PangkatGolongan::where('jenis', $value)->get();
     }
     public function updatedJenisTenagaStruktural($value)
     {

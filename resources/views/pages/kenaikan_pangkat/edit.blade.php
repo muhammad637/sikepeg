@@ -25,14 +25,15 @@
                         <input type="text" value="{{$kenaikan_pangkat->pegawai->nama_lengkap}}" class="form-control" readonly>
                     </div>
                 </div>
-                @livewire('kenaikan-pangkat.edit-jenis-golongan',['kenaikan_pangkat' => $kenaikan_pangkat])
-                <div class="row mb-3">
+                {{-- @livewire('kenaikan-pangkat.jenis-pangkat-golongan',['kenaikan_pangkat' => $kenaikan_pangkat]) --}}
+                @livewire('kenaikan-pangkat.jenis-pangkat-golongan',['kenaikan_pangkat' => $kenaikan_pangkat])
+                {{-- <div class="row mb-3">
                     <label for="nama_jabatan_fungsional" class="col-sm-4 col-form-label">Jabatan</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="inputPassword3" name="jabatan"
                             value="{{old('jabatan', $kenaikan_pangkat->pegawai->jabatan)}}" readonly>
                     </div>
-                </div>
+                </div> --}}
                 <div class="row mb-3"> 
                     <label for="tmt_pangkat" class="col-sm-4 col-form-label">TMT Pangkat</label>
                     <div class="col-md-8 col-sm-8">

@@ -103,17 +103,17 @@
                 <hr>
             </div>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
+                <table class="table table-striped table-bordered text-center" id="dataTable" width="100%"
                     cellspacing="0">
                     <thead>
                         <tr class="text-dark">
                             <th scope="col">No</th>
                             <th scope="col">Nama Pegawai</th>
                             <th scope="col">Nama Ruangan</th>
-                            <th scope="col">Pangkat</th>
-                            <th scope="col">Golongan</th>
+                            <th scope="col">Pangkat / Gol. Ruang</th>
                             <th scope="col">No SK</th>
-                            <th scope="col">Tanggal Mulai Terhitung</th>
+                            <th scope="col">TMT Terbit</th>
+                            <th scope="col">TMT Sampai</th>
                             <th scope="col">Penerbit SK</th>
                             <th scope="col">status</th>
                             <th scope="col">SK</th>
@@ -121,37 +121,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($pegawai as $index => $item)
-                            @if (count($item->kenaikanpangkat) > 0)
-                                @php
-                                    $data = explode('view', $item->kenaikanpangkat[0]->link_sk);
-                                    $i++;
-                                @endphp
-
-                                <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $item->nama_lengkap ?? $item->nama_depan }}</td>
-                                    <td>{{ $item->ruangan->nama_ruangan }}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->pangkat->nama_pangkat  ?? '-'}}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->golongan->nama_golongan }}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->no_sk }}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->tmt_pangkat_dari}}</td>
-                                    <td>{{ $item->kenaikanpangkat[0]->penerbit_sk }}</td>
-                                    <td>
-                                        <a target="popup"
-                                            onclick="window.open(`{{ $data[0] }}`,'name','width=600,height=400')"
-                                            class="btn btn-primary" style="cursor: pointer">
-                                            <i class="fas fa-file-alt text-white"></i></a> 
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin.kenaikan-pangkat.show', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
-                                            class="btn  text-white btn-info"><i class="fas fa-info-circle"></i></a>
-                                        <a href="{{ route('admin.kenaikan-pangkat.edit', ['kenaikan_pangkat' => $item->kenaikanpangkat[0]->id]) }}"
-                                            class="btn  text-white btn-warning"><i class="fas fa-pen "></i></a>
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach --}}
                     </tbody>
                 </table>
             </div>
@@ -198,20 +167,21 @@
                         name: "ruangan",
                     },
                     {
-                        data: "pangkat",
-                        name: "pangkat",
+                        data: "pangkat_golongan",
+                        name: "pangkat_golongan",
                     },
-                    {
-                        data: "golongan",
-                        name: "golongan",
-                    },
+                   
                     {
                         data: "no_sk",
                         name: "no_sk",
                     },
                     {
-                        data: "tmt",
-                        name: "tmt",
+                        data: "tmt_terbit",
+                        name: "tmt_terbit",
+                    },
+                    {
+                        data: "tmt_sampai",
+                        name: "tmt_sampai",
                     },
                     {
                         data: "penerbit_sk",

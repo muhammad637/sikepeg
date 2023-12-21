@@ -199,149 +199,60 @@
                 </div>
             </div>
         </div>
-        @if ($status_tipe == 'pns')
-        
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4 ">
-                        <label for="pangkat_id" class="form-label">Pilih Pangkat</label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                        <select class="form-control font-weight-normal" id="pangkat-id" name='pangkat_id'
-                            wire:model='pangkat_id' wire:ignore required>
+        <div class="mb-4">
+            <div class="row gap-5 mb-4">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="pangkat_golongan_id" class="form-label">Pangkat / Gol. Ruang</label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
+                    @if ($status_tipe == null)
+                    <input type="text" value="" placeholder="pilih status tipe terlebih dahulu" readonly class="form-control" >
+                    @else
+                        <select class="pangkat-golongan-id form-control" name='pangkat_golongan_id'
+                            wire:model='pangkat_golongan_id' wire:ignore required>
                             <option value="">Pilih</option>
-                            @foreach ($pangkats as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama_pangkat }}</option>
+                            @foreach ($pangkat_golongan as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
-                            <option value="pangkat_lainnya" class="text-capitalize">Lainnya</option>
+                            <option value="pangkat_golongan_lainnya">Lainnya</option>
                         </select>
-                    </div>
+                    @endif
                 </div>
             </div>
+        </div>
+        <div class="mb-4 {{ $pangkat_golongan_id == 'pangkat_golongan_lainnya' ? 'd-show' : 'd-none' }}">
+            <div class="row gap-5">
+                <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
+                    <label for="" class="form-label">
+                        <p class="mb-0 mt-md-2 mt-0">Nama Pangkat Gol. Ruang <span class="text-danger">*</span>
+                        </p>
+                    </label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
+                    <input type="text" class="form-control @error('nama_golongan') is-invalid @enderror "
+                        id="nama_pangkat_golongan" aria-describedby="nama_pangkat_golongan"
+                        name="nama_pangkat_golongan" autocomplete="false" placeholder="Pangkat Golongan Baru ... "
+                        wire:model='nama_pangkat_golongan'
+                        {{ $pangkat_golongan_id == 'pangkat_golongan_lainnya' ? 'required' : '' }}>
+                </div>
+            </div>
+        </div>
+        <script>
+            let livewire = new Livewire()
+            // console.log(pangkat.hook('message.processe'))
+            $(document).ready(function() {
 
-            <div class="mb-4 {{ $pangkat_id == 'pangkat_lainnya' ? '' : 'd-none' }}">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Masukkan Pangkat Lainnya <span class="text-danger">*</span>
-                            </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('nama_pangkat') is-invalid @enderror "
-                            id="nama_pangkat" aria-describedby="nama_pangkat" name="nama_pangkat"
-                            autocomplete="false" placeholder="Masukkan Nama pangkat Baru ... "
-                            wire:model='nama_pangkat' {{ $pangkat_id == 'pangkat_lainnya' ? 'required' : '' }}>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="golongan_id" class="form-label">Pilih Golongan</label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                        <select class="form-control text-uppercase golongan-id" name='golongan_id' wire:ignore
-                            required wire:model='golongan_id'>
-                            <option value="" class="text-capitalize">Pilih</option>
-                            @foreach ($golongans as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
-                            @endforeach
-                            <option value="golongan_lainnya" class="text-capitalize">Lainnya</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4 {{ $golongan_id == 'golongan_lainnya' ? 'd-show' : 'd-none' }}">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Masukkan Golongan Lainnya <span class="text-danger">*</span>
-                            </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('nama_golongan') is-invalid @enderror "
-                            id="nama_golongan" aria-describedby="nama_golongan" name="nama_golongan"
-                            autocomplete="false" placeholder="Masukkan Nama golongan Baru ... "
-                            wire:model='nama_golongan' {{ $golongan_id == 'golongan_lainnya' ? 'required' : '' }}>
-                    </div>
-                </div>
-            </div>
-            <script>
-                let livewire = new Livewire()
-                // console.log(pangkat.hook('message.processe'))
-                $(document).ready(function() {
-                    $('#pangkat-id').select2()
-                    $('.golongan-id').select2()
-                    livewire.hook('message.processed', (message, component) => {
-                        $('#pangkat-id').select2()
-                        $('.golongan-id').select2()
-                    })
-                    $('#pangkat-id').on('change', function() {
-                        var data = $('#pangkat-id').select2('val')
-                        @this.set('pangkat_id', data)
-                    })
-                    $('.golongan-id').on('change', function() {
-                        var data = $('.golongan-id').select2('val')
-                        console.log(data)
-                        @this.set('golongan_id', data)
-                    })
+                $('.pangkat-golongan-id').select2()
+                livewire.hook('message.processed', (message, component) => {
+                    $('.pangkat-golongan-id').select2()
                 })
-            </script>
-        @elseif($status_tipe == 'pppk')
-            <div class="mb-4">
-                <div class="row gap-5 mb-4">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="golongan_id" class="form-label">Pilih Golongan</label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8 font-weight-normal">
-                        <select class="golongan-id form-control" name='golongan_id' wire:model='golongan_id'
-                            wire:ignore required>
-                            <option value="">Pilih</option>
-                            @foreach ($golongans as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama_golongan }}</option>
-                            @endforeach
-                            <option value="golongan_lainnya">Lainnya</option>
-                        </select>
 
-                    </div>
-                </div>
-                <div class="mb-4 {{ $golongan_id == 'golongan_lainnya' ? 'd-show' : 'd-none' }}">
-                    <div class="row gap-5">
-                        <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                            <label for="" class="form-label">
-                                <p class="mb-0 mt-md-2 mt-0">Masukkan Golongan Lainnya <span
-                                        class="text-danger">*</span> </p>
-                            </label>
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                            <input type="text" class="form-control @error('nama_golongan') is-invalid @enderror "
-                                id="nama_golongan" aria-describedby="nama_golongan" name="nama_golongan"
-                                autocomplete="false" placeholder="Masukkan Nama golongan Baru ... "
-                                wire:model='nama_golongan' {{ $golongan_id == 'golongan_lainnya' ? 'required' : '' }}>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                    let livewire = new Livewire()
-                    // console.log(pangkat.hook('message.processe'))
-                    $(document).ready(function() {
-
-                        $('.golongan-id').select2()
-                        livewire.hook('message.processed', (message, component) => {
-                            $('.golongan-id').select2()
-                        })
-
-                        $('.golongan-id').on('change', function() {
-                            var data = $('.golongan-id').select2('val')
-                            @this.set('golongan_id', data)
-                        })
-                    })
-                </script>
-        @endif
-
+                $('.pangkat-golongan-id').on('change', function() {
+                    var data = $('.pangkat-golongan-id').select2('val')
+                    @this.set('pangkat_golongan_id', data)
+                })
+            })
+        </script>
         <div class="mb-4">
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -639,31 +550,19 @@
     <script>
         document.addEventListener('livewire:load', function() {
             $(document).ready(function() {
-                if ($('#pangkat-id')) {
-                    $('#pangkat-id').select2()
+                if ($('#pangkat-golongan-id')) {
+                    $('#pangkat-golongan-id').select2()
                     Livewire.hook('message.processed', (message, component) => {
-                        $('#pangkat-id').select2()
+                        $('#pangkat-golongan-id').select2()
                     })
-                    $('#pangkat-id').on('change', function() {
-                        var data = $('#pangkat-id').select2('val')
+                    $('#pangkat-golongan-id').on('change', function() {
+                        var data = $('#pangkat-golongan-id').select2('val')
                         console.log(data)
-                        @this.set('pangkat_id', data)
+                        @this.set('pangkat_golongan_id', data)
                     })
                 }
-                if ($('.golongan-id')) {
-                    $('.golongan-id').select2()
-                    Livewire.hook('message.processed', (message, component) => {
-                        $('.golongan-id').select2()
-                    })
-                    $('.golongan-id').on('change', function() {
-                        var data = $('.golongan-id').select2('val')
-                        alert('oke');
-                         console.log(data)
-                        @this.set('golongan_id', data)
-                    })
-                }
-            }
-            )
+             
+            })
         })
     </script>
 @endpush

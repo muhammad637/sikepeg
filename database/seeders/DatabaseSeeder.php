@@ -12,6 +12,7 @@ use App\Models\Pangkat;
 use App\Models\Pegawai;
 use App\Models\Ruangan;
 use App\Models\Golongan;
+use App\Models\PangkatGolongan;
 use Illuminate\Database\Seeder;
 use Database\Factories\PegawaiNakesFactory;
 
@@ -38,17 +39,18 @@ class DatabaseSeeder extends Seeder
         Ruangan::create([
             'nama_ruangan' => 'admin',
         ]);
-        Pangkat::create([
-            'nama_pangkat' => 'juru muda'
-        ]);
-        Golongan::create([
-            'nama_golongan' => 'doktor linear (gol xi)',
-            'jenis' => 'pppk'
-        ]);
-        Golongan::create([
-            'nama_golongan' => 'i a',
-            'jenis' => 'pns'
-        ]);
+        // Pangkat::create([
+        //     'nama_pangkat' => 'juru muda'
+        // ]);
+        // Golongan::create([
+        //     'nama_golongan' => 'doktor linear (gol xi)',
+        //     'jenis' => 'pppk'
+        // ]);
+        // Golongan::create([
+        //     'nama_golongan' => 'i a',
+        //     'jenis' => 'pns'
+        // ]);
+        PangkatGolongan::factory(5)->create();
         Pegawai::factory(20)->create();
         // STR::factory(40)->create();
         SIP::factory(40)->create();

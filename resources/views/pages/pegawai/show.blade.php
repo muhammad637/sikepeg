@@ -179,9 +179,9 @@
                                         </tr>
 
                                         <tr>
-                                            <th scope="col" class="judul-text">Pangkat / Golongan</th>
+                                            <th scope="col" class="judul-text">Pangkat / Gol. Ruang</th>
                                             <td scope="col" class="text-uppercase">
-                                                {{ $pegawai->pangkat->nama_pangkat .' '. $pegawai->golongan->nama_golongan }} <a href="{{route('admin.kenaikan-pangkat.riwayat',[ 'pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->kenaikanpangkat->count() > 0 ? "" : "d-none"}}">Lihat</a></td>
+                                                {{ $pegawai->pangkatGolongan->nama  }} <a href="{{route('admin.kenaikan-pangkat.riwayat',[ 'pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->kenaikanpangkat->count() > 0 ? "" : "d-none"}}">Lihat</a></td>
                                         </tr>
                                         <tr>
                                             <th scope="col" class="judul-text">Jenis Tenaga</th>
@@ -201,19 +201,20 @@
                                         </tr>
                                         
                                         @if ($pegawai->jenis_tenaga == 'nakes')
-                                        {{-- <tr>
-                                            <th scope="col" class="judul-text">Tanggal Berakhir STR</th>
-                                            <td scope="col">{{ $pegawai->str->sortByDesc('tanggal_terbit_str')->first()->masa_berakhir_str ?? '-' }} <a href="{{route('admin.str.history',['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
-                                        </tr> --}}
                                         <tr>
                                             <th scope="col" class="judul-text">Tanggal Berakhir SIP</th>
-                                            <td scope="col">{{ $pegawai->sip->sortByDesc('tanggal_terbit_sip')->first()->masa_berakhir_sip ?? '-' }} <a href="{{route('admin.sip.history',['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->sip->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
+                                            <td scope="col">{{ $pegawai->sip->sortByDesc('tanggal_terbit_sip')->first()->masa_berakhir_sip ?? '-' }} <a href="{#" class="badge bg-warning text-dark {{$pegawai->sip->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
                                         </tr>
                                         @endif
                                         @elseif($pegawai->status_tipe == 'pppk')
                                         <tr>
                                             <th scope="col" class="judul-text">Sekolah / Perguruan Tinggi</th>
                                             <td scope="col">{{ $pegawai->sekolah }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col" class="judul-text">Pangkat / Gol. Ruang</th>
+                                            <td scope="col" class="text-uppercase">
+                                                {{ $pegawai->pangkatGolongan->nama  }} <a href="{{route('admin.kenaikan-pangkat.riwayat',[ 'pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->kenaikanpangkat->count() > 0 ? "" : "d-none"}}">Lihat</a></td>
                                         </tr>
                                         <tr>
                                             <th scope="col" class="judul-text">TMT PPPK</th>
@@ -226,12 +227,7 @@
                                             </td>
                                         </tr>
 
-                                        <tr>
-                                            <th scope="col" class="judul-text">Golongan</th>
-                                            <td scope="col">
-                                                {{ $pegawai->golongan->nama_golongan }}
-                                               </td>
-                                        </tr>
+                                       
                                         <tr>
                                             <th scope="col" class="judul-text">Jenis Tenaga</th>
                                             <td scope="col">{{ $pegawai->jenis_tenaga }}</td>

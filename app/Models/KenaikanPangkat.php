@@ -17,6 +17,13 @@ class KenaikanPangkat extends Model
     }
 
 
+    public function pangkatGolongan(){
+        return $this->belongsTo(PangkatGolongan::class, 'pangkat_golongan_id');
+    }
+    public function pangkatGolonganSebelumnya(){
+        return $this->belongsTo(PangkatGolongan::class, 'pangkat_golongan_sebelumnya_id');
+    }
+    
     public function pangkat(){
         return $this->belongsTo(Pangkat::class, 'pangkat_id');
     }

@@ -14,24 +14,21 @@ class MasterDataKenaikanPangkatController extends Controller
     public function index(Request $request)
     {
         $pegawaiAsn = Pegawai::query()->where('status_tenaga', 'asn')->get();
-        // return $pegawaiAsn[0]->pangkat ?? 'testing' ;
+        // return $pegawaiAsn[0]->pangka_golongan->nama;
         if ($request->ajax()) {
             $pegawaiAsn = Pegawai::query()->where('status_tenaga', 'asn');
             return DataTables::of($pegawaiAsn)
                 ->addIndexColumn()
-                ->addColumn('pangkat', function ($item) {
-                    return $item->pangkat->nama_pangkat ?? '-';
+                ->addColumn('pangkat_golongan', function ($item) {
+                    return $item->pangkatGolongan->nama;
                 })
                 ->addColumn('ruangan', function ($item) {
                     return $item->ruangan->nama_ruangan ?? '-';
                 })
-                ->addColumn('golongan', function ($item) {
-                    return  $item->golongan->nama_golongan;
-                })
                 ->addColumn('tmt_pangkat', function ($item) {
                     return Carbon::parse($item->tmt_pangkat)->format('d-m-Y');
                 })
-                ->rawColumns(['pangkat', 'golongan', 'tmt_pangkat','ruangan'])
+                ->rawColumns(['pangkat_golongan', 'tmt_pangkat', 'ruangan'])
                 ->make(true);
         }
         return view('pages.master_data.kenaikan_pangkat.index');
@@ -51,23 +48,17 @@ class MasterDataKenaikanPangkatController extends Controller
     private function dataUpdate($pegawaiAsn)
     {
         $data = $pegawaiAsn->kenaikanpangkat->sortByDesc('tmt_pangkat_dari')->first();
-        $TmtKeniakanPangkatmulai = Carbon::parse($data->tmt_pangkat_dari)->format('Y-m-d');
-        $TmtKeniakananPangkatSelanjutnya = Carbon::parse($data->tmt_pangkat_sampai)->format('Y-m-d');
+        $TMTTerbit = Carbon::parse($data->tmt_pangkat_dari)->format('Y-m-d');
+        $TMTSampai = Carbon::parse($data->tmt_pangkat_sampai)->format('Y-m-d');
         // $tmtPegawai = Carbon::parse($pegawaiAsn)->format('Y-m-d');
         $hari_ini = date('Y-m-d');
-        if ($TmtKeniakanPangkatmulai <= $hari_ini && $TmtKeniakananPangkatSelanjutnya >= $hari_ini) {
+        if ($TMTTerbit <= $hari_ini && $TMTSampai >= $hari_ini) {
             $pegawaiAsn->update([
                 'tmt_pangkat_terakhir' => $data->tmt_pangkat_dari,
             ]);
             if ($pegawaiAsn->status_tipe == 'pns') {
                 $pegawaiAsn->update([
-                    'pangkat_id' => $data->pangkat_id,
-                    'golongan_id' => $data->golongan_id
-                ]);
-            }
-            if ($pegawaiAsn->status_tipe == 'pppk') {
-                $pegawaiAsn->update([
-                    'golongan_id' => $data->golongan_id
+                    'pangkat_golongan_id' => $data->pangkat_golongan_id,
                 ]);
             }
         }
