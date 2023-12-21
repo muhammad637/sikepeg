@@ -37,7 +37,7 @@
                         <input type="date" class="form-control" name="tmt_pangkat_dari" required value="{{old('tmt_pangkat_dari')}}">
                     </div>
                     <div class="col-sm-4">
-                    <Label for='' style='font-size:15px;'>Selanjutnya</Label>
+                    <Label for='' style='font-size:15px;'>Selesai</Label>
                         <input type="date" class="form-control" name="tmt_pangkat_sampai" required value="{{old('tmt_pangkat_sampai')}}">
                     </div>
                 </div>

@@ -276,16 +276,20 @@ class PromosiDemosiController extends Controller
 
     public function Demosiindex(Request $request)
     {
+        // return PromosiDemosi::all();
         $jabatan_terakhir = Pegawai::whereHas('promosiDemosi')->with(['promosiDemosi' => function ($q) {
             $q->orderBy('created_at', 'desc');
         }])->get();
         if ($request->ajax()) {
             $promosi = PromosiDemosi::query()->where('type', 'demosi')->orderBy('created_at', 'desc');
-            if ($request->input('pegawai') != null) {
-                $promosi->where('pegawai_id', $request->pegawai);
+            if ($request->input('type') != null) {
+                $promosi->where('type', $request->type);
             }
-            if ($request->input('ruangan') != null) {
-                $promosi->where('ruangan_id', $request->ruangan);
+            if ($request->input('ruangan_awal') != null) {
+                $promosi->where('ruanganawal_id', $request->ruangan_awal);
+            }
+            if ($request->input('ruangan_baru') != null) {
+                $promosi->where('ruanganbaru_id', $request->ruangan_baru);
             }
             if ($request->input('tahun') != null) {
                 $promosi->where('tanggal_sk', 'like', '%' . $request->tahun . '%');
@@ -306,11 +310,14 @@ class PromosiDemosiController extends Controller
                     $warna = $data == 'aktif' ? 'btn btn-success' : 'btn btn-secondary';
                     return "<div class='$warna'>$data</div>";
                 })
-                ->addColumn('ruangan', function ($item) {
-                    return $item->pegawai->ruangan->nama_ruangan;
+                ->addColumn('ruangan_lama', function ($item) {
+                    return $item->ruanganawal->nama_ruangan;
+                })
+                ->addColumn('ruangan_baru', function ($item){
+                return $item->ruanganbaru->nama_ruangan;
                 })
                 ->addColumn('aksi', 'pages.promosiDemosi.demosi.part.aksi')
-                ->rawColumns(['nama_lengkap', 'aksi', 'status_tombol', 'ruangan'])
+                ->rawColumns(['nama_lengkap', 'aksi', 'status_tombol', 'ruangan_lama', 'ruangan_baru'])
                 ->make(true);
         }
         // return Ruangan::all();
@@ -323,11 +330,12 @@ class PromosiDemosiController extends Controller
         );
     }
     public function Demosicreate()
-    {
+    {   
         return view(
             'pages.promosiDemosi.demosi.create',
             [
-                'pegawai' => Pegawai::orderBy('nama_lengkap', 'asc')->get()
+                'pegawai' => Pegawai::orderBy('nama_lengkap', 'asc')->get(),
+                'ruangan' => Ruangan::all(),
             ]
         );
         //
@@ -343,6 +351,7 @@ class PromosiDemosiController extends Controller
     }
     public function DemosiStore(Request $request)
     {
+        
         // return auth()->user();
         $pegawai = Pegawai::find($request->pegawai_id);
         if (!$pegawai) {
@@ -350,7 +359,18 @@ class PromosiDemosiController extends Controller
             return redirect()->back();
         }
         $pegawai->update(['jabatan' => $request->jabatan_selanjutnya]);
-        PromosiDemosi::create($request->all());
+        // PromosiDemosi::create($request->all());
+        PromosiDemosi::create([
+            'pegawai_id' => $request->pegawai_id,
+            'ruanganawal_id' => $request->ruanganawal_id,
+            'ruanganbaru_id' => $request->ruanganbaru_id,
+            'jabatan_sebelumnya' => $request->jabatan_sebelumnya,
+            'jabatan_selanjutnya' => $request->jabatan_selanjutnya,
+            'tanggal_berlaku' => $request->tanggal_berlaku,
+            'no_sk' => $request->no_sk,
+            'tanggal_sk' => $request->tanggal_sk,
+            'link_sk' => $request->link_sk
+        ]);
         alert()->success('Promosi PromosiDemosi ' . $pegawai->nama_lengkap . 'berhasil di buat oleh ' . auth()->user()->name);
         return redirect()->route('admin.jabatan.demosi.index');
     }
@@ -358,6 +378,7 @@ class PromosiDemosiController extends Controller
     public function Demosiedit(PromosiDemosi $promosiDemosi)
     {
         return view('pages.promosiDemosi.demosi.edit', [
+            'ruangans' => Ruangan::orderBy('nama_ruangan', 'desc')->get(),
             'promosiDemosi' => $promosiDemosi
         ]);
     }

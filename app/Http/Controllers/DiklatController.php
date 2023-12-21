@@ -20,6 +20,7 @@ class DiklatController extends Controller
     //
     public function index(Request $request)
     {
+        // return Diklat::whereMonth('tanggal_mulai','12')->get();
         // $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
         //     $query;
         // }])->whereHas('diklat', function ($query) {
@@ -29,6 +30,20 @@ class DiklatController extends Controller
         // return $pegawai;
         $dataNamaDiklat = [];
         $nama_diklats = Diklat::orderBy('nama_diklat', 'asc')->get();
+        $bulan = [
+            '01' => 'Januari',
+            '02' => 'Ferbruari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'Sepetember',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
         foreach ($nama_diklats as $item) {
             if (!in_array($item->nama_diklat, $dataNamaDiklat)) {
                 $dataNamaDiklat[] = $item->nama_diklat;
@@ -42,8 +57,11 @@ class DiklatController extends Controller
             if ($request->input('ruangan') != null) {
                 $diklat->where('ruangan_id', $request->ruangan);
             }
+            if ($request->input('bulan') != null) {
+                $diklat->whereMonth('tanggal_selesai', $request->bulan);
+            }
             if ($request->input('tahun') != null) {
-                $diklat->where('tanggal_selesai', 'like', '%' . $request->tahun . '%');
+                $diklat->whereYear('tanggal_selesai', $request->tahun);
             }
             $dataPegawaiDiklat = DataTables::of($diklat)
                 ->addIndexColumn()
@@ -80,7 +98,8 @@ class DiklatController extends Controller
         }
         return view('pages.diklat.index', [
             'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get(),
-            'dataNamaDiklat' => $dataNamaDiklat
+            'dataNamaDiklat' => $dataNamaDiklat,
+            'bulan' => $bulan,
         ]);
     }
 

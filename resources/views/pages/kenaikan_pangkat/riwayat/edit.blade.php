@@ -50,7 +50,7 @@
                                 value="{{ old('tmt_pangkat_dari', $kenaikan_pangkat->tmt_pangkat_dari) }}">
                         </div>
                         <div class="col-md-4 col-sm-12 mb-1">
-                            <label for="" style="font-size: 15px">Sampai</label>
+                            <label for="" style="font-size: 15px">Selesai</label>
                             <input type="date" class="form-control" name="tmt_pangkat_sampai" required
                                 value="{{ old('tmt_pangakt_sampai', $kenaikan_pangkat->tmt_pangkat_sampai) }}">
                         </div>

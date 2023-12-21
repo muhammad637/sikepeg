@@ -13,7 +13,7 @@
         <form action="{{ route('admin.jabatan.demosi.store') }}" method="post">
             @csrf
             <input type="hidden" value="demosi" name="type">
-            <div class="row">
+            <div class="row align-items-end">
                 <div class="col-sm-12 col-xl-12">
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
@@ -37,6 +37,19 @@
                             <input type="text" class="form-control" id="jabatan_selanjutnya" name="jabatan_selanjutnya" required>
                         </div>
                     </div>
+
+                    <div class="row mb-3">
+                        <label for="Type-Jabatan" class="col-sm-4 col-form-label">Type Jabatan<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="type" id="type" class="form-control">
+                                <option value="">Semua Jabatan</option>
+                                <option value="demosi">Demosi</option>
+                                <option value="promosi">Promosi</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
                     <div class="row mb-3">
                         <label for="penyelenggara" class="col-sm-4 col-form-label">Tanggal Berlaku<span class="text-danger">*</span></label>
                         <div class="col-sm-8">

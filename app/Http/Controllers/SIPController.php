@@ -97,6 +97,7 @@ class SIPController extends Controller
                 'penerbit_sip' => 'required',
                 'tanggal_terbit_sip' => 'required',
                 'masa_berakhir_sip' => 'required',
+                'tempat_praktik' => 'required',
                 'link_sip' => 'required',
                 'alamat_sip' => 'required',
             ],[
@@ -111,6 +112,7 @@ class SIPController extends Controller
                 'penerbit_sip' => $request->penerbit_sip,
                 'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
                 'masa_berakhir_sip' => $request->masa_berakhir_sip,
+                'tempat_praktik' => $request->tempat_praktik,
                 'link_sip' => $request->link_sip,
                 'alamat_sip' => $request->alamat_sip
             ]);

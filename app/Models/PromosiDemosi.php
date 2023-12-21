@@ -13,8 +13,13 @@ class PromosiDemosi extends Model
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
-    public function ruangan()
+    public function ruanganawal()
     {
-        return $this->belongsTo(Ruangan::class, 'ruangan_id');
+        return $this->belongsTo(Ruangan::class, 'ruanganawal_id');
+    }
+
+    public function ruanganbaru()
+    {
+        return $this->belongsTo(Ruangan::class, 'ruanganbaru_id');
     }
 }

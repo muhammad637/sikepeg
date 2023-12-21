@@ -98,6 +98,7 @@
                             <th scope="col">Alasan</th>
                             <th scope="col">Mulai Cuti</th>
                             <th scope="col">Akhir Cuti</th>
+                            <th scope="col">Sisa Cuti</th>
                             <th scope="col">Jumlah hari</th>
                             <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
@@ -210,6 +211,12 @@
                     {
                         data: 'selesai_cuti',
                         name: 'selesai_cuti',
+
+                    },
+
+                    {
+                        data: 'sisa_cuti',
+                        name: 'sisa_cuti',
 
                     },
 

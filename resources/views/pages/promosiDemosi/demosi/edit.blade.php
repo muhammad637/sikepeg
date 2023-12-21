@@ -25,8 +25,8 @@
                         <label for="status_tipe" class="col-sm-4 col-form-label">Ruangan</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="ruangan"
-                                value="{{ $promosiDemosi->ruangan->nama_ruangan }}" readonly
-                                placeholder="Pilih Pegawai terlebih dahulu">
+                                value="{{ $promosiDemosi->ruanganawal->nama_ruangan }}" readonly
+                               >
                         </div>
                     </div>
 

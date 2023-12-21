@@ -40,7 +40,7 @@
              <i class="fas fa-calendar-day"></i>
              <span>Kenaikan Pangkat</span></a>
      </li>
-     <li class="nav-item">
+     {{-- <li class="nav-item">
         <a class="nav-link collapsed {{ Request::routeIs('admin.jabatan.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#jabatanCollapse"
             aria-expanded="true" aria-controls="CuetiCollapse">
             <i class="fas fa-regular fa-id-card"></i>
@@ -57,6 +57,11 @@
                     href="{{route('admin.jabatan.promosi.index')}}">Promosi</a>
             </div>
         </div>
+    </li> --}}
+    <li class="nav-item  {{ Request::routeIs('admin.jabatan.*') ? 'active' : '' }}">
+        <a class="nav-link " href="{{ route('admin.jabatan.demosi.index') }}">
+            <i class="fas fa-regular fa-id-card"></i>
+            <span>Jabatan</span></a>
     </li>
      <li class="nav-item">
          <a class="nav-link collapsed {{ Request::routeIs('admin.cuti.*') || Request::routeIs('admin.histori-cuti.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#CutiCollapse"

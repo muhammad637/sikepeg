@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'jenis' => 'pns'
         ]);
         Pegawai::factory(20)->create();
-        STR::factory(40)->create();
+        // STR::factory(40)->create();
         SIP::factory(40)->create();
 
     }

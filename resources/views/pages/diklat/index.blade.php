@@ -57,7 +57,17 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-12 col-md-4">
+                <div class="col-sm-5 col-md-2">
+                    <label for="filter-jenisTenaga" class="font-weight-bold">Bulan</label>
+                    <select name="tahun" id="bulan" class="form-control filter">
+                        <option value="">Semua Bulan</option>
+                        @foreach($bulan as $item => $value)
+                            <option value="{{ $item }}">{{ $value }}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+                <div class="col-sm-12 col-md-2">
                     <label for="filter-jenisTenaga" class="font-weight-bold">Tahun</label>
                     <select name="tahun" id="tahun" class="form-control filter">
                         <option value="">Semua Tahun</option>
@@ -67,6 +77,7 @@
 
                     </select>
                 </div>
+           
             </div>
             <hr>
             <div class="table-responsive">
@@ -222,6 +233,7 @@
             let nama_diklat = $('#filter-nama-diklat').val()
             let ruangan = $('#ruangan').val()
             let tahun = $('#tahun').val()
+            let bulan = $('#bulan').val()
             const table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -233,6 +245,7 @@
                         d.ruangan = ruangan;
                         d.nama_diklat = nama_diklat;
                         d.tahun = tahun;
+                        d.bulan = bulan;
                         return d
                     }
                 },
@@ -282,6 +295,7 @@
                 nama_diklat = $('#filter-nama-diklat').val()
                 ruangan = $('#ruangan').val()
                 tahun = $('#tahun').val()
+                bulan = $('#bulan').val()
                 table.ajax.reload(null, false)
             })
         })

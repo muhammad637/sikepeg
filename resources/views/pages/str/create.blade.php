@@ -62,7 +62,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark " style="text-decoration: none;">Penerbit Terbit</span>
+                            <span class="mb-0 text-dark " style="text-decoration: none;">Penerbit STR</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
                             <div class="input-group text" id="text">

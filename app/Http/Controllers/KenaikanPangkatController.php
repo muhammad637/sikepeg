@@ -209,11 +209,11 @@ class KenaikanPangkatController extends Controller
                     'pangkat_id' => $pangkat_id ?? null,
                 ]);
             }
-            $notif = Notifikasi::notif('kenaikan pangkat', 'data cuti  pegawai ' . $pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-day');
+            $notif = Notifikasi::notif('kenaikan pangkat', 'data kenaikan pangkat  pegawai ' . $pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-day');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($pegawai->id);
-            alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
+            alert()->success('berhasil', 'data kenaikan pangkat pegawai berhasi dibuat oleh ' . auth()->user()->name);
             if ($request->has('riwayat')) {
                 return redirect()->route('admin.kenaikan-pangkat.riwayat', ['pegawai' => $request->pegawai_id]);
             }

@@ -3,13 +3,13 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 @section('content')
-    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Demosi</h1>
+    <h1 class="" style="color:black;font-weight:bold;margin:2rem 0 5rem;">Jabatan</h1>
     <!-- Page Heading -->
     <!-- DataTales Example -->
     <div class="card shadow-sm mb-4">
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
-                <h4 class="m-0 font-weight-bold text-dark">Data Demosi Jabatan Pegawai</h4>
+                <h4 class="m-0 font-weight-bold text-dark">Data Jabatan Pegawai</h4>
                 <div class="d-flex">
                     <a href="{{ route('admin.jabatan.demosi.create') }}"
                         class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1">Tambah <i
@@ -68,29 +68,41 @@
             </div>
         </div>
         <div class="card-body">
-            <h2 class="" style="color:rgb(53, 45, 45);font-weight:bold;">Filter Demosi </h2>
-            <div class="row">
+            <h2 class="" style="color:rgb(53, 45, 45);font-weight:bold;">Filter Jabatan </h2>
+            <div class="row align-items-end">
                 <div class="col-sm-12 col-md-4">
-                    <label for="filter-statusTipe" class="font-weight-bold">Pegawai</label>
-                    <select name="status_tipe" id="pegawai" class="form-control filter">
-                        <option value="">Pilih Pegawai</option>
-                        @foreach ($pegawais as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama_lengkap }} -
-                                {{ $item->ruangan->nama_ruangan }}</option>
-                        @endforeach
-                    </select>
+                    <label for="filter-statusTipe" class="font-weight-bold">Type Jabatan</label>
+                        <select name="type" id="type" class="form-control filter">
+                            <option value="">Semua Jabatan</option>
+                            <option value="demosi">Demosi</option>
+                            <option value="promosi">Promosi</option>
+                        </select>
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label for="filter-statusTipe" class="font-weight-bold">Ruangan</label>
-                    <select name="status_tipe" id="ruangan" class="form-control filter">
-                        <option value="">Pilih Ruangan</option>
-                        @foreach ($ruangans as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
-                        @endforeach
-                    </select>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <span class="text-info">Sebelumnya</span>
+                            <select name="status_tipe" id="ruangan_awal" class="form-control filter">
+                                <option value="">Semua Ruangan</option>
+                                @foreach ($ruangans as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <span class="text-info">Baru</span>
+                            <select name="status_tipe" id="ruangan_baru" class="form-control filter">
+                                <option value="">Semua Ruangan</option>
+                                @foreach ($ruangans as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_ruangan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md-4">
-                    <label for="tahun" class="font-weight-bold">tahun</label>
+                    <label for="tahun" class="font-weight-bold">Tahun</label>
                     <select name="tahun" id="tahun" class="form-control filter">
                         <option value="">Pilih Tahun</option>
                         @for ($date = date('Y'); $date >= 2000; $date--)
@@ -108,10 +120,12 @@
                         <tr class="text-dark">
                             <th scope="col">No</th>
                             <th scope="col">Nama Pegawai</th>
-                            <th scope="col">Ruangan</th>
+                            <th scope="col">Type Jabatan</th>
+                            <th scope="col">Ruangan Lama</th>
+                            <th scope="col">Ruangan Baru</th>
                             <th scope="col">Jabatan Sebelumnya</th>
                             <th scope="col">Jabatan Baru</th>
-                            <th scope="col">tanggalSK</th>
+                            <th scope="col">Tanggal SK</th>
                             <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -130,11 +144,13 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#ruangan').select2()
-            $('#pegawai').select2()
-            $('#select-pegawai').select2()
-            let pegawai = $('#pegawai').val()
-            let ruangan = $('#ruangan').val()
+            $('#ruangan-awal').select2()
+            $('#ruangan-baru').select2()
+            // $('#pegawai').select2()
+            // $('#select-pegawai').select2()
+            let type = $('#type').val()
+            let ruangan_awal = $('#ruangan_awal').val()
+            let ruangan_baru = $('#ruangan_baru').val()
             let tahun = $('#tahun').val()
             const table = $('#dataTable').DataTable({
                 processing: true,
@@ -144,8 +160,9 @@
                     url: "{{ route('admin.jabatan.demosi.index') }}",
                     type: 'GET',
                     data: function(d) {
-                        d.ruangan = ruangan;
-                        d.pegawai = pegawai;
+                        d.ruangan_awal = ruangan_awal;
+                        d.ruangan_baru = ruangan_baru;
+                        d.type = type;
                         d.tahun = tahun;
                         return d
                     }
@@ -162,11 +179,23 @@
                         name: 'nama_lengkap',
 
                     },
+                    
                     {
-                        data: 'ruangan',
-                        name: 'ruangan',
+                        data: 'type',
+                        name: 'type',
+                    },
+
+                    {
+                        data: 'ruangan_lama',
+                        name: 'ruangan_lama',
 
                     },
+
+                    {
+                        data: 'ruangan_baru',
+                        name: 'ruangan_baru'
+                    },
+
                     {
                         data: 'jabatan_sebelumnya',
                         name: 'jabatan_sebelumnya',
@@ -201,8 +230,9 @@
                 ]
             })
             $('.filter').on('change', function() {
-                pegawai = $('#pegawai').val()
-                ruangan = $('#ruangan').val()
+                type = $('#type').val()
+                ruangan_awal = $('#ruangan_awal').val()
+                ruangan_baru = $('#ruangan_baru').val()
                 tahun = $('#tahun').val()
                 table.ajax.reload(null, false)
             })

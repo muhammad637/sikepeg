@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\PromosiDemosi;
 
 use App\Models\Pegawai;
+use App\Models\Ruangan;
 use Livewire\Component;
 
 class Form extends Component
@@ -10,11 +11,14 @@ class Form extends Component
     public $pegawai;
     public $ruangan_id;
     public $ruangan;
+    public $ruanganbaru_id;
+    public $ruanganlama_id;
     public $jabatanLama;
+    public $ruangans;
 
     public function mount()
     {
-        $pegawai = Pegawai::find($this->pegawai);
+        $pegawai = Pegawai::find($this->pegawai); $this->ruangans= Ruangan::all(); $this->ruanganbaru_id = old('ruanganbaru_id', null);
         if ($pegawai) {
             $this->ruangan = $pegawai->ruangan->nama_ruangan;
             $this->ruangan_id = $pegawai->ruangan->id;

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('penerbit_sip')->nullable();
             $table->string('tanggal_terbit_sip');
             $table->string('masa_berakhir_sip');
+            $table->string('tempat_praktik')->nullable();
             $table->string('link_sip');
             $table->text('alamat_sip')->nullable();
             $table->timestamps();

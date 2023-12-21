@@ -383,6 +383,10 @@ class CutiController extends Controller
                     $selesai_cuti = Carbon::parse($item->selesai_cuti)->format('d-M-Y');
                     return $selesai_cuti;
                 })
+                ->addColumn('sisa_cuti', function ($item){
+                    $sisa_cuti = $item->pegawai->sisa_cuti_tahunan;
+                    return $sisa_cuti;
+                })
                 ->addColumn('status_tombol', function ($item) {
                     $tanggal_mulai = Carbon::parse($item->mulai_cuti)->format('Ymd');
                     $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
@@ -410,7 +414,7 @@ class CutiController extends Controller
                 })
                 ->addColumn('aksi', 'pages.cuti.histori-cuti.part.aksi')
                 // ->addColumn('surat', 'pages.cuti.part.surat')
-                ->rawColumns(['nama_pegawai', 'mulai_cuti', 'selesai_cuti', 'status_tombol', 'aksi'])
+                ->rawColumns(['nama_pegawai', 'mulai_cuti', 'selesai_cuti', 'sisa_cuti', 'status_tombol', 'aksi'])
                 ->toJson();
             // return $dataCuti;
         }
