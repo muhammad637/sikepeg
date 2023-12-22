@@ -18,6 +18,20 @@ use Maatwebsite\Excel\Facades\Excel;
 class DiklatController extends Controller
 {
     //
+    protected $bulan = [
+        '01' => 'Januari',
+        '02' => 'Ferbruari',
+        '03' => 'Maret',
+        '04' => 'April',
+        '05' => 'Mei',
+        '06' => 'Juni',
+        '07' => 'Juli',
+        '08' => 'Agustus',
+        '09' => 'Sepetember',
+        '10' => 'Oktober',
+        '11' => 'November',
+        '12' => 'Desember',
+    ];
     public function index(Request $request)
     {
         // return Diklat::whereMonth('tanggal_mulai','12')->get();
@@ -30,20 +44,7 @@ class DiklatController extends Controller
         // return $pegawai;
         $dataNamaDiklat = [];
         $nama_diklats = Diklat::orderBy('nama_diklat', 'asc')->get();
-        $bulan = [
-            '01' => 'Januari',
-            '02' => 'Ferbruari',
-            '03' => 'Maret',
-            '04' => 'April',
-            '05' => 'Mei',
-            '06' => 'Juni',
-            '07' => 'Juli',
-            '08' => 'Agustus',
-            '09' => 'Sepetember',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember',
-        ];
+
         foreach ($nama_diklats as $item) {
             if (!in_array($item->nama_diklat, $dataNamaDiklat)) {
                 $dataNamaDiklat[] = $item->nama_diklat;
@@ -99,7 +100,7 @@ class DiklatController extends Controller
         return view('pages.diklat.index', [
             'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get(),
             'dataNamaDiklat' => $dataNamaDiklat,
-            'bulan' => $bulan,
+            'bulan' => $this->bulan,
         ]);
     }
 
@@ -269,8 +270,19 @@ class DiklatController extends Controller
         alert()->success('data diklat berhasil dihapus');
         return redirect()->back();
     }
-    private function dataLaporan($diklats)
+    private function dataLaporan($diklats, $request)
     {
+        // $ruangan = 'testing';
+        if ($request->ruangan != null) {
+            $ruangan = Ruangan::find($request->ruangan_id);
+            $ruangan = $ruangan->nama_ruangan;
+        } else {
+            $ruangan = 'semua ruangan';
+        }
+       
+        $diklat = $request->diklat != null ? 'nama diklat :' . $request->diklat : 'semua nama diklat';
+        $bulan = $request->bulan != null ? 'bulan ' . $this->bulan[$request->bulan] : 'semua bulan';
+        $tahun = $request->tahun != null ? 'tahun ' . $request->tahun : 'semua tahun';
         $dataLaporan = [];
         foreach ($diklats as $diklat) {
             array_push($dataLaporan, [
@@ -288,6 +300,7 @@ class DiklatController extends Controller
         }
         // return $dataLaporan;
         $laporan = new Export([
+            ["Data Eksport $ruangan, $bulan ,$tahun"],
             ['Nama Pegawai', 'Nama Diklat', 'Tanggal', 'Jumlah Hari', 'Jumlah Jam', 'Penyelenggara', 'Tempat', 'No Sertifikat', 'Tanggal Sertifikat', 'Link Sertifikat'],
             [...$dataLaporan]
         ]);
@@ -306,25 +319,28 @@ class DiklatController extends Controller
 
     public function exportAll(Request $request)
     {
-        $diklats = Diklat::query()->orderBy('created_at','desc');
+        $diklats = Diklat::query()->orderBy('created_at', 'desc');
         if ($request->input('diklat') != null) {
             $diklats->where('nama_diklat', $request->diklat);
         }
         if ($request->input('ruangan') != null) {
             $diklats->where('ruangan_id', $request->ruangan);
         }
+        if ($request->input('bulan') != null) {
+            $diklats->whereMonth('tanggal_mulai', $request->bulan);
+        }
         if ($request->input('tahun') != null) {
             $diklats->where('tahun', $request->tahun);
         }
         // return $request->all();
         // return $diklats->get();
-        return $this->dataLaporan($diklats->get());
+        return $this->dataLaporan($diklats->get(), $request);
     }
 
     public function exportYear(Request $request)
     {
         $diklats = Diklat::where('tahun', $request->year)->orderBy('created_at', 'desc')->get();
-        return $this->dataLaporan($diklats);
+        return $this->dataLaporan($diklats, $request);
     }
     public function exportYearRange(Request $request)
     {
@@ -333,6 +349,6 @@ class DiklatController extends Controller
             return redirect()->back();
         }
         $diklats = Diklat::whereBetween('tahun', [$request->yearAwal, $request->yearAkhir])->orderBy('created_at', 'desc')->get();
-        return $this->dataLaporan($diklats);
+        return $this->dataLaporan($diklats, $request);
     }
 }

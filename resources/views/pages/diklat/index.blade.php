@@ -133,6 +133,15 @@
                                 </select>
                             </div>
                             <div class="row mb-2">
+                                <label for="">pilih Bulan</label> <br>
+                                <select name="bulan" id="bulan-export" class="form-control" style="width: 100%">
+                                    <option value="">Semua Bulan</option>
+                                    @foreach ($bulan as $item => $value)
+                                        <option value="{{ $item }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="row mb-2">
                                 <label for="">pilih tahun</label> <br>
                                 <select name="tahun" id="tahun-export" class="form-control" style="width: 100%">
                                     <option value="">Semua Tahun</option>
@@ -226,6 +235,7 @@
         $(document).ready(function() {
             $('#ruangan-export').select2()
             $('#tahun-export').select2()
+            $('#bulan-export').select2()
             $('#diklat-export').select2()
             $('#ruangan').select2()
             $('#filter-nama-diklat').select2()
@@ -237,7 +247,6 @@
             const table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
-                // ajax: "{{ route('admin.jabatan.demosi.index') }}",
                 ajax: {
                     url: "{{ route('admin.diklat.index') }}",
                     type: 'GET',
