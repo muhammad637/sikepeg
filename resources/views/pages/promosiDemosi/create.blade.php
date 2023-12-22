@@ -1,4 +1,4 @@
-@extends('main', ['title' => 'Tambah Data Promosi'])
+@extends('main', ['title' => 'Tambah Data Demosi'])
 @push('style-css')
     @livewireStyles
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
@@ -6,14 +6,14 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="" style="color:black;font-weight:bold;">Promosi</h1>
+    <h1 class="" style="color:black;font-weight:bold;">Demosi</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
-        <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Promosi</h4>
+        <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Demosi</h4>
         <hr class="font-weight-bold">
-        <form action="{{ route('admin.jabatan.promosi.store') }}" method="post">
+        <form action="{{ route('admin.jabatan.store') }}" method="post">
             @csrf
-            <input type="hidden" value="promosi" name="type">
-            <div class="row">
+            <input type="hidden" value="demosi" name="type">
+            <div class="row align-items-end">
                 <div class="col-sm-12 col-xl-12">
                     <div class="row mb-2">
                         <div class="col-sm-4 mb-2  fw-italic text-end">
@@ -32,33 +32,54 @@
                     </div>
                     @livewire('promosi-demosi.form')
                     <div class="row mb-3">
-                        <label for="jumlah-hari" class="col-sm-4 col-form-label">Jabatan Baru<span class="text-danger">*</span></label>
+                        <label for="jumlah-hari" class="col-sm-4 col-form-label">Jabatan Baru<span
+                                class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="jabatan_selanjutnya" name="jabatan_selanjutnya" required>
+                            <input type="text" class="form-control" id="jabatan_selanjutnya" name="jabatan_selanjutnya"
+                                required>
                         </div>
                     </div>
+
                     <div class="row mb-3">
-                        <label for="penyelenggara" class="col-sm-4 col-form-label">Tanggal Berlaku<span class="text-danger">*</span></label>
+                        <label for="Type-Jabatan" class="col-sm-4 col-form-label">Tipe Jabatan<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="type" id="type" class="form-control" required>
+                                <option value="">Pilih Tipe</option>
+                                <option value="demosi">Demosi</option>
+                                <option value="promosi">Promosi</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="penyelenggara" class="col-sm-4 col-form-label">Tanggal Berlaku<span
+                                class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input type="date" class="form-control" id="tanggal_berlaku" name="tanggal_berlaku" required>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="tempat" class="col-sm-4 col-form-label">No SK<span class="text-danger">*</span></label>
+                        <label for="tempat" class="col-sm-4 col-form-label">No SK<span
+                                class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="no_sk" name="no_sk" required>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="tahun" class="col-sm-4 col-form-label">Tanggal SK<span class="text-danger">*</span></label>
+                        <label for="tahun" class="col-sm-4 col-form-label">Tanggal SK<span
+                                class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input type="date" class="form-control" id="tanggal_sk" name="tanggal_sk" required>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="uploadLinkSK" class="col-sm-4 col-form-label">Upload Link SK<span class="text-danger">*</span></label>
+                        <label for="uploadLinkSK" class="col-sm-4 col-form-label">Upload Link SK<span
+                                class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="uploadLinkSK" name="link_sk" required value="{{old('link_sk')}}">
+                            <input type="text" class="form-control" id="uploadLinkSK" name="link_sk" required
+                                value="{{ old('link_sk') }}">
                         </div>
                     </div>
         </form>
@@ -74,7 +95,6 @@
     <!-- /.container-fluid -->
 @endsection
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-  @livewireScripts
-   
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    @livewireScripts
 @endpush

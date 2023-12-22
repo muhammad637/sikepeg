@@ -37,7 +37,7 @@ class PangkatDanGolongan extends Component
     // nakes
     public $no_str;
     public $tanggal_terbit_str;
-    public $masa_berakhir_str;
+    public $masa_berakhir_str = 'seumur hidup';
     public $no_sip;
     public $tanggal_terbit_sip;
     public $masa_berlaku_sip;
@@ -80,7 +80,7 @@ class PangkatDanGolongan extends Component
         $this->sekolah = old('sekolah', null);
         // nakes
         $this->tanggal_terbit_str = old('tanggal_terbit_str', null);
-        $this->masa_berakhir_str = old('masa_berakhir_str', null);
+        $this->masa_berakhir_str = old('masa_berakhir_str', 'seumur hidup');
         $this->link_str = old('link_str', null);
         $this->no_str = old('no_str', null);
         $this->tanggal_terbit_sip = old('tanggal_terbit_sip', null);

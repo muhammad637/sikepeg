@@ -59,7 +59,7 @@
         </div>
     </li> --}}
     <li class="nav-item  {{ Request::routeIs('admin.jabatan.*') ? 'active' : '' }}">
-        <a class="nav-link " href="{{ route('admin.jabatan.demosi.index') }}">
+        <a class="nav-link " href="{{ route('admin.jabatan.index') }}">
             <i class="fas fa-regular fa-id-card"></i>
             <span>Jabatan</span></a>
     </li>

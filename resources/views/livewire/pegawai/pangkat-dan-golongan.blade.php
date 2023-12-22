@@ -349,7 +349,7 @@
                 </div>
             </div>
         </div>
-        @if ($jenis_tenaga == 'nakes')
+        {{-- @if ($jenis_tenaga == 'nakes')
             <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti di halaman str atau sip <span
                     class="text-danger">*</span> </p>
             <div class="mb-4">
@@ -389,7 +389,7 @@
                         </label>
                     </div>
                     <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="date" class="form-control @error('masa_berakhir_str') is-invalid @enderror "
+                        <input type="text" class="form-control @error('masa_berakhir_str') is-invalid @enderror "
                             id="masa_berakhir_str" aria-describedby="masa_berakhir_str" name="masa_berakhir_str"
                             autocomplete="false" placeholder="Masukkan Masa Berlaku STR ..."
                             wire:model='masa_berakhir_str'>
@@ -469,8 +469,8 @@
                             placeholder="Masukkan Link Upload SIP ..." wire:model='link_sip'>
                     </div>
                 </div>
-            </div>
-        @elseif(old('jenis_tenaga', $jenis_tenaga) == 'umum' || old('jenis_tenaga', $jenis_tenaga) == 'struktural')
+            </div> --}}
+        @if(old('jenis_tenaga', $jenis_tenaga) == 'umum' || old('jenis_tenaga', $jenis_tenaga) == 'struktural')
             <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti </p>
             <div class="mb-4">
                 <div class="row gap-5">

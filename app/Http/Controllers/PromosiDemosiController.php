@@ -29,10 +29,93 @@ class PromosiDemosiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function index(Request $request){
+        $jabatan_terakhir = Pegawai::whereHas('promosiDemosi')->with(['promosiDemosi' => function ($q) {
+            $q->orderBy('created_at', 'desc');
+        }])->get();
+        if ($request->ajax()) {
+            $promosi = PromosiDemosi::query()->where('type', 'demosi')->orderBy('created_at', 'desc');
+            if ($request->input('type') != null) {
+                $promosi->where('type', $request->type);
+            }
+            if ($request->input('ruangan_awal') != null) {
+                $promosi->where('ruanganawal_id', $request->ruangan_awal);
+            }
+            if ($request->input('ruangan_baru') != null) {
+                $promosi->where('ruanganbaru_id', $request->ruangan_baru);
+            }
+            if ($request->input('tahun') != null) {
+                $promosi->where('tanggal_sk', 'like', '%' . $request->tahun . '%');
+            }
+            return DataTables::of($promosi)
+                ->addIndexColumn()
+                ->addColumn('nama_lengkap', function ($item) {
+                    return $item->pegawai->nama_lengkap ?? $item->id;
+                })
+                ->addColumn('status_tombol', function ($item) use ($jabatan_terakhir) {
+                    $data = 'nonaktif';
+                    foreach ($jabatan_terakhir as $pegawai) {
+                        if (isset($pegawai->promosiDemosi) &&  $pegawai->promosiDemosi[0]->id == $item->id) {
+                            $data = 'aktif';
+                            break;
+                        }
+                    }
+                    $warna = $data == 'aktif' ? 'btn btn-success' : 'btn btn-secondary';
+                    return "<div class='$warna'>$data</div>";
+                })
+                ->addColumn('ruangan_lama', function ($item) {
+                    return $item->ruanganawal->nama_ruangan;
+                })
+                ->addColumn('ruangan_baru', function ($item) {
+                    return $item->ruanganbaru->nama_ruangan;
+                })
+                ->addColumn('aksi', 'pages.promosiDemosi.part.aksi')
+                ->rawColumns(['nama_lengkap', 'aksi', 'status_tombol', 'ruangan_lama', 'ruangan_baru'])
+                ->make(true);
+        }
+        // return Ruangan::all();
+        return view(
+            'pages.promosiDemosi.index',
+            [
+                'ruangans' => Ruangan::orderBy('nama_ruangan', 'desc')->get(),
+                'pegawais' => Pegawai::orderBy('nama_lengkap')->get()
+            ]
+        );
+    }
+    public function create(){
+        return view(
+            'pages.promosiDemosi.create',
+            [
+                'pegawai' => Pegawai::orderBy('nama_lengkap', 'asc')->get()
+            ]
+        );
+    }
     public function store(Request $request)
     {
-
-        //
+        // return $request->all();
+        $pegawai = Pegawai::find($request->pegawai_id);
+        if (!$pegawai) {
+            alert()->error('mohon masukkan nama Pegawai');
+            return redirect()->back();
+        }
+        $pegawai->update([
+            'jabatan' => $request->jabatan_selanjutnya,
+            'ruangan_id' => $request->ruanganbaru_id
+        ]);
+        // PromosiDemosi::create($request->all());
+        PromosiDemosi::create([
+            'pegawai_id' => $request->pegawai_id,
+            'ruanganawal_id' => $request->ruanganawal_id,
+            'ruanganbaru_id' => $request->ruanganbaru_id,
+            'jabatan_sebelumnya' => $request->jabatan_sebelumnya,
+            'jabatan_selanjutnya' => $request->jabatan_selanjutnya,
+            'tanggal_berlaku' => $request->tanggal_berlaku,
+            'no_sk' => $request->no_sk,
+            'tanggal_sk' => $request->tanggal_sk,
+            'link_sk' => $request->link_sk
+        ]);
+        alert()->success('Promosi PromosiDemosi ' . $pegawai->nama_lengkap . 'berhasil di buat oleh ' . auth()->user()->name);
+        return redirect()->route('admin.jabatan.index');
     }
 
     /**
@@ -44,6 +127,12 @@ class PromosiDemosiController extends Controller
     public function show(PromosiDemosi $promosiDemosi)
     {
         //
+        return view(
+            'pages.promosiDemosi.show',
+            [
+                'promosiDemosi' => $promosiDemosi
+            ]
+        );
     }
 
     /**
@@ -54,7 +143,10 @@ class PromosiDemosiController extends Controller
      */
     public function edit(PromosiDemosi $promosiDemosi)
     {
-        return view('pages.promosiDemosi.demosi.edit');
+        return view('pages.promosiDemosi.edit', [
+            'ruangans' => Ruangan::orderBy('nama_ruangan', 'desc')->get(),
+            'promosiDemosi' => $promosiDemosi
+        ]);
     }
 
     /**
@@ -67,6 +159,27 @@ class PromosiDemosiController extends Controller
     public function update(Request $request, PromosiDemosi $promosiDemosi)
     {
         //
+        // return $request->all();
+        $pegawai = Pegawai::with(['promosiDemosi' => function ($item) {
+            $item->orderBy('tanggal_berlaku', 'desc');
+        }])->find($promosiDemosi->pegawai_id);
+        if ($pegawai->promosiDemosi[0]->id == $promosiDemosi->id) {
+            $pegawai->update([
+                'jabatan'  => $request->jabatan_selanjutnya,
+                'ruangan_id' => $request->ruanganbaru_id
+            ]);
+        }
+        $promosiDemosi->update([
+            'ruanganbaru_id' => $request->ruanganbaru_id,
+            'jabatan_sebelumnya' => $request->jabatan_sebelumnya,
+            'jabatan_selanjutnya' => $request->jabatan_selanjutnya,
+            'tanggal_berlaku' => $request->tanggal_berlaku,
+            'no_sk' => $request->no_sk,
+            'tanggal_sk' => $request->tanggal_sk,
+            'link_sk' => $request->link_sk
+        ]);
+        alert()->success('data berhasil diupdate');
+        return redirect()->route('admin.jabatan.index');
     }
 
     /**
@@ -78,6 +191,15 @@ class PromosiDemosiController extends Controller
     public function destroy(PromosiDemosi $promosiDemosi)
     {
         //
+        $pegawai = Pegawai::with(['promosiDemosi' => function ($item) {
+            $item->orderBy('tanggal_berlaku', 'desc');
+        }])->find($promosiDemosi->pegawai_id);
+        if ($pegawai->promosiDemosi[0]->id == $promosiDemosi->id) {
+            $pegawai->update(['jabatan', $promosiDemosi->jabatan_sebelumnya]);
+        }
+        $promosiDemosi->delete();
+        alert()->success('data berhasil dihapus');
+        return redirect()->route('admin.jabatan.index');
     }
 
     // promosi
@@ -389,9 +511,20 @@ class PromosiDemosiController extends Controller
             $item->orderBy('tanggal_berlaku', 'desc');
         }])->find($promosiDemosi->pegawai_id);
         if ($pegawai->promosiDemosi[0]->id == $promosiDemosi->id) {
-            $pegawai->update(['jabatan', $request->jabatan_selanjutnya]);
+            $pegawai->update([
+                'jabatan'  => $request->jabatan_selanjutnya,
+                'ruangan_id' => $request->ruanganbaru_id
+            ]);
         }
-        $promosiDemosi->update($request->all());
+        $promosiDemosi->update([
+            'ruanganbaru_id' => $request->ruanganbaru_id,
+            'jabatan_sebelumnya' => $request->jabatan_sebelumnya,
+            'jabatan_selanjutnya' => $request->jabatan_selanjutnya,
+            'tanggal_berlaku' => $request->tanggal_berlaku,
+            'no_sk' => $request->no_sk,
+            'tanggal_sk' => $request->tanggal_sk,
+            'link_sk' => $request->link_sk
+        ]);
         alert()->success('data berhasil diupdate');
         return redirect()->route('admin.jabatan.demosi.index');
     }

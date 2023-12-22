@@ -31,29 +31,5 @@ use App\Http\Controllers\PegawaiController;
 */
 
 Route::get('/', function () {
-    return view('auth.admin.login');
+    return redirect()->route('admin.login');
 });
-Route::get('/login',[DashboardAdminController::class, 'login']);
-
-
-
-Route::get('/exportSTR', [STRController::class, 'export_excel'])->name('str_export');
-Route::get('/str/{pegawai:id}/history', [STRController::class, 'history'])->name('str.history');
-
-// sip
-Route::get('/sip/{pegawai:id}/history', [SIPController::class, 'history'])->name('sip.history');
-
-
-
-// DASHBOARD //
-// Route::get('/dashboard', function () {
-//     return view('pages.dashboard.index');
-// })->name('dashboard.index');
-
-Route::get('/testing/apa',function(Request $request){
-    alert()->success('data','data');
-    return redirect()->back();
-});
-Route::view('/testing', 'testing');
-
-// DASHBOARD END //

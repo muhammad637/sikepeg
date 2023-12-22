@@ -14,7 +14,7 @@
             <span class="mb-0 text-dark ">Ruangan Baru<span class="text-danger">*</span></span>
         </div>
         <div class="col-sm-8 text-secondary">
-            <select class="form-control" id="ruangan" name="ruanganbaru_id" required>
+            <select class="form-control" id="ruangan" name="ruanganbaru_id" required wire:model='ruanganbaru_id' wire:ignore>
                 <option value="">Pilih Ruangan</option>
                 @foreach ($ruangans as $item)
                     <option value="{{ $item->id }}" {{ old($item->id) == $item->id ? 'selected' : '' }}>
@@ -39,6 +39,9 @@
         $(document).ready(function() {
             $('#pegawai').select2();
             $('#ruangan').select2();
+             Livewire.hook('message.processed',(message, component) => {
+                $('#ruangan').select2()
+            })
             $('#pegawai').on('change', function(e) {
                 var data = $('#pegawai').select2("val")
                 @this.set("pegawai", data)

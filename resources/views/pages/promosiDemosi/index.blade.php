@@ -11,7 +11,7 @@
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Data Jabatan Pegawai</h4>
                 <div class="d-flex">
-                    <a href="{{ route('admin.jabatan.demosi.create') }}"
+                    <a href="{{ route('admin.jabatan.create') }}"
                         class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1">Tambah <i
                             class="fas fa-plus-square ml-1"></i></a>
                     <a href="#export-semua-jabatan" class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-1"
@@ -71,9 +71,9 @@
             <h2 class="" style="color:rgb(53, 45, 45);font-weight:bold;">Filter Jabatan </h2>
             <div class="row align-items-end">
                 <div class="col-sm-12 col-md-4">
-                    <label for="filter-statusTipe" class="font-weight-bold">Type Jabatan</label>
+                    <label for="filter-statusTipe" class="font-weight-bold">Type </label>
                         <select name="type" id="type" class="form-control filter">
-                            <option value="">Semua Jabatan</option>
+                            <option value="">Semua Type</option>
                             <option value="demosi">Demosi</option>
                             <option value="promosi">Promosi</option>
                         </select>
@@ -114,13 +114,13 @@
             </div>
             <hr>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered text-center text-capitalize" id="dataTable" width="100%"
+                <table class="table table-striped table-bordered text-center" id="dataTable" width="100%"
                     cellspacing="0">
                     <thead>
                         <tr class="text-dark">
                             <th scope="col">No</th>
                             <th scope="col">Nama Pegawai</th>
-                            <th scope="col">Type Jabatan</th>
+                            <th scope="col">Tipe</th>
                             <th scope="col">Ruangan Lama</th>
                             <th scope="col">Ruangan Baru</th>
                             <th scope="col">Jabatan Sebelumnya</th>
@@ -155,9 +155,9 @@
             const table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
-                // ajax: "{{ route('admin.jabatan.demosi.index') }}",
+                // ajax: "{{ route('admin.jabatan.index') }}",
                 ajax: {
-                    url: "{{ route('admin.jabatan.demosi.index') }}",
+                    url: "{{ route('admin.jabatan.index') }}",
                     type: 'GET',
                     data: function(d) {
                         d.ruangan_awal = ruangan_awal;
