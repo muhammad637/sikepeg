@@ -282,6 +282,7 @@ class   STRController extends Controller
             ]);
         }
         $laporan = new STRExport([
+            ['Data Rekap STR'],
             ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Link STR', 'Penerbit', 'Tanggal Terbit'],
             [...$dataLaporan]
         ]);

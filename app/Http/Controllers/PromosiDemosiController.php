@@ -21,7 +21,7 @@ class PromosiDemosiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -29,7 +29,8 @@ class PromosiDemosiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $jabatan_terakhir = Pegawai::whereHas('promosiDemosi')->with(['promosiDemosi' => function ($q) {
             $q->orderBy('created_at', 'desc');
         }])->get();
@@ -82,7 +83,8 @@ class PromosiDemosiController extends Controller
             ]
         );
     }
-    public function create(){
+    public function create()
+    {
         return view(
             'pages.promosiDemosi.create',
             [
@@ -212,7 +214,7 @@ class PromosiDemosiController extends Controller
             ]
         );
     }
-    
+
     public function PromosiShow(PromosiDemosi $promosiDemosi)
     {
         return view(
@@ -355,13 +357,15 @@ class PromosiDemosiController extends Controller
             ]
         );
     }
-    private function dataLaporan($promosiDemosi)
+    private function dataLaporan($promosiDemosi, $request)
     {
         $dataLaporan = [];
         foreach ($promosiDemosi as $item) {
             array_push($dataLaporan, [
                 'Nama Pegawai' => $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan,
                 'Tipe' => $item->type,
+                'ruangan lama' => Ruangan::findo($item->ruanganawal_id),
+                'ruangan baru' => Ruangan::findo($item->ruangabaru_id),
                 'jabatan sebelumnya' => $item->jabatan_sebelumnya,
                 'jabatan selanjutnya' => $item->jabatan_selanjutnya,
                 'No SK' => $item->no_sk,
@@ -372,7 +376,8 @@ class PromosiDemosiController extends Controller
         }
         // return $dataLaporan;
         $laporan = new Export([
-            ['Nama Pegawai', 'TIpe', 'Jabatan Sebelumnya', 'Jabatan Selanjutnya', 'No SK', 'Tanggal Berlaku', 'Tanggal SK', 'Link SK'],
+            ['Data Rekap jabatan (Promosi Demosi)'],
+            ['Nama Pegawai', 'TIpe', 'ruangan lama', 'ruangan baru', 'Jabatan Sebelumnya', 'Jabatan Selanjutnya', 'No SK', 'Tanggal Berlaku', 'Tanggal SK', 'Link SK'],
             [...$dataLaporan]
         ]);
 
@@ -393,7 +398,7 @@ class PromosiDemosiController extends Controller
             $promosiDemosi->where('type', $request->type);
         }
         // return $promosiDemosi->get();
-        return $this->dataLaporan($promosiDemosi->get());
+        return $this->dataLaporan($promosiDemosi->get(), $request);
     }
 
     public function Demosiindex(Request $request)
@@ -435,8 +440,8 @@ class PromosiDemosiController extends Controller
                 ->addColumn('ruangan_lama', function ($item) {
                     return $item->ruanganawal->nama_ruangan;
                 })
-                ->addColumn('ruangan_baru', function ($item){
-                return $item->ruanganbaru->nama_ruangan;
+                ->addColumn('ruangan_baru', function ($item) {
+                    return $item->ruanganbaru->nama_ruangan;
                 })
                 ->addColumn('aksi', 'pages.promosiDemosi.demosi.part.aksi')
                 ->rawColumns(['nama_lengkap', 'aksi', 'status_tombol', 'ruangan_lama', 'ruangan_baru'])
@@ -452,7 +457,7 @@ class PromosiDemosiController extends Controller
         );
     }
     public function Demosicreate()
-    {   
+    {
         return view(
             'pages.promosiDemosi.demosi.create',
             [
@@ -473,7 +478,7 @@ class PromosiDemosiController extends Controller
     }
     public function DemosiStore(Request $request)
     {
-        
+
         // return auth()->user();
         $pegawai = Pegawai::find($request->pegawai_id);
         if (!$pegawai) {

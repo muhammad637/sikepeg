@@ -63,11 +63,7 @@
             <i class="fas fa-regular fa-id-card"></i>
             <span>Jabatan</span></a>
     </li>
-    {{-- <li class="nav-item  {{ Request::routeIs('admin.jabatan.*') ? 'active' : '' }}">
-        <a class="nav-link " href="{{ route('admin.jabatan.demosi.index') }}">
-            <i class="fas fa-regular fa-id-card"></i>
-            <span>Jabatan</span></a>
-    </li>
+
      <li class="nav-item">
          <a class="nav-link collapsed {{ Request::routeIs('admin.cuti.*') || Request::routeIs('admin.histori-cuti.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#CutiCollapse"
              aria-expanded="true" aria-controls="CuetiCollapse">
@@ -85,7 +81,7 @@
                      href="{{ route('admin.cuti.histori-cuti.index') }}">Histori Cuti</a>
              </div>
          </div>
-     </li> --}}
+     </li>
 
      <li class="nav-item">
          <a class="nav-link collapsed {{ Request::routeIs('admin.str.*') || Request::routeIs('admin.sip.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#STRdanSIP"
@@ -96,7 +92,7 @@
          <div id="STRdanSIP" class="collapse"
              aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <h6 class="collapse-header">Menu Cuti</h6>
+                 <h6 class="collapse-header">Menu </h6>
                  <a class="collapse-item {{ Request::routeIs('admin.str.*') ? 'active' : '' }}"
                      href="{{ route('admin.str.index') }}">STR</a>
                  <a class="collapse-item {{ Request::routeIs('admin.sip.*') ? 'active' : '' }}"

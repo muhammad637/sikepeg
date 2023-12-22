@@ -24,6 +24,20 @@ class CutiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $bulan = [
+        '01' => 'Januari',
+        '02' => 'Ferbruari',
+        '03' => 'Maret',
+        '04' => 'April',
+        '05' => 'Mei',
+        '06' => 'Juni',
+        '07' => 'Juli',
+        '08' => 'Agustus',
+        '09' => 'Sepetember',
+        '10' => 'Oktober',
+        '11' => 'November',
+        '12' => 'Desember',
+    ];
     public function testing()
     {
         $cuti = Cuti::query();
@@ -75,7 +89,9 @@ class CutiController extends Controller
                 ->toJson();
             // return $dataCuti;
         }
-        return view('pages.cuti.data-cuti-aktif.index');
+        return view('pages.cuti.data-cuti-aktif.index',[
+            'bulans' => $this->bulan
+        ]);
     }
 
     /**
@@ -383,7 +399,7 @@ class CutiController extends Controller
                     $selesai_cuti = Carbon::parse($item->selesai_cuti)->format('d-M-Y');
                     return $selesai_cuti;
                 })
-                ->addColumn('sisa_cuti', function ($item){
+                ->addColumn('sisa_cuti', function ($item) {
                     $sisa_cuti = $item->pegawai->sisa_cuti_tahunan;
                     return $sisa_cuti;
                 })
@@ -420,7 +436,8 @@ class CutiController extends Controller
         }
         return view('pages.cuti.histori-cuti.index', [
             'pegawai' => Pegawai::orderBy('nama_lengkap', 'asc')->get(),
-            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
+            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get(),
+            'bulans' => $this->bulan
         ]);
     }
 
@@ -492,8 +509,11 @@ class CutiController extends Controller
             'cuti' => $cuti
         ]);
     }
-    private function dataLaporan($cutis)
+    private function dataLaporan($cutis, $request)
     {
+        $bulan = $request->bulan != null ? 'bulan ' . $this->bulan[$request->bulan] : 'semua bulan';
+        $tahun = $request->tahun != null ? 'tahun ' . $request->tahun : 'semua';
+        
         $dataLaporan = [];
         foreach ($cutis as $cuti) {
             array_push($dataLaporan, [
@@ -504,11 +524,11 @@ class CutiController extends Controller
                 'alamat' => $cuti->alamat,
                 'no_hp' => $cuti->no_hp,
                 'link_cuti' => $cuti->link_cuti,
-
             ]);
         }
         // return $dataLaporan;
         $laporan = new Export([
+            ["Data Cuti $bulan, $tahun"],
             ['Nama Pegawai', 'Jenis cuti', 'Tanggal', 'Jumlah Hari', 'Alamat', 'No HP', 'Link Cuti'],
             [...$dataLaporan]
         ]);
@@ -519,13 +539,25 @@ class CutiController extends Controller
     public function exportAll(Request $request)
     {
         // return 'testing';
-        $cuti = Cuti::orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc')->get();
-        return $this->dataLaporan($cuti);
+        $cuti = Cuti::query()->orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc');
+        if($request->bulan != null){
+            $cuti->whereMonth('mulai_cuti', $request->bulan);
+        }
+        if($request->tahun != null){
+            $cuti->whereYear('mulai_cuti', $request->tahun);
+        }
+        return $this->dataLaporan($cuti->get(),$request);
     }
     public function exportPertahun(Request $request)
     {
         // return 'testing';
         $cuti = Cuti::where('mulai_cuti', 'like', '%' . $request->year . '%')->orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc')->get();
-        return $this->dataLaporan($cuti);
+        return $this->dataLaporan($cuti, $request);
     }
+    // public function exportPertahun(Request $request)
+    // {
+    //     // return 'testing';
+    //     $cuti = Cuti::where('mulai_cuti', 'like', '%' . $request->year . '%')->orderBy('selesai_cuti', 'desc')->orderBy('pegawai_id', 'asc')->get();
+    //     return $this->dataLaporan($cuti);
+    // }
 }

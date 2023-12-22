@@ -325,6 +325,7 @@ class SIPController extends Controller
             ]);
         }
         $laporan = new SIPExport([
+            ['Data Rekap SIP'],
             ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Penerbit', 'Tanggal Terbit', 'Link SIP'],
             [...$dataLaporan]
         ]);
