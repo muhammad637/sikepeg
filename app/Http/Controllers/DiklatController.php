@@ -272,17 +272,12 @@ class DiklatController extends Controller
     }
     private function dataLaporan($diklats, $request)
     {
-        // $ruangan = 'testing';
-        if ($request->ruangan != null) {
-            $ruangan = Ruangan::find($request->ruangan_id);
-            $ruangan = $ruangan->nama_ruangan;
-        } else {
-            $ruangan = 'semua ruangan';
-        }
        
-        $diklat = $request->diklat != null ? 'nama diklat :' . $request->diklat : 'semua nama diklat';
-        $bulan = $request->bulan != null ? 'bulan ' . $this->bulan[$request->bulan] : 'semua bulan';
-        $tahun = $request->tahun != null ? 'tahun ' . $request->tahun : 'semua tahun';
+       
+        $namaDiklat = $request->diklat != null ?  $request->diklat : 'semua nama diklat';
+        $ruangan = $request->ruangan != null ?  Ruangan::find($request->ruangan)->nama_ruangan : 'semua ruangan';
+        $bulan = $request->bulan != null ?  $this->bulan[$request->bulan] : 'semua bulan';
+        $tahun = $request->tahun != null ?  $request->tahun : 'semua tahun';
         $dataLaporan = [];
         foreach ($diklats as $diklat) {
             array_push($dataLaporan, [
@@ -300,7 +295,11 @@ class DiklatController extends Controller
         }
         // return $dataLaporan;
         $laporan = new Export([
-            ["Data Eksport $ruangan, $bulan ,$tahun"],
+            ["Rekapan Data Diklat"],
+            ["Diklat : $namaDiklat"],
+            ["Bulan : $bulan"],
+            ["Tahun : $tahun"],
+            ["Ruangan: $ruangan"],
             ['Nama Pegawai', 'Nama Diklat', 'Tanggal', 'Jumlah Hari', 'Jumlah Jam', 'Penyelenggara', 'Tempat', 'No Sertifikat', 'Tanggal Sertifikat', 'Link Sertifikat'],
             [...$dataLaporan]
         ]);

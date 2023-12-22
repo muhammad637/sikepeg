@@ -42,7 +42,8 @@ class PegawaiImport implements ToModel, WithHeadingRow
                 );
         }
         if ($row['nik'] !== null) {
-            // dd(Date::excelToDateTimeObject($row['tmt_pangkat_terakhir'])->format('Y-m-d'));
+            // dd($row);
+            // dd(Date::excelToDateTimeObject($row['tmt_pppk'])->format('Y-m-d'));
             $pegawai = new Pegawai([
                 'nik' => $row['nik'],
                 'nip_nippk' => $row['nipnippk'],

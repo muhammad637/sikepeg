@@ -423,8 +423,12 @@ class MutasiController extends Controller
             'mutasi' => $mutasi
         ]);
     }
-    private function dataLaporan($promosiDemosi)
+    private function dataLaporan($promosiDemosi, $request)
     {
+        $tahun = $request->tahun != null ? $request->tahun : 'Semua Tahun';
+        $ruangan_awal= $request->ruangan_awal != null ?  Ruangan::find($request->ruangan_awal_id)->nama_ruangan : 'Semua Ruangan';
+        $ruangan_tujuan = $request->ruangan_awal != null ?  Ruangan::find($request->ruangan_awal_id)->nama_ruangan : 'Semua Ruangan';
+        $jenis_mutasi = $request->jenis_mutasi != null ? $request->jenis_mutasi : 'Semua Jenis';
         $dataLaporan = [];
         foreach ($promosiDemosi as $item) {
             array_push($dataLaporan, [
@@ -442,6 +446,11 @@ class MutasiController extends Controller
         }
         // return $dataLaporan;
         $laporan = new Export([
+            ['Rekap Data Mutasi'],
+            ["Tahun : $tahun"],
+            ["Jenis Mutasi : $jenis_mutasi"],
+            ["Ruangan Awal : $ruangan_awal"],
+            ["Ruangan Tujuan : $ruangan_tujuan"],
             ['Nama Pegawai', 'Jenis', 'Ruangan Sebelumnya', 'Ruangan Baru', 'Instansi Sebelumnya', 'Instansi Baru', 'No SK', 'Tanggal Berlaku', 'Tanggal SK', 'Link SK'],
             [...$dataLaporan]
         ]);
@@ -466,6 +475,6 @@ class MutasiController extends Controller
             $mutasi->where('jenis_mutasi', $request->jenis_mutasi);
         }
         // return $mutasi->get();
-        return $this->dataLaporan($mutasi->get());
+        return $this->dataLaporan($mutasi->get(), $request);
     }
 }

@@ -102,7 +102,7 @@ class PangkatDanGolonganEdit extends Component
             $this->status_tipe = old('status_tipe', $this->pegawai->status_tipe);
             $this->tmt_pns = old('tmt_pns', $this->pegawai->tmt_pns);
             $this->tmt_pangkat_terakhir = old('tmt_pangkat_terakhir', $this->pegawai->tmt_pangkat_terakhir);
-            $this->tmt_pppk = old('tmt_pppk', $this->tmt_pppk ?? null);
+            $this->tmt_pppk = old('tmt_pppk', $this->pegawai->tmt_pppk ?? null);
             if ($this->status_tipe == 'pns' || $this->status_tipe == 'pppk') {
                 $this->pangkat_golongan = PangkatGolongan::where('jenis', $this->status_tipe)->get();
                 $this->pangkat_golongan_id = old('pangkat_golongan_id', $this->pegawai->pangkat_golongan_id);
