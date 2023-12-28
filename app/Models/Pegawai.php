@@ -45,14 +45,7 @@ class Pegawai extends Authenticatable
     {
         return $this->hasMany(PromosiDemosi::class);
     }
-    public function golongan()
-    {
-        return $this->belongsTo(Golongan::class, 'golongan_id');
-    }
-    public function pangkat()
-    {
-        return $this->belongsTo(Pangkat::class, 'pangkat_id');
-    }
+
     public function ruangan()
     {
         return $this->belongsTo(Ruangan::class, 'ruangan_id');

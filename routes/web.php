@@ -31,5 +31,5 @@ use App\Http\Controllers\PegawaiController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('admin.login');
+    return redirect()->route('pegawai.login');
 });

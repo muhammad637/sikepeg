@@ -34,14 +34,6 @@ class DiklatController extends Controller
     ];
     public function index(Request $request)
     {
-        // return Diklat::whereMonth('tanggal_mulai','12')->get();
-        // $pegawai = Pegawai::where('status_tenaga', 'asn')->with(['diklat' => function ($query) {
-        //     $query;
-        // }])->whereHas('diklat', function ($query) {
-        //     $query->orderBy('created_at', 'desc');
-        // })->get();
-
-        // return $pegawai;
         $dataNamaDiklat = [];
         $nama_diklats = Diklat::orderBy('nama_diklat', 'asc')->get();
 
@@ -85,13 +77,6 @@ class DiklatController extends Controller
                     return $item->no_sertifikat;
                 })
                 ->addColumn('surat', 'pages.surat.diklat-index')
-                // ->addColumn('aksi', function($item){
-                //     $show = "<a href='" . route('admin.diklat.riwayat', ['pegawai' => $item->id]) . "'
-                //                             class='badge p-2 text-white bg-info mr-1'><i class='fas fa-info-circle'></i></a>";
-                //     $edit = "<a href='" . route('admin.diklat.edit', ['diklat' => $item->diklat[0]->id]) . "'
-                //                             class='badge p-2 text-white bg-warning mr-1'><i class='fas fa-pen'></i></a>";
-                //     return "<div class='d-flex'>$show $edit</div>";
-                // })
                 ->addColumn('aksi', 'pages.diklat.part.aksi-index')
                 ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
                 ->toJson();

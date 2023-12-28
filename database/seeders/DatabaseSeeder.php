@@ -50,10 +50,10 @@ class DatabaseSeeder extends Seeder
         //     'nama_golongan' => 'i a',
         //     'jenis' => 'pns'
         // ]);
-        PangkatGolongan::factory(5)->create();
-        Pegawai::factory(20)->create();
-        // STR::factory(40)->create();
-        SIP::factory(40)->create();
+        // PangkatGolongan::factory(5)->create();
+        // Pegawai::factory(20)->create();
+        // // STR::factory(40)->create();
+        // SIP::factory(40)->create();
 
     }
 }

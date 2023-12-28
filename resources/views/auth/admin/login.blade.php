@@ -28,7 +28,7 @@
                 </button>
             </div>
         @endif
-            <div class="row justify-content-center gap-2">
+            {{-- <div class="row justify-content-center gap-2">
                 
                 <a href="#" class="col-md-5 col-sm-12 btn btn-success">
                     Login Sebagai Admin
@@ -37,7 +37,8 @@
                     Login Sebagai Pegawai
                 </a>
 
-            </div>
+            </div> --}}
+            <h1 class="text-center">Login Sebagai Admin</h1>
             
             <br>
             <br>

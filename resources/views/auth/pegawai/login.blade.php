@@ -28,7 +28,7 @@
                 </button>
             </div>
             @endif
-            <div class="row justify-content-center gap-2">
+            {{-- <div class="row justify-content-center gap-2">
                 
                 <a href="{{ route('admin.login') }}" class="col-md-5 col-sm-12 btn btn-secondary">
                     Login Sebagai Admin
@@ -37,7 +37,9 @@
                     Login Sebagai Pegawai
                 </a>
 
-            </div>
+            </div> --}}
+            <h1 class="text-center">Login Sebagai Pegawai</h1>
+
             
             <br>
             <br>

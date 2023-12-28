@@ -40,24 +40,7 @@
              <i class="fas fa-calendar-day"></i>
              <span>Kenaikan Pangkat</span></a>
      </li>
-     {{-- <li class="nav-item">
-        <a class="nav-link collapsed {{ Request::routeIs('admin.jabatan.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#jabatanCollapse"
-            aria-expanded="true" aria-controls="CuetiCollapse">
-            <i class="fas fa-regular fa-id-card"></i>
-            <span>Jabatan</span>
-        </a>
-        <div id="jabatanCollapse"
-            class="collapse "
-            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Menu Jabatan</h6>
-                <a class="collapse-item {{ Request::routeIs('admin.jabatan.demosi.*') ? 'active' : '' }}"
-                    href="{{ route('admin.jabatan.demosi.index') }}">Demosi</a>
-                <a class="collapse-item {{ Request::routeIs('admin.jabatan.promosi.*') ? 'active' : '' }}"
-                    href="{{route('admin.jabatan.promosi.index')}}">Promosi</a>
-            </div>
-        </div>
-    </li> --}}
+    
     <li class="nav-item  {{ Request::routeIs('admin.jabatan.*') ? 'active' : '' }}">
         <a class="nav-link " href="{{ route('admin.jabatan.index') }}">
             <i class="fas fa-regular fa-id-card"></i>
@@ -109,8 +92,7 @@
          </a>
          <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item {{Request::routeIs('admin.master-data.pangkat.*') ? 'active' : ''}}" href="{{route('admin.master-data.pangkat.index')}}">Pangkat</a>
-                 <a class="collapse-item {{Request::routeIs('admin.master-data.golongan.*') ? 'active' : ''}}" href="{{route('admin.master-data.golongan.index')}}">Golongan</a>
+                 <a class="collapse-item {{Request::routeIs('admin.master-data.pangkat.*') ? 'active' : ''}}" href="{{route('admin.master-data.pangkat.index')}}">Admin Management</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.ruangan.*') ? 'active' : ''}}" href="{{route('admin.master-data.ruangan.index')}}">Ruangan</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.hari-besar.*') ? 'active' : ''}}" href="{{ route('admin.master-data.hari-besar.index') }}">Hari Besar</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.cuti-pegawai.*') ? 'active' : ''}}" href="{{ route('admin.master-data.cuti-pegawai.index') }}">Cuti Pegawai</a>
