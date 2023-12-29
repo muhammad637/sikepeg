@@ -165,6 +165,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/riwayat/{pegawai:id}/create', [KenaikanPangkatController::class, 'createriwayat'])->name('createriwayat');
         });
         Route::prefix('master-data')->name('master-data.')->group(function () {
+            Route::prefix('admin-management')->name('admin-management.')->group(function(){
+                Route::get('/',[AdminController::class,'index'])->name('index');
+                Route::post('/store',[AdminController::class,'store'])->name('store');
+                Route::put('/update/{admin:id}',[AdminController::class,'update'])->name('update');
+                Route::put('/reset/{admin:id}',[AdminController::class,'reset'])->name('reset');
+            });
             Route::prefix('cuti-pegawai')->name('cuti-pegawai.')->group(function () {
                 Route::get('/', [MasterDataTahunCuti::class, 'index'])->name('index');
                 Route::put('/update', [MasterDataTahunCuti::class, 'update'])->name('update');

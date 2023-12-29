@@ -92,7 +92,7 @@
          </a>
          <div id="masterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
              <div class="bg-white py-2 collapse-inner rounded">
-                 <a class="collapse-item {{Request::routeIs('admin.master-data.pangkat.*') ? 'active' : ''}}" href="{{route('admin.master-data.pangkat.index')}}">Admin Management</a>
+                 <a class="collapse-item {{Request::routeIs('admin.master-data.admin-management.*') ? 'active' : ''}}" href="{{route('admin.master-data.admin-management.index')}}">Admin Management</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.ruangan.*') ? 'active' : ''}}" href="{{route('admin.master-data.ruangan.index')}}">Ruangan</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.hari-besar.*') ? 'active' : ''}}" href="{{ route('admin.master-data.hari-besar.index') }}">Hari Besar</a>
                  <a class="collapse-item {{Request::routeIs('admin.master-data.cuti-pegawai.*') ? 'active' : ''}}" href="{{ route('admin.master-data.cuti-pegawai.index') }}">Cuti Pegawai</a>
