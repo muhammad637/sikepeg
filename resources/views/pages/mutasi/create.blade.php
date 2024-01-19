@@ -8,16 +8,7 @@
 @section('content')
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">Mutasi</h1>
-    {{-- @if ($errors->any())
-        <div class="alert alert-danger">
-            <h2>Error</h2>
-            <ol class="list-unstyled text-uppercase font-weight-bold">
-                @foreach ($errors->all() as $error)
-                    <li class="">{{ $error }}</li>
-                @endforeach
-            </ol>
-        </div>
-    @endif --}}
+ 
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Mutasi</h4>
         <hr class="font-weight-bold">

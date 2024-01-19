@@ -31,14 +31,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Admin::create([
-            'name' => 'admin',
-            'username' => 'admin.1234',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        ]);
-        Ruangan::create([
-            'nama_ruangan' => 'admin',
-        ]);
+        // Admin::create([
+        //     'name' => 'admin',
+        //     'username' => 'admin.1234',
+        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        // ]);
+        // Ruangan::create([
+        //     'nama_ruangan' => 'admin',
+        // ]);
         // Pangkat::create([
         //     'nama_pangkat' => 'juru muda'
         // ]);
@@ -50,8 +50,8 @@ class DatabaseSeeder extends Seeder
         //     'nama_golongan' => 'i a',
         //     'jenis' => 'pns'
         // ]);
-        // PangkatGolongan::factory(5)->create();
-        // Pegawai::factory(20)->create();
+        PangkatGolongan::factory(5)->create();
+        Pegawai::factory(10)->create();
         // // STR::factory(40)->create();
         // SIP::factory(40)->create();
 

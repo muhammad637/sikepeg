@@ -223,44 +223,60 @@ class PegawaiController extends Controller
         return $data_gelar_belakang;
     }
 
+  
     public function store(Request $request)
     {
+        // Inisialisasi array pegawai
         $pegawai = [];
+        // Menghitung usia berdasarkan tanggal lahir
         $usia = $this->lama($request->tanggal_lahir);
+        // Validasi input menggunakan aturan yang telah ditentukan
         $validatedData = $request->validate($this->rulesPegawai);
+        // Mengolah tanggal lahir menjadi format yang diinginkan
         $parseTanggalLahir = Carbon::parse($request->tanggal_lahir)->format('dmY');
+        // Membuat password berdasarkan tanggal lahir yang telah diolah
         $password = Hash::make($parseTanggalLahir);
+        // Mendapatkan data gelar depan dan belakang
         $data_gelar_depan = $this->gelarDepan($request->gelar_depan);
         $data_gelar_belakang = $this->gelarBelakang($request->gelar_belakang);
+        // Menggabungkan data nama lengkap dari gelar depan, nama depan, nama belakang, dan gelar belakang
         $nama_lengkap = $data_gelar_depan . " " . $request->nama_depan . " " . $request->nama_belakang . " " . $data_gelar_belakang;
+        // Mengelola ID ruangan
         $ruangan = $request->ruangan_id;
         if ($request->ruangan_id == 'ruangan_lainnya') {
-            $request->validate(
-                ['nama_ruangan' => 'required|unique:ruangans,nama_ruangan']
-            );
-            $ruangan = Ruangan::create([
-                'nama_ruangan' => strtolower($request->nama_ruangan),
-            ]);
+            // Validasi nama ruangan jika ruangan diisi dengan 'ruangan_lainnya'
+            $request->validate(['nama_ruangan' => 'required|unique:ruangans,nama_ruangan']);
+            // Membuat ruangan baru jika belum ada
+            $ruangan = Ruangan::create(['nama_ruangan' => strtolower($request->nama_ruangan)]);
         }
+        // Menggabungkan data untuk disimpan dalam database
         $data = array_merge(['usia' => $usia, 'nama_lengkap' => $nama_lengkap, 'ruangan_id' => $ruangan->id ?? $ruangan, 'password' => $password], $validatedData);
+          // Memproses data untuk status pegawai 'non asn'
         if ($request->status_tenaga == 'non asn') {
+            // Menghitung masa kerja berdasarkan tanggal masuk
             $masa_kerja = $this->lama($request->tanggal_masuk);
+            // Menggabungkan data khusus untuk pegawai 'non asn'
             $data = array_merge([
                 'cuti_tahunan' => $request->cuti_tahunan,
                 'sisa_cuti_tahunan' => $request->cuti_tahunan,
                 'masa_kerja' => $masa_kerja,
                 'status_tipe' => 'thl'
             ], $data);
+            // Validasi data khusus untuk pegawai 'non asn'
             $validatedDataNonAsn = $request->validate($this->rulesNonAsn);
+            // Membuat record pegawai 'non asn'
             $createPegawai = Pegawai::create(array_merge($validatedDataNonAsn, $data));
+            // Menampilkan pemberitahuan sukses dan membuat notifikasi
             alert()->success('sukses', 'data pegawai berhasil ditambahkan');
             $notif = Notifikasi::notif('pegawai', 'pegawai baru berhasil ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($createPegawai->id);
+
+            // Redirect ke halaman indeks dengan pesan sukses
             return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
         }
-
+        // ... (Proses untuk status pegawai 'asn')
         $pangkat_golongan_id = $request->pangkat_golongan_id;
         if ($request->pangkat_golongan_id == 'pangkat_golongan_lainnya') {
             $request->validate([
@@ -295,6 +311,7 @@ class PegawaiController extends Controller
             'masa_kerja' => $masa_kerja,
             'status_tipe' => $request->status_tipe
         ], $validatedAsn, $data, $status_tipe);
+         // ... (Proses untuk jenis tenaga 'umum', 'struktural', dan 'nakes')
         if ($request->jenis_tenaga == 'umum') {
             $validatedDataUmum = $request->validate($this->rulesNonNakes);
             $pegawai = array_merge($data, $validatedDataUmum);
@@ -320,7 +337,9 @@ class PegawaiController extends Controller
             alert()->success('sukses', 'data pegawai berhasil ditambahkan');
             return redirect(route('admin.pegawai.index'))->with('success', 'Data pegawai berhasil ditambahkan')->withInput();
         }
+         // Jika tidak masuk ke kondisi khusus di atas, membuat record pegawai umum
         $createPegawai = Pegawai::create($pegawai);
+        // Membuat notifikasi dan pemberitahuan sukses
         $notif = Notifikasi::notif('pegawai', 'pegawai baru berhasil ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());

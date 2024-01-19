@@ -151,8 +151,7 @@ class DiklatController extends Controller
 
     public function store(Request $request)
     {
-        // try {
-        //code...
+        // Validasi data input
         $validatedData = $request->validate([
             'nama_diklat' => 'required',
             'jumlah_jam' => 'required|integer',
@@ -164,33 +163,37 @@ class DiklatController extends Controller
             'link_sertifikat' => 'required',
             'ruangan_id' => 'required'
         ]);
-        $diklat = Diklat::create([
-            'pegawai_id' => $request->pegawai_id,
-            'nama_diklat' => $request->nama_diklat,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
-            'jumlah_hari' => $request->jumlah_hari,
-            'jumlah_jam' => $request->jumlah_jam,
-            'penyelenggara' => $request->penyelenggara,
-            'tempat' => $request->tempat,
-            'tahun' => $request->tahun,
-            'no_sertifikat' => $request->no_sertifikat,
-            'tanggal_sertifikat' => $request->tanggal_sertifikat,
-            'link_sertifikat' => $request->link_sertifikat,
-            'ruangan_id' => $request->ruangan_id
-        ]);
 
-        $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
+        // Membuat objek Diklat dengan menggunakan data yang valid
+        $diklat = Diklat::create([
+                'pegawai_id' => $request->pegawai_id,
+                'nama_diklat' => $request->nama_diklat,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'jumlah_hari' => $request->jumlah_hari,
+                'jumlah_jam' => $request->jumlah_jam,
+                'penyelenggara' => $request->penyelenggara,
+                'tempat' => $request->tempat,
+                'tahun' => $request->tahun,
+                'no_sertifikat' => $request->no_sertifikat,
+                'tanggal_sertifikat' => $request->tanggal_sertifikat,
+                'link_sertifikat' => $request->link_sertifikat,
+                'ruangan_id' => $request->ruangan_id
+            ]);
+
+        // Membuat notifikasi untuk tindakan tambah data diklat
+        $notif = Notifikasi::notif('diklat', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
         $createNotif = Notifikasi::create($notif);
+
+        // Mengasosiasikan notifikasi dengan admin dan pegawai terkait
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($diklat->pegawai->id);
-        alert()->success('berhasil', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
-        return redirect()->route('admin.diklat.index')->with('success', 'diklat berhasil ditambahkan');
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        //     return $th->getMessage();
-        // }
+
+        // Menampilkan pesan sukses dan mengarahkan ke halaman indeks diklat
+        alert()->success('Berhasil', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name);
+        return redirect()->route('admin.diklat.index')->with('success', 'Diklat berhasil ditambahkan');
     }
+
 
     public function show(Diklat $diklat)
     {

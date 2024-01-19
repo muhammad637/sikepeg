@@ -64,8 +64,8 @@ class JenisPangkatGolongan extends Component
         $pegawai = Pegawai::find($value);
         if ($pegawai) {
             $this->status_tipe = $pegawai->status_tipe ?? 'pns';
-            $this->resultGolongan = Golongan::where('jenis', $pegawai->status_tipe)->get();
-            $this->resultPangkat = Pangkat::all();
+            // $this->resultGolongan = Golongan::where('jenis', $pegawai->status_tipe)->get();
+            // $this->resultPangkat = Pangkat::all();
             $this->pangkatGolongan = PangkatGolongan::where('jenis', $pegawai->status_tipe)->orderBy('nama', 'desc')->get();
             $this->jabatan = $pegawai->jabatan;
             $this->ruangan = $pegawai->ruangan->nama_ruangan;

@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('agama')->nullable();
             $table->string('no_wa')->nullable();
             $table->string('status_pegawai')->nullable();
-            // $table->string('ruangan')->nullable();
             $table->unsignedBigInteger('ruangan_id')->nullable();
             $table->foreign('ruangan_id')->references('id')->on('ruangans');
             $table->string('tahun_pensiun')->nullable();
@@ -49,14 +48,8 @@ return new class extends Migration
             $table->string('tmt_pns')->nullable();
             $table->string('tmt_pppk')->nullable();
             $table->string('tmt_pangkat_terakhir')->nullable();
-            // $table->unsignedBigInteger('pangkat_id')->nullable();
-            // $table->foreign('pangkat_id')->references('id')->on('pangkats');
-            // $table->unsignedBigInteger('golongan_id')->nullable();
-            // $table->foreign('golongan_id')->references('id')->on('golongans');
             $table->unsignedBigInteger('pangkat_golongan_id')->nullable();
             $table->foreign('pangkat_golongan_id')->references('id')->on('pangkat_golongans');
-            // $table->foreignId('pangkat_id')->constrained('pangkats')->onUpdate('cascade')->onDelete('cascade')->nullable();
-            // $table->foreignId('golongan_id')->constrained('golongans')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->string('sekolah')->nullable();
             $table->enum('jenis_tenaga', ['struktural', 'umum', 'nakes'])->nullable();
             // non asn

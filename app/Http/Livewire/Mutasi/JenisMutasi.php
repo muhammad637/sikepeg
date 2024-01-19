@@ -23,6 +23,7 @@ class JenisMutasi extends Component
     public $instansi_tujuan;
     public $tambah_ruangan_awal;
     public $tambah_ruangan_tujuan;
+    public $ruangan_awal;
 
 
     public function mount(){
@@ -38,8 +39,8 @@ class JenisMutasi extends Component
     public function updatedSelectPegawai($value){
         $pegawai = Pegawai::find($value);
         if ($pegawai) {
-            $this->ruangan_awal_id = $pegawai->ruangan->id;
-            
+            $this->ruangan_awal_id = $pegawai->ruangan_id;
+            $this->ruangan_awal = Ruangan::find($this->ruangan_awal_id)->nama_ruangan;
         }
     }
     public function render()

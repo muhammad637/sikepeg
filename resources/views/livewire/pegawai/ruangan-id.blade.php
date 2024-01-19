@@ -50,15 +50,5 @@
                 @this.set('ruangan_id', data)
             })
         })
-        // $(document).ready(function() {
-        //     $('.ruangan_select').select2()
-        //       Livewire.hook('message.processed',(message, component) => {
-        //         $('.ruangan_select').select2()
-        //     })
-        //     $('.ruangan_select').on('change', function() {
-        //         var data = $('.ruangan_select').select2('val')
-        //         @this.set('ruangan_id', data)
-        //     })
-        // })
 </script>
 @endpush

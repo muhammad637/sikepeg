@@ -1,4 +1,4 @@
-@extends('main', ['title' => 'Tambah Data Demosi'])
+@extends('main', ['title' => 'Tambah Data Promosi demosi jabatan'])
 @push('style-css')
     @livewireStyles
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    <h1 class="" style="color:black;font-weight:bold;">Demosi</h1>
+    <h1 class="" style="color:black;font-weight:bold;">Promosi Demosi Jabatan</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Demosi</h4>
         <hr class="font-weight-bold">
@@ -30,16 +30,6 @@
                             </select>
                         </div>
                     </div>
-                    @livewire('promosi-demosi.form')
-                    <div class="row mb-3">
-                        <label for="jumlah-hari" class="col-sm-4 col-form-label">Jabatan Baru<span
-                                class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="jabatan_selanjutnya" name="jabatan_selanjutnya"
-                                required>
-                        </div>
-                    </div>
-
                     <div class="row mb-3">
                         <label for="Type-Jabatan" class="col-sm-4 col-form-label">Tipe Jabatan<span
                                 class="text-danger">*</span></label>
@@ -52,6 +42,17 @@
                         </div>
 
                     </div>
+                    @livewire('promosi-demosi.form')
+                    <div class="row mb-3">
+                        <label for="jumlah-hari" class="col-sm-4 col-form-label">Jabatan Baru<span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="jabatan_selanjutnya" name="jabatan_selanjutnya"
+                                required>
+                        </div>
+                    </div>
+
+                    
 
                     <div class="row mb-3">
                         <label for="penyelenggara" class="col-sm-4 col-form-label">Tanggal Berlaku<span

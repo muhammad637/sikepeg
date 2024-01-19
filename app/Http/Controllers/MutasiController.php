@@ -105,26 +105,34 @@ class MutasiController extends Controller
     public function store(Request $request)
     {
         try {
-            //code...
-            // return $request->all();
+            // Ekstraksi data dari request
             $ruangan_awal_id = $request->ruangan_awal_id;
             $ruangan_tujuan_id = $request->ruangan_tujuan_id;
+
+            # Penanganan kasus khusus untuk 'lainnya' pada ruangan_awal_id
             if ($request->ruangan_awal_id == 'lainnya') {
                 $request->validate(
                     [
                         'tambah_ruangan_awal' => 'required|unique:ruangans,nama_ruangan'
                     ],
                     [
-                        'tambah_ruangan_awal.unique' => 'nama ruangan yang anda inputkan sudah ada'
+                        'tambah_ruangan_awal.unique' => 'Nama ruangan yang Anda inputkan sudah ada.'
                     ]
                 );
+
+                // Membuat objek Ruangan baru untuk ruangan_awal
                 $ruangan_awal = Ruangan::create([
                     'nama_ruangan' => $request->tambah_ruangan_awal,
                 ]);
+
                 $ruangan_awal_id = $ruangan_awal->id;
             }
+
+            // Penanganan kasus khusus untuk 'lainnya' pada ruangan_tujuan_id
             if ($request->ruangan_tujuan_id == 'lainnya') {
+                // Memeriksa apakah nama ruangan_awal dan ruangan_tujuan sama
                 if ($request->tambah_ruangan_awal == $request->tambah_ruangan_tujuan) {
+                    // Membuat objek Ruangan baru untuk ruangan_tujuan
                     $ruangan_tujuan = Ruangan::create([
                         'nama_ruangan' => $request->tambah_ruangan_tujuan,
                     ]);
@@ -134,26 +142,35 @@ class MutasiController extends Controller
                             'tambah_ruangan_tujuan' => 'unique:ruangans,nama_ruangan'
                         ],
                         [
-                            'tambah_ruangan_tujuan' => 'nama ruangan yang anda inputkan sudah ada'
+                            'tambah_ruangan_tujuan.unique' => 'Nama ruangan yang Anda inputkan sudah ada.'
                         ]
                     );
+
+                    // Membuat objek Ruangan baru untuk ruangan_tujuan
                     $ruangan_tujuan = Ruangan::create([
                         'nama_ruangan' => $request->tambah_ruangan_tujuan,
                     ]);
                 }
+
                 $ruangan_tujuan_id = $ruangan_tujuan->id;
             }
+
+            // Menemukan objek Pegawai berdasarkan pegawai_id yang diberikan
             $pegawai = Pegawai::find($request->pegawai_id);
+
+            // Mendapatkan record Mutasi terbaru untuk Pegawai
             $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->first();
-            // if()php
+
+            // Menangani mutasi internal
             if ($request->jenis_mutasi == 'internal') {
                 if ($mutasi) {
+                    // Memperbarui ruangan_id Pegawai jika mutasi terbaru sebelum atau sama dengan tanggal mutasi baru
                     Carbon::parse($mutasi->tanggal_sk) <= Carbon::parse($request->tanggal_sk) ? $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]) : null;
                 } else {
-                    $bandingkan = Carbon::parse($pegawai->created_at)->format('Y-m-d') <= Carbon::parse($request->tanggal_sk)->format('Y-m-d');
-                    $bandingkan ?  $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]) : null;
+                   $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]);
                 }
 
+                // Validasi data request untuk mutasi internal
                 $request->validate(
                     [
                         'pegawai_id' => '',
@@ -165,6 +182,8 @@ class MutasiController extends Controller
                         'link_sk' => 'required',
                     ]
                 );
+
+                // Membuat record Mutasi baru untuk mutasi internal
                 $mutasi = Mutasi::create([
                     'pegawai_id' => $request->pegawai_id,
                     'tanggal_berlaku' => $request->tanggal_berlaku,
@@ -175,7 +194,10 @@ class MutasiController extends Controller
                     'link_sk' => $request->link_sk,
                 ]);
             } else {
+                // Menonaktifkan Pegawai untuk mutasi non-internal
                 $pegawai->update(['status_pegawai' => 'nonaktif']);
+
+                // Validasi data request untuk mutasi non-internal
                 $validatedData =   $request->validate(
                     [
                         'pegawai_id' => '',
@@ -187,22 +209,29 @@ class MutasiController extends Controller
                         'instansi_tujuan' => 'required'
                     ]
                 );
+
+                // Membuat record Mutasi baru untuk mutasi non-internal
                 $mutasi = Mutasi::create(request()->all());
             }
-            $notif = Notifikasi::notif('mutasi', 'mutasi  pegawai ' . $mutasi->pegawai->nama_lengkap . ' berhasil  ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-compress-alt');
+
+            // Membuat notifikasi untuk tindakan mutasi
+            $notif = Notifikasi::notif('mutasi', 'Mutasi pegawai ' . $mutasi->pegawai->nama_lengkap . ' berhasil ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-compress-alt');
             $createNotif = Notifikasi::create($notif);
+
+            // Mengasosiasikan notifikasi dengan admin dan pegawai
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($pegawai->id);
-            alert()->success('mutasi', 'mutasi  pegawai ' . $mutasi->pegawai->nama_lengkap . ' berhasil  ditambahkan oleh ' . auth()->user()->name);
-            return redirect()->route('admin.mutasi.index')->with('success', 'data mutasi pegawai berhasil ditambahkan');
-            //code...
+
+            // Menampilkan pesan sukses dan mengarahkan ke halaman indeks mutasi
+            alert()->success('Mutasi', 'Mutasi pegawai ' . $mutasi->pegawai->nama_lengkap . ' berhasil ditambahkan oleh ' . auth()->user()->name);
+            return redirect()->route('admin.mutasi.index')->with('success', 'Data mutasi pegawai berhasil ditambahkan');
         } catch (\Throwable $th) {
-            //throw $th;
-            // return $th->getMessage();
+            // Menangani kesalahan dan mengarahkan kembali dengan input
             alert()->error($th->getMessage());
             return redirect()->back()->withInput();
         }
     }
+
 
 
 
@@ -270,19 +299,9 @@ class MutasiController extends Controller
             $validatedData = [];
             if ($request->jenis_mutasi == 'internal') {
                 $pegawai->update(['status_pegawai' => 'aktif']);
-                if ($perbandinganMutasi && $request->jenis_mutasi == $mutasi->jenis_mutasi) {
-                    $perbandinganPegawai = Carbon::parse($request->tanggal_sk) >= Carbon::parse($pegawai->created_at);
-                    $perbandinganPegawai ? $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]) : $pegawai->update(['ruangan_id' => $mutasi->ruangan_awal_id]);
-                } elseif ($perbandinganMutasi && $request->jenis_mutasi != $mutasi->jenis_mutasi) {
-                    $perbandinganPegawai = Carbon::parse($request->tanggal_sk) >= Carbon::parse($pegawai->created_at);
-                    $perbandinganPegawai ? $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]) : null;
-                    // $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]);
+                if ($perbandinganMutasi) {
+                    $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]);
                 }
-                // else {
-                //     // dd($ruangan_tujuan_id);
-                //     $perbandinganPegawai = Carbon::parse($mutasiTerbaru->tanggal_sk) >= Carbon::parse($pegawai->created_at);    
-                //     $perbandinganPegawai ? $pegawai->update(['ruangan_id' => $mutasiTerbaru->ruangan_tujuan_id]) : $pegawai->update(['ruangan_id' => $mutasiTerbaru->ruangan_awal_id]);
-                // }
                 $validatedData =   $request->validate(
                     [
                         'tanggal_berlaku' => 'required|date',
@@ -426,7 +445,7 @@ class MutasiController extends Controller
     private function dataLaporan($promosiDemosi, $request)
     {
         $tahun = $request->tahun != null ? $request->tahun : 'Semua Tahun';
-        $ruangan_awal= $request->ruangan_awal != null ?  Ruangan::find($request->ruangan_awal_id)->nama_ruangan : 'Semua Ruangan';
+        $ruangan_awal = $request->ruangan_awal != null ?  Ruangan::find($request->ruangan_awal_id)->nama_ruangan : 'Semua Ruangan';
         $ruangan_tujuan = $request->ruangan_awal != null ?  Ruangan::find($request->ruangan_awal_id)->nama_ruangan : 'Semua Ruangan';
         $jenis_mutasi = $request->jenis_mutasi != null ? $request->jenis_mutasi : 'Semua Jenis';
         $dataLaporan = [];

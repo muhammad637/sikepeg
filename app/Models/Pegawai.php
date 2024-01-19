@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Pegawai extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $guard = 'pegawai';
+    // protected $guard = 'pegawai';
     // protected $fillable = ['name', 'status_tenaga'];
     protected $guarded = ['id'];
     // protected $hidden = ['password'];

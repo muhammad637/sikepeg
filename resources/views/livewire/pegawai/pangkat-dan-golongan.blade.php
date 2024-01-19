@@ -183,7 +183,7 @@
             </div>
         @endif
 
-
+        {{-- lanjutan... --}}
         <div class="mb-4">
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -237,7 +237,7 @@
                 </div>
             </div>
         </div>
-        <script>
+            <script>
             let livewire = new Livewire()
             // console.log(pangkat.hook('message.processe'))
             $(document).ready(function() {
@@ -253,6 +253,7 @@
                 })
             })
         </script>
+        {{-- lanjutan --}}
         <div class="mb-4">
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
@@ -349,127 +350,7 @@
                 </div>
             </div>
         </div>
-        {{-- @if ($jenis_tenaga == 'nakes')
-            <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti di halaman str atau sip <span
-                    class="text-danger">*</span> </p>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">No STR </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('no_str') is-invalid @enderror "
-                            id="no_str" aria-describedby="no_str" name="no_str" autocomplete="false"
-                            placeholder="Masukkan No STR ..." wire:model='no_str'>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Tanggal Terbit STR </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="date" class="form-control @error('tanggal_terbit_str') is-invalid @enderror "
-                            id="tanggal_terbit_str" aria-describedby="tanggal_terbit_str" name="tanggal_terbit_str"
-                            autocomplete="false" placeholder="Masukkan Tanggal Terbit STR ..."
-                            wire:model='tanggal_terbit_str'>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Masa Berlaku STR </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('masa_berakhir_str') is-invalid @enderror "
-                            id="masa_berakhir_str" aria-describedby="masa_berakhir_str" name="masa_berakhir_str"
-                            autocomplete="false" placeholder="Masukkan Masa Berlaku STR ..."
-                            wire:model='masa_berakhir_str'>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">No SIP </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('no_sip') is-invalid @enderror "
-                            id="no_sip" aria-describedby="no_sip" name="no_sip" autocomplete="false"
-                            placeholder="Masukkan No SIP ..." wire:model='no_sip'>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Tanggal Terbit SIP </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="date" class="form-control @error('tanggal_terbit_sip') is-invalid @enderror "
-                            id="tanggal_terbit_sip" aria-describedby="tanggal_terbit_sip" name="tanggal_terbit_sip"
-                            autocomplete="false" placeholder="Masukkan Tanggal Terbit SIP ..."
-                            wire:model='tanggal_terbit_sip'>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Masa Berlaku SIP </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="date" class="form-control @error('masa_berlaku_sip') is-invalid @enderror "
-                            id="masa_berlaku_sip" aria-describedby="masa_berlaku_sip" name="masa_berlaku_sip"
-                            autocomplete="false" placeholder="Masukkan Masa berlaku SIP ..."
-                            wire:model='masa_berlaku_sip'>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Link Upload STR </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('link_str') is-invalid @enderror "
-                            id="link_str" aria-describedby="link_str" name="link_str" autocomplete="false"
-                            placeholder="Masukkan Link Upload STR" wire:model='link_str'>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="row gap-5">
-                    <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                        <label for="" class="form-label">
-                            <p class="mb-0 mt-md-2 mt-0">Link Upload SIP </p>
-                        </label>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                        <input type="text" class="form-control @error('link_sip') is-invalid @enderror "
-                            id="link_sip" aria-describedby="link_sip" name="link_sip" autocomplete="false"
-                            placeholder="Masukkan Link Upload SIP ..." wire:model='link_sip'>
-                    </div>
-                </div>
-            </div> --}}
+        
         @if(old('jenis_tenaga', $jenis_tenaga) == 'umum' || old('jenis_tenaga', $jenis_tenaga) == 'struktural')
             <p class="text-success text-right">Note : kolom dibawah bisa di isi nanti </p>
             <div class="mb-4">

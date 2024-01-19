@@ -184,7 +184,7 @@
                                     <tr>
                                         <th scope="col" class="judul-text">Pangkat / Golongan</th>
                                         <td scope="col" class="text-uppercase">
-                                            {{ $pegawai->pangkat->nama_pangkat .' '. $pegawai->golongan->nama_golongan }} <a href="{{route('admin.kenaikan-pangkat.riwayat',[ 'pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->kenaikanpangkat->count() > 0 ? "" : "d-none"}}">Lihat</a></td>
+                                            {{ $pegawai->pangkatGolongan->nama}} <a href="{{route('admin.kenaikan-pangkat.riwayat',[ 'pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->kenaikanpangkat->count() > 0 ? "" : "d-none"}}">Lihat</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Jenis Tenaga</th>
@@ -231,7 +231,7 @@
                                     <tr>
                                         <th scope="col" class="judul-text">Golongan</th>
                                         <td scope="col">
-                                            {{ $pegawai->golongan->nama_golongan }}
+                                            {{ $pegawai->pangkatGolongan->nama }}
                                            </td>
                                     </tr>
                                     <tr>

@@ -96,18 +96,23 @@ class PromosiDemosiController extends Controller
     }
     public function store(Request $request)
     {
-        // return $request->all();
+        // Cari pegawai berdasarkan pegawai_id yang diberikan
         $pegawai = Pegawai::find($request->pegawai_id);
+
+        // Jika pegawai tidak ditemukan, tampilkan pesan error dan redirect ke halaman sebelumnya
         if (!$pegawai) {
-            alert()->error('mohon masukkan nama Pegawai');
+            alert()->error('Mohon masukkan nama Pegawai');
             return redirect()->back();
         }
+
+        // Update data pegawai dengan jabatan dan ruangan baru
         $pegawai->update([
             'jabatan' => $request->jabatan_selanjutnya,
             'ruangan_id' => $request->ruanganbaru_id
         ]);
-        // PromosiDemosi::create($request->all());
-       $promosiDemosi =  PromosiDemosi::create([
+
+        // Buat objek PromosiDemosi dengan data yang diberikan
+        $promosiDemosi =  PromosiDemosi::create([
             'pegawai_id' => $request->pegawai_id,
             'ruanganawal_id' => $request->ruanganawal_id,
             'ruanganbaru_id' => $request->ruanganbaru_id,
@@ -118,17 +123,27 @@ class PromosiDemosiController extends Controller
             'tanggal_sk' => $request->tanggal_sk,
             'link_sk' => $request->link_sk
         ]);
-        $notif = Notifikasi::notif('jabatan',
-            $promosiDemosi->type.'  pegawai ' . $promosiDemosi->pegawai->nama_lengkap . ' berhasil  ditambahkan oleh ' . auth()->user()->name,
+
+        // Buat notifikasi untuk tindakan promosi/demosi
+        $notif = Notifikasi::notif(
+            'jabatan',
+            $promosiDemosi->type . ' pegawai ' . $promosiDemosi->pegawai->nama_lengkap . ' berhasil ditambahkan oleh ' . auth()->user()->name,
             'bg-success',
             'fas fa-compress-alt'
         );
+
+        // Buat objek notifikasi
         $createNotif = Notifikasi::create($notif);
+
+        // Asosiasikan notifikasi dengan admin dan pegawai terkait
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($pegawai->id);
-        alert()->success('Promosi PromosiDemosi ' . $pegawai->nama_lengkap . 'berhasil di buat oleh ' . auth()->user()->name);
+
+        // Tampilkan pesan sukses dan redirect ke halaman indeks jabatan
+        alert()->success('Promosi/Demosi ' . $pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name);
         return redirect()->route('admin.jabatan.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -233,7 +248,7 @@ class PromosiDemosiController extends Controller
     }
 
     // promosi
-   
+
 
 
     public function Riwayat(Request $request)
@@ -314,5 +329,4 @@ class PromosiDemosiController extends Controller
         // return $promosiDemosi->get();
         return $this->dataLaporan($promosiDemosi->get(), $request);
     }
-
 }

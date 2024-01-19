@@ -23,7 +23,6 @@ class HariBesarController extends Controller
             'tanggal' => 'required',
             'keterangan' => 'required'
         ]);
-        // return $validatedData;
         HariBesar::create($validatedData);
         return redirect()->route('admin.master-data.hari-besar.index')->with('success','data berhasil ditambahkan');
     }

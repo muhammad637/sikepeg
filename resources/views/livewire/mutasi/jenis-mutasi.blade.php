@@ -25,13 +25,10 @@
                     </label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                    @foreach ($ruangans as $item)
-                    <input type="text" class="form-control @error('ruangan_awal_id') is-invalid @enderror "
-                        id="ruangan_awal_id" aria-describedby="ruangan_awal_id" name="ruangan_awal_id" autocomplete="false"
-                        wire:model='ruangan_awal_id' value="{{$item->id}}" {{$ruangan_awal_id == $item->id}} required>    
-                    @endforeach
+                   
+                  
                     
-                    {{-- <select name="ruangan_awal_id" id="ruangan_awal_id" class="form-control ruangan-awal-select"
+                    <select name="ruangan_awal_id" id="ruangan_awal_id" class="form-control ruangan-awal-select"
                         wire:model='ruangan_awal_id' wire:ignore required>
                         <option value="">Pilih</option>
                         @foreach ($ruangans as $item)
@@ -39,7 +36,7 @@
                                 {{ $item->nama_ruangan }}</option>
                         @endforeach
                         <option value="lainnya">Lainnya</option>
-                    </select> --}}
+                    </select>
                 </div>
             </div>
         </div>

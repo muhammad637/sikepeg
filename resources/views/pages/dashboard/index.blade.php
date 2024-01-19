@@ -102,7 +102,7 @@
         </div>
     </div>
     @push('script')
-        <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
         <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
         <script type="text/javascript">
