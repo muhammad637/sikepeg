@@ -143,3 +143,13 @@
         </div>
     </div>
 @endsection
+@push('script')
+     <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            const table = $('#dataTable').DataTable()
+        })
+    </script>
+@endpush
