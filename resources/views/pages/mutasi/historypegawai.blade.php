@@ -29,8 +29,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->pegawai->nama_depan }}</td>
                                 <td>{{ $item->jenis_mutasi }}</td>
-                                <td>{{ $item->ruangan_awal }}</td>
-                                <td>{{ $item->ruangan_tujuan }}</td>
+                                <td>{{ $item->ruanganAwal->nama_ruangan }}</td>
+                                <td>{{ $item->ruanganTujuan->nama_ruangan }}</td>
                                 <td>{{ $item->instansi_awal }}</td>
                                 <td>{{ $item->instansi_tujuan }}</td>
                                 <td>
@@ -46,3 +46,14 @@
     <!-- tabel End -->
     <!-- /.container-fluid -->
 @endsection
+    @push('script')
+        <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+         <script>
+         
+             $(document).ready(function() {
+         $('#dataTable').DataTable();
+         });
+         </script>
+
+    @endpush

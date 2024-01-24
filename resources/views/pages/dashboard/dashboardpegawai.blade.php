@@ -1,4 +1,4 @@
-@extends('mainpegawai')
+ @extends('mainpegawai')
 
 @section('content')
     <div class="container-fluid">
@@ -33,13 +33,11 @@
                         <div class="text-center">
                             @if ($pegawai->status_tipe == 'pns')
                                 <p>
-                                    {{ $KenaikanPangkat ? $KenaikanPangkat->nama_pangkat : ($pegawai->pangkat_id ? $pegawai->pangkat->nama_pangkat : 'junior') }}
-                                    //
-                                    {{ $KenaikanPangkat ? $KenaikanPangkat->nama_golongan : ($pegawai->golongan_id ? $pegawai->golongan->nama_golongan : 'junior') }}
+                                    {{ $KenaikanPangkat ? $KenaikanPangkat->pangkatGolongan->nama : ($pegawai->pangkatGolongan ? $pegawai->pangkatGolongan->nama : 'junior') }}
                                 </p>
                             @elseif($pegawai->status_tipe == 'pppk')
                                 <p>
-                                    {{ $KenaikanPangkat ? $KenaikanPangkat->nama_golongan : ($pegawai->golongan_id ? $pegawai->golongan->nama_golongan : 'junior') }}
+                                    {{ $KenaikanPangkat ? $KenaikanPangkat->pangkatGolongan->nama : ($pegawai->pangkatGolongan ? $pegawai->pangkatGolongan->nama : 'junior') }}
                                 </p>
                             @endif
 
@@ -144,7 +142,7 @@
                                 </div>
                                 <div class="text-center">
                                     <p>
-                                        {{Carbon\Carbon::parse($sip->masa_berakhir_sip)->format('d-m-Y')}}
+                                        {{$sip ? Carbon\Carbon::parse($sip->masa_berakhir_sip)->format('d-m-Y') : '-'}}
                                        
                                     </p>
                                 </div>

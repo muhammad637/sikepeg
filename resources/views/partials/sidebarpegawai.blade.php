@@ -21,7 +21,7 @@
              <i class="fas fa-address-card"></i>
              <span>Personal File</span></a>
      </li>
-     <li class="nav-item {{ Request::is('pegawai/cuti') ? 'active' : '' }}">
+     <li class="nav-item {{ Request::is('pegawai/cuti/history') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('pegawai.cuti.history') }}">
             <i class="fas fa-history"></i>
             <span>Riwayat Cuti</span></a>

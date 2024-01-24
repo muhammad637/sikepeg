@@ -142,12 +142,12 @@
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Cuti Tahunan</th>
-                                        <td scope="col">{{ $pegawai->cuti_tahunan }}</td>
+                                        <td scope="col">{{ $pegawai->cuti_tahunan }} hari</td>
                                     </tr>
-                                    <tr>
-                                        <th scope="col" class="judul-text">Sisa Cuti Tahunan</th>
-                                        {{-- <td scope="col">{{ $pegawai->sisa_cuti_tahunan }} hari <a href="{{route('admin.cuti.histori-cuti.index', ['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td> --}}
-                                    </tr>
+                                    <!--<tr>-->
+                                    <!--    <th scope="col" class="judul-text">Sisa Cuti Tahunan</th>-->
+                                    <!--     <td scope="col">{{ $pegawai->sisa_cuti_tahunan }} hari <a href="{{route('admin.cuti.histori-cuti.index', ['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td> -->
+                                    <!--</tr>-->
                                 </tbody>
                             </table>
                         </div>

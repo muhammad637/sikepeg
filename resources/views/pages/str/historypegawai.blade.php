@@ -19,7 +19,7 @@
                             <th scope="col">Nomor Surat</th>
                             <th scope="col">Tanggal Terbit</th>
                             <th scope="col">Masa Berakhir</th>
-                            <th scope="col">Status</th>
+                            
                            
                         </tr>
                     </thead>
@@ -32,12 +32,7 @@
                                 {{-- <td>Ahli Madya Kebidanan</td> --}}
                                 <td>{{ $item->no_str }}</td>
                                 <td>{{ $item->tanggal_terbit_str }}</td>
-                                <td>{{ $item->masa_berakhir_str }}</td>
-                                <td>
-                                    <button
-                                        class="btn rounded-3 py-0 {{ $item->masa_berakhir_str > now() ? 'btn-success' : 'btn-secondary' }}">{{ $item->masa_berakhir_str > now() ? 'active' : 'expired' }}</button>
-
-                                </td>
+                                <td>Seumur Hidup</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -48,3 +43,12 @@
     <!-- tabel End -->
     <!-- /.container-fluid -->
 @endsection
+@push('script')
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable(); 
+        })
+    </script>
+@endpush

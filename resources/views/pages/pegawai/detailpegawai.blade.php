@@ -241,7 +241,7 @@
                                    @if ($pegawai->jenis_tenaga == 'nakes')
                                     <tr>
                                         <th scope="col" class="judul-text">Tanggal Berakhir STR</th>
-                                        <td scope="col">{{ $pegawai->str->sortByDesc('masa_berakhir_str')->first() ? Carbon\Carbon::parse($pegawai->str->sortByDesc('masa_berakhir_str')->first()->masa_berakhir_str)->format('d-m-Y'): '-' }} <a href="{{route('pegawai.str.history', ['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
+                                        <td scope="col">{{ $pegawai->str->sortByDesc('masa_berakhir_str')->first() ?$pegawai->str->sortByDesc('masa_berakhir_str')->first()->masa_berakhir_str : '-' }} <a href="{{route('pegawai.str.history', ['pegawai' => $pegawai->id])}}" class="badge bg-warning text-dark {{$pegawai->str->count() > 0 ? '' : 'd-none'}}">Lihat</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="col" class="judul-text">Tanggal Berakhir SIP</th>

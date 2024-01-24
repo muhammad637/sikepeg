@@ -2,9 +2,7 @@
 @push('style-css')
     @livewireStyles
 @endpush
-@push('script')
-    @livewireScripts
-@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -48,7 +46,7 @@
                     </div>
                     <!-- Card Body -->
                     <div class="card-body ">
-                        <div class="chart-donuts pt-4">
+                        <div class="donut_chat pt-4">
                             <div id="donut_chart"></div>
                         </div>
                     </div>
@@ -102,102 +100,100 @@
         </div>
     </div>
     @push('script')
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    @livewireScripts
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
         <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
         <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
         <script type="text/javascript">
        
-            $(document).ready(function() {
-                // var pegawai = <?php echo json_encode($pegawais); ?>;
-               var pegawai = @json($pegawais, JSON_HEX_TAG);
-                var options = {
-                    chart: {
-                        renderTo: 'donut_chart',
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                    },
-                    title: {
-                        text: 'Persentase Status Tenaga Pegawai'
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b> {point.percentage}%</b>',
-                        percentageDecimals: 1,
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                connectColor: '#000000',
-                                formatter: function() {
-                                    return '<b>' + this.point.name + '</b>: ' + this.percentage + '%';
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'pegawai',
-                    }]
+          $(document).ready(function() {
+    var pegawai = <?php echo json_encode($pegawais); ?>;
 
+    var dataPoints = [];
+    $.each(pegawai, function(index, val) {
+        dataPoints.push({
+            name: val.status_tipe,
+            y: parseFloat(val.count)
+        });
+    });
+
+    var options = {
+        chart: {
+            renderTo: 'donut_chart',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Persentase Status Tenaga Pegawai'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
                 }
-                myarray = [];
-                $.each(pegawai, function(index, val) {
-                    myarray[index] = [val.status_tipe, val.count];
-                });
-                options.series[0].data = myarray;
-                chart = new Highcharts.Chart(options);
+            }
+        },
+        series: [{
+            name: 'pegawai',
+            data: dataPoints
+        }]
+    };
 
-            });
-            $(document).ready(function() {
+    var chart = new Highcharts.Chart(options);
+});
 
-                // var pegawai = <?php echo json_encode($pegawai); ?>;
-               var pegawai = @json($pegawai, JSON_HEX_TAG);
-                var options = {
-                    chart: {
-                        renderTo: 'keaktifan_chart',
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                    },
-                    title: {
-                        text: 'Persentase Status Aktif Pegawai'
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b> {point.percentage}%</b>',
-                        percentageDecimals: 1,
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                connectColor: '#000000',
-                                formatter: function() {
-                                    return '<b>' + this.point.name + '</b>: ' + this.percentage + '%';
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'pegawai',
-                    }]
+       $(document).ready(function() {
+    var pegawai = <?php echo json_encode($pegawai); ?>;
 
+    var dataPoints = pegawai.map(function(val) {
+        return {
+            name: val.status_pegawai,
+            y: parseFloat(val.count)
+        };
+    });
+
+    var options = {
+        chart: {
+            renderTo: 'keaktifan_chart',
+            type: 'pie'
+        },
+        title: {
+            text: 'Persentase Status Aktif Pegawai'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
                 }
-                myarray = [];
-                $.each(pegawai, function(index, val) {
-                    myarray[index] = [val.status_pegawai, val.count];
-                });
-                options.series[0].data = myarray;
-                chart = new Highcharts.Chart(options);
+            }
+        },
+        series: [{
+            name: 'pegawai',
+            data: dataPoints
+        }]
+    };
 
-            });
+    var chart = new Highcharts.Chart(options);
+});
+
+
         </script>
     @endpush
 @endsection 
