@@ -1,26 +1,13 @@
- <!-- Favicon -->
- <link href="img/favicon.ico" rel="icon">
+ <link href="{{ asset('tampilan-sikepeg/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+ <link
+     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+     rel="stylesheet">
 
- <!-- Google Web Fonts -->
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-
- <!-- Icon Font Stylesheet -->
- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
- <!-- Libraries Stylesheet -->
- <link href="{{asset('sikep-tampilan/lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
- <link href="{{asset('sikep-tampilan/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
-
- <!-- Customized Bootstrap Stylesheet -->
- <link href="{{asset('sikep-tampilan/css/bootstrap.min.css')}}" rel="stylesheet">
-
- <!-- Template Stylesheet -->
- <link href="{{asset('sikep-tampilan/css/style.css')}}" rel="stylesheet">
-
- <!-- data table style -->
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
- <!-- data table style  END-->
+ <!-- Custom styles for this template-->
+ <link href="{{ asset('tampilan-sikepeg/css/sb-admin-2.css') }}" rel="stylesheet">
+ <!-- Google Font: Source Sans Pro -->
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+ <!-- data table -->
+ <link href="{{ asset('tampilan-sikepeg/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+ <script src="{{ asset('tampilan-sikepeg/vendor/jquery/jquery.min.js') }}"></script>
+ 

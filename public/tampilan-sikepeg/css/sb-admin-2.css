@@ -1,4 +1,4 @@
-/*!
+/* !
  * Start Bootstrap - SB Admin 2 v4.1.3 (https://startbootstrap.com/theme/sb-admin-2)
  * Copyright 2013-2021 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin-2/blob/master/LICENSE)
@@ -4102,7 +4102,7 @@ input[type="button"].btn-block {
 }
 
 .navbar {
-  position: relative;
+  position: sticky;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -10345,6 +10345,8 @@ a:focus {
 
 .sidebar .nav-item.active .nav-link {
   font-weight: 700;
+  background-color: white;
+  color: black;
 }
 
 .sidebar .nav-item .collapse {
@@ -10710,11 +10712,11 @@ a:focus {
 }
 
 .sidebar-dark .nav-item.active .nav-link {
-  color: #fff;
+  color: black;
 }
 
 .sidebar-dark .nav-item.active .nav-link i {
-  color: #fff;
+  color: black;
 }
 
 .sidebar-dark #sidebarToggle {
@@ -11278,4 +11280,17 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+
+#dataTable_paginate .page-item.active .page-link {
+  background-color: transparent;
+  border-color: transparent;
+  color: black; /* Mengubah warna teks menjadi putih */
+}
+
+/* Mengubah warna teks tombol pagination yang tidak aktif menjadi hijau */
+#dataTable_paginate .page-item:not(.active) .page-link {
+  background-color: transparent;
+  border-color: transparent;
+  color: black;
 }

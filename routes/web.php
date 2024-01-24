@@ -1,6 +1,23 @@
 <?php
 
+use App\Exports\STRExport;
+use App\Http\Controllers\CutiController;
+use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\DiklatController;
+use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\HariBesarController;
+use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\GolonganController;
+use App\Http\Controllers\KenaikanPangkatController;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SIPController;
+use App\Http\Controllers\STRController;
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\PegawaiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +31,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/dashboard', function () {
-    return view('main');
+    return redirect()->route('pegawai.login');
 });
