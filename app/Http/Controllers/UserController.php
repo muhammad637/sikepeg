@@ -18,7 +18,6 @@ class UserController extends Controller
         ];
 
         $validatedData = $request->validate($rule);
-
         return User::create($validatedData);
     }
 }
