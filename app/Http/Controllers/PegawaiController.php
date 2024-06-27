@@ -165,6 +165,8 @@ class PegawaiController extends Controller
                 ->toJson();
             return $dataPegawai;
         }
+            $pegawais = Pegawai::all();
+            return response()->json($pegawais);
         return view('pages.pegawai.index', [
             'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
         ]);
@@ -339,6 +341,7 @@ class PegawaiController extends Controller
         }
          // Jika tidak masuk ke kondisi khusus di atas, membuat record pegawai umum
         $createPegawai = Pegawai::create($pegawai);
+        return response()->json($pegawai, 201);
         // Membuat notifikasi dan pemberitahuan sukses
         $notif = Notifikasi::notif('pegawai', 'pegawai baru berhasil ditambahkan oleh ' . auth()->user()->name, 'bg-success', 'fas fa-user');
         $createNotif = Notifikasi::create($notif);
@@ -358,10 +361,18 @@ class PegawaiController extends Controller
     public function show(Pegawai $pegawai)
     {
 
+       
+        
         // return $pegawai->golongan;
         return view('pages.pegawai.show', [
             'pegawai' => $pegawai
+            
         ]);
+        if ($pegawai) {
+            return response()->json($pegawai);
+        } else {
+            return response()->json(['message' => 'Pegawai Not Found'], 404);
+        }
     }
 
     /**
@@ -414,6 +425,7 @@ class PegawaiController extends Controller
             'ruangan_id' =>  $ruangan_id
 
         ]);
+        return response()->json($pegawai);
         $usia = $this->lama($request->tanggal_lahir);
         $pegawai->update(array_merge(['usia' => $usia], $validatedData));
 
@@ -544,6 +556,8 @@ class PegawaiController extends Controller
     public function destroy(Pegawai $pegawai)
     {
         return $pegawai->delete();
+        return response()->json(['message' => 'Pegawai deleted']);
+        
     }
     public function lama($tanggalMulai)
     {
