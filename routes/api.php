@@ -27,4 +27,15 @@ use App\Http\Controllers\PegawaiController;
 Route::post('/user', [UserController::class, 'store']);
 // Route::resource('STR', PegawaiController::class);
 // Route::resource('SIP', PegawaiController::class);
-Route::apiResource('pegawai',PegawaiController::class);
+Route::group(['prefix' => 'pegawai'], function () {
+    Route::post('login', 'App\Http\Controllers\PegawaiController@loginHandler');
+    Route::middleware('auth:pegawai')->group(function () {
+        Route::post('logout', 'App\Http\Controllers\PegawaiController@logoutHandler');
+        Route::get('/', 'App\Http\Controllers\PegawaiController@index');
+        Route::get('/{id}', 'App\Http\Controllers\PegawaiController@show');
+        Route::post('/', 'App\Http\Controllers\PegawaiController@store');
+        Route::put('/{id}', 'App\Http\Controllers\PegawaiController@update');
+        Route::delete('/{id}', 'App\Http\Controllers\PegawaiController@destroy');
+    });
+});
+
