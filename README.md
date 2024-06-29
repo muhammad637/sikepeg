@@ -1,9 +1,9 @@
-# Coming Soon: [Your Project Name]
+# Coming Soon: [Sistem Kepegawaian RSUD Blambangan]
 
-![Coming Soon](https://i.imgur.com/your-image-link.png)
+![Coming Soon](https://i.imgur.com/ExEgbEJ.jpeg)
 
-## Welcome to [Your Project Name]!
+## Welcome to [SIKEP]!
 
-This repository will soon host the code for **[Your Project Name]**, an exciting new project that aims to [brief description of the project's purpose and goals]. Stay tuned for updates!
+This repository will soon host the code for **[SIKEP]**, an exciting new project that aims to [brief description of the project's purpose and goals]. Stay tuned for updates!
 
-## Project Vision
+
