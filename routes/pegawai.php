@@ -11,7 +11,6 @@ Route::prefix('pegawai')->name('pegawai.')->group(function () {
         Route::view('/login', 'auth.pegawai.login')->name('login');
         Route::view('/', 'auth.pegawai.login')->name('login');
         Route::post('/login_handler', [PegawaiController::class, 'loginHandler'])->name('login_handler');
-        
     });
     Route::middleware('auth:pegawai')->group(function () {
         Route::post('/logout', [PegawaiController::class, 'logoutHandler'])->name('logout');

@@ -166,7 +166,7 @@ class PegawaiController extends Controller
             return $dataPegawai;
         }
             $pegawais = Pegawai::all();
-            return response()->json($pegawais);
+            // return response()->json($pegawais);
         return view('pages.pegawai.index', [
             'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
         ]);
