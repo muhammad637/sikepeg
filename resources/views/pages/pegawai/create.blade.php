@@ -11,6 +11,15 @@
     </style>
 @endpush
 @section('content')
+<!-- resources/views/pages/pegawai/create.blade.php -->
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+<!-- Tambahkan formulir inputan disini -->
     <div class="card">
         <div class="px-4">
             <div class="card-body">

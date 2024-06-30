@@ -150,6 +150,7 @@ class PegawaiController extends Controller
         $data['usia'] = $usia;
 
         $pegawai = Pegawai::create($data);
+        return back()->with('success', 'Data pegawai berhasil ditambahkan!');
 
         if ($request->status_tenaga == 'non asn') {
             // Process for non-ASN
