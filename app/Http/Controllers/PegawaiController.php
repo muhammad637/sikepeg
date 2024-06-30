@@ -95,7 +95,14 @@ class PegawaiController extends Controller
         }
 
         $pegawais = Pegawai::all();
+        $ruangans = Ruangan::all();
+        return view('pages.pegawai.index', compact('pegawais', 'ruangans'));
         return response()->json($pegawais);
+    }
+
+    public function create()
+    {
+        return view('pages.pegawai.create');
     }
 
     // Menyimpan data Pegawai
