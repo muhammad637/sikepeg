@@ -5,120 +5,123 @@ namespace App\Http\Controllers;
 use App\Models\PromosiDemosi;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class JabatanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar semua resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function Demosiindex()
+    public function index(): JsonResponse
     {
-        return view('pages.promosiDemosi.demosi.index');
-        //
+        $promosiDemosi = PromosiDemosi::all();
+        return response()->json($promosiDemosi);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form untuk membuat resource baru.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function Demosicreate()
+    public function create(): JsonResponse
     {
-
         $pegawai = Pegawai::all();
-        return view('pages.promosiDemosi.demosi.create', ['pegawai'=> $pegawai]);
-        //
+        return response()->json($pegawai);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan resource baru ke dalam storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+        public function store(Request $request)
     {
-       $request->validate(
-            [
-                'pegawai_id',
-                'jabatan_sebelumnya' => 'required',
-                'jabatan_selanjutnya' => 'required',
-                'tanggal_berlaku' => 'required',
-                'no_sk' => 'required',
-                'tanggal_sk' => 'required|date',
-                'link_sk' => 'required',
-                'type' => 'required'
-            ]
-            );
-            $promosiDemosi = PromosiDemosi::create([
-                'pegawai' => $request->pegawai_id,
-                'jabatan_sebelumnya' => $request->jabatan_sebelumnya,
-                'jabatan_selanjutnya' => $request->jabatan_selanjutnya,
-                'no_sk' => $request->no_sk,
-                'tanggal_sk' => $request->tanggal_sk,
-                'link_sk' => $request->link_sk
-            ]);
-            $pegawai = Pegawai::find($request->pegawai_id);
-            $pegawai->update(['promosiDemosi' => $request->jabatan_selanjutnya]);
-            $validatedData = $request->validate(
-                [
-                    'pegawai_id' => '',
-                    'jabatan_sebelumnya' => 'required',
-                    'jabatan_selanjutnya' => 'required',
-                    'tanggal_sk' => 'required|date',
-                    'link_sk' => 'required',
-                    'type' => 'required'
-                ]
-                );
-                $promosiDemosi = PromosiDemosi::create(request()->all());
-        //
+        $request->validate([
+            'pegawai_id' => 'required',
+            'jabatan_sebelumnya' => 'required',
+            'jabatan_selanjutnya' => 'required',
+            'tanggal_berlaku' => 'required|date',
+            'no_sk' => 'required',
+            'tanggal_sk' => 'required|date',
+            'link_sk' => 'required|url',
+            'type' => 'required',
+            'ruanganawal_id' => 'required',
+            'ruanganbaru_id' => 'required'
+        ]);
+
+        PromosiDemosi::create($request->all());
+
+        return response()->json([
+            'message' => 'Data promosi/demosi berhasil disimpan'
+        ], 201);
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan resource tertentu.
      *
-     * @param  \App\Models\PromosiDemosi  $promosiDemosi
-     * @return \Illuminate\Http\Response
+     * @param  PromosiDemosi  $promosiDemosi
+     * @return JsonResponse
      */
-    public function show(PromosiDemosi $promosiDemosi)
+    public function show(PromosiDemosi $promosiDemosi): JsonResponse
     {
-        //
+        return response()->json($promosiDemosi);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form untuk mengedit resource tertentu.
      *
-     * @param  \App\Models\PromosiDemosi  $promosiDemosi
-     * @return \Illuminate\Http\Response
+     * @param  PromosiDemosi  $promosiDemosi
+     * @return JsonResponse
      */
-    public function edit(PromosiDemosi $promosiDemosi)
+    public function edit(PromosiDemosi $promosiDemosi): JsonResponse
     {
-        return view('pages.promosiDemosi.demosi.edit');
-        //
+        $pegawai = Pegawai::all();
+        return response()->json([
+            'promosiDemosi' => $promosiDemosi,
+            'pegawai' => $pegawai,
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui resource tertentu dalam storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PromosiDemosi  $promosiDemosi
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  PromosiDemosi  $promosiDemosi
+     * @return JsonResponse
      */
-    public function update(Request $request, PromosiDemosi $promosiDemosi)
+    public function update(Request $request, PromosiDemosi $promosiDemosi): JsonResponse
     {
-        //
+        $validatedData = $request->validate([
+            'pegawai_id' => 'required',
+            'jabatan_sebelumnya' => 'required',
+            'jabatan_selanjutnya' => 'required',
+            'tanggal_berlaku' => 'required|date',
+            'no_sk' => 'required',
+            'tanggal_sk' => 'required|date',
+            'link_sk' => 'required',
+            'type' => 'required'
+        ]);
+
+        $promosiDemosi->update($validatedData);
+
+        $pegawai = Pegawai::find($request->pegawai_id);
+        $pegawai->update(['promosiDemosi' => $request->jabatan_selanjutnya]);
+
+        return response()->json($promosiDemosi);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus resource tertentu dari storage.
      *
-     * @param  \App\Models\PromosiDemosi  $promosiDemosi
-     * @return \Illuminate\Http\Response
+     * @param  PromosiDemosi  $promosiDemosi
+     * @return JsonResponse
      */
-    public function destroy(PromosiDemosi $promosiDemosi)
+    public function destroy(PromosiDemosi $promosiDemosi): JsonResponse
     {
-        //
+        $promosiDemosi->delete();
+        return response()->json(null, 204);
     }
 }
