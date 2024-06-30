@@ -28,8 +28,15 @@ class PegawaiController extends Controller
         $credentials = $request->only('nip_nippk', 'password');
 
         if (Auth::guard('pegawai')->attempt($credentials)) {
-            return response()->json(['message' => 'Login berhasil'], 200);
+            $pegawai = Pegawai::where('nip_pppk', $request->nip_pppk)->first();
+            return redirect()->route('pegawai.dashboard')->with('success', 'Login berhasil');
+            return response()->json([
+                'message' => 'Login berhasil', 
+                'data' => $pegawai,
+                'token' => 'token'
+            ], 200);
         } else {
+            return back()->withErrors(['message' => 'Login gagal, data yang anda masukkan salah']);
             return response()->json(['message' => 'Login gagal, data yang anda masukkan salah'], 401);
         }
     }
@@ -38,6 +45,7 @@ class PegawaiController extends Controller
     public function logoutHandler()
     {
         Auth::guard('pegawai')->logout();
+        return redirect()->route('auth.pegawai.login')->with('success', 'Logout berhasil');
         return response()->json(['message' => 'Logout berhasil'], 200);
     }
 

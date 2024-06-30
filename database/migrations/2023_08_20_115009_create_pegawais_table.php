@@ -65,6 +65,7 @@ return new class extends Migration
             $table->string('pelatihan')->nullable();
             $table->string('password')->nullable();
             $table->string('status_nonaktif')->nullable();
+            $table->string('token')->nullable();
         });
     }
 
