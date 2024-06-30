@@ -34,9 +34,9 @@ Route::group(['prefix' => 'pegawai'], function () {
     Route::middleware('auth:pegawai')->group(function () {
         Route::post('logout', 'App\Http\Controllers\PegawaiController@logoutHandler');
         Route::get('/', 'App\Http\Controllers\PegawaiController@index');
-        Route::get('/{id}', 'App\Http\Controllers\PegawaiController@show');
+        Route::get('/profile', 'App\Http\Controllers\PegawaiController@show');
+        Route::get('/jabatan', 'App\Http\Controllers\JabatanController@index');
     });
  
 });
-Route::apiResource('jabatan', JabatanController::class);
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PromosiDemosi;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 
 class JabatanController extends Controller
@@ -16,7 +17,9 @@ class JabatanController extends Controller
      */
     public function index(): JsonResponse
     {
-        $promosiDemosi = PromosiDemosi::all();
+        $pegawai = auth()->guard('pegawai')->user();
+
+        $promosiDemosi = PromosiDemosi::where('pegawai_id', $pegawai->id)->get();
         return response()->json($promosiDemosi);
     }
 
