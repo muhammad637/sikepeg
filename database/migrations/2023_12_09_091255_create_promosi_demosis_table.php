@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('promosi_demosis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais');
-            $table->foreignId('ruanganawal_id')->constrained('ruangans');
-            $table->foreignId('ruanganbaru_id')->constrained('ruangans');
+            $table->unsignedBigInteger('ruanganawal_id')->default(1)->change(); // Contoh nilai default
+            $table->unsignedBigInteger('ruanganbaru_id')->default(1)->change(); // Contoh nilai default
             $table->string('jabatan_sebelumnya')->nullable();
             $table->string('jabatan_selanjutnya')->nullable();
             $table->string('tanggal_berlaku')->nullable();
