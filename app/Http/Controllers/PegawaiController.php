@@ -119,8 +119,15 @@ class PegawaiController extends Controller
 // =======
 
         $pegawais = Pegawai::all();
+        $ruangans = Ruangan::all();
+        return view('pages.pegawai.index', compact('pegawais', 'ruangans'));
         return response()->json($pegawais);
 // >>>>>>> 90ce772abe86471694d08921ddf5a363a3c304ba
+    }
+
+    public function create()
+    {
+        return view('pages.pegawai.create');
     }
 
     // Menyimpan data Pegawai
@@ -168,6 +175,7 @@ class PegawaiController extends Controller
         $data['usia'] = $usia;
 
         $pegawai = Pegawai::create($data);
+        return back()->with('success', 'Data pegawai berhasil ditambahkan!');
 
         if ($request->status_tenaga == 'non asn') {
             // Process for non-ASN
