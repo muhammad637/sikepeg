@@ -27,23 +27,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-      
-
        
-        // Ruangan::create([
-        //     'nama_ruangan' => 'admin',
-        // ]);
-        // Ruangan::create([
-        //     'nama_ruangan' => 'GKT',
-        // ]);
-       
-        // PangkatGolongan::factory(5)->create();
-        // Pegawai::factory(20)->create();
-        // STR::factory(40)->create();
-        // SIP::factory(40)->create();
-        // $this->call(MutasiSeeder::class);
-
-        Cuti::factory(1000)->create();
+        Ruangan::create([
+            'nama_ruangan' => 'admin',
+        ]);
+        Ruangan::create([
+            'nama_ruangan' => 'GKT',
+        ]);
+        Admin::create([
+            'name' => 'Admin',
+            'username' => 'admin.1234',
+            'password' => bcrypt('password'),
+        ]);
+        PangkatGolongan::factory(5)->create();
+        $this->call(PegawaiSeeder::class);
+        Pegawai::factory(20)->create();
+        STR::factory(40)->create();
+        SIP::factory(40)->create();
+        $this->call(MutasiSeeder::class);
+        Cuti::factory(100)->create();
 
     }
 }

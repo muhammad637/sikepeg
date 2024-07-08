@@ -26,6 +26,7 @@ class CutiResource extends JsonResource
             'alamat' => $this->alamat,
             'jumlah_hari' => $this->jumlah_hari,
             'link_cuti' => $this->link_cuti,
+            'status_cuti' => $this->status_cuti ?? 'pending',
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

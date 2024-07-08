@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('no_hp')->nullable();
             $table->string('alamat')->nullable();
             $table->integer('jumlah_hari')->nullable();
-            $table->string('link_cuti')->nullable();    
+            $table->string('link_cuti')->nullable();
+            $table->enum('status_cuti', ['diterima, ditolak'])->nullable();
             $table->timestamps();
         });
     }

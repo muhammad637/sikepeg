@@ -29,6 +29,6 @@ class SIPResource extends JsonResource
         'alamat_sip' => $this->alamat_sip,
         'created_at' => $this->created_at,
         'updated_at' => $this->updated_at,
-    ];
+        ];
     }
 }
