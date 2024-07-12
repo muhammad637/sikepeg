@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PegawaiController;
-
+use App\Http\Controllers\STRController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,13 @@ Route::group(['prefix' => 'pegawai'], function () {
         Route::get('/', 'App\Http\Controllers\PegawaiController@index');
         Route::get('/profile', 'App\Http\Controllers\PegawaiController@show');
         Route::get('/jabatan', 'App\Http\Controllers\JabatanController@index');
+        Route::get('/str', [STRController::class, 'index']);
+        Route::post('/str', [STRController::class, 'store']);
+        Route::get('/str/{str}', [STRController::class, 'show']);
+        Route::put('/str/{str}', [STRController::class, 'update']);
+        Route::delete('/str/{str}', [STRController::class, 'destroy']);
     });
+
  
 });
 

@@ -25,47 +25,54 @@ class   STRController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(Request $request)
+    // // {
+
+    // //     $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
+    // //         $query->orderBy('created_at', 'desc');
+    // //     })->whereHas('str', function($q){
+    // //         $q->orderBy('created_at', 'desc');
+    // //     })->get();
+    // //     // return $pegawai;
+    // //     if($request->ajax()){
+    // //         $pegawai = Pegawai::query()
+    // //         ->where('jenis_tenaga', 'nakes')->with('str', function ($query) {
+    // //             $query->orderBy('created_at', 'desc');
+    // //         })->whereHas('str', function ($q) {
+    // //             $q->orderBy('created_at', 'desc');
+    // //         });
+    // //         return DataTables::of($pegawai)
+    // //         ->addIndexColumn()
+    // //         ->addColumn('tanggal-berakhir-str', function($item){
+    // //             return ($item->str[0]->masa_berakhir_str);
+    // //         })
+    // //         ->addColumn('status', function($item){
+    // //             $data =($item->str[0]->masa_berakhir_str);
+    // //             // dd($data);
+    // //             $status = $data ? 'aktif' : 'nonaktif';
+    // //             $warna = $data == true ? 'btn-success' : 'btn-secondary';
+    // //             return "<button class='btn ".$warna."'>$status</button>";
+    // //         })
+    // //         ->addColumn('nama-ruangan',function($item){
+    // //             return $item->ruangan->nama_ruangan;
+    // //         })
+    // //         ->addColumn('aksi', 'pages.str.part.aksi-index')
+    // //         ->addColumn('surat', 'pages.surat.str-index')
+    // //         ->rawColumns(['surat','tanggal-berakhir-str','status','aksi','nama-ruangan'])
+    // //         ->toJson();
+    // //     }
+    // //     return view('pages.str.index', [
+    // //         // 'pegawai' => $pegawai,
+    // //         // 'i' => 0
+    // //     ]);
+    // // }
     public function index(Request $request)
     {
+        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str')->whereHas('str')->get();
 
-        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-            $query->orderBy('created_at', 'desc');
-        })->whereHas('str', function($q){
-            $q->orderBy('created_at', 'desc');
-        })->get();
-        // return $pegawai;
-        if($request->ajax()){
-            $pegawai = Pegawai::query()
-            ->where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-                $query->orderBy('created_at', 'desc');
-            })->whereHas('str', function ($q) {
-                $q->orderBy('created_at', 'desc');
-            });
-            return DataTables::of($pegawai)
-            ->addIndexColumn()
-            ->addColumn('tanggal-berakhir-str', function($item){
-                return ($item->str[0]->masa_berakhir_str);
-            })
-            ->addColumn('status', function($item){
-                $data =($item->str[0]->masa_berakhir_str);
-                // dd($data);
-                $status = $data ? 'aktif' : 'nonaktif';
-                $warna = $data == true ? 'btn-success' : 'btn-secondary';
-                return "<button class='btn ".$warna."'>$status</button>";
-            })
-            ->addColumn('nama-ruangan',function($item){
-                return $item->ruangan->nama_ruangan;
-            })
-            ->addColumn('aksi', 'pages.str.part.aksi-index')
-            ->addColumn('surat', 'pages.surat.str-index')
-            ->rawColumns(['surat','tanggal-berakhir-str','status','aksi','nama-ruangan'])
-            ->toJson();
-        }
-        return view('pages.str.index', [
-            // 'pegawai' => $pegawai,
-            // 'i' => 0
-        ]);
+        return response()->json($pegawai);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -87,11 +94,43 @@ class   STRController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // // {
+    // //     //
+    // //     // return $request->all();
+    // //     $validatedData = $request->validate([
+    // //         'no_str' => 'required',
+    // //         'penerbit_str' => 'required',
+    // //         'tanggal_terbit_str' => 'required',
+    // //         'no_sertikom' => 'required',
+    // //         'kompetensi' => 'required',
+    // //         'masa_berakhir_str' => 'required',
+    // //         'link_str' => 'required',
+    // //     ]);
+
+    // //     $str = STR::create([
+    // //         'pegawai_id' => $request->pegawai_id,
+    // //         'no_str' => $request->no_str,
+    // //         'no_sip' => $request->no_sip,
+    // //         'no_sertikom' => $request->no_sertikom,
+    // //         'kompetensi' => $request->kompetensi,
+    // //         'penerbit_str' => $request->penerbit_str,
+    // //         'tanggal_terbit_str' => $request->tanggal_terbit_str,
+    // //         'masa_berakhir_str' => $request->masa_berakhir_str,
+    // //         'link_str' => $request->link_str
+    // //     ]);
+    // //     // return $str; 
+    // //     $notif = Notifikasi::notif('str', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+    // //     $createNotif = Notifikasi::create($notif);
+    // //     $createNotif->admin()->sync(Admin::adminId());
+    // //     $createNotif->pegawai()->attach($str->pegawai->id);
+    // //     alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
+    // //     return redirect(route('admin.str.index'))->with('success', 'str berhasil ditambahkan');
+    // // }
     public function store(Request $request)
     {
-        //
-        // return $request->all();
         $validatedData = $request->validate([
+            'pegawai_id' => 'required|exists:pegawais,id',
             'no_str' => 'required',
             'penerbit_str' => 'required',
             'tanggal_terbit_str' => 'required',
@@ -101,24 +140,14 @@ class   STRController extends Controller
             'link_str' => 'required',
         ]);
 
-        $str = STR::create([
-            'pegawai_id' => $request->pegawai_id,
-            'no_str' => $request->no_str,
-            'no_sip' => $request->no_sip,
-            'no_sertikom' => $request->no_sertikom,
-            'kompetensi' => $request->kompetensi,
-            'penerbit_str' => $request->penerbit_str,
-            'tanggal_terbit_str' => $request->tanggal_terbit_str,
-            'masa_berakhir_str' => $request->masa_berakhir_str,
-            'link_str' => $request->link_str
-        ]);
-        // return $str; 
+        $str = STR::create($validatedData);
+
         $notif = Notifikasi::notif('str', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($str->pegawai->id);
-        alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
-        return redirect(route('admin.str.index'))->with('success', 'str berhasil ditambahkan');
+
+        return response()->json(['message' => 'STR berhasil ditambahkan', 'str' => $str], 201);
     }
 
     /**
@@ -127,15 +156,20 @@ class   STRController extends Controller
      * @param  \App\Models\STR  $sTR
      * @return \Illuminate\Http\Response
      */
+    // public function show(STR $str)
+    // {
+
+    //     // return $str;
+    //     // return $results;
+    //     return view('pages.str.show', [
+    //         'str' => $str,
+    //     ]);
+    // }
     public function show(STR $str)
     {
-
-        // return $str;
-        // return $results;
-        return view('pages.str.show', [
-            'str' => $str,
-        ]);
+        return response()->json($str);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -161,46 +195,68 @@ class   STRController extends Controller
      * @param  \App\Models\STR  $sTR
      * @return \Illuminate\Http\Response
      */
+    // public function update(Request $request, STR $str)
+    // {
+    //     // return $request->all();
+    //     //
+    //     // try {
+    //         //code...
+    //         $validatedData = $request->validate([
+    //             'no_str' => 'required',
+    //             'penerbit_str' => 'required',
+    //             'kompetensi' => 'required',
+    //             'no_sertikom' => 'required',
+    //             'tanggal_terbit_str' => 'required',
+    //             'masa_berakhir_str' => 'required',
+    //             'link_str' => 'required',
+    //         ]);
+    //         $strUpdate = $str->update([
+    //             'pegawai_id' => $request->pegawai_id,
+    //             'no_str' => $request->no_str,
+    //             'no_sip' => $request->no_sip,
+    //             'kompetensi' => $request->kompetensi,
+    //             'no_sertikom' => $request->no_sertikom,
+    //             'penerbit_str' => $request->penerbit_str,
+    //             'tanggal_terbit_str' => $request->tanggal_terbit_str,
+    //             'masa_berakhir_str' => $request->masa_berakhir_str,
+    //             'link_str' => $request->link_str
+    //         ]);
+    //     // return $str;
+    //     $notif = Notifikasi::notif('str', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+    //     $createNotif = Notifikasi::create($notif);
+    //     $createNotif->admin()->sync(Admin::adminId());
+    //     $createNotif->pegawai()->attach($str->pegawai->id);
+    //     alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
+    //     if($request->riwayat){
+    //         return redirect(route('admin.str.riwayat',['pegawai'=> $str->pegawai_id]))->with('success', 'str berhasil ditambahkan');
+    //     }
+    //         return redirect(route('admin.str.index'))->with('success', 'str berhasil ditambahkan');
+    //     // } catch (\Throwable $th) {
+    //     //     //throw $th;
+    //     //     return $th->getMessage();
+    //     // }
+    // }
     public function update(Request $request, STR $str)
     {
-        // return $request->all();
-        //
-        // try {
-            //code...
-            $validatedData = $request->validate([
-                'no_str' => 'required',
-                'penerbit_str' => 'required',
-                'kompetensi' => 'required',
-                'no_sertikom' => 'required',
-                'tanggal_terbit_str' => 'required',
-                'masa_berakhir_str' => 'required',
-                'link_str' => 'required',
-            ]);
-            $strUpdate = $str->update([
-                'pegawai_id' => $request->pegawai_id,
-                'no_str' => $request->no_str,
-                'no_sip' => $request->no_sip,
-                'kompetensi' => $request->kompetensi,
-                'no_sertikom' => $request->no_sertikom,
-                'penerbit_str' => $request->penerbit_str,
-                'tanggal_terbit_str' => $request->tanggal_terbit_str,
-                'masa_berakhir_str' => $request->masa_berakhir_str,
-                'link_str' => $request->link_str
-            ]);
-        // return $str;
+        $validatedData = $request->validate([
+            'pegawai_id' => 'required|exists:pegawais,id',
+            'no_str' => 'required',
+            'penerbit_str' => 'required',
+            'kompetensi' => 'required',
+            'no_sertikom' => 'required',
+            'tanggal_terbit_str' => 'required',
+            'masa_berakhir_str' => 'required',
+            'link_str' => 'required',
+        ]);
+
+        $str->update($validatedData);
+
         $notif = Notifikasi::notif('str', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($str->pegawai->id);
-        alert()->success('berhasil', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
-        if($request->riwayat){
-            return redirect(route('admin.str.riwayat',['pegawai'=> $str->pegawai_id]))->with('success', 'str berhasil ditambahkan');
-        }
-            return redirect(route('admin.str.index'))->with('success', 'str berhasil ditambahkan');
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        //     return $th->getMessage();
-        // }
+
+        return response()->json(['message' => 'STR berhasil diupdate', 'str' => $str]);
     }
 
     /**
@@ -212,9 +268,11 @@ class   STRController extends Controller
     public function destroy(STR $str)
     {
         //
-        alert()->success('data str pegawai '.$str->pegawai->nama_lengkap.' berhasil di hapus');
+        // alert()->success('data str pegawai '.$str->pegawai->nama_lengkap.' berhasil di hapus');
+        // $str->delete();
+        // return redirect()->back();
         $str->delete();
-        return redirect()->back();
+        return response()->json(['message' => 'STR berhasil dihapus']);
     }
 
     // history
