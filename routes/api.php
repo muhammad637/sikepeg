@@ -50,6 +50,9 @@ Route::group(['prefix' => 'pegawai'], function () {
         Route::get('export-sip', [SIPController::class, 'export_excel']);
     });
 
- 
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    });
+    
 });
 

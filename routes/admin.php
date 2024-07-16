@@ -95,7 +95,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/show/{cuti:id}', [CutiController::class, 'show'])->name('show');
             Route::group(['prefix' => '/data-cuti-aktif'], function () {
                 Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
-                Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');
+                // Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');
+                Route::post('cuti/approve/{id}', [CutiController::class, 'approve'])->name('cuti.approve');
+                 Route::post('cuti/reject/{id}', [CutiController::class, 'reject'])->name('cuti.reject');
                 Route::get('/edit/{cuti:id}', [CutiController::class, 'edit'])->name('data-cuti-aktif.edit');
                 Route::get('/{cuti:id}', [CutiController::class, 'show'])->name('data-cuti-aktif.show');
                 Route::post('/store', [CutiController::class, 'store'])->name('data-cuti-aktif.store');

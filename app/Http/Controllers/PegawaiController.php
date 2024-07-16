@@ -7,7 +7,6 @@ use App\Models\SIP;
 use App\Models\STR;
 use App\Models\Pegawai;
 use App\Models\Ruangan;
-use App\Models\PangkatGolongan;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -17,35 +16,39 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PegawaiController extends Controller
 {
-    // Function untuk login
+    // Fungsi untuk login
     public function loginHandler(Request $request)
     {
         $request->validate([
             'nip_nippk' => 'required|exists:pegawais,nip_nippk',
             'password' => 'required',
         ]);
-
+    
         $credentials = $request->only('nip_nippk', 'password');
-
+    
         if (Auth::guard('pegawai')->attempt($credentials)) {
-            $pegawai = Pegawai::where('nip_pppk', $request->nip_pppk)->first();
-            return redirect()->route('pegawai.dashboard')->with('success', 'Login berhasil');
+            $pegawai = Pegawai::where('nip_nippk', $request->nip_nippk)->first();
+            $token = $pegawai->createToken('SIKEP')->accessToken; // Membuat token
+    
             return response()->json([
-                'message' => 'Login berhasil', 
-                'data' => $pegawai,
-                'token' => 'token'
+                'success' => true,
+                'message' => 'Login berhasil',
+                'data' => [
+                    'id' => $pegawai->id,
+                    'nip_nippk' => $pegawai->nip_nippk,
+                    'nama_lengkap' => $pegawai->nama_lengkap,
+                ],
+                'token' => $token // Token yang dihasilkan
             ], 200);
         } else {
-            return back()->withErrors(['message' => 'Login gagal, data yang anda masukkan salah']);
-            return response()->json(['message' => 'Login gagal, data yang anda masukkan salah'], 401);
+            return response()->json(['success' => false, 'message' => 'Login gagal, data yang anda masukkan salah'], 401);
         }
     }
 
-    // Function untuk logout
+    // Fungsi untuk logout
     public function logoutHandler()
     {
         Auth::guard('pegawai')->logout();
-        return redirect()->route('auth.pegawai.login')->with('success', 'Logout berhasil');
         return response()->json(['message' => 'Logout berhasil'], 200);
     }
 
@@ -93,36 +96,9 @@ class PegawaiController extends Controller
                 ->rawColumns(['aksi', 'ruangan', 'status_pegawai', 'jenis_kelamin'])
                 ->toJson();
         }
-// <<<<<<< HEAD
-//             $pegawais = Pegawai::all();
-//             // return response()->json($pegawais);
-//         return view('pages.pegawai.index', [
-//             'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
-//         ]);
-//         // Pegawai::with(['asn', 'non_asn'])->get();
-//     }
-//     public function import_excel(Request $request)
-//     {
-//         // return Ruangan::firstOrCreate(['nama_ruangan' => 'loket 10']);
-//         // try {
-//         $request->validate([
-//             'file' => 'required|mimes:csv,xls,xlsx,txt'
-//         ]);
-//         // return '$testing';   
-//         $file = $request->file('file');
-//         $nama_file = rand() . $file->getClientOriginalName();
-//         $file->move('file_pegawai', $nama_file);
-//        Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
-//         alert()->success('berhasil', 'data pegawai berhasil di import');
-//         return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
-        
-// =======
 
-        $pegawais = Pegawai::all();
-        $ruangans = Ruangan::all();
-        return view('pages.pegawai.index', compact('pegawais', 'ruangans'));
-        return response()->json($pegawais);
-// >>>>>>> 90ce772abe86471694d08921ddf5a363a3c304ba
+        $ruangans = Ruangan::orderBy('nama_ruangan', 'asc')->get();
+        return view('pages.pegawai.index', compact('ruangans'));
     }
 
     public function create()
@@ -174,18 +150,8 @@ class PegawaiController extends Controller
         $data['password'] = $password;
         $data['usia'] = $usia;
 
-        $pegawai = Pegawai::create($data);
+        Pegawai::create($data);
         return back()->with('success', 'Data pegawai berhasil ditambahkan!');
-
-        if ($request->status_tenaga == 'non asn') {
-            // Process for non-ASN
-            // Handle specific validations and additional data storage
-        } elseif ($request->status_tipe == 'pns') {
-            // Process for ASN
-            // Handle specific validations and additional data storage
-        }
-
-        return response()->json(['message' => 'Data pegawai berhasil ditambahkan', 'data' => $pegawai], 201);
     }
 
     // Menampilkan detail Pegawai
@@ -265,4 +231,3 @@ class PegawaiController extends Controller
         return response()->json(['message' => 'Data pegawai berhasil dihapus'], 200);
     }
 }
-

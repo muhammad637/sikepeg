@@ -62,4 +62,5 @@ class Pegawai extends Authenticatable
     {
         return $this->belongsTo(PangkatGolongan::class, 'pangkat_golongan_id');
     }
+    
 }

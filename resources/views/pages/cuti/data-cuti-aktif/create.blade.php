@@ -9,7 +9,8 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Cuti</h4>
         <hr class="font-weight-bold">
-        <form action="{{ route('admin.cuti.data-cuti-aktif.store') }}" method="post">
+        {{-- <form action="{{ route('admin.cuti.data-cuti-aktif.store') }}" method="post"> --}}
+            <form action="{{ route('cuti.store') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">

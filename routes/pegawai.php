@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardPegawaiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PersonalFileController;
+use App\Http\Controllers\CutiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +23,8 @@ Route::prefix('pegawai')->name('pegawai.')->group(function () {
         Route::get('/str/history', [DashboardPegawaiController::class, 'historySTRPegawai'])->name('str.history');
         Route::get('/sip/history', [DashboardPegawaiController::class, 'historySIPPegawai'])->name('sip.history');
         Route::get('/cuti/history', [DashboardPegawaiController::class, 'historyCutiPegawai'])->name('cuti.history');
+        Route::get('cuti/create', [CutiController::class, 'create'])->name('cuti.create');
+        Route::post('cuti', [CutiController::class, 'store'])->name('cuti.store');
     });
 //  Route::view('/home', 'pages.dashboard.dashboardpegawai')->name('home');
 
