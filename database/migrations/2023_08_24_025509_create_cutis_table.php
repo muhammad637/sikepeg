@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('alamat')->nullable();
             $table->integer('jumlah_hari')->nullable();
             $table->string('link_cuti')->nullable();    
+            $table->enum('status', ['tolak', 'terima'])->default('terima');
             $table->timestamps();
         });
     }

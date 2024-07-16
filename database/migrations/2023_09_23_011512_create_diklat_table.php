@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('no_sertifikat')->nullable();
             $table->date('tanggal_sertifikat')->nullable();
             $table->string('link_sertifikat')->nullable();
+            $table->enum('status', ['tolak', 'terima'])->default('terima');
             $table->timestamps();
         });
     }

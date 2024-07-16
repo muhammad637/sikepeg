@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('tanggal_terbit_str');
             $table->string('masa_berakhir_str');
             $table->string('link_str');
+            $table->enum('status', ['tolak', 'terima'])->default('terima');
             $table->timestamps();
         });
     }
