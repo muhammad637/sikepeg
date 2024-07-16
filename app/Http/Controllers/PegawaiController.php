@@ -93,11 +93,36 @@ class PegawaiController extends Controller
                 ->rawColumns(['aksi', 'ruangan', 'status_pegawai', 'jenis_kelamin'])
                 ->toJson();
         }
+// <<<<<<< HEAD
+//             $pegawais = Pegawai::all();
+//             // return response()->json($pegawais);
+//         return view('pages.pegawai.index', [
+//             'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get()
+//         ]);
+//         // Pegawai::with(['asn', 'non_asn'])->get();
+//     }
+//     public function import_excel(Request $request)
+//     {
+//         // return Ruangan::firstOrCreate(['nama_ruangan' => 'loket 10']);
+//         // try {
+//         $request->validate([
+//             'file' => 'required|mimes:csv,xls,xlsx,txt'
+//         ]);
+//         // return '$testing';   
+//         $file = $request->file('file');
+//         $nama_file = rand() . $file->getClientOriginalName();
+//         $file->move('file_pegawai', $nama_file);
+//        Excel::import(new PegawaiImport, public_path('file_pegawai/' . $nama_file));
+//         alert()->success('berhasil', 'data pegawai berhasil di import');
+//         return redirect()->route('admin.pegawai.index')->with('success', 'data pegawai berhasil di import');
+        
+// =======
 
         $pegawais = Pegawai::all();
         $ruangans = Ruangan::all();
         return view('pages.pegawai.index', compact('pegawais', 'ruangans'));
         return response()->json($pegawais);
+// >>>>>>> 90ce772abe86471694d08921ddf5a363a3c304ba
     }
 
     public function create()

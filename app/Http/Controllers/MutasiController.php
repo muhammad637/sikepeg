@@ -25,6 +25,7 @@ class MutasiController extends Controller
         $mutasi_terakhir = Pegawai::whereHas('mutasi')->with(['mutasi' => function ($q) {
             $q->orderBy('tanggal_sk', 'desc');
         }])->get();
+        // return Mutasi::with('ruanganAwal', 'ruanganTujuan')->get();
         if ($request->ajax()) {
             $mutasi = Mutasi::query()->orderBy('pegawai_id', 'asc')->orderBy('tanggal_sk', 'desc');
             if ($request->input('ruangan_awal') != null) {
@@ -167,7 +168,7 @@ class MutasiController extends Controller
                     // Memperbarui ruangan_id Pegawai jika mutasi terbaru sebelum atau sama dengan tanggal mutasi baru
                     Carbon::parse($mutasi->tanggal_sk) <= Carbon::parse($request->tanggal_sk) ? $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]) : null;
                 } else {
-                   $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]);
+                    $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]);
                 }
 
                 // Validasi data request untuk mutasi internal
