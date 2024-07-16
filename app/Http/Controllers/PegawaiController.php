@@ -28,7 +28,7 @@ class PegawaiController extends Controller
     
         if (Auth::guard('pegawai')->attempt($credentials)) {
             $pegawai = Pegawai::where('nip_nippk', $request->nip_nippk)->first();
-            $token = $pegawai->createToken('SIKEP')->accessToken; // Membuat token
+            $token = $pegawai->createToken('SIKEP')->accessToken->plainTextToken; // Membuat token
     
             return response()->json([
                 'success' => true,
