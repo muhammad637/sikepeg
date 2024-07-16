@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\STRController;
+use App\Http\Controllers\SIPController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,12 @@ Route::group(['prefix' => 'pegawai'], function () {
         Route::get('/str/{str}', [STRController::class, 'show']);
         Route::put('/str/{str}', [STRController::class, 'update']);
         Route::delete('/str/{str}', [STRController::class, 'destroy']);
+        Route::apiResource('sip', SIPController::class);
+        Route::get('sip/{pegawai}/history', [SIPController::class, 'history']);
+        Route::get('sip/{sip}/show-riwayat', [SIPController::class, 'showRiwayat']);
+        Route::get('sip/{sip}/edit-riwayat', [SIPController::class, 'editRiwayat']);
+        Route::get('reminder-sip', [SIPController::class, 'reminderSIP']);
+        Route::get('export-sip', [SIPController::class, 'export_excel']);
     });
 
  

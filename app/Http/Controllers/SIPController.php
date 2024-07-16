@@ -21,14 +21,51 @@ class SIPController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(Request $request)
+    // {
+    //     // $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+    //     //     $query->orderBy('masa_berakhir_sip', 'desc');
+    //     // })->whereHas('sip', function ($q) {
+    //     //     $q->orderBy('masa_berakhir_sip', 'desc');
+    //     // })->get();
+    //     // return $pegawai;
+    //     if ($request->ajax()) {
+    //         $pegawai = Pegawai::query()
+    //             ->where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+    //                 $query->orderBy('masa_berakhir_sip', 'desc');
+    //             })->whereHas('sip', function ($q) {
+    //                 $q->orderBy('masa_berakhir_sip', 'desc');
+    //             });
+    //         return DataTables::of($pegawai)
+    //             ->addIndexColumn()
+    //             ->addColumn('tanggal-berakhir-sip', function ($item) {
+    //                 return Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-m-Y');
+    //             })
+    //             ->addColumn('status', function ($item) {
+    //                 $data = Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('Y-m-d') > now()->format('Y-m-d');
+    //                 // dd($data);
+    //                 $status = $data ? 'aktif' : 'nonaktif';
+    //                 $warna = $data == true ? 'btn-success' : 'btn-secondary';
+    //                 return "<button class='btn " . $warna . "'>$status</button>";
+    //             })
+    //             ->addColumn('nama-ruangan', function ($item) {
+    //                 return $item->ruangan->nama_ruangan;
+    //             })
+    //             ->addColumn('aksi', 'pages.sip.part.aksi-index')
+    //             ->addColumn('surat', 'pages.surat.sip-index')
+    //             ->rawColumns(['surat', 'tanggal-berakhir-sip', 'status', 'aksi', 'nama-ruangan'])
+    //             ->toJson();
+    //     }
+    //     $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+    //         $query->orderBy('masa_berakhir_sip', 'desc');
+    //     })->get();
+    //     return view('pages.sip.index', [
+    //         'pegawai' => $pegawai ?? [],
+    //         'i' => 0
+    //     ]);
+    // }
     public function index(Request $request)
     {
-        // $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
-        //     $query->orderBy('masa_berakhir_sip', 'desc');
-        // })->whereHas('sip', function ($q) {
-        //     $q->orderBy('masa_berakhir_sip', 'desc');
-        // })->get();
-        // return $pegawai;
         if ($request->ajax()) {
             $pegawai = Pegawai::query()
                 ->where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
@@ -43,7 +80,6 @@ class SIPController extends Controller
                 })
                 ->addColumn('status', function ($item) {
                     $data = Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('Y-m-d') > now()->format('Y-m-d');
-                    // dd($data);
                     $status = $data ? 'aktif' : 'nonaktif';
                     $warna = $data == true ? 'btn-success' : 'btn-secondary';
                     return "<button class='btn " . $warna . "'>$status</button>";
@@ -59,10 +95,7 @@ class SIPController extends Controller
         $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
             $query->orderBy('masa_berakhir_sip', 'desc');
         })->get();
-        return view('pages.sip.index', [
-            'pegawai' => $pegawai ?? [],
-            'i' => 0
-        ]);
+        return response()->json($pegawai);
     }
 
     /**
@@ -73,9 +106,10 @@ class SIPController extends Controller
     public function create()
     {
         $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
-        return view('pages.sip.create', [
-            'results' => $results
-        ]);
+        // return view('pages.sip.create', [
+        //     'results' => $results
+        // ]);
+        return response()->json($results);
     }
 
     /**
@@ -84,48 +118,84 @@ class SIPController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+    //     //
+    //     try {
+    //         //code...
+    //         // return $request->all();
+    //         $validatedData = $request->validate([
+    //             'no_str' => '',
+    //             'no_sip' => 'required',
+    //             'no_rekomendasi' => 'required',
+    //             'penerbit_sip' => 'required',
+    //             'tanggal_terbit_sip' => 'required',
+    //             'masa_berakhir_sip' => 'required',
+    //             'tempat_praktik' => 'required',
+    //             'link_sip' => 'required',
+    //             'alamat_sip' => 'required',
+    //         ],[
+    //             'alamat_sip.required' => 'alamat tidak boleh kosong'
+    //         ]);
+
+    //         $sip = SIP::create([
+    //             'pegawai_id' => $request->pegawai_id,
+    //             'no_sip' => $request->no_sip,
+    //             'no_rekomendasi' => $request->no_rekomendasi,
+    //             'no_str' => $request->no_str,
+    //             'penerbit_sip' => $request->penerbit_sip,
+    //             'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
+    //             'masa_berakhir_sip' => $request->masa_berakhir_sip,
+    //             'tempat_praktik' => $request->tempat_praktik,
+    //             'link_sip' => $request->link_sip,
+    //             'alamat_sip' => $request->alamat_sip
+    //         ]);
+    //         $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+    //         $createNotif = Notifikasi::create($notif);
+    //         $createNotif->admin()->sync(Admin::adminId());
+    //         $createNotif->pegawai()->attach($sip->pegawai->id);
+    //         alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
+    //         return redirect(route('admin.sip.index'))->with('success', 'sip berhasil ditambahkan');
+    //     } catch (\Throwable $th) {
+    //         //throw $th;
+    //         return $th->getMessage();
+    //     }
+    // }
     public function store(Request $request)
     {
-        //
-        try {
-            //code...
-            // return $request->all();
-            $validatedData = $request->validate([
-                'no_str' => '',
-                'no_sip' => 'required',
-                'no_rekomendasi' => 'required',
-                'penerbit_sip' => 'required',
-                'tanggal_terbit_sip' => 'required',
-                'masa_berakhir_sip' => 'required',
-                'tempat_praktik' => 'required',
-                'link_sip' => 'required',
-                'alamat_sip' => 'required',
-            ],[
-                'alamat_sip.required' => 'alamat tidak boleh kosong'
-            ]);
+        $validatedData = $request->validate([
+            'no_str' => '',
+            'no_sip' => 'required',
+            'no_rekomendasi' => 'required',
+            'penerbit_sip' => 'required',
+            'tanggal_terbit_sip' => 'required',
+            'masa_berakhir_sip' => 'required',
+            'tempat_praktik' => 'required',
+            'link_sip' => 'required',
+            'alamat_sip' => 'required',
+        ],[
+            'alamat_sip.required' => 'alamat tidak boleh kosong'
+        ]);
 
-            $sip = SIP::create([
-                'pegawai_id' => $request->pegawai_id,
-                'no_sip' => $request->no_sip,
-                'no_rekomendasi' => $request->no_rekomendasi,
-                'no_str' => $request->no_str,
-                'penerbit_sip' => $request->penerbit_sip,
-                'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
-                'masa_berakhir_sip' => $request->masa_berakhir_sip,
-                'tempat_praktik' => $request->tempat_praktik,
-                'link_sip' => $request->link_sip,
-                'alamat_sip' => $request->alamat_sip
-            ]);
-            $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
-            $createNotif = Notifikasi::create($notif);
-            $createNotif->admin()->sync(Admin::adminId());
-            $createNotif->pegawai()->attach($sip->pegawai->id);
-            alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
-            return redirect(route('admin.sip.index'))->with('success', 'sip berhasil ditambahkan');
-        } catch (\Throwable $th) {
-            //throw $th;
-            return $th->getMessage();
-        }
+        $sip = SIP::create([
+            'pegawai_id' => $request->pegawai_id,
+            'no_sip' => $request->no_sip,
+            'no_rekomendasi' => $request->no_rekomendasi,
+            'no_str' => $request->no_str,
+            'penerbit_sip' => $request->penerbit_sip,
+            'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
+            'masa_berakhir_sip' => $request->masa_berakhir_sip,
+            'tempat_praktik' => $request->tempat_praktik,
+            'link_sip' => $request->link_sip,
+            'alamat_sip' => $request->alamat_sip
+        ]);
+
+        $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($sip->pegawai->id);
+
+        return response()->json(['message' => 'sip berhasil ditambahkan', 'data' => $sip], 201);
     }
 
     /**
@@ -141,6 +211,7 @@ class SIPController extends Controller
         return view('pages.sip.show', [
             'sip' => $sip
         ]);
+        return response()->json($sip);
     }
 
     /**
@@ -152,10 +223,12 @@ class SIPController extends Controller
     public function edit(SIP $sip)
     {
         //
-        return view('pages.sip.edit', [
-            'sip' => $sip,
-            'results' => Pegawai::where('jenis_tenaga', 'nakes')->get()
-        ]);
+        // return view('pages.sip.edit', [
+        //     'sip' => $sip,
+        //     'results' => Pegawai::where('jenis_tenaga', 'nakes')->get()
+        // ]);
+        $results = Pegawai::where('jenis_tenaga', 'nakes')->get();
+        return response()->json(['sip' => $sip, 'results' => $results]);
     }
 
     /**
@@ -165,9 +238,40 @@ class SIPController extends Controller
      * @param  \App\Models\SIP  $sIP
      * @return \Illuminate\Http\Response
      */
+    // public function update(Request $request, SIP $sip)
+    // {
+    //     //
+    //     $validatedData = $request->validate([
+    //         'no_str' => '',
+    //         'no_rekomendasi' => 'required',
+    //         'no_sip' => 'required',
+    //         'penerbit_sip' => 'required',
+    //         'tanggal_terbit_sip' => 'required',
+    //         'masa_berakhir_sip' => 'required',
+    //         'link_sip' => 'required',
+    //     ]);
+    //     $sipCreate = $sip->update([
+    //         'no_sip' => $request->no_sip,
+    //         'no_rekomendasi' => $request->no_rekomendasi,
+    //         'no_str' => $request->no_str,
+    //         'penerbit_sip' => $request->penerbit_sip,
+    //         'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
+    //         'masa_berakhir_sip' => $request->masa_berakhir_sip,
+    //         'link_sip' => $request->link_sip
+    //     ]);
+    //     // return $sip;
+    //     $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+    //     $createNotif = Notifikasi::create($notif);
+    //     $createNotif->admin()->sync(Admin::adminId());
+    //     $createNotif->pegawai()->attach($sip->pegawai->id);
+    //     alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
+    //     if($request->riwayat){
+    //         return redirect(route('admin.sip.riwayat',['pegawai' => $sip->pegawai_id]))->with('success', 'sip berhasil ditambahkan');
+    //     }
+    //     return redirect(route('admin.sip.index'))->with('success', 'sip berhasil ditambahkan');
+    // }
     public function update(Request $request, SIP $sip)
     {
-        //
         $validatedData = $request->validate([
             'no_str' => '',
             'no_rekomendasi' => 'required',
@@ -177,26 +281,17 @@ class SIPController extends Controller
             'masa_berakhir_sip' => 'required',
             'link_sip' => 'required',
         ]);
-        $sipCreate = $sip->update([
-            'no_sip' => $request->no_sip,
-            'no_rekomendasi' => $request->no_rekomendasi,
-            'no_str' => $request->no_str,
-            'penerbit_sip' => $request->penerbit_sip,
-            'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
-            'masa_berakhir_sip' => $request->masa_berakhir_sip,
-            'link_sip' => $request->link_sip
-        ]);
-        // return $sip;
+
+        $sip->update($validatedData);
+
         $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($sip->pegawai->id);
-        alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
-        if($request->riwayat){
-            return redirect(route('admin.sip.riwayat',['pegawai' => $sip->pegawai_id]))->with('success', 'sip berhasil ditambahkan');
-        }
-        return redirect(route('admin.sip.index'))->with('success', 'sip berhasil ditambahkan');
+
+        return response()->json(['message' => 'sip berhasil diupdate', 'data' => $sip]);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -204,18 +299,58 @@ class SIPController extends Controller
      * @param  \App\Models\SIP  $sIP
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SIP $sip)
-    {
-        alert()->success('data sip pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil di hapus');
-        $sip->delete();
-        return redirect()->back();
-    }
+    // public function destroy(SIP $sip)
+    // {
+    //     alert()->success('data sip pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil di hapus');
+    //     $sip->delete();
+    //     return redirect()->back();
+    // }
+    // public function destroy(SIP $sip)
+    // {
+    //     $sip->delete();
+    //     return response()->json(['message' => 'data sip pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil di hapus']);
+    // }
+    
+    // public function history(Pegawai $pegawai, Request $request)
+    // {
+    //     $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->get();
+    //     if ($request->ajax()) {
+    //         $dataSIP = SIP::query()->where('pegawai_id', $pegawai->id)
+    //         ->orderBy('masa_berakhir_sip', 'desc');
+    //         return DataTables::of($dataSIP)
+    //             ->addIndexColumn()
+    //             ->addColumn('surat', 'pages.surat.sip-riwayat')
+    //             ->addColumn('aksi', 'pages.sip.part.aksi-riwayat')
+    //             ->addColumn('status', function ($q) {
+    //                 $data_warna = 'btn-secondary';
+    //                 $data_status = 'nonaktif';
+    //                 if ($q->masa_berakhir_sip > now()) {
+    //                     $data_warna = 'btn-success';
+    //                     $data_status = 'aktif';
+    //                 }
+    //                 return "<button class='btn $data_warna'> $data_status</button>";
+    //             })
+    //             ->addColumn('tanggal-terbit-str', function ($item) {
+    //                 $tanggal = Carbon::parse($item->tanggal_terbit)->format('d-m-Y');
+    //                 return $tanggal;
+    //             })
+    //             ->addColumn('masa-berakhir-sip', function ($item) {
+    //                 $tanggal = Carbon::parse($item->masa_berakhir_sip)->format('d-m-Y');
+    //                 return $tanggal;
+    //             })
+    //             ->rawColumns(['surat', 'aksi', 'status', 'tanggal-terbit-sip', 'masa-berakhir-sip'])
+    //             ->toJson();
+    //     }
+    //     return view('pages.sip.riwayat.index', [
+    //         'sip' => $sip,
+    //         'pegawai' => $pegawai
+    //     ]);
+    // }
     public function history(Pegawai $pegawai, Request $request)
     {
-        $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->get();
         if ($request->ajax()) {
             $dataSIP = SIP::query()->where('pegawai_id', $pegawai->id)
-            ->orderBy('masa_berakhir_sip', 'desc');
+                ->orderBy('masa_berakhir_sip', 'desc');
             return DataTables::of($dataSIP)
                 ->addIndexColumn()
                 ->addColumn('surat', 'pages.surat.sip-riwayat')
@@ -240,71 +375,78 @@ class SIPController extends Controller
                 ->rawColumns(['surat', 'aksi', 'status', 'tanggal-terbit-sip', 'masa-berakhir-sip'])
                 ->toJson();
         }
-        return view('pages.sip.riwayat.index', [
-            'sip' => $sip,
-            'pegawai' => $pegawai
-        ]);
+
+        $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->get();
+        return response()->json(['sip' => $sip, 'pegawai' => $pegawai]);
     }
     public function showRiwayat(SIP $sip)
     {
         return view('pages.sip.riwayat.show', [
             'sip' => $sip
         ]);
+        return response()->json($sip);
     }
     public function editRiwayat(SIP $sip)
     {
+        // $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+        // return view('pages.sip.riwayat.edit', [
+        //     'sip' => $sip,
+        //     'results' => $results
+        // ]);
         $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
-        return view('pages.sip.riwayat.edit', [
-            'sip' => $sip,
-            'results' => $results
-        ]);
+        return response()->json(['sip' => $sip, 'results' => $results]);
     }
-    public function reminderSIP(Request $request)
+    // public function reminderSIP(Request $request)
+    // {
+    //     $currentDate = Carbon::now();
+    //     $sixMonthsFromNow = $currentDate->addMonths(6);
+    //     if ($request->ajax()) {
+    //         $reminderSIP = Pegawai::query()->where('jenis_tenaga', 'nakes')->with(['sip' => function ($query) {
+    //             $query->orderBy('masa_berakhir_sip', 'desc');
+    //         }])->whereHas(
+    //             'sip',
+    //             function ($query) use ($currentDate, $sixMonthsFromNow) {
+    //                 $query->whereDate(
+    //                     'tanggal_terbit_sip',
+    //                     '<=',
+    //                     $currentDate
+    //                 )
+    //                     ->whereDate('masa_berakhir_sip', '>', $currentDate)
+    //                     ->whereDate('masa_berakhir_sip', '>', $sixMonthsFromNow);
+    //             },
+    //             '=',
+    //             0
+    //         )->get();
+    //         $dataPegawai = DataTables::of($reminderSIP)
+    //             ->addIndexColumn()
+    //             ->addColumn('nama', function ($item) {
+    //                 return $item->nama_lengkap ?? $item->nama_depan;
+    //             })
+    //             ->addColumn('pesan', function ($item) {
+    //                 $nowa = $item->no_wa;
+    //                 if (substr(trim($nowa), 0, 1) == '0') {
+    //                     $nowa = '62' . substr(trim($nowa), 1);
+    //                 }
+    //                 $tanggal =  $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berkahir_sip)->format('d-m-Y') : null;
+    //                 $nama = $item->nama_lengkap ?? $item->nama_depan;
+    //                 $pesan = "https://wa.me/$nowa/?text=SIKEP%0Auntuk :$nama %0A SIP anda  $tanggal, mohon hubungi kepegawaian untuk mengurusi SIP anda";
+    //                 return '<a href="' . $pesan . '" target="_blank" class="btn btn transparent"><i
+    //                                         class="fab fa-whatsapp fa-2x text-success"></i> </a>';
+    //             })
+    //             ->addColumn('masa_berakhir_sip', function ($item) {
+    //                 $data = $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-m-Y') : 'belum memiliki SIP';
+    //                 return $data ?? '-';
+    //             })
+    //             ->rawColumns(['pesan', 'nama', 'masa_berakhr_sip'])
+    //             ->toJson();
+    //         return  $dataPegawai;
+    //     }
+    //     return view('pages.dashboard.remindersip');
+    // }
+    public function reminderSIP()
     {
-        $currentDate = Carbon::now();
-        $sixMonthsFromNow = $currentDate->addMonths(6);
-        if ($request->ajax()) {
-            $reminderSIP = Pegawai::query()->where('jenis_tenaga', 'nakes')->with(['sip' => function ($query) {
-                $query->orderBy('masa_berakhir_sip', 'desc');
-            }])->whereHas(
-                'sip',
-                function ($query) use ($currentDate, $sixMonthsFromNow) {
-                    $query->whereDate(
-                        'tanggal_terbit_sip',
-                        '<=',
-                        $currentDate
-                    )
-                        ->whereDate('masa_berakhir_sip', '>', $currentDate)
-                        ->whereDate('masa_berakhir_sip', '>', $sixMonthsFromNow);
-                },
-                '=',
-                0
-            )->get();
-            $dataPegawai = DataTables::of($reminderSIP)
-                ->addIndexColumn()
-                ->addColumn('nama', function ($item) {
-                    return $item->nama_lengkap ?? $item->nama_depan;
-                })
-                ->addColumn('pesan', function ($item) {
-                    $nowa = $item->no_wa;
-                    if (substr(trim($nowa), 0, 1) == '0') {
-                        $nowa = '62' . substr(trim($nowa), 1);
-                    }
-                    $tanggal =  $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berkahir_sip)->format('d-m-Y') : null;
-                    $nama = $item->nama_lengkap ?? $item->nama_depan;
-                    $pesan = "https://wa.me/$nowa/?text=SIKEP%0Auntuk :$nama %0A SIP anda  $tanggal, mohon hubungi kepegawaian untuk mengurusi SIP anda";
-                    return '<a href="' . $pesan . '" target="_blank" class="btn btn transparent"><i
-                                            class="fab fa-whatsapp fa-2x text-success"></i> </a>';
-                })
-                ->addColumn('masa_berakhir_sip', function ($item) {
-                    $data = $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-m-Y') : 'belum memiliki SIP';
-                    return $data ?? '-';
-                })
-                ->rawColumns(['pesan', 'nama', 'masa_berakhr_sip'])
-                ->toJson();
-            return  $dataPegawai;
-        }
-        return view('pages.dashboard.remindersip');
+        $results = SIP::where('masa_berakhir_sip', '<', now()->addDays(30))->get();
+        return response()->json($results);
     }
     private function dataLaporan($pegawais)
     {
