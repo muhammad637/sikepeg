@@ -1,19 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Cuti;
-use App\Models\Admin;
-use App\Exports\Export;
 use App\Models\Pegawai;
-use App\Models\Ruangan;
-use App\Models\Notifikasi;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CutiController extends Controller
@@ -33,34 +25,12 @@ class CutiController extends Controller
         '12' => 'Desember',
     ];
 
-    public function __construct()
-    {
-        // Middleware to restrict access to specific routes
-        $this->middleware('role:admin')->only(['index', 'update', 'approve', 'reject']);
-        $this->middleware('role:pegawai')->only(['create', 'store']);
-    }
-
     // Data cuti aktif
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $cuti = Cuti::query()->whereDate('selesai_cuti', '>=', now()->format('Y-m-d'));
-            return DataTables::of($cuti)
-                ->addIndexColumn()
-                ->addColumn('nama_lengkap', fn($item) => $item->pegawai->nama_lengkap)
-                ->addColumn('status_tombol', fn($item) => $this->getStatusButton($item))
-                ->filterColumn('status_tombol', fn($query, $keyword) => $this->filterStatusColumn($query, $keyword))
-                ->addColumn('aksi', 'pages.cuti.data-cuti-aktif.part.aksi')
-                ->addColumn('surat', 'pages.cuti.data-cuti-aktif.part.surat')
-                ->rawColumns(['aksi', 'surat', 'nama_lengkap', 'status_tombol'])
-                ->toJson();
-        }
-        return view('pages.cuti.data-cuti-aktif.index', ['bulans' => $this->bulan]);
-    }
-
-    public function create()
-    {
-        return view('pages.cuti.data-cuti-aktif.create', ['result' => Pegawai::all()]);
+        $cuti = Cuti::query()->whereDate('selesai_cuti', '>=', now()->format('Y-m-d'));
+        
+        return response()->json($cuti->get());
     }
 
     public function store(Request $request)
@@ -69,42 +39,45 @@ class CutiController extends Controller
 
         $pegawai = Pegawai::find($request->pegawai_id);
         if (!$pegawai) {
-            Alert::error('Mohon masukkan nama Pegawai');
-            return redirect()->back();
+            return response()->json(['error' => 'Pegawai tidak ditemukan'], 404);
         }
 
-        $cuti = Cuti::where('pegawai_id', $pegawai->id)->orderBy('selesai_cuti', 'desc')->first();
+        $cuti = Cuti::where('pegawai_id', $pegawai->id)
+            ->orderBy('selesai_cuti', 'desc')
+            ->first();
+
         if ($cuti && $this->isOverlappingCuti($request, $cuti)) {
-            Alert::error('Gagal', 'Cuti periode ini sudah ada atau tumpang tindih.');
-            return redirect()->back()->withInput();
+            return response()->json(['error' => 'Cuti periode ini sudah ada atau tumpang tindih.'], 400);
         }
 
         if ($request->jenis_cuti == 'cuti tahunan' && !$this->validateCutiTahunan($pegawai, $request->jumlah_hari)) {
-            Alert::error('Gagal', 'Cuti tahunan pegawai ' . $pegawai->nama_lengkap . ' telah habis pada tahun ini');
-            return redirect()->back()->withInput();
+            return response()->json(['error' => 'Cuti tahunan pegawai telah habis.'], 400);
         }
 
         if ($request->jenis_cuti == 'cuti besar' && !$this->validateCutiBesar($pegawai)) {
-            Alert::error('Gagal', 'Cuti besar pegawai ' . $pegawai->nama_lengkap . ' telah digunakan dalam 5 tahun terakhir');
-            return redirect()->back()->withInput();
+            return response()->json(['error' => 'Cuti besar telah digunakan dalam 5 tahun terakhir.'], 400);
         }
 
-        Cuti::create($validatedData);
+        $cuti = Cuti::create($validatedData);
+        return response()->json(['message' => 'Pengajuan cuti berhasil ditambahkan', 'data' => $cuti], 201);
+    }
 
-        Alert::success('Berhasil', 'Pengajuan cuti berhasil ditambahkan');
-        return redirect()->route('cuti.index');
+    public function show($id)
+    {
+        $cuti = Cuti::find($id);
+        if (!$cuti) {
+            return response()->json(['error' => 'Cuti tidak ditemukan'], 404);
+        }
+        return response()->json($cuti);
     }
 
     public function update(Request $request, $id)
     {
         $cuti = Cuti::findOrFail($id);
-
         $validatedData = $this->validateRequest($request);
 
         $cuti->update($validatedData);
-
-        Alert::success('Berhasil', 'Data cuti berhasil diperbarui');
-        return redirect()->route('cuti.index');
+        return response()->json(['message' => 'Data cuti berhasil diperbarui', 'data' => $cuti], 200);
     }
 
     public function approve($id)
@@ -113,8 +86,7 @@ class CutiController extends Controller
         $cuti->status = 'approved';
         $cuti->save();
 
-        Alert::success('Berhasil', 'Pengajuan cuti berhasil disetujui');
-        return redirect()->route('cuti.index');
+        return response()->json(['message' => 'Pengajuan cuti berhasil disetujui'], 200);
     }
 
     public function reject($id)
@@ -123,8 +95,7 @@ class CutiController extends Controller
         $cuti->status = 'rejected';
         $cuti->save();
 
-        Alert::error('Ditolak', 'Pengajuan cuti telah ditolak');
-        return redirect()->route('cuti.index');
+        return response()->json(['message' => 'Pengajuan cuti telah ditolak'], 200);
     }
 
     private function validateRequest($request)
@@ -146,29 +117,13 @@ class CutiController extends Controller
 
     private function validateCutiTahunan($pegawai, $jumlah_hari)
     {
-        $cutiTahunanTersisa = $pegawai->cutiTahunanTersisa(); // Method ini harus ada di model Pegawai
+        $cutiTahunanTersisa = $pegawai->cutiTahunanTersisa(); 
         return $cutiTahunanTersisa >= $jumlah_hari;
     }
 
     private function validateCutiBesar($pegawai)
     {
-        $cutiBesarTerakhir = $pegawai->cutiBesarTerakhir(); // Method ini harus ada di model Pegawai
+        $cutiBesarTerakhir = $pegawai->cutiBesarTerakhir(); 
         return !$cutiBesarTerakhir || $cutiBesarTerakhir->created_at->diffInYears(now()) >= 5;
-    }
-
-    private function getStatusButton($cuti)
-    {
-        if ($cuti->status == 'pending') {
-            return '<button class="btn btn-warning btn-sm">Pending</button>';
-        } elseif ($cuti->status == 'approved') {
-            return '<button class="btn btn-success btn-sm">Approved</button>';
-        } else {
-            return '<button class="btn btn-danger btn-sm">Rejected</button>';
-        }
-    }
-
-    private function filterStatusColumn($query, $keyword)
-    {
-        $query->where('status', 'like', "%{$keyword}%");
     }
 }

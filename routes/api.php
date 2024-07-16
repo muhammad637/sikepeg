@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\STRController;
 use App\Http\Controllers\SIPController;
+use App\Http\Controllers\CutiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,12 @@ Route::group(['prefix' => 'pegawai'], function () {
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
+        Route::get('cuti', [CutiController::class, 'index']);
+        Route::post('cuti', [CutiController::class, 'store']);
+        Route::get('cuti/{id}', [CutiController::class, 'show']);
+        Route::put('cuti/{id}', [CutiController::class, 'update']);
+        Route::patch('cuti/{id}/approve', [CutiController::class, 'approve']);
+        Route::patch('cuti/{id}/reject', [CutiController::class, 'reject']);
     });
     
 });
