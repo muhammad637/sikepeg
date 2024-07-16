@@ -36,9 +36,9 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin.1234',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
         ]);
-        // Ruangan::create([
-        //     'nama_ruangan' => 'admin',
-        // ]);
+        Ruangan::create([
+            'nama_ruangan' => 'admin',
+        ]);
         // Pangkat::create([
         //     'nama_pangkat' => 'juru muda'
         // ]);
@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
         //     'jenis' => 'pns'
         // ]);
         PangkatGolongan::factory(5)->create();
-        // Pegawai::factory(10)->create();
+        Pegawai::factory(10)->create();
         // // STR::factory(40)->create();
         // SIP::factory(40)->create();
 
