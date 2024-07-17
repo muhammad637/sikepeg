@@ -32,12 +32,12 @@ use App\Http\Controllers\CutiController;
 // Route::resource('STR', PegawaiController::class);
 // Route::resource('SIP', PegawaiController::class);
 Route::group(['prefix' => 'pegawai'], function () {
-    Route::post('login', 'App\Http\Controllers\PegawaiController@loginHandler');
-    Route::middleware('auth:pegawai')->group(function () {
-        Route::post('logout', 'App\Http\Controllers\PegawaiController@logoutHandler');
-        Route::get('/', 'App\Http\Controllers\PegawaiController@index');
-        Route::get('/profile', 'App\Http\Controllers\PegawaiController@show');
-        Route::get('/jabatan', 'App\Http\Controllers\JabatanController@index');
+    Route::post('login', [PegawaiController::class, 'loginHandler']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('logout', [PegawaiController::class, 'logoutHandler']);
+        Route::get('/', [PegawaiController::class, 'index']);
+        Route::get('/profile', [PegawaiController::class, 'show']);
+        Route::get('/jabatan', [JabatanController::class, 'index']);
         Route::get('/str', [STRController::class, 'index']);
         Route::post('/str', [STRController::class, 'store']);
         Route::get('/str/{str}', [STRController::class, 'show']);
@@ -50,6 +50,5 @@ Route::group(['prefix' => 'pegawai'], function () {
         Route::resource('cuti', CutiController::class);
         Route::post('cuti', [CutiController::class, 'store']);
     });
-    
 });
 
