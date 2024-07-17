@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('mutasis', function (Blueprint $table){
-
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('ruangan_awal_id')->nullable();

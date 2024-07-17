@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('tempat_praktik')->nullable();
             $table->string('link_sip');
             $table->text('alamat_sip')->nullable();
+            $table->enum('status_sip',['diterima','ditolak'])->nullable();
             $table->timestamps();
         });
     }
