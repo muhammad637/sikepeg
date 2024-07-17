@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
 use App\Models\STR;
@@ -10,14 +10,12 @@ use App\Exports\Export;
 use App\Models\Pegawai;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use App\Models\Ruangan;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DiklatController extends Controller
 {
-    //
     protected $bulan = [
         '01' => 'Januari',
         '02' => 'Ferbruari',
@@ -32,126 +30,34 @@ class DiklatController extends Controller
         '11' => 'November',
         '12' => 'Desember',
     ];
+
     public function index(Request $request)
     {
-        $dataNamaDiklat = [];
-        $nama_diklats = Diklat::orderBy('nama_diklat', 'asc')->get();
+        $diklat = Diklat::query()->orderBy('tanggal_selesai', 'desc');
 
-        foreach ($nama_diklats as $item) {
-            if (!in_array($item->nama_diklat, $dataNamaDiklat)) {
-                $dataNamaDiklat[] = $item->nama_diklat;
-            }
+        if ($request->input('nama_diklat') != null) {
+            $diklat->where('nama_diklat', $request->nama_diklat);
         }
-        if ($request->ajax()) {
-            $diklat = Diklat::query()->orderBy('tanggal_selesai', 'desc');
-            if ($request->input('nama_diklat') != null) {
-                $diklat->where('nama_diklat', $request->nama_diklat);
-            }
-            if ($request->input('ruangan') != null) {
-                $diklat->where('ruangan_id', $request->ruangan);
-            }
-            if ($request->input('bulan') != null) {
-                $diklat->whereMonth('tanggal_selesai', $request->bulan);
-            }
-            if ($request->input('tahun') != null) {
-                $diklat->whereYear('tanggal_selesai', $request->tahun);
-            }
-            $dataPegawaiDiklat = DataTables::of($diklat)
-                ->addIndexColumn()
-                ->addColumn('nama', function ($item) {
-                    return $item->pegawai->nama_lengkap ?? $item->nama_depan;
-                })
-                ->addColumn('nama_diklat', function ($item) {
-                    return $item->nama_diklat;
-                })
-                ->addColumn('nama_ruangan', function ($item) {
-                    return $item->ruangan->nama_ruangan;
-                })
-                ->addColumn('penyelenggara', function ($item) {
-                    return $item->penyelenggara;
-                })
-                ->addColumn('tahun', function ($item) {
-                    return $item->tahun;
-                })
-                ->addColumn('no_sertifikat', function ($item) {
-                    return $item->no_sertifikat;
-                })
-                ->addColumn('surat', 'pages.surat.diklat-index')
-                ->addColumn('aksi', 'pages.diklat.part.aksi-index')
-                ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
-                ->toJson();
-            return $dataPegawaiDiklat;
+
+        if ($request->input('ruangan') != null) {
+            $diklat->where('ruangan_id', $request->ruangan);
         }
-        return view('pages.diklat.index', [
-            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get(),
-            'dataNamaDiklat' => $dataNamaDiklat,
-            'bulan' => $this->bulan,
-        ]);
-    }
 
-    public function create()
-    {
-        $pegawai = Pegawai::where('status_tenaga', 'asn')->get();
-        return view('pages.diklat.create', ['pegawai' => $pegawai]);
-    }
-
-    public function edit(Diklat $diklat)
-    {
-        return view('pages.diklat.edit', [
-            'results' => Pegawai::all(),
-            'diklat' => $diklat,
-
-        ]);
-    }
-
-    public function update(Request $request, Diklat $diklat)
-    {
-        try {
-            $validatedData = $request->validate([
-                'nama_diklat' => 'required',
-                'jumlah_jam' => 'required',
-                'penyelenggara' => 'required',
-                'tempat' => 'required',
-                'tahun' => 'required',
-                'no_sertifikat' => 'required',
-                'tanggal_sertifikat' => 'required',
-                'link_sertifikat' => 'required',
-            ]);
-            $diklat->update(
-                [
-                    'pegawai_id' => $request->pegawai_id,
-                    'nama_diklat' => $request->nama_diklat,
-                    'tanggal_mulai' => $request->tanggal_mulai,
-                    'tanggal_selesai' => $request->tanggal_selesai,
-                    'jumlah_hari' => $request->jumlah_hari,
-                    'jumlah_jam' => $request->jumlah_jam,
-                    'penyelenggara' => $request->penyelenggara,
-                    'tempat' => $request->tempat,
-                    'tahun' => $request->tahun,
-                    'no_sertifikat' => $request->no_sertifikat,
-                    'tanggal_sertifikat' => $request->tanggal_sertifikat,
-                    'link_sertifikat' => $request->link_sertifikat,
-                ]
-            );
-            $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
-            $createNotif = Notifikasi::create($notif);
-            $createNotif->admin()->sync(Admin::adminId());
-            $createNotif->pegawai()->attach($diklat->pegawai->id);
-            alert()->success('berhasil', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
-            if (isset($request->riwayat)) {
-                return redirect(route('admin.diklat.riwayat', ['pegawai' => $request->pegawai_id]))->with('success', 'diklat berhasil diupdate');
-            }
-            return redirect(route('admin.diklat.index'))->with('success', 'diklat berhasil diupdate');
-        } catch (\Throwable $th) {
-            //throw $th;
-            return $th->getMessage();
+        if ($request->input('bulan') != null) {
+            $diklat->whereMonth('tanggal_selesai', $request->bulan);
         }
-    }
 
+        if ($request->input('tahun') != null) {
+            $diklat->whereYear('tanggal_selesai', $request->tahun);
+        }
+
+        $dataPegawaiDiklat = $diklat->with('pegawai', 'ruangan')->get();
+
+        return response()->json($dataPegawaiDiklat, 200);
+    }
 
     public function store(Request $request)
     {
-        // Validasi data input
         $validatedData = $request->validate([
             'nama_diklat' => 'required',
             'jumlah_jam' => 'required|integer',
@@ -164,108 +70,74 @@ class DiklatController extends Controller
             'ruangan_id' => 'required'
         ]);
 
-        // Membuat objek Diklat dengan menggunakan data yang valid
-        $diklat = Diklat::create([
-                'pegawai_id' => $request->pegawai_id,
-                'nama_diklat' => $request->nama_diklat,
-                'tanggal_mulai' => $request->tanggal_mulai,
-                'tanggal_selesai' => $request->tanggal_selesai,
-                'jumlah_hari' => $request->jumlah_hari,
-                'jumlah_jam' => $request->jumlah_jam,
-                'penyelenggara' => $request->penyelenggara,
-                'tempat' => $request->tempat,
-                'tahun' => $request->tahun,
-                'no_sertifikat' => $request->no_sertifikat,
-                'tanggal_sertifikat' => $request->tanggal_sertifikat,
-                'link_sertifikat' => $request->link_sertifikat,
-                'ruangan_id' => $request->ruangan_id
-            ]);
+        $diklat = Diklat::create($validatedData);
 
-        // Membuat notifikasi untuk tindakan tambah data diklat
         $notif = Notifikasi::notif('diklat', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
         $createNotif = Notifikasi::create($notif);
 
-        // Mengasosiasikan notifikasi dengan admin dan pegawai terkait
         $createNotif->admin()->sync(Admin::adminId());
         $createNotif->pegawai()->attach($diklat->pegawai->id);
 
-        // Menampilkan pesan sukses dan mengarahkan ke halaman indeks diklat
-        alert()->success('Berhasil', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name);
-        return redirect()->route('admin.diklat.index')->with('success', 'Diklat berhasil ditambahkan');
+        return response()->json(['message' => 'Diklat berhasil ditambahkan', 'diklat' => $diklat], 201);
     }
-
 
     public function show(Diklat $diklat)
     {
-        return view('pages.diklat.show', [
-            'diklat' => $diklat,
-        ]);
+        return response()->json($diklat, 200);
     }
 
-    public function riwayat(Pegawai $pegawai, Request $request)
+    public function update(Request $request, Diklat $diklat)
     {
-        if ($request->ajax()) {
-            $diklat = Diklat::query()->where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc');
-
-            $dataPegawaiDiklat = DataTables::of($diklat)
-                ->addIndexColumn()
-                ->addColumn('nama', function ($item) {
-                    return $item->pegawai->nama_lengkap ?? $item->pegawai->nama_depan;
-                })
-                ->addColumn('nama_diklat', function ($item) {
-                    return $item->nama_diklat;
-                })
-                ->addColumn('penyelenggara', function ($item) {
-                    return $item->penyelenggara;
-                })
-                ->addColumn('tahun', function ($item) {
-                    return $item->tahun;
-                })
-                ->addColumn('no_sertifikat', function ($item) {
-                    return $item->no_sertifikat;
-                })
-                ->addColumn('surat', 'pages.surat.diklat-riwayat')
-                ->addColumn('aksi', 'pages.diklat.part.aksi-riwayat')
-                ->rawColumns(['nama', 'nama_diklat', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
-                ->toJson();
-            return $dataPegawaiDiklat;
-        }
-        $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc')->get();
-        return view('pages.diklat.riwayat.index', [
-            'pegawai' => $pegawai,
-            'diklat' => $diklat
+        $validatedData = $request->validate([
+            'nama_diklat' => 'required',
+            'jumlah_jam' => 'required',
+            'penyelenggara' => 'required',
+            'tempat' => 'required',
+            'tahun' => 'required',
+            'no_sertifikat' => 'required',
+            'tanggal_sertifikat' => 'required',
+            'link_sertifikat' => 'required',
         ]);
-    }
 
-    public function showRiwayat(Diklat $diklat)
-    {
-        return view('pages.diklat.riwayat.show', [
-            'diklat' => $diklat
-        ]);
-    }
+        $diklat->update($validatedData);
 
-    public function editRiwayat(Diklat $diklat)
-    {
-        return view('pages.diklat.riwayat.edit', [
-            'diklat' => $diklat,
-            'results' => Pegawai::all()
-        ]);
+        $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($diklat->pegawai->id);
+
+        return response()->json(['message' => 'Diklat berhasil diperbarui', 'diklat' => $diklat], 200);
     }
 
     public function destroy(Diklat $diklat)
     {
         $diklat->delete();
-        alert()->success('data diklat berhasil dihapus');
-        return redirect()->back();
+        return response()->json(['message' => 'Diklat berhasil dihapus'], 200);
     }
+
+    public function riwayat(Pegawai $pegawai, Request $request)
+    {
+        $diklat = Diklat::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sertifikat', 'desc')->get();
+        return response()->json($diklat, 200);
+    }
+
+    public function showRiwayat(Diklat $diklat)
+    {
+        return response()->json($diklat, 200);
+    }
+
+    public function editRiwayat(Diklat $diklat)
+    {
+        return response()->json($diklat, 200);
+    }
+
     private function dataLaporan($diklats, $request)
     {
-       
-       
         $namaDiklat = $request->diklat != null ?  $request->diklat : 'semua nama diklat';
         $ruangan = $request->ruangan != null ?  Ruangan::find($request->ruangan)->nama_ruangan : 'semua ruangan';
         $bulan = $request->bulan != null ?  $this->bulan[$request->bulan] : 'semua bulan';
         $tahun = $request->tahun != null ?  $request->tahun : 'semua tahun';
+
         $dataLaporan = [];
         foreach ($diklats as $diklat) {
             array_push($dataLaporan, [
@@ -281,7 +153,7 @@ class DiklatController extends Controller
                 'link_sertifikat' => $diklat->link_sertifikat
             ]);
         }
-        // return $dataLaporan;
+
         $laporan = new Export([
             ["Rekapan Data Diklat"],
             ["Diklat : $namaDiklat"],
@@ -295,47 +167,55 @@ class DiklatController extends Controller
         return Excel::download($laporan, 'diklat.xlsx');
     }
 
-    // public function export_excel(Request $request)
-    // {
-    //     // return 'testing';
-    //     $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('str', function ($query) {
-    //         $query->orderBy('masa_berakhir_str', 'desc');
-    //     })->get();
-    //     return $this->dataLaporan($pegawai);
-    // }
-
     public function exportAll(Request $request)
     {
         $diklats = Diklat::query()->orderBy('created_at', 'desc');
-        if ($request->input('diklat') != null) {
+        if ($request->diklat != null) {
             $diklats->where('nama_diklat', $request->diklat);
         }
-        if ($request->input('ruangan') != null) {
+
+        if ($request->ruangan != null) {
             $diklats->where('ruangan_id', $request->ruangan);
         }
-        if ($request->input('bulan') != null) {
-            $diklats->whereMonth('tanggal_mulai', $request->bulan);
-        }
-        if ($request->input('tahun') != null) {
-            $diklats->where('tahun', $request->tahun);
-        }
-        // return $request->all();
-        // return $diklats->get();
-        return $this->dataLaporan($diklats->get(), $request);
+
+        return $this->dataLaporan($diklats->with('pegawai')->get(), $request);
     }
 
     public function exportYear(Request $request)
     {
-        $diklats = Diklat::where('tahun', $request->year)->orderBy('created_at', 'desc')->get();
-        return $this->dataLaporan($diklats, $request);
+        $diklats = Diklat::query()->orderBy('created_at', 'desc');
+
+        if ($request->diklat != null) {
+            $diklats->where('nama_diklat', $request->diklat);
+        }
+
+        if ($request->ruangan != null) {
+            $diklats->where('ruangan_id', $request->ruangan);
+        }
+
+        if ($request->tahun != null) {
+            $diklats->whereYear('tanggal_selesai', $request->tahun);
+        }
+
+        return $this->dataLaporan($diklats->with('pegawai')->get(), $request);
     }
+
     public function exportYearRange(Request $request)
     {
-        if ($request->yearAwal > $request->yearAkhir) {
-            alert()->error('mohon masukan rentang tahun dengan baik dan benar');
-            return redirect()->back();
+        $diklats = Diklat::query()->orderBy('created_at', 'desc');
+
+        if ($request->diklat != null) {
+            $diklats->where('nama_diklat', $request->diklat);
         }
-        $diklats = Diklat::whereBetween('tahun', [$request->yearAwal, $request->yearAkhir])->orderBy('created_at', 'desc')->get();
-        return $this->dataLaporan($diklats, $request);
+
+        if ($request->ruangan != null) {
+            $diklats->where('ruangan_id', $request->ruangan);
+        }
+
+        if ($request->tahun_mulai != null && $request->tahun_selesai != null) {
+            $diklats->whereBetween('tanggal_selesai', [$request->tahun_mulai, $request->tahun_selesai]);
+        }
+
+        return $this->dataLaporan($diklats->with('pegawai')->get(), $request);
     }
 }
