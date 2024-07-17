@@ -47,10 +47,8 @@ Route::group(['prefix' => 'pegawai'], function () {
         Route::get('sip/{pegawai}/history', [SIPController::class, 'history']);
         Route::get('sip/{sip}/show-riwayat', [SIPController::class, 'showRiwayat']);
         Route::get('sip/{sip}/edit-riwayat', [SIPController::class, 'editRiwayat']);
-        Route::get('cuti', [CutiController::class, 'index']);
+        Route::resource('cuti', CutiController::class);
         Route::post('cuti', [CutiController::class, 'store']);
-        Route::get('cuti/{id}', [CutiController::class, 'show']);
-        Route::put('cuti/{id}', [CutiController::class, 'update']);
     });
     
 });
