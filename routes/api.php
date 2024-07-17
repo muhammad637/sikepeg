@@ -47,18 +47,10 @@ Route::group(['prefix' => 'pegawai'], function () {
         Route::get('sip/{pegawai}/history', [SIPController::class, 'history']);
         Route::get('sip/{sip}/show-riwayat', [SIPController::class, 'showRiwayat']);
         Route::get('sip/{sip}/edit-riwayat', [SIPController::class, 'editRiwayat']);
-        Route::get('reminder-sip', [SIPController::class, 'reminderSIP']);
-        Route::get('export-sip', [SIPController::class, 'export_excel']);
-    });
-
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
         Route::get('cuti', [CutiController::class, 'index']);
         Route::post('cuti', [CutiController::class, 'store']);
         Route::get('cuti/{id}', [CutiController::class, 'show']);
         Route::put('cuti/{id}', [CutiController::class, 'update']);
-        Route::patch('cuti/{id}/approve', [CutiController::class, 'approve']);
-        Route::patch('cuti/{id}/reject', [CutiController::class, 'reject']);
     });
     
 });
