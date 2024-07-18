@@ -1,0 +1,10 @@
+login admin
+masuk ke /admin/login
+username : admin.1234
+password : password
+
+
+login pegawai
+masuk ke /pegawai/login
+username : (nip/nippk pegawai)
+password : (ulang tahun pegawai atau password)
