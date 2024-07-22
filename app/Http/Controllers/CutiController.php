@@ -295,7 +295,7 @@ class CutiController extends Controller
                 $createNotif = Notifikasi::create($notif);
                 $createNotif->admin()->sync(Admin::adminId());
                 $createNotif->pegawai()->attach($pegawaiUpdate->id);
-                alert()->success('berhasil', 'data cuti pegawai berhasi dibuat oleh ' . auth()->user()->name);
+                alert()->success('berhasil', 'data cuti pegawai berhasi diupdate oleh ' . auth()->user()->name);
                 return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasil ditambahkan');
             }
             if ($request->jenis_cuti == $cuti->jenis_cuti && $request->jenis_cuti == 'cuti tahunan') {

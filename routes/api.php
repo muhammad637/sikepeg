@@ -46,6 +46,7 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
 
         // cuti
         Route::get('/cuti/riwayat', [CutiController::class, 'index'])->name('cuti.riwayat');
+        Route::post('/cuti/create',[CutiController::class,'store']);
 
         // diklat
         Route::get('/diklat/riwayat', [DiklatController::class, 'index'])->name('diklat.riwayat');
