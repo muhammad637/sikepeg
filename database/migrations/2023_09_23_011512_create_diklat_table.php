@@ -28,7 +28,10 @@ return new class extends Migration
             $table->string('no_sertifikat')->nullable();
             $table->date('tanggal_sertifikat')->nullable();
             $table->string('link_sertifikat')->nullable();
-            $table->enum('status_diklat', ['diterima', 'ditolak'])->nullable();
+            $table->enum(
+                'status_diklat',
+                ['diterima, ditolak', 'pending']
+            )->default('pending');
             $table->timestamps();
         });
     }

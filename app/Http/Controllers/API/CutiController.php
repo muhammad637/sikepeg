@@ -70,8 +70,6 @@ class CutiController extends Controller
         // return "testing";
         try {
             //code...
-
-            return $request->all();
             // Validasi data input cuti
             $validatedData = $request->validate([
                 'jenis_cuti' => 'required',
@@ -81,13 +79,13 @@ class CutiController extends Controller
                 'no_hp' => 'required',
                 'alamat' => 'required',
                 'jumlah_hari' => 'required',
-                'link_cuti' => 'required|mimes:pdf', // Memastikan hanya file PDF yang diterima
+                'link_cuti' => 'required'
             ]);
 
-            // return $validatedData;
 
+           
             // Dapatkan data pegawai berdasarkan pegawai_id yang diberikan
-            $pegawai = Pegawai::find($request->pegawai_id);
+            $pegawai = Pegawai::find(auth()->user()->id);
 
             // Jika pegawai tidak ditemukan, tampilkan pesan error dan redirect ke halaman sebelumnya
             if (!$pegawai) {
@@ -97,11 +95,12 @@ class CutiController extends Controller
 
             // Dapatkan data cuti terakhir pegawai
             $cuti = Cuti::where('pegawai_id', $pegawai->id)->orderBy('selesai_cuti', 'desc')->first();
+            // return $cuti;
 
             // Jika terdapat data cuti terakhir
             if ($cuti) {
                 // Dapatkan data cuti yang bersinggungan dengan periode cuti yang diminta
-                $dataCuti = Cuti::where('pegawai_id', $request->pegawai_id)
+                $dataCuti = Cuti::where('pegawai_id', auth()->user()->id)
                     ->where(function ($query) use ($request) {
                         $query->whereBetween('mulai_cuti', [$request->mulai_cuti, $request->selesai_cuti])
                             ->orWhereBetween('selesai_cuti', [$request->mulai_cuti, $request->selesai_cuti]);
@@ -111,14 +110,11 @@ class CutiController extends Controller
 
                 // Jika terdapat data cuti yang bersinggungan atau validasi gagal, tampilkan pesan error dan redirect
                 if ($dataCuti->count() > 0  || $validasi) {
-                    // return [$dataCuti, $validasi];
-                    // alert()->error('Gagal', 'testing');
                     return response()->json([
                         'status' => 'error',
                         'message' => 'tanggal cuti yang anda masukkan masih berlaku',
                         'data' => []
                     ], 200);
-                    // return redirect()->back()->withInput();
                 }
             }
 
@@ -131,8 +127,7 @@ class CutiController extends Controller
                         'sisa_cuti_tahunan' => $pegawai->sisa_cuti_tahunan - $request->jumlah_hari
                     ]);
                 } else {
-                    // alert()->error('Gagal', 'Cuti tahunan pegawai ' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . ' telah habis pada tahun ini');
-                    // return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . ' telah habis pada tahun ini')->withInput();
+
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Cuti tahunan pegawai ' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . ' telah habis pada tahun ini',
@@ -145,13 +140,11 @@ class CutiController extends Controller
             if ($request->jenis_cuti == 'cuti besar') {
                 // Validasi sisa cuti tahunan
                 if ($pegawai->sisa_cuti_tahunan == 0) {
-                    // alert()->error('Gagal', 'Cuti tahunan pegawai ' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . ' telah habis pada tahun ini');
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Cuti tahunan pegawai ' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . ' telah habis pada tahun ini',
                         'data' => []
                     ], 200);
-                    // return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $pegawai->nama_lengkap ?? $pegawai->nama_depan . ' telah habis pada tahun ini')->withInput();
                 } else {
                     // Reset sisa cuti tahunan pegawai
                     $pegawai->update([
@@ -160,12 +153,13 @@ class CutiController extends Controller
                 }
             }
 
-            $fileName = Str::random(16) . '.' . $request->file('link_cuti')->getClientOriginalExtension();
-            Gdrive::put('dokumen/cuti/' . $fileName, $request->file('link_cuti'));
+
 
             // Buat objek Cuti
-            // $create = Cuti::create($request->all());
+            $fileName = Str::random(16) . '.' . $request->file('link_cuti')->getClientOriginalExtension();
+            Gdrive::put('dokumen/cuti/' . $fileName, $request->file('link_cuti'));
             $create = Cuti::create([
+                'pegawai_id' => auth()->user()->id,
                 'jenis_cuti' => $request->jenis_cuti,
                 'alasan_cuti' => $request->alasan_cuti,
                 'mulai_cuti' => $request->mulai_cuti,
@@ -185,17 +179,16 @@ class CutiController extends Controller
             $createNotif->pegawai()->attach($pegawai->id);
 
             // Tampilkan pesan sukses dan redirect ke halaman indeks cuti aktif
-            // alert()->success('Berhasil', 'Data cuti pegawai berhasil dibuat oleh ' . auth()->user()->name);
             return response()->json([
                 'status' => 'success',
                 'message' => 'data cuti berhasil ditambahkan',
                 'data' => $create
             ], 200);
-        // return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'Data cuti berhasil ditambahkan');
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (\Exception $th) {
             return $th->getMessage();
         }
+           
+        
        
     }
 }

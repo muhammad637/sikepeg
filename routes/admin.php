@@ -38,7 +38,7 @@ use Symfony\Component\HttpKernel\Profiler\Profile;
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest:admin','guest:pegawai'])->group(function () {
         Route::view('/login', 'auth.admin.login')->name('login');
-        Route::view('/', 'auth.admin.login')->name('login');
+        Route::view('/', 'auth.admin.login')->name('login.admin');
         Route::post('/login_handler', [AdminController::class, 'loginHandler'])->name('login_handler');
     });
 
