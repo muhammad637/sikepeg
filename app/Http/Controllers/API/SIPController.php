@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\API;
 
 use App\Models\SIP;
@@ -13,42 +12,39 @@ use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class SIPController extends Controller
 {
-    //
     public function index()
     {
         $user = auth()->user();
         $sip = SIP::where('pegawai_id', $user->id)->orderBy('updated_at', 'desc')->get();
         $data = SIPResource::collection($sip);
-        return response()->json(
-            [
-                'message' => "Data SIP Pegawai berhasil Di tamplikan",
-                'status' => 'success',
-                'data' => $sip,
-            ],
-            200
-        );
+
+        return response()->json([
+            'message' => "Data SIP Pegawai berhasil ditampilkan",
+            'status' => 'success',
+            'data' => $data,
+        ], 200);
     }
+
     public function store(Request $request)
     {
-        //
         try {
-            //code...
-            // return $request->all();
             $validatedData = $request->validate([
-                'no_str' => '',
+                'no_str' => 'nullable',
                 'no_sip' => 'required',
                 'no_rekomendasi' => 'required',
                 'penerbit_sip' => 'required',
-                'tanggal_terbit_sip' => 'required',
-                'masa_berakhir_sip' => 'required',
+                'tanggal_terbit_sip' => 'required|date',
+                'masa_berakhir_sip' => 'required|date',
                 'tempat_praktik' => 'required',
                 'link_sip' => 'required|mimes:pdf',
                 'alamat_sip' => 'required',
             ], [
-                'alamat_sip.required' => 'alamat tidak boleh kosong'
+                'alamat_sip.required' => 'Alamat tidak boleh kosong'
             ]);
+
             $fileName = Str::random(16) . '.' . $request->file('link_sip')->getClientOriginalExtension();
             Gdrive::put('dokumen/sip/' . $fileName, $request->file('link_sip'));
+
             $sip = SIP::create([
                 'pegawai_id' => auth()->user()->id,
                 'no_sip' => $request->no_sip,
@@ -61,18 +57,22 @@ class SIPController extends Controller
                 'link_sip' => $fileName,
                 'alamat_sip' => $request->alamat_sip
             ]);
-            $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
+
+            $notif = Notifikasi::notif('sip', 'Data SIP pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($sip->pegawai->id);
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'data sip berhasil di buat',
+                'message' => 'Data SIP berhasil dibuat',
                 'data' => $sip
             ], 200);
         } catch (\Throwable $th) {
-            //throw $th;
-            return $th->getMessage();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error: ' . $th->getMessage(),
+            ], 400);
         }
     }
 }
