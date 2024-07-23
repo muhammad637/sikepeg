@@ -6,15 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PegawaiResource;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\HasApiTokens;
+use App\Models\Pegawai;
 
 class AuthController extends Controller
 {
-    //
     public function loginHandler(Request $request)
     {
         try {
-            //code...
             $request->validate([
                 'nip_nippk' => 'required|exists:pegawais,nip_nippk',
                 'password' => 'required',
@@ -36,16 +34,16 @@ class AuthController extends Controller
                     'message' => 'berhasil Login sebagai Pegawai',
                     'data' => new PegawaiResource($user),
                     'token' => $token,
-                    'type' => 'Beareer',
+                    'type' => 'Bearer',
                 ], 200);
             } else {
                 return response()->json(['message' => 'data yang anda masukkan salah, coba lagi'], 400);
             }
         } catch (\Throwable $th) {
-            //throw $th;
             return response()->json(['message' => $th->getMessage()], 400);
         }
     }
+
     public function logoutHandler()
     {
         $user = Auth::guard('pegawai')->user();
