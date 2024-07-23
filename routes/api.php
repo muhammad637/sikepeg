@@ -77,8 +77,6 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
         Route::post('/downloadPDF', [PDFController::class, 'downloadPDF']);
         Route::get('/testing', [PDFController::class, 'tes']);
 
-
-    
         // logout
         Route::get('/logout', [AuthController::class, 'logoutHandler'])->name('logout_handler');
     });
