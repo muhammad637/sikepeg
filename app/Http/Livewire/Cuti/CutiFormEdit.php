@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Cuti;
 
 use Carbon\Carbon;
 use App\Models\Pegawai;
+use App\Models\Cuti; // Pastikan model Cuti diimpor
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Carbon\CarbonPeriod;
@@ -11,7 +12,7 @@ use App\Models\HariBesar;
 
 class CutiFormEdit extends Component
 {
-    use WithFileUploads; // Tambahkan baris ini untuk menyertakan trait WithFileUploads
+    use WithFileUploads;
 
     public $cuti;
     public $no_hp;
@@ -106,6 +107,22 @@ class CutiFormEdit extends Component
         }
 
         return max($jumlahHariCuti, 0);
+    }
+
+    public function save()
+    {
+        $this->validate([
+            'status_cuti' => 'required',
+            // Validasi lainnya jika diperlukan
+        ]);
+
+        $cuti = Cuti::find($this->cuti->id);
+        $cuti->status_cuti = $this->status_cuti;
+        // Simpan properti lain jika diperlukan
+
+        $cuti->save();
+
+        session()->flash('message', 'Status cuti berhasil diperbarui.');
     }
 
     public function render()
