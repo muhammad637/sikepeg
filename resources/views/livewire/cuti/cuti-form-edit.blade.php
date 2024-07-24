@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="link_cuti" class="col-sm-4 col-form-label">Upload Dokuemen Cuti</label>
+                <label for="link_cuti" class="col-sm-4 col-form-label">Upload Dokumen Cuti</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="link_cuti" name="link_cuti" wire:model="link_cuti"
                         required>
