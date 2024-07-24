@@ -92,14 +92,12 @@ class CutiFormEdit extends Component
     {
         $jumlahHariCuti = 0;
         $period = CarbonPeriod::create($tanggalMulai, $tanggalSelesai);
-
         foreach ($period as $tanggal) {
             $tanggalString = $tanggal->format('Y-m-d');
             if (!in_array($tanggalString, $hariBesar)) {
                 $jumlahHariCuti++;
             }
         }
-
         return max($jumlahHariCuti, 0);
     }
 
