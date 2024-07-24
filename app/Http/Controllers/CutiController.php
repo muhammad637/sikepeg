@@ -251,6 +251,7 @@ class CutiController extends Controller
             'mulai_cuti' => 'required',
             'selesai_cuti' => 'required',
             'jumlah_hari' => 'required',
+            'status_cuti' => 'requred',
             'link_cuti' => 'required',
         ]);
     
