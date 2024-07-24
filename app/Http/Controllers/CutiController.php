@@ -490,10 +490,11 @@ class CutiController extends Controller
      */
     public function editRiwayat(Cuti $cuti)
     {
-
+        $status_cuti = $cuti->status_cuti ?? 'pending';
         return view('pages.cuti.histori-cuti.edit', [
             'pegawai' => Pegawai::all(),
-            'cuti' => $cuti
+            'cuti' => $cuti,
+            'status_cuti' => $status_cuti
         ]);
     }
     private function dataLaporan($cutis, $request)
