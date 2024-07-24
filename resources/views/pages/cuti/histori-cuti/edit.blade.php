@@ -48,7 +48,7 @@
     <script>
         function validateCuti() {
             // Set the status_cuti value to 'validated' or any other status you need
-            document.getElementById('status_cuti').value = 'validated';
+            document.getElementById('status_cuti').value = 'diterima';
             // Submit the form
             document.getElementById('form-cuti').submit();
         }
