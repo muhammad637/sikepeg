@@ -5,11 +5,14 @@ namespace App\Http\Livewire\Cuti;
 use Carbon\Carbon;
 use App\Models\Pegawai;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Carbon\CarbonPeriod;
 use App\Models\HariBesar;
 
 class CutiFormEdit extends Component
 {
+    use WithFileUploads; // Tambahkan baris ini untuk menyertakan trait WithFileUploads
+
     public $cuti;
     public $no_hp;
     public $alamat;
@@ -51,6 +54,7 @@ class CutiFormEdit extends Component
             $this->sisa_cuti_tahunan_saat_ini = $pegawai->sisa_cuti_tahunan;
             $this->no_hp = old('no_hp', $pegawai->no_wa);
             $this->alamat = old('alamat', $pegawai->alamat);
+            $this->link_cuti = old('link_cuti', $pegawai->link_cuti);
         }
     }
 
@@ -72,6 +76,7 @@ class CutiFormEdit extends Component
             $this->alamat = $pegawai->alamat;
             $this->status_tipe = $pegawai->status_tipe;
             $this->sisa_cuti_tahunan_saat_ini = $pegawai->sisa_cuti_tahunan;
+            $this->link_cuti = $pegawai->link_cuti;
         }
     }
 
