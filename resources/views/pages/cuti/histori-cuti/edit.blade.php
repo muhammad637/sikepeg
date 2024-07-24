@@ -9,11 +9,10 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Edit Data Cuti</h4>
         <hr class="font-weight-bold">
-        <form id="form-cuti" action="{{ route('admin.cuti.data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
+        <form action="{{ route('admin.cuti.data-cuti-aktif.update', ['cuti' => $cuti->id]) }}" method="post">
             @method('put')
             @csrf
             <input type="hidden" name="histori_cuti" value="histori-cuti">
-            <input type="hidden" name="status_cuti" id="status_cuti" value="{{ $cuti->status }}">
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
                     <div class="row mb-3">
@@ -32,12 +31,6 @@
                     @livewire('cuti.cuti-form-edit', ['cuti' => $cuti, 'pegawai' => $cuti->pegawai_id])
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12 col-xl-12">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-success" onclick="validateCuti()">Validasi Cuti</button>
-                </div>
-            </div>
         </form>
     </div>
     <!-- /.container-fluid -->
@@ -45,12 +38,4 @@
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     @livewireScripts
-    <script>
-        function validateCuti() {
-            // Set the status_cuti value to 'validated' or any other status you need
-            document.getElementById('status_cuti').value = 'diterima';
-            // Submit the form
-            document.getElementById('form-cuti').submit();
-        }
-    </script>
 @endpush

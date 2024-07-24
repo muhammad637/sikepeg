@@ -251,8 +251,8 @@ class CutiController extends Controller
             'mulai_cuti' => 'required',
             'selesai_cuti' => 'required',
             'jumlah_hari' => 'required',
-            'status_cuti' => 'required|string|max:10',
-            'link_cuti' => 'required',
+            'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
+            'link_cuti' => 'required|mimes:pdf',
         ]);
     
         try {
@@ -295,11 +295,11 @@ class CutiController extends Controller
     
                 // Memperbarui data cuti
                 $cuti->update($request->all());
-                $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
+                $notif = Notifikasi::notif('cuti', 'data cuti pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
                 $createNotif = Notifikasi::create($notif);
                 $createNotif->admin()->sync(Admin::adminId());
                 $createNotif->pegawai()->attach($pegawaiUpdate->id);
-                alert()->success('berhasil', 'data cuti pegawai berhasi diupdate oleh ' . auth()->user()->name);
+                alert()->success('berhasil', 'data cuti pegawai berhasil diupdate oleh ' . auth()->user()->name);
                 return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'data cuti berhasil ditambahkan');
             }
     
@@ -333,11 +333,11 @@ class CutiController extends Controller
             }
     
             $cuti->update($request->all());
-            $notif = Notifikasi::notif('cuti', 'data cuti  pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
+            $notif = Notifikasi::notif('cuti', 'data cuti pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($pegawaiUpdate->id);
-            alert()->success('berhasil', 'data cuti pegawai berhasi diupdate oleh ' . auth()->user()->name);
+            alert()->success('berhasil', 'data cuti pegawai berhasil diupdate oleh ' . auth()->user()->name);
             
             if ($request->has('histori_cuti')) {
                 return redirect()->route('admin.cuti.histori-cuti.index')->with('success', 'data cuti berhasil diupdate');
