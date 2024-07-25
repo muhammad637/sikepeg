@@ -23,7 +23,7 @@ class CutiFormEdit extends Component
     public $mulai_cuti;
     public $selesai_cuti;
     public $jumlah_hari;
-    public $link_cuti;
+    // public $link_cuti;
     public $status_cuti;
     public $sisa_cuti_tahunan_saat_ini;
     public $sisa_cuti_tahunan_setelah_diubah = 0;
@@ -43,7 +43,7 @@ class CutiFormEdit extends Component
             $this->mulai_cuti = old('mulai_cuti', $cuti->mulai_cuti);
             $this->selesai_cuti = old('selesai_cuti', $cuti->selesai_cuti);
             $this->jumlah_hari = old('jumlah_hari', $cuti->jumlah_hari);
-            $this->link_cuti = old('link_cuti', $cuti->link_cuti);
+            // $this->link_cuti = old('link_cuti', $cuti->link_cuti);
             $pegawai = Pegawai::find($cuti->pegawai_id);
         } else {
             $pegawai = Pegawai::find($this->pegawai);
@@ -54,7 +54,7 @@ class CutiFormEdit extends Component
             $this->sisa_cuti_tahunan_saat_ini = $pegawai->sisa_cuti_tahunan;
             $this->no_hp = old('no_hp', $pegawai->no_wa);
             $this->alamat = old('alamat', $pegawai->alamat);
-            $this->link_cuti = old('link_cuti', $pegawai->link_cuti);
+            // $this->link_cuti = old('link_cuti', $pegawai->link_cuti);
         }
     }
 
@@ -75,8 +75,9 @@ class CutiFormEdit extends Component
             $this->no_hp = $pegawai->no_wa;
             $this->alamat = $pegawai->alamat;
             $this->status_tipe = $pegawai->status_tipe;
+            $this->status_cuti = $pegawai->status_cuti;
             $this->sisa_cuti_tahunan_saat_ini = $pegawai->sisa_cuti_tahunan;
-            $this->link_cuti = $pegawai->link_cuti;
+            // $this->link_cuti = $pegawai->link_cuti;
         }
     }
 
@@ -109,13 +110,14 @@ class CutiFormEdit extends Component
     public function save()
     {
         $this->validate([
-            'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
+         
             'jenis_cuti' => 'required|string',
             'alasan_cuti' => 'required|string',
             'mulai_cuti' => 'required|date',
             'selesai_cuti' => 'required|date',
             'jumlah_hari' => 'required|integer|min:1',
-            'link_cuti' => 'file|max:1024', // 1MB Max
+            'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
+            // 'link_cuti' => 'file|max:1024', // 1MB Max
         ]);
 
         $cuti = Cuti::find($this->cuti->id);
@@ -126,15 +128,15 @@ class CutiFormEdit extends Component
         $cuti->selesai_cuti = $this->selesai_cuti;
         $cuti->jumlah_hari = $this->jumlah_hari;
 
-        if ($this->link_cuti) {
-            $cuti->link_cuti = $this->link_cuti->store('cuti_files');
-        }
-        $path = $this->link_cuti->store('cuti', 's3');
+        // if ($this->link_cuti) {
+        //     $cuti->link_cuti = $this->link_cuti->store('cuti_files');
+        // }
+        // $path = $this->link_cuti->store('cuti', 's3');
 
         $cuti->save();
 
         session()->flash('message', 'Status cuti berhasil diperbarui.');
-        return redirect()->route('cuti.index'); // Adjust the route as needed
+        return redirect()->route('admin.cuti.data-cuti-aktif.index'); // Adjust the route as needed
     }
 
     public function render()

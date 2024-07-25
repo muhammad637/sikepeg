@@ -121,6 +121,7 @@ class CutiController extends Controller
             'alamat' => 'required',
             'jumlah_hari' => 'required',
             'link_cuti' => 'required',
+            'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
         ]);
 
         // Dapatkan data pegawai berdasarkan pegawai_id yang diberikan
@@ -251,7 +252,8 @@ class CutiController extends Controller
             'selesai_cuti' => 'required|date',
             'jumlah_hari' => 'required|integer',
             'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
-            'link_cuti' => 'required|mimes:pdf',
+
+            // 'link_cuti' => 'required|mimes:pdf',
         ]);
     
         try {
@@ -516,7 +518,7 @@ class CutiController extends Controller
                 'jumlah_hari' => $cuti->jumlah_hari . ' hari',
                 'alamat' => $cuti->alamat,
                 'no_hp' => $cuti->no_hp,
-                'link_cuti' => $cuti->link_cuti,
+                // 'link_cuti' => $cuti->link_cuti,
             ]);
         }
         // return $dataLaporan;
