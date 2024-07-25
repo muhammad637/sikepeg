@@ -105,6 +105,17 @@
     </div>
     @endif
     <div class="row mb-3">
+        <label for="status_cuti" class="col-sm-4 col-form-label">Status Cuti</label>
+        <div class="col-sm-8">
+            <select name="status_cuti" id="status_cuti" class="form-control" wire:model='status_cuti' required>
+                <option value="">Pilih</option>
+                <option value="pending" {{ $status_cuti == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="diterima" {{ $status_cuti == 'diterima' ? 'selected' : '' }}>Disetujui</option>
+                <option value="ditolak" {{ $status_cuti == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
         <label for="link_cuti" class="col-sm-4 col-form-label">Upload Dokumen Cuti</label>
         <div class="col-sm-8">
             <input type="text" class="form-control" id="link_cuti" name="link_cuti" wire:model="link_cuti" required>
