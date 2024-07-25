@@ -57,7 +57,7 @@
                         <select name="status_cuti" id="status_cuti" class="form-control" wire:model='status_cuti' required>
                             <option value="">Pilih</option>
                             <option value="pending" {{ $status_cuti == 'pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="disetujui" {{ $status_cuti == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                            <option value="diterima" {{ $status_cuti == 'diterima' ? 'selected' : '' }}>disetujui</option>
                             <option value="ditolak" {{ $status_cuti == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                         </select>
                     </div>
