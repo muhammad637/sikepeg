@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\Livewire\Cuti;
 
 use Carbon\Carbon;
 use App\Models\Pegawai;
-use App\Models\Cuti; // Pastikan model Cuti diimpor
+use App\Models\Cuti;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Carbon\CarbonPeriod;
@@ -33,9 +32,9 @@ class CutiFormEdit extends Component
 
     public function mount($cuti)
     {
-        $this->tanggal_saat_ini = Carbon::parse(now())->format('Y-m-d');
-        $this->tanggal_sebelumnya = Carbon::parse(now())->subDays(11)->format('Y-m-d');
-        
+        $this->tanggal_saat_ini = Carbon::now()->format('Y-m-d');
+        $this->tanggal_sebelumnya = Carbon::now()->subDays(11)->format('Y-m-d');
+
         if ($cuti) {
             $this->cuti = $cuti;
             $this->status_cuti = $cuti->status_cuti ?? 'pending';
@@ -83,7 +82,7 @@ class CutiFormEdit extends Component
 
     private function updateJumlahHariCuti()
     {
-        $tahun = Carbon::parse(now())->format('Y');
+        $tahun = Carbon::now()->format('Y');
 
         if ($this->mulai_cuti && $this->selesai_cuti) {
             $tanggalMulai = Carbon::parse($this->mulai_cuti);
@@ -112,17 +111,32 @@ class CutiFormEdit extends Component
     public function save()
     {
         $this->validate([
-            'status_cuti' => 'required',
-            // Validasi lainnya jika diperlukan
+            'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
+            'jenis_cuti' => 'required|string',
+            'alasan_cuti' => 'required|string',
+            'mulai_cuti' => 'required|date',
+            'selesai_cuti' => 'required|date',
+            'jumlah_hari' => 'required|integer|min:1',
+            'link_cuti' => 'file|max:1024', // 1MB Max
         ]);
 
         $cuti = Cuti::find($this->cuti->id);
         $cuti->status_cuti = $this->status_cuti;
-        // Simpan properti lain jika diperlukan
+        $cuti->jenis_cuti = $this->jenis_cuti;
+        $cuti->alasan_cuti = $this->alasan_cuti;
+        $cuti->mulai_cuti = $this->mulai_cuti;
+        $cuti->selesai_cuti = $this->selesai_cuti;
+        $cuti->jumlah_hari = $this->jumlah_hari;
+
+        if ($this->link_cuti) {
+            $cuti->link_cuti = $this->link_cuti->store('cuti_files');
+        }
+        $path = $this->link_cuti->store('cuti', 's3');
 
         $cuti->save();
 
         session()->flash('message', 'Status cuti berhasil diperbarui.');
+        return redirect()->route('cuti.index'); // Adjust the route as needed
     }
 
     public function render()
