@@ -48,6 +48,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('reminder')->name('reminder.')->group(function () {
             Route::get('/str', [STRController::class, 'reminderSTR'])->name('str.index');
             Route::get('/sip', [SIPController::class, 'reminderSIP'])->name('sip.index');
+            
         });
         Route::get('/notifikasi', [NotifikasiController::class, 'notifAdmin'])->name('notifikasi');
 
@@ -124,6 +125,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/export-all', [DiklatController::class, 'exportAll'])->name('export-all');
             Route::get('/export-year', [DiklatController::class, 'exportYear'])->name('export-year');
             Route::get('/export-year-range', [DiklatController::class, 'exportYearRange'])->name('export-range');
+            Route::post('/diklat/{diklat}/validate', [DiklatController::class, 'validateDiklat'])->name('admin.diklat.validate');
+
         });
         Route::resource('/diklat', DiklatController::class);
 

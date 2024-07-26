@@ -76,6 +76,9 @@ class DiklatController extends Controller
                 ->addColumn('no_sertifikat', function ($item) {
                     return $item->no_sertifikat;
                 })
+                ->addColumn('status_diklat', function ($item){
+                    return $item->status_diklat;
+                })
                 ->addColumn('surat', 'pages.surat.diklat-index')
                 ->addColumn('aksi', 'pages.diklat.part.aksi-index')
                 ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
@@ -116,37 +119,52 @@ class DiklatController extends Controller
                 'no_sertifikat' => 'required',
                 'tanggal_sertifikat' => 'required',
                 'link_sertifikat' => 'required',
+                'status_diklat' => 'required|in:pending,diterima,ditolak', // Validasi status
             ]);
-            $diklat->update(
-                [
-                    'pegawai_id' => $request->pegawai_id,
-                    'nama_diklat' => $request->nama_diklat,
-                    'tanggal_mulai' => $request->tanggal_mulai,
-                    'tanggal_selesai' => $request->tanggal_selesai,
-                    'jumlah_hari' => $request->jumlah_hari,
-                    'jumlah_jam' => $request->jumlah_jam,
-                    'penyelenggara' => $request->penyelenggara,
-                    'tempat' => $request->tempat,
-                    'tahun' => $request->tahun,
-                    'no_sertifikat' => $request->no_sertifikat,
-                    'tanggal_sertifikat' => $request->tanggal_sertifikat,
-                    'link_sertifikat' => $request->link_sertifikat,
-                ]
+    
+            $status_diklat = $request->input('status_diklat');
+    
+            // Update diklat
+            $diklat->update([
+                'pegawai_id' => $request->pegawai_id,
+                'nama_diklat' => $request->nama_diklat,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'jumlah_hari' => $request->jumlah_hari,
+                'jumlah_jam' => $request->jumlah_jam,
+                'penyelenggara' => $request->penyelenggara,
+                'tempat' => $request->tempat,
+                'tahun' => $request->tahun,
+                'no_sertifikat' => $request->no_sertifikat,
+                'tanggal_sertifikat' => $request->tanggal_sertifikat,
+                'link_sertifikat' => $request->link_sertifikat,
+                'status_diklat' => $status_diklat, // Update status
+            ]);
+    
+            // Notify about the update
+            $notif = Notifikasi::notif(
+                'diklat',
+                'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name,
+                'bg-success',
+                'fas fa-chalkboard-teacher'
             );
-            $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($diklat->pegawai->id);
-            alert()->success('berhasil', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
+            alert()->success('Berhasil', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name);
+    
+            // Redirect based on condition
             if (isset($request->riwayat)) {
-                return redirect(route('admin.diklat.riwayat', ['pegawai' => $request->pegawai_id]))->with('success', 'diklat berhasil diupdate');
+                return redirect(route('admin.diklat.riwayat', ['pegawai' => $request->pegawai_id]))
+                    ->with('success', 'Diklat berhasil diupdate');
             }
-            return redirect(route('admin.diklat.index'))->with('success', 'diklat berhasil diupdate');
+            return redirect(route('admin.diklat.index'))->with('success', 'Diklat berhasil diupdate');
         } catch (\Throwable $th) {
-            //throw $th;
-            return $th->getMessage();
+            // Handle errors
+            return back()->withErrors(['error' => $th->getMessage()]);
         }
     }
+    
 
 
     public function store(Request $request)

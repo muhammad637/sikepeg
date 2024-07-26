@@ -21,17 +21,6 @@
                         class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-2">Tambah <i
                             class="fas fa-plus-square ml-1"></i></a>
                     <a href="#export-semua" data-toggle="modal" class="btn btn-primary mt-0 mt-sm-2">Export Excel</a>
-                    {{-- <div class="dropdown mt-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Export Excel
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ route('admin.diklat.export-all') }}">Semua</a>
-                            <a class="dropdown-item" href="#export-perTahun" data-toggle="modal">Pertahun</a>
-                            <a class="dropdown-item" href="#export-rentangTahun" data-toggle="modal">Rentang Tahun</a>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -93,6 +82,7 @@
                             <th scope="col">Tahun</th>
                             <th scope="col">Nomer Sertifikat</th>
                             <th scope="col">Sertifikat</th>
+                            <th scope="col">Status</th> <!-- Kolom Status Ditambahkan -->
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -292,6 +282,10 @@
                     {
                         data: 'surat',
                         name: 'surat'
+                    },
+                    {
+                        data: 'status_diklat', // Kolom Status Ditambahkan
+                        name: 'status_diklat'
                     },
                     {
                         data: 'aksi',
