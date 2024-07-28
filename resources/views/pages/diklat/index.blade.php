@@ -17,9 +17,9 @@
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Data Diklat Pegawai</h4>
                 <div class="d-flex align-items-center">
-                    <a href="{{ route('admin.diklat.create') }}"
+                    {{-- <a href="{{ route('admin.diklat.create') }}"
                         class="btn btn-primary mt-0 mt-sm-2 text-capitalize mr-2">Tambah <i
-                            class="fas fa-plus-square ml-1"></i></a>
+                            class="fas fa-plus-square ml-1"></i></a> --}}
                     <a href="#export-semua" data-toggle="modal" class="btn btn-primary mt-0 mt-sm-2">Export Excel</a>
                 </div>
             </div>
