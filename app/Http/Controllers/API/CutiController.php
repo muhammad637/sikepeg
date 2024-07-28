@@ -92,9 +92,7 @@ class CutiController extends Controller
             }
 
             if ($request->jenis_cuti == 'cuti tahunan') {
-                if ($pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
-                    $pegawai->update(['sisa_cuti_tahunan' => $pegawai->sisa_cuti_tahunan - $request->jumlah_hari]);
-                } else {
+                if ($pegawai->sisa_cuti_tahunan < $request->jumlah_hari) {
                     return response()->json(['status' => 'error', 'message' => 'Cuti tahunan habis'], 400);
                 }
             }
@@ -102,8 +100,6 @@ class CutiController extends Controller
             if ($request->jenis_cuti == 'cuti besar') {
                 if ($pegawai->sisa_cuti_tahunan == 0) {
                     return response()->json(['status' => 'error', 'message' => 'Cuti tahunan habis'], 400);
-                } else {
-                    $pegawai->update(['sisa_cuti_tahunan' => 0]);
                 }
             }
 
@@ -120,6 +116,7 @@ class CutiController extends Controller
                 'alamat' => $request->alamat,
                 'jumlah_hari' => $request->jumlah_hari,
                 'link_cuti' => $fileName,
+                'status' => 'pending'
             ]);
 
             $notif = Notifikasi::notif('cuti', 'Data cuti pegawai ' . $pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
@@ -132,4 +129,5 @@ class CutiController extends Controller
             return response()->json(['status' => 'error', 'message' => $th->getMessage()], 400);
         }
     }
+
 }
