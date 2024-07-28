@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('alamat')->nullable();
             $table->integer('jumlah_hari')->nullable();
             $table->string('link_cuti')->nullable();
-            $table->enum('status_cuti', ['diterima, ditolak', 'pending'])->default('pending');
+            $table->enum('status_cuti', ['disetujui' ,'ditolak', 'pending'])->default('pending');
             $table->timestamps();
         });
     }

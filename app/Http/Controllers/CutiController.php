@@ -49,41 +49,37 @@ class CutiController extends Controller
     // data cuti aktif
     public function index(Request $request)
     {
-
-        // $cuti = Cuti::where('status', 'aktif')->orWhere('status', 'pending')->get();
         if ($request->ajax()) {
             $cuti = Cuti::query()->whereDate('selesai_cuti', '>=', now()->format('Y-m-d'));
             return  DataTables::of($cuti)
                 ->addIndexColumn()
                 ->addColumn('nama_lengkap', function ($item) {
                     return $item->pegawai->nama_lengkap;
-                    // return 'testing';
                 })
                 ->addColumn('status_tombol', function ($item) {
-                    $tanggal_mulai = Carbon::parse($item->mulai_cuti)->format('Ymd');
-                    $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
-                    $tanggal_saat_ini = now()->format('Ymd');
-                    $status = 'pending';
-                    if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
-                        $status = 'aktif';
+                    $status = $item->status_cuti;
+                    $color = 'warning'; // Default color for 'pending'
+                    if ($status == 'disetujui') {
+                        $color = 'success'; // Green color for 'disetujui'
+                    } elseif ($status == 'ditolak') {
+                        $color = 'danger'; // Red color for 'ditolak'
                     }
-                    return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : 'warning') . ' border-0">' . $status . '</button>';
+                    return '<button class="btn text-white btn-' . $color . ' border-0">' . $status . '</button>';
                 })
                 ->filterColumn('status_tombol', function ($query, $keyword) {
-                    if (Str::contains('pending', $keyword)) {
-                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '>', now()->format('Y-m-d'));
+                    if (Str::contains($keyword, 'pending')) {
+                        $query->where('status_cuti', 'pending');
                     }
-                    if (Str::contains('aktif', $keyword)) {
-                        $query->where('selesai_cuti', '>=', now()->format('Y-m-d'))->whereDate('mulai_cuti', '<=', now()->format('Y-m-d'));
-                    } elseif (Str::contains('nonaktif', $keyword)) {
-                        $query->where('selesai_cuti', '<', now()->format('Y-m-d'));
+                    if (Str::contains($keyword, 'aktif')) {
+                        $query->where('status_cuti', 'disetujui');
+                    } elseif (Str::contains($keyword, 'nonaktif')) {
+                        $query->where('status_cuti', 'ditolak');
                     }
                 })
                 ->addColumn('aksi', 'pages.cuti.data-cuti-aktif.part.aksi')
                 ->addColumn('surat', 'pages.cuti.data-cuti-aktif.part.surat')
                 ->rawColumns(['aksi', 'surat', 'nama_lengkap', 'status_tombol'])
                 ->toJson();
-            // return $dataCuti;
         }
         return view('pages.cuti.data-cuti-aktif.index', [
             'bulans' => $this->bulan
