@@ -48,6 +48,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('reminder')->name('reminder.')->group(function () {
             Route::get('/str', [STRController::class, 'reminderSTR'])->name('str.index');
             Route::get('/sip', [SIPController::class, 'reminderSIP'])->name('sip.index');
+            
         });
         Route::get('/notifikasi', [NotifikasiController::class, 'notifAdmin'])->name('notifikasi');
 
@@ -95,7 +96,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/show/{cuti:id}', [CutiController::class, 'show'])->name('show');
             Route::group(['prefix' => '/data-cuti-aktif'], function () {
                 Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
-                Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');
+                // Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');
                 Route::get('/edit/{cuti:id}', [CutiController::class, 'edit'])->name('data-cuti-aktif.edit');
                 Route::get('/{cuti:id}', [CutiController::class, 'show'])->name('data-cuti-aktif.show');
                 Route::post('/store', [CutiController::class, 'store'])->name('data-cuti-aktif.store');
@@ -124,6 +125,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/export-all', [DiklatController::class, 'exportAll'])->name('export-all');
             Route::get('/export-year', [DiklatController::class, 'exportYear'])->name('export-year');
             Route::get('/export-year-range', [DiklatController::class, 'exportYearRange'])->name('export-range');
+            Route::post('/diklat/{diklat}/validate', [DiklatController::class, 'validateDiklat'])->name('admin.diklat.validate');
+
         });
         Route::resource('/diklat', DiklatController::class);
 

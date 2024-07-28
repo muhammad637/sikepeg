@@ -123,6 +123,16 @@
                                 value="{{ old('link_sertifikat',$diklat->link_sertifikat) }}" name="link_sertifikat">
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label for="status_diklat" class="col-sm-4 col-form-label">Status Diklat</label>
+                        <div class="col-sm-8">
+                            <select name="status_diklat" id="status_diklat" class="form-control">
+                                <option value="pending" {{ $diklat->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="diterima" {{ $diklat->status == 'diterima' ? 'selected' : '' }}>Diterima</option>
+                                <option value="ditolak" {{ $diklat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="text-right">
                         <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
                         <button class="btn btn-success" type="submit">Kirim</button>
@@ -140,6 +150,7 @@
     <script>
         $(document).ready(function() {
             // alert('oke')
+            $('#status').select2()
             $('#select2').select2();
               $('#tanggal_mulai').on('change', function() {
                 let tanggal_mulai = $('#tanggal_mulai').val()

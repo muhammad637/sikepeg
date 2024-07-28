@@ -252,8 +252,6 @@ class CutiController extends Controller
             'selesai_cuti' => 'required|date',
             'jumlah_hari' => 'required|integer',
             'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
-
-            // 'link_cuti' => 'required|mimes:pdf',
         ]);
     
         try {
@@ -353,6 +351,7 @@ class CutiController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
+    
     
     
 

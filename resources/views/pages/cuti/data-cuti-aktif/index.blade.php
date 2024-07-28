@@ -7,8 +7,8 @@
         <div class="card-header ">
             <div class="d-md-flex justify-content-between d-sm-block">
                 <h4 class="m-0 font-weight-bold text-dark">Data Cuti Aktif Pegawai</h4>
-                <a href="{{ route('admin.cuti.data-cuti-aktif.create') }}"
-                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i class="fas fa-plus-square ml-1"></i></a>
+                {{-- <a href="{{ route('admin.cuti.data-cuti-aktif.create') }}"
+                    class="btn btn-primary mt-0 mt-sm-2 text-capitalize">Tambah <i class="fas fa-plus-square ml-1"></i></a> --}}
 
             </div>
         </div>

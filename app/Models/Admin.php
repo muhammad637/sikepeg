@@ -41,4 +41,5 @@ class Admin extends Authenticatable
     public static function adminId(){
         return Admin::all()->pluck('id');
     }
+    
 }

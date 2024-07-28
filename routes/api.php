@@ -53,7 +53,7 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
         // diklat
         Route::get('/diklat/riwayat', [DiklatController::class, 'index'])->name('diklat.riwayat');
         Route::post('/diklat/store', [DiklatController::class, 'store']);
-
+        Route::post('diklat/{id}', [DiklatController::class, 'update']);
 
 
         // mutasi
