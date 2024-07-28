@@ -36,7 +36,7 @@ class DiklatController extends Controller
     {
         $dataNamaDiklat = [];
         $nama_diklats = Diklat::orderBy('nama_diklat', 'asc')->get();
-
+    
         foreach ($nama_diklats as $item) {
             if (!in_array($item->nama_diklat, $dataNamaDiklat)) {
                 $dataNamaDiklat[] = $item->nama_diklat;
@@ -76,12 +76,19 @@ class DiklatController extends Controller
                 ->addColumn('no_sertifikat', function ($item) {
                     return $item->no_sertifikat;
                 })
-                ->addColumn('status_diklat', function ($item){
-                    return $item->status_diklat;
+                ->addColumn('status_diklat', function ($item) {
+                    $status = $item->status_diklat;
+                    $color = 'warning'; // Default color for 'pending'
+                    if ($status == 'diterima') {
+                        $color = 'success'; // Green color for 'disetujui'
+                    } elseif ($status == 'ditolak') {
+                        $color = 'danger'; // Red color for 'ditolak'
+                    }
+                    return '<button class="btn text-white btn-' . $color . ' border-0">' . $status . '</button>';
                 })
                 ->addColumn('surat', 'pages.surat.diklat-index')
                 ->addColumn('aksi', 'pages.diklat.part.aksi-index')
-                ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
+                ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan', 'penyelenggara', 'tahun', 'no_sertifikat', 'status_diklat', 'surat', 'aksi'])
                 ->toJson();
             return $dataPegawaiDiklat;
         }
@@ -91,6 +98,7 @@ class DiklatController extends Controller
             'bulan' => $this->bulan,
         ]);
     }
+    
 
     public function create()
     {
@@ -111,7 +119,7 @@ class DiklatController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'status_diklat' => 'required|in:pending,disetujui,ditolak',
+                'status_diklat' => 'required|in:pending,diterima,ditolak',
             ]);
 
             $status_diklat = $request->input('status_diklat');
