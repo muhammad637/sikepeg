@@ -30,7 +30,7 @@ class STRController extends Controller
                 'tanggal_terbit_str' => 'required|date',
                 'no_sertikom' => 'required',
                 'kompetensi' => 'required',
-                'masa_berakhir_str' => 'required|date',
+                'masa_berakhir_str' => 'required',
                 'link_str' => 'required|mimes:pdf',
             ]);
 
