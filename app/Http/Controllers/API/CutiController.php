@@ -105,6 +105,8 @@ class CutiController extends Controller
 
             $fileName = Str::random(16) . '.' . $request->file('link_cuti')->getClientOriginalExtension();
             Gdrive::put('dokumen/cuti/' . $fileName, $request->file('link_cuti'));
+           
+            Gdrive::put('location/filename.png', $request->file('file'));
 
             $create = Cuti::create([
                 'pegawai_id' => auth()->user()->id,

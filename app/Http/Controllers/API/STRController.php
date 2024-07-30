@@ -35,6 +35,7 @@ class STRController extends Controller
             ]);
 
             $fileName = time() . '_' . md5(uniqid()). '.' . $request->file('link_str')->getClientOriginalExtension();
+            
             Gdrive::put('dokumen/str/' . $fileName, $request->file('link_str'));
 
             $str = STR::create([

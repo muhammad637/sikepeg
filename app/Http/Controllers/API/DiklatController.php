@@ -44,7 +44,7 @@ class DiklatController extends Controller
             ]);
            
 
-            Gdrive::put('location/filename.png', $request->file('file'));
+            Gdrive::put('dokumen/diklat/', $request->file('file'));
 
             // Simpan data diklat tanpa link dokumen
             $diklat = Diklat::create([
