@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
 use App\Models\Admin;
@@ -39,8 +40,12 @@ class DiklatController extends Controller
                 'tahun' => 'required',
                 'tanggal_mulai' => 'required|date',
                 'tanggal_selesai' => 'required|date',
-                'jumlah_hari' => 'required|integer',
+                'jumlah_hari' => 'required|integer', 'link_pengajuan_diklat' => 'required|file'
+
             ]);
+
+            $fileName = time() . '_' . md5(uniqid()) . '.' . $request->file('link_pengajuan_diklat')->getClientOriginalExtension();
+            Gdrive::put('dokumen/diklat/' . $fileName, $request->file('link_pengajuan_diklat'));
 
             // Simpan data diklat tanpa link dokumen
             $diklat = Diklat::create([
@@ -57,7 +62,8 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => null,
                 'link_sertifikat' => null,
                 'ruangan_id' => auth()->user()->ruangan->id,
-                'status' => 'pending',
+                'status' => 'pending', 'link_pengajuan_diklat' => $fileName,
+
             ]);
 
             // Buat notifikasi
@@ -94,7 +100,7 @@ class DiklatController extends Controller
             $diklat = Diklat::findOrFail($id);
 
             // Periksa apakah diklat sudah disetujui
-            if ($diklat->status !== 'disetujui') {
+            if ($diklat->status_diklat !== 'diterima') {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Diklat belum disetujui',

@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('ruangan_id')->constrained('ruangans')->onUpdate('cascade')->onDelete('cascade');
+
             $table->string('nama_diklat')->nullable();
+            $table->string('link_pengajuan_diklat')->nullable();
             $table->string('tanggal_mulai')->nullable();
             $table->string('tanggal_selesai')->nullable();
             $table->integer('jumlah_hari')->nullable();

@@ -9,6 +9,7 @@ use App\Models\STR;
 use App\Models\Cuti;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Diklat;
 use App\Models\Pangkat;
 use App\Models\Pegawai;
 use App\Models\Ruangan;
@@ -16,6 +17,7 @@ use App\Models\Golongan;
 use App\Models\PangkatGolongan;
 use Illuminate\Database\Seeder;
 use Database\Seeders\MutasiSeeder;
+use Database\Seeders\PegawaiSeeder;
 use Database\Factories\PegawaiNakesFactory;
 
 class DatabaseSeeder extends Seeder
@@ -46,6 +48,6 @@ class DatabaseSeeder extends Seeder
         SIP::factory(40)->create();
         $this->call(MutasiSeeder::class);
         Cuti::factory(100)->create();
-
+    //    $this->call(DiklatSeeder::class);
     }
 }
