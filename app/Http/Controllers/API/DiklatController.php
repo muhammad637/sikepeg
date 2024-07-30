@@ -31,6 +31,7 @@ class DiklatController extends Controller
     {
         try {
             // Validasi input
+            // return request()->all();
             $validatedData = $request->validate([
                 'nama_diklat' => 'required',
                 'jumlah_jam' => 'required|integer',
@@ -41,6 +42,9 @@ class DiklatController extends Controller
                 'tanggal_selesai' => 'required|date',
                 'jumlah_hari' => 'required|integer',
             ]);
+           
+
+            Gdrive::put('location/filename.png', $request->file('file'));
 
             // Simpan data diklat tanpa link dokumen
             $diklat = Diklat::create([
@@ -94,7 +98,7 @@ class DiklatController extends Controller
             $diklat = Diklat::findOrFail($id);
 
             // Periksa apakah diklat sudah disetujui
-            if ($diklat->status !== 'disetujui') {
+            if ($diklat->status_diklat !== 'disetujui') {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Diklat belum disetujui',

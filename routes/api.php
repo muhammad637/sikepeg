@@ -38,8 +38,9 @@ Route::post('/user', [UserController::class, 'store']);
 Route::get('/testingPDF', [PDFController::class, 'downloadPDF']);
 
 Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
+    Route::post('/login', [AuthController::class, 'loginHandler'])->name('login_handler');
     Route::middleware(['guest:pegawai', 'guest:admin'])->group(function () {
-        Route::post('/login', [AuthController::class, 'loginHandler'])->name('login_handler');
+       
     });
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/testing2', function () {
