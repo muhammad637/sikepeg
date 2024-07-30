@@ -15,8 +15,8 @@ class PegawaiSeeder extends Seeder
     public function run()
     {
         \App\Models\Pegawai::create([
-            'nik' => '',
-            'nip_nippk' => '234123',
+            'nik' => '123456',
+            'nip_nippk' => '1234567890',
             'gelar_depan' => 'Dr.',
             'gelar_belakang' => 'S.Kom.',
             'nama_depan' => 'John',

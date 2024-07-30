@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DiklatResource extends JsonResource
@@ -21,8 +22,8 @@ class DiklatResource extends JsonResource
         'ruangan_id' => $this->ruangan_id,
         'ruangan' => $this->ruangan->nama_ruangan,
         'nama_diklat' => $this->nama_diklat,
-        'tanggal_mulai' => $this->tanggal_mulai,
-        'tanggal_selesai' => $this->tanggal_selesai,
+        'tanggal_mulai' => Carbon::parse($this->tanggal_mulai)->format('d-m-Y'),
+        'tanggal_selesai' => Carbon::parse($this->tanggal_selesai)->format('d-m-Y'),
         'jumlah_hari' => $this->jumlah_hari,
         'jumlah_jam' => $this->jumlah_jam,
         'penyelenggara' => $this->penyelenggara,
@@ -33,6 +34,7 @@ class DiklatResource extends JsonResource
         'link_sertifikat' => $this->link_sertifikat,
         'created_at' => $this->created_at,
         'updated_at' => $this->updated_at,
+        'status_diklat' => $this->status_diklat,
         ];
     }
 }

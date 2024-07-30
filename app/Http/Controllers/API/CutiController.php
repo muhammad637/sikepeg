@@ -126,7 +126,7 @@ class CutiController extends Controller
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($pegawai->id);
 
-            return response()->json(['status' => 'success', 'message' => 'Data cuti berhasil ditambahkan', 'data' => $create], 200);
+            return response()->json(['status' => 'success', 'message' => 'Data cuti berhasil ditambahkan', 'data' => new CutiResource($create)], 200);
         } catch (\Exception $th) {
             return response()->json(['status' => 'error', 'message' => $th->getMessage()], 400);
         }
