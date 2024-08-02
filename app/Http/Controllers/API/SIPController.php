@@ -44,7 +44,7 @@ class SIPController extends Controller
 
             $fileName = Str::random(16) . '.' . $request->file('link_sip')->getClientOriginalExtension();
             Gdrive::put('dokumen/sip/' . $fileName, $request->file('link_sip'));
-
+            
             $sip = SIP::create([
                 'pegawai_id' => auth()->user()->id,
                 'no_sip' => $request->no_sip,

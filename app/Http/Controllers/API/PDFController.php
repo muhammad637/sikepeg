@@ -13,15 +13,24 @@ class PDFController extends Controller
 
     public function downloadPDF(Request $request)
     {
-        $data = Gdrive::readStream('dokumen/' . $request->namePath . '/' . $request->namaFile);
-
-
-        return response()->stream(function () use ($data) {
-            fpassthru($data->file);
-        }, 200, [
-            'Content-Type' => $data->ext,
-            'Content-disposition' => 'attachment; filename="' . $request->namaFile . '"', // force download?
+        $validatedData = $request->validate([
+            'namePath' => 'required',
+            'namaFile' => 'required'
         ]);
+        $url = 'dokumen/' . $request->namePath . '/' . $request->namaFile;
+        $data = Gdrive::readStream($url);
+
+
+        // return response()->stream(function () use ($data) {
+        //     fpassthru($data->file);
+        // }, 200, [
+        //     'Content-Type' => $data->ext,
+        //     'Content-disposition' => 'attachment; filename="' . $request->namaFile . '"', // force download?
+        // ]);
+        $data = Gdrive::get($url);
+        return response($data->file, 200)
+            ->header('Content-Type', $data->ext)
+            ->header('Content-disposition', 'attachment; filename="'.$data->filename.'"');
        
     }
     public function tes()

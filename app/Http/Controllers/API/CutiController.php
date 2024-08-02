@@ -106,7 +106,7 @@ class CutiController extends Controller
             $fileName = Str::random(16) . '.' . $request->file('link_cuti')->getClientOriginalExtension();
             Gdrive::put('dokumen/cuti/' . $fileName, $request->file('link_cuti'));
            
-            Gdrive::put('location/filename.png', $request->file('file'));
+            // Gdrive::put('location/filename.png', $request->file('file'));
 
             $create = Cuti::create([
                 'pegawai_id' => auth()->user()->id,
@@ -131,5 +131,74 @@ class CutiController extends Controller
             return response()->json(['status' => 'error', 'message' => $th->getMessage()], 400);
         }
     }
+    public function update(Request $request, $id)
+{
+    try {
+        $validatedData = $request->validate([
+            'jenis_cuti' => 'required',
+            'alasan_cuti' => 'required',
+            'mulai_cuti' => 'required',
+            'selesai_cuti' => 'required',
+            'no_hp' => 'required',
+            'alamat' => 'required',
+            'jumlah_hari' => 'required',
+            'link_cuti' => 'sometimes|file'
+        ]);
+
+        $cuti = Cuti::find($id);
+
+        if (!$cuti) {
+            return response()->json(['status' => 'error', 'message' => 'Data cuti tidak ditemukan'], 404);
+        }
+
+        $pegawai = Pegawai::find(auth()->user()->id);
+
+        if (!$pegawai) {
+            return response()->json(['status' => 'error', 'message' => 'Pegawai tidak ditemukan'], 404);
+        }
+
+        $cutiLain = Cuti::where('pegawai_id', $pegawai->id)
+            ->where('id', '!=', $id)
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('mulai_cuti', [$request->mulai_cuti, $request->selesai_cuti])
+                    ->orWhereBetween('selesai_cuti', [$request->mulai_cuti, $request->selesai_cuti]);
+            })->get();
+
+        if ($cutiLain->count() > 0) {
+            return response()->json(['status' => 'error', 'message' => 'Tanggal cuti yang Anda masukkan masih berlaku'], 400);
+        }
+
+        if ($request->hasFile('link_cuti')) {
+            // Hapus file lama dari Google Drive
+            if ($cuti->link_cuti) {
+                Gdrive::delete('dokumen/cuti/' . $cuti->link_cuti);
+            }
+
+            // Unggah file baru ke Google Drive
+            $fileName = Str::random(16) . '.' . $request->file('link_cuti')->getClientOriginalExtension();
+            Gdrive::put('dokumen/cuti/' . $fileName, $request->file('link_cuti'));
+            $cuti->link_cuti = $fileName;
+        }
+
+        $cuti->jenis_cuti = $request->jenis_cuti;
+        $cuti->alasan_cuti = $request->alasan_cuti;
+        $cuti->mulai_cuti = $request->mulai_cuti;
+        $cuti->selesai_cuti = $request->selesai_cuti;
+        $cuti->no_hp = $request->no_hp;
+        $cuti->alamat = $request->alamat;
+        $cuti->jumlah_hari = $request->jumlah_hari;
+        $cuti->save();
+
+        $notif = Notifikasi::notif('cuti', 'Data cuti pegawai ' . $pegawai->nama_lengkap . ' berhasil diperbarui oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
+        $createNotif = Notifikasi::create($notif);
+        $createNotif->admin()->sync(Admin::adminId());
+        $createNotif->pegawai()->attach($pegawai->id);
+
+        return response()->json(['status' => 'success', 'message' => 'Data cuti berhasil diperbarui', 'data' => new CutiResource($cuti)], 200);
+    } catch (\Exception $th) {
+        return response()->json(['status' => 'error', 'message' => $th->getMessage()], 400);
+    }
+}
+
 
 }

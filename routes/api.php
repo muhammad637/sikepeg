@@ -11,6 +11,7 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CutiController;
 use App\Http\Controllers\API\DiklatController;
+use App\Http\Controllers\API\DownloadPDFController;
 use App\Http\Controllers\API\MutasiController;
 use App\Http\Controllers\API\JabatanController;
 use App\Http\Controllers\API\KenaikanPangkatController;
@@ -34,13 +35,16 @@ use App\Http\Controllers\API\KenaikanPangkatController;
 Route::post('/user', [UserController::class, 'store']);
 
 
-// downloadPDF
-Route::get('/testingPDF', [PDFController::class, 'downloadPDF']);
 
+// downloadPDF
+Route::get('/testing-upload', [DownloadPDFController::class, 'uploadTes']);
+
+Route::get('/downloadPdf', [DownloadPDFController::class, 'download']);
 Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
     Route::post('/login', [AuthController::class, 'loginHandler'])->name('login_handler');
+
+    // Route::get('/downloadPdf', [DownloadPDFController::class, 'download']);
     Route::middleware(['guest:pegawai', 'guest:admin'])->group(function () {
-       
     });
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/testing2', function () {
@@ -49,7 +53,8 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
 
         // cuti
         Route::get('/cuti/riwayat', [CutiController::class, 'index'])->name('cuti.riwayat');
-        Route::post('/cuti/store',[CutiController::class,'store']);
+        Route::post('/cuti/store', [CutiController::class, 'store']);
+        Route::put('/cuti/{id}', [CutiController::class, 'update'])->name('cuti/update');
 
         // diklat
         Route::get('/diklat/riwayat', [DiklatController::class, 'index'])->name('diklat.riwayat');
@@ -74,12 +79,14 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
         Route::get('/sip/riwayat', [SIPController::class, 'index'])->name('sip.riwayat');
         Route::post('/sip/store', [SIPController::class, 'store']);
 
-       
+
         Route::post('/downloadPDF', [PDFController::class, 'downloadPDF']);
         Route::get('/testing', [PDFController::class, 'tes']);
 
+        // downloadPDF
+        Route::get('/downloadPDF', [PDFController::class, 'downloadPDF']);
+        
         // logout
         Route::get('/logout', [AuthController::class, 'logoutHandler'])->name('logout_handler');
     });
 });
-

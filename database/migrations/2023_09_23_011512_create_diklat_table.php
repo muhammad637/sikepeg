@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('ruangan_id')->constrained('ruangans')->onUpdate('cascade')->onDelete('cascade');
 
             $table->string('nama_diklat')->nullable();
-            $table->string('link_pengajuan_diklat')->nullable();
+            // $table->string('link_pengajuan_diklat')->nullable();
             $table->string('tanggal_mulai')->nullable();
             $table->string('tanggal_selesai')->nullable();
             $table->integer('jumlah_hari')->nullable();
@@ -34,6 +34,7 @@ return new class extends Migration
                 'status_diklat',
                 ['diterima', 'ditolak', 'pending']
             )->default('pending');
+            $table->string('link_pengajuan_diklat')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,7 @@ use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class DiklatController extends Controller
 {
+    
     // Function index
     public function index()
     {
@@ -45,8 +46,6 @@ class DiklatController extends Controller
 
             ]);
            
-
-            Gdrive::put('dokumen/diklat/', $request->file('file'));
 
             $fileName = time() . '_' . md5(uniqid()) . '.' . $request->file('link_pengajuan_diklat')->getClientOriginalExtension();
             Gdrive::put('dokumen/diklat/' . $fileName, $request->file('link_pengajuan_diklat'));
