@@ -10,7 +10,7 @@ use App\Http\Resources\SIPResource;
 use App\Http\Controllers\Controller;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
-class SIPController extends Controller
+class SIPControllerAPI extends Controller
 {
     public function index()
     {

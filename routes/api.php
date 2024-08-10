@@ -14,6 +14,7 @@ use App\Http\Controllers\API\DiklatController;
 use App\Http\Controllers\API\MutasiController;
 use App\Http\Controllers\API\JabatanController;
 use App\Http\Controllers\API\KenaikanPangkatController;
+use App\Http\Controllers\API\SIPControllerAPI;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
         // cuti
         Route::get('/cuti/riwayat', [CutiController::class, 'index'])->name('cuti.riwayat');
         Route::post('/cuti/store',[CutiController::class,'store']);
+        Route::post('/cuti/{cuti:id}',[CutiController::class,'update']);
 
         // diklat
         Route::get('/diklat/riwayat', [DiklatController::class, 'index'])->name('diklat.riwayat');
@@ -71,8 +73,8 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
         Route::post('/str/store', [STRController::class, 'store']);
 
         // SIP
-        Route::get('/sip/riwayat', [SIPController::class, 'index'])->name('sip.riwayat');
-        Route::post('/sip/store', [SIPController::class, 'store']);
+        Route::get('/sip/riwayat', [SIPControllerAPI::class, 'index'])->name('sip.riwayat');
+        Route::post('/sip/store', [SIPControllerAPI::class, 'store']);
 
        
         Route::post('/downloadPDF', [PDFController::class, 'downloadPDF']);

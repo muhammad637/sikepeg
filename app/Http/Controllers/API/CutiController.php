@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
@@ -66,7 +67,7 @@ class CutiController extends Controller
                 'no_hp' => 'required',
                 'alamat' => 'required',
                 'jumlah_hari' => 'required',
-                'link_cuti' => 'required|file'
+                // 'link_cuti' => 'required|file'
             ]);
 
             $pegawai = Pegawai::find(auth()->user()->id);
@@ -103,8 +104,7 @@ class CutiController extends Controller
                 }
             }
 
-            $fileName = Str::random(16) . '.' . $request->file('link_cuti')->getClientOriginalExtension();
-            Gdrive::put('dokumen/cuti/' . $fileName, $request->file('link_cuti'));
+
 
             $create = Cuti::create([
                 'pegawai_id' => auth()->user()->id,
@@ -115,7 +115,6 @@ class CutiController extends Controller
                 'no_hp' => $request->no_hp,
                 'alamat' => $request->alamat,
                 'jumlah_hari' => $request->jumlah_hari,
-                'link_cuti' => $fileName,
                 'status' => 'pending'
             ]);
 
@@ -130,4 +129,62 @@ class CutiController extends Controller
         }
     }
 
+    public function update(Request $r, $id)
+    {
+        try {
+            //code...
+
+            $cuti =  Cuti::find($id);
+            $validatedData = $r->validate([
+                'link_cuti' => 'file'
+            ]);
+
+            if (!$cuti->link_cuti) {
+                # code...
+                $r->validate([
+                    'link_cuti' => 'required|file'
+                ]);
+            }
+
+            if ($cuti->status_cuti != 'pending') {
+                return response()->json(
+                    [
+                        'status' => 'error',
+                        'message' => 'status cuti sudah di validasi',
+                    ],
+                    401
+                );
+            }
+            // return $cuti->link_cuti != null ? 'ada' : 'tidak ada';
+
+
+            if ($r->hasFile($r->statusCuti) && $cuti->status_cuti == null) {
+
+                if ($cuti->status_cuti != null) {
+                    GDrive::delete('dokumen/cuti/' . $cuti->link_cuti);
+                }
+                $fileName = Carbon::now() . ' - Bukti Cuti' . '.' . $r->file('link_cuti')->getClientOriginalExtension();
+                Gdrive::put('dokumen/cuti/' . $fileName, $r->file('link_cuti'));
+
+                $cuti->update([
+                    'link_cuti' => $fileName
+                ]);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'data berhasil di update'
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'tidak ada perubahan data cuti'
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status' => 'success',
+                'message' => 'data gagal di update : ' . $th->getMessage()
+            ], 400);
+        }
+    }
 }

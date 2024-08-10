@@ -1,27 +1,26 @@
 <?php
 
-use App\Console\Commands\KenaikanPangkat;
+use App\Models\Jabatan;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SIPController;
 use App\Http\Controllers\STRController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\API\SIPControllerAPI;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\GolonganController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HariBesarController;
-use App\Http\Controllers\NotifikasiController;
-use App\Http\Controllers\DashboardAdminController;
-use App\Http\Controllers\PromosiDemosiController;
-use App\Http\Controllers\KenaikanPangkatController;
 use App\Http\Controllers\MasterDataTahunCuti;
-use App\Http\Controllers\MasterDataKenaikanPangkatController;
-use App\Models\Jabatan;
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\PromosiDemosiController;
+use App\Http\Controllers\DashboardAdminController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\KenaikanPangkatController;
+use App\Http\Controllers\MasterDataKenaikanPangkatController;
 
 /*
 |--------------------------------------------------------------------------

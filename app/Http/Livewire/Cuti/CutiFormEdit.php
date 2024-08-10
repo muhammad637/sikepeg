@@ -40,8 +40,8 @@ class CutiFormEdit extends Component
             $this->status_cuti = $cuti->status_cuti ?? 'pending';
             $this->jenis_cuti = old('jenis_cuti', $cuti->jenis_cuti);
             $this->alasan_cuti = old('alasan_cuti', $cuti->alasan_cuti);
-            $this->mulai_cuti = old('mulai_cuti', $cuti->mulai_cuti);
-            $this->selesai_cuti = old('selesai_cuti', $cuti->selesai_cuti);
+            $this->mulai_cuti = old('mulai_cuti', Carbon::parse($cuti->mulai_cuti)->format('Y-m-d'));
+            $this->selesai_cuti = old('selesai_cuti', Carbon::parse($cuti->selesai_cuti)->format('Y-m-d'));
             $this->jumlah_hari = old('jumlah_hari', $cuti->jumlah_hari);
             // $this->link_cuti = old('link_cuti', $cuti->link_cuti);
             $pegawai = Pegawai::find($cuti->pegawai_id);

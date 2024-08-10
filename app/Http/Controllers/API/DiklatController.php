@@ -46,7 +46,7 @@ class DiklatController extends Controller
             ]);
            
 
-            Gdrive::put('location/filename.png', $request->file('file'));
+            // Gdrive::put('location/filename.png', $request->file('file'));
 
             $fileName = time() . '_' . md5(uniqid()) . '.' . $request->file('link_pengajuan_diklat')->getClientOriginalExtension();
             Gdrive::put('dokumen/diklat/' . $fileName, $request->file('link_pengajuan_diklat'));
@@ -97,7 +97,7 @@ class DiklatController extends Controller
             $validatedData = $request->validate([
                 'link_sertifikat' => 'required|file',
                 'no_sertifikat' => 'required',
-                'tanggal_sertifikat' => 'required|date',
+                'tanggal_sertifikat' => 'required',
             ]);
 
             // Cari diklat berdasarkan ID
