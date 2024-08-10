@@ -72,6 +72,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dc1e3031c2721a25beb2e8fbb175b576e3d60ab9",
                 "reference": "dc1e3031c2721a25beb2e8fbb175b576e3d60ab9",
+
                 "shasum": ""
             },
             "require": {
@@ -154,6 +155,7 @@
                 "source": "https://github.com/aws/aws-sdk-php/tree/3.317.1"
             },
             "time": "2024-08-02T18:09:42+00:00"
+
         },
         {
             "name": "brick/math",
