@@ -3,212 +3,340 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\SIP;
 use App\Models\STR;
 use App\Models\Admin;
-use App\Models\Diklat;
-use App\Exports\Export;
 use App\Models\Pegawai;
+use App\Exports\SIPExport;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use App\Http\Controllers\Controller;
-use App\Models\Ruangan;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
-class DiklatController extends Controller
+class SIPController extends Controller
 {
-    protected $bulan = [
-        '01' => 'Januari',
-        '02' => 'Februari',
-        '03' => 'Maret',
-        '04' => 'April',
-        '05' => 'Mei',
-        '06' => 'Juni',
-        '07' => 'Juli',
-        '08' => 'Agustus',
-        '09' => 'September',
-        '10' => 'Oktober',
-        '11' => 'November',
-        '12' => 'Desember',
-    ];
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
-        $dataNamaDiklat = [];
-        $nama_diklats = Diklat::orderBy('nama_diklat', 'asc')->get();
-
-        foreach ($nama_diklats as $item) {
-            if (!in_array($item->nama_diklat, $dataNamaDiklat)) {
-                $dataNamaDiklat[] = $item->nama_diklat;
-            }
-        }
-
+        // $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+        //     $query->orderBy('masa_berakhir_sip', 'desc');
+        // })->whereHas('sip', function ($q) {
+        //     $q->orderBy('masa_berakhir_sip', 'desc');
+        // })->get();
+        // return $pegawai;
         if ($request->ajax()) {
-            $diklat = Diklat::query()->orderBy('tanggal_selesai', 'desc');
-            if ($request->input('nama_diklat') != null) {
-                $diklat->where('nama_diklat', $request->nama_diklat);
-            }
-            if ($request->input('ruangan') != null) {
-                $diklat->where('ruangan_id', $request->ruangan);
-            }
-            if ($request->input('bulan') != null) {
-                $diklat->whereMonth('tanggal_selesai', $request->bulan);
-            }
-            if ($request->input('tahun') != null) {
-                $diklat->whereYear('tanggal_selesai', $request->tahun);
-            }
-            $dataPegawaiDiklat = DataTables::of($diklat)
+            $pegawai = Pegawai::query()
+                ->where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+                    $query->orderBy('masa_berakhir_sip', 'desc');
+                })->whereHas('sip', function ($q) {
+                    $q->orderBy('masa_berakhir_sip', 'desc');
+                });
+            return DataTables::of($pegawai)
                 ->addIndexColumn()
-                ->addColumn('nama', function ($item) {
-                    return $item->pegawai->nama_lengkap ?? $item->nama_depan;
+                ->addColumn('tanggal-berakhir-sip', function ($item) {
+                    return Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-m-Y');
                 })
-                ->addColumn('nama_diklat', function ($item) {
-                    return $item->nama_diklat;
+                ->addColumn('status', function ($item) {
+                    $data = Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('Y-m-d') > now()->format('Y-m-d');
+                    // dd($data);
+                    $status = $data ? 'aktif' : 'nonaktif';
+                    $warna = $data == true ? 'btn-success' : 'btn-secondary';
+                    return "<button class='btn " . $warna . "'>$status</button>";
                 })
-                ->addColumn('nama_ruangan', function ($item) {
+                ->addColumn('nama-ruangan', function ($item) {
                     return $item->ruangan->nama_ruangan;
                 })
-                ->addColumn('penyelenggara', function ($item) {
-                    return $item->penyelenggara;
-                })
-                ->addColumn('tahun', function ($item) {
-                    return $item->tahun;
-                })
-                ->addColumn('no_sertifikat', function ($item) {
-                    return $item->no_sertifikat;
-                })
-                ->addColumn('surat', 'pages.surat.diklat-index')
-                ->addColumn('aksi', 'pages.diklat.part.aksi-index')
-                ->rawColumns(['nama', 'nama_diklat', 'nama_ruangan', 'penyelenggara', 'tahun', 'no_sertifikat', 'surat', 'aksi'])
+                ->addColumn('aksi', 'pages.sip.part.aksi-index')
+                ->addColumn('surat', 'pages.surat.sip-index')
+                ->rawColumns(['surat', 'tanggal-berakhir-sip', 'status', 'aksi', 'nama-ruangan'])
                 ->toJson();
-            return $dataPegawaiDiklat;
         }
-
-        return view('pages.diklat.index', [
-            'ruangans' => Ruangan::orderBy('nama_ruangan', 'asc')->get(),
-            'dataNamaDiklat' => $dataNamaDiklat,
-            'bulan' => $this->bulan,
+        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+            $query->orderBy('masa_berakhir_sip', 'desc');
+        })->get();
+        return view('pages.sip.index', [
+            'pegawai' => $pegawai ?? [],
+            'i' => 0
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        $pegawai = Pegawai::where('status_tenaga', 'asn')->get();
-        return view('pages.diklat.create', ['pegawai' => $pegawai]);
-    }
-
-    public function edit(Diklat $diklat)
-    {
-        return view('pages.diklat.edit', [
-            'results' => Pegawai::all(),
-            'diklat' => $diklat,
+        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+        return view('pages.sip.create', [
+            'results' => $results
         ]);
     }
 
-    public function update(Request $request, Diklat $diklat)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
+        //
         try {
+            //code...
+            // return $request->all();
             $validatedData = $request->validate([
-                'nama_diklat' => 'required',
-                'jumlah_jam' => 'required',
-                'penyelenggara' => 'required',
-                'tempat' => 'required',
-                'tahun' => 'required',
-                'no_sertifikat' => 'required',
-                'tanggal_sertifikat' => 'required',
-                'link_sertifikat' => 'required',
+                'no_str' => '',
+                'no_sip' => 'required',
+                'no_rekomendasi' => 'required',
+                'penerbit_sip' => 'required',
+                'tanggal_terbit_sip' => 'required',
+                'masa_berakhir_sip' => 'required',
+                'tempat_praktik' => 'required',
+                'link_sip' => 'required',
+                'alamat_sip' => 'required',
+            ], [
+                'alamat_sip.required' => 'alamat tidak boleh kosong'
             ]);
-            $diklat->update([
+
+            $sip = SIP::create([
                 'pegawai_id' => $request->pegawai_id,
-                'nama_diklat' => $request->nama_diklat,
-                'tanggal_mulai' => $request->tanggal_mulai,
-                'tanggal_selesai' => $request->tanggal_selesai,
-                'jumlah_hari' => $request->jumlah_hari,
-                'jumlah_jam' => $request->jumlah_jam,
-                'penyelenggara' => $request->penyelenggara,
-                'tempat' => $request->tempat,
-                'tahun' => $request->tahun,
-                'no_sertifikat' => $request->no_sertifikat,
-                'tanggal_sertifikat' => $request->tanggal_sertifikat,
-                'link_sertifikat' => $request->link_sertifikat,
-                'status' => $request->status,
+                'no_sip' => $request->no_sip,
+                'no_rekomendasi' => $request->no_rekomendasi,
+                'no_str' => $request->no_str,
+                'penerbit_sip' => $request->penerbit_sip,
+                'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
+                'masa_berakhir_sip' => $request->masa_berakhir_sip,
+                'tempat_praktik' => $request->tempat_praktik,
+                'link_sip' => $request->link_sip,
+                'alamat_sip' => $request->alamat_sip
             ]);
-            $notif = Notifikasi::notif('diklat', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
+            $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
-            $createNotif->pegawai()->attach($diklat->pegawai->id);
-            alert()->success('berhasil', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name);
-            if (isset($request->riwayat)) {
-                return redirect(route('admin.diklat.riwayat', ['pegawai' => $request->pegawai_id]))->with('success', 'Diklat berhasil diupdate');
-            }
-            return redirect(route('admin.diklat.index'))->with('success', 'Diklat berhasil diupdate');
+            $createNotif->pegawai()->attach($sip->pegawai->id);
+            alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  dibuat oleh ' . auth()->user()->name);
+            return redirect(route('admin.sip.index'))->with('success', 'sip berhasil ditambahkan');
         } catch (\Throwable $th) {
+            //throw $th;
             return $th->getMessage();
         }
     }
 
-    public function store(Request $request)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\SIP  $sIP
+     * @return \Illuminate\Http\Response
+     */
+    public function show(SIP $sip)
     {
+        //
+        // return $sip;
+        return view('pages.sip.show', [
+            'sip' => $sip
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\SIP  $sIP
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(SIP $sip)
+    {
+        //
+        return view('pages.sip.edit', [
+            'sip' => $sip,
+            'results' => Pegawai::where('jenis_tenaga', 'nakes')->get()
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\SIP  $sIP
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, SIP $sip)
+    {
+        //
         $validatedData = $request->validate([
-            'nama_diklat' => 'required',
-            'jumlah_jam' => 'required|integer',
-            'penyelenggara' => 'required',
-            'tempat' => 'required',
-            'tahun' => 'required',
-            'no_sertifikat' => 'required',
-            'tanggal_sertifikat' => 'required|date',
-            'link_sertifikat' => 'required',
-            'ruangan_id' => 'required',
+            'no_str' => '',
+            'no_rekomendasi' => 'required',
+            'no_sip' => 'required',
+            'penerbit_sip' => 'required',
+            'tanggal_terbit_sip' => 'required',
+            'masa_berakhir_sip' => 'required',
+            'link_sip' => 'required',
         ]);
-
-        $diklat = Diklat::create([
-            'pegawai_id' => $request->pegawai_id,
-            'nama_diklat' => $request->nama_diklat,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
-            'jumlah_hari' => $request->jumlah_hari,
-            'jumlah_jam' => $request->jumlah_jam,
-            'penyelenggara' => $request->penyelenggara,
-            'tempat' => $request->tempat,
-            'tahun' => $request->tahun,
-            'no_sertifikat' => $request->no_sertifikat,
-            'tanggal_sertifikat' => $request->tanggal_sertifikat,
-            'link_sertifikat' => $request->link_sertifikat,
-            'ruangan_id' => $request->ruangan_id,
-            'status' => 'pending',
+        $sipCreate = $sip->update([
+            'no_sip' => $request->no_sip,
+            'no_rekomendasi' => $request->no_rekomendasi,
+            'no_str' => $request->no_str,
+            'penerbit_sip' => $request->penerbit_sip,
+            'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
+            'masa_berakhir_sip' => $request->masa_berakhir_sip,
+            'link_sip' => $request->link_sip
         ]);
-
-        $notif = Notifikasi::notif('diklat', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
+        // return $sip;
+        $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');
         $createNotif = Notifikasi::create($notif);
         $createNotif->admin()->sync(Admin::adminId());
-        $createNotif->pegawai()->attach($diklat->pegawai->id);
-
-        alert()->success('Berhasil', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name);
-        return redirect()->route('admin.diklat.index')->with('success', 'Diklat berhasil ditambahkan');
-    }
-
-    public function show(Diklat $diklat)
-    {
-        return response()->json($diklat);
-    }
-
-    public function destroy(Diklat $diklat)
-    {
-        $diklat->delete();
-        alert()->success('Berhasil', 'Data diklat pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil dihapus oleh ' . auth()->user()->name);
-        return back()->with('success', 'Diklat berhasil dihapus');
-    }
-
-    public function validateDiklat(Request $request, Diklat $diklat)
-    {
-        $status = $request->input('status');
-        if ($status == 'disetujui') {
-            $diklat->status = 'aktif';
-        } elseif ($status == 'ditolak') {
-            $diklat->status = 'nonaktif';
+        $createNotif->pegawai()->attach($sip->pegawai->id);
+        alert()->success('berhasil', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name);
+        if ($request->riwayat) {
+            return redirect(route('admin.sip.riwayat', ['pegawai' => $sip->pegawai_id]))->with('success', 'sip berhasil ditambahkan');
         }
-        $diklat->save();
-        alert()->success('Berhasil', 'Status diklat berhasil diubah menjadi ' . $diklat->status . ' oleh ' . auth()->user()->name);
-        return back()->with('success', 'Status diklat berhasil diubah');
+        return redirect(route('admin.sip.index'))->with('success', 'sip berhasil ditambahkan');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\SIP  $sIP
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(SIP $sip)
+    {
+        alert()->success('data sip pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil di hapus');
+        $sip->delete();
+        return redirect()->back();
+    }
+    public function history(Pegawai $pegawai, Request $request)
+    {
+        $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->get();
+        if ($request->ajax()) {
+            $dataSIP = SIP::query()->where('pegawai_id', $pegawai->id)
+                ->orderBy('masa_berakhir_sip', 'desc');
+            return DataTables::of($dataSIP)
+                ->addIndexColumn()
+                ->addColumn('surat', 'pages.surat.sip-riwayat')
+                ->addColumn('aksi', 'pages.sip.part.aksi-riwayat')
+                ->addColumn('status', function ($q) {
+                    $data_warna = 'btn-secondary';
+                    $data_status = 'nonaktif';
+                    if ($q->masa_berakhir_sip > now()) {
+                        $data_warna = 'btn-success';
+                        $data_status = 'aktif';
+                    }
+                    return "<button class='btn $data_warna'> $data_status</button>";
+                })
+                ->addColumn('tanggal-terbit-str', function ($item) {
+                    $tanggal = Carbon::parse($item->tanggal_terbit)->format('d-m-Y');
+                    return $tanggal;
+                })
+                ->addColumn('masa-berakhir-sip', function ($item) {
+                    $tanggal = Carbon::parse($item->masa_berakhir_sip)->format('d-m-Y');
+                    return $tanggal;
+                })
+                ->rawColumns(['surat', 'aksi', 'status', 'tanggal-terbit-sip', 'masa-berakhir-sip'])
+                ->toJson();
+        }
+        return view('pages.sip.riwayat.index', [
+            'sip' => $sip,
+            'pegawai' => $pegawai
+        ]);
+    }
+    public function showRiwayat(SIP $sip)
+    {
+        return view('pages.sip.riwayat.show', [
+            'sip' => $sip
+        ]);
+    }
+    public function editRiwayat(SIP $sip)
+    {
+        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
+        return view('pages.sip.riwayat.edit', [
+            'sip' => $sip,
+            'results' => $results
+        ]);
+    }
+    public function reminderSIP(Request $request)
+    {
+        $currentDate = Carbon::now();
+        $sixMonthsFromNow = $currentDate->addMonths(6);
+        if ($request->ajax()) {
+            $reminderSIP = Pegawai::query()->where('jenis_tenaga', 'nakes')->with(['sip' => function ($query) {
+                $query->orderBy('masa_berakhir_sip', 'desc');
+            }])->whereHas(
+                'sip',
+                function ($query) use ($currentDate, $sixMonthsFromNow) {
+                    $query->whereDate(
+                        'tanggal_terbit_sip',
+                        '<=',
+                        $currentDate
+                    )
+                        ->whereDate('masa_berakhir_sip', '>', $currentDate)
+                        ->whereDate('masa_berakhir_sip', '>', $sixMonthsFromNow);
+                },
+                '=',
+                0
+            )->get();
+            $dataPegawai = DataTables::of($reminderSIP)
+                ->addIndexColumn()
+                ->addColumn('nama', function ($item) {
+                    return $item->nama_lengkap ?? $item->nama_depan;
+                })
+                ->addColumn('pesan', function ($item) {
+                    $nowa = $item->no_wa;
+                    if (substr(trim($nowa), 0, 1) == '0') {
+                        $nowa = '62' . substr(trim($nowa), 1);
+                    }
+                    $tanggal =  $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berkahir_sip)->format('d-m-Y') : null;
+                    $nama = $item->nama_lengkap ?? $item->nama_depan;
+                    $pesan = "https://wa.me/$nowa/?text=SIKEP%0Auntuk :$nama %0A SIP anda  $tanggal, mohon hubungi kepegawaian untuk mengurusi SIP anda";
+                    return '<a href="' . $pesan . '" target="_blank" class="btn btn transparent"><i
+                                            class="fab fa-whatsapp fa-2x text-success"></i> </a>';
+                })
+                ->addColumn('masa_berakhir_sip', function ($item) {
+                    $data = $item->sip->count() > 0 ? Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-m-Y') : 'belum memiliki SIP';
+                    return $data ?? '-';
+                })
+                ->rawColumns(['pesan', 'nama', 'masa_berakhr_sip'])
+                ->toJson();
+            return  $dataPegawai;
+        }
+        return view('pages.dashboard.remindersip');
+    }
+    private function dataLaporan($pegawais)
+    {
+        $dataLaporan = [];
+        foreach ($pegawais as $pegawai) {
+            $sip = SIP::where('pegawai_id', $pegawai->id)->orderBy('masa_berakhir_sip', 'desc')->first();
+            array_push($dataLaporan, [
+                'Nama Pegawai' => $pegawai->nama_lengkap ?? $pegawai->nama_depan,
+                'Jabatan' => $pegawai->jabatan,
+                'Ruangan' => $pegawai->ruangan->nama_ruangan,
+                'Masa Berakhir' => $sip->masa_berakhir_sip ?? null,
+                // 'Status' => ,
+                'Status' =>  isset($sip->masa_berakhir_sip) ? ($sip->masa_berakhir_sip >= Carbon::parse(now())->format('Y-m-d') ? 'aktif' : 'non-aktif') : null,
+                // 'Status' =>  $sip->masa_berakhir_str ?? null,
+                'Link SIP' => $sip->link_sip ?? null,
+                'Penerbit' => $sip->penerbit_sip ?? null,
+                'Tanggal Terbit' => $sip->tanggal_terbit_sip ?? null
+            ]);
+        }
+        $laporan = new SIPExport([
+            ['Data Rekap SIP'],
+            ['Nama Pegawai', 'Jabatan', 'Ruangan', 'Masa Berakhir', 'Status', 'Penerbit', 'Tanggal Terbit', 'Link SIP'],
+            [...$dataLaporan]
+        ]);
+        return Excel::download($laporan, 'SIP.xlsx');
+    }
+
+    public function export_excel()
+    {
+        $pegawai = Pegawai::where('jenis_tenaga', 'nakes')->with('sip', function ($query) {
+            $query->orderBy('masa_berakhir_sip', 'desc');
+        })->get();
+        return $this->dataLaporan($pegawai);
     }
 }
