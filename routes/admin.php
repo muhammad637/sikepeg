@@ -2,10 +2,11 @@
 
 use App\Models\Jabatan;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
+use App\Http\Controllers\SIPController;
 use App\Http\Controllers\STRController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\API\SIPControllerAPI;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\PangkatController;
@@ -33,21 +34,25 @@ use App\Http\Controllers\MasterDataKenaikanPangkatController;
 |
 */
 
+Route::get('/tes-123', function () {
+    return redirect()->route('previewDokumen', ['folder' => 'cuti', 'namaFile' => 'VR7mNwBbIAYhRYoP.pdf']);
+});
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::middleware(['guest:admin','guest:pegawai'])->group(function () {
+    Route::middleware(['guest:admin', 'guest:pegawai'])->group(function () {
         Route::view('/login', 'auth.admin.login')->name('login');
         Route::view('/', 'auth.admin.login')->name('login.admin');
         Route::post('/login_handler', [AdminController::class, 'loginHandler'])->name('login_handler');
     });
 
     Route::middleware(['auth:admin'])->group(function () {
+        Route::get('/previewDokumen', [PDFController::class, 'previewDokumenCuti'])->name('previewDokumen');
+
         Route::get('/home', [DashboardAdminController::class, 'index'])->name('home.index');
         Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard.index');
         Route::prefix('reminder')->name('reminder.')->group(function () {
             Route::get('/str', [STRController::class, 'reminderSTR'])->name('str.index');
             Route::get('/sip', [SIPController::class, 'reminderSIP'])->name('sip.index');
-            
         });
         Route::get('/notifikasi', [NotifikasiController::class, 'notifAdmin'])->name('notifikasi');
 
@@ -97,6 +102,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/', [CutiController::class, 'index'])->name('data-cuti-aktif.index');
                 // Route::get('/create', [CutiController::class, 'create'])->name('data-cuti-aktif.create');
                 Route::get('/edit/{cuti:id}', [CutiController::class, 'edit'])->name('data-cuti-aktif.edit');
+                Route::get('/edit/validasi/{cuti:id}', [CutiController::class, 'validasi'])->name('data-cuti.formLanjutan'); #validasi untuk generate dokumen
                 Route::get('/{cuti:id}', [CutiController::class, 'show'])->name('data-cuti-aktif.show');
                 Route::post('/store', [CutiController::class, 'store'])->name('data-cuti-aktif.store');
                 Route::put('/update/{cuti:id}', [CutiController::class, 'update'])->name('data-cuti-aktif.update');
@@ -125,7 +131,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/export-year', [DiklatController::class, 'exportYear'])->name('export-year');
             Route::get('/export-year-range', [DiklatController::class, 'exportYearRange'])->name('export-range');
             Route::post('/diklat/{diklat}/validate', [DiklatController::class, 'validateDiklat'])->name('admin.diklat.validate');
-
         });
         Route::resource('/diklat', DiklatController::class);
 
@@ -150,8 +155,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         // kenaikan pangkat
-
-
         Route::prefix('kenaikan-pangkat')->name('kenaikan-pangkat.')->group(function () {
             Route::get('/export_excel', [KenaikanPangkatController::class, 'export_excel'])->name('export-excel');
             Route::delete('/{kenaikan_pangkat:id}/delete', [KenaikanPangkatController::class, 'destroy'])->name('destroy');
@@ -167,11 +170,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/riwayat/{pegawai:id}/create', [KenaikanPangkatController::class, 'createriwayat'])->name('createriwayat');
         });
         Route::prefix('master-data')->name('master-data.')->group(function () {
-            Route::prefix('admin-management')->name('admin-management.')->group(function(){
-                Route::get('/',[AdminController::class,'index'])->name('index');
-                Route::post('/store',[AdminController::class,'store'])->name('store');
-                Route::put('/update/{admin:id}',[AdminController::class,'update'])->name('update');
-                Route::put('/reset/{admin:id}',[AdminController::class,'reset'])->name('reset');
+            Route::prefix('admin-management')->name('admin-management.')->group(function () {
+                Route::get('/', [AdminController::class, 'index'])->name('index');
+                Route::post('/store', [AdminController::class, 'store'])->name('store');
+                Route::put('/update/{admin:id}', [AdminController::class, 'update'])->name('update');
+                Route::put('/reset/{admin:id}', [AdminController::class, 'reset'])->name('reset');
             });
             Route::prefix('cuti-pegawai')->name('cuti-pegawai.')->group(function () {
                 Route::get('/', [MasterDataTahunCuti::class, 'index'])->name('index');

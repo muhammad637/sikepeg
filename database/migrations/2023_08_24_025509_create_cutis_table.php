@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('jumlah_hari')->nullable();
             $table->string('link_cuti')->nullable();
             $table->enum('status_cuti', ['disetujui' ,'ditolak', 'pending'])->default('pending');
+            $table->json('formLanjutan')->nullable(); #untuk validasi pertama yang akan digunakan saat pengisian form selanjytnya
             $table->timestamps();
         });
     }

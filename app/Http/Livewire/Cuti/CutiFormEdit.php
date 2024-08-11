@@ -9,6 +9,7 @@ use Livewire\WithFileUploads;
 use Carbon\CarbonPeriod;
 use App\Models\HariBesar;
 
+
 class CutiFormEdit extends Component
 {
     use WithFileUploads;
@@ -29,6 +30,7 @@ class CutiFormEdit extends Component
     public $sisa_cuti_tahunan_setelah_diubah = 0;
     public $tanggal_saat_ini;
     public $tanggal_sebelumnya;
+    public $formLanjutan;
 
     public function mount($cuti)
     {
@@ -84,12 +86,10 @@ class CutiFormEdit extends Component
     private function updateJumlahHariCuti()
     {
         $tahun = Carbon::now()->format('Y');
-
         if ($this->mulai_cuti && $this->selesai_cuti) {
             $tanggalMulai = Carbon::parse($this->mulai_cuti);
             $tanggalSelesai = Carbon::parse($this->selesai_cuti);
             $hariBesar = HariBesar::whereYear('tanggal', $tahun)->pluck('tanggal')->toArray();
-
             $this->jumlah_hari = $this->hitungJumlahHariCuti($tanggalMulai, $tanggalSelesai, $hariBesar);
         }
     }

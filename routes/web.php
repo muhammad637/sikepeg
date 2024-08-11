@@ -1,22 +1,23 @@
 <?php
 
-use App\Exports\STRExport;
-use App\Http\Controllers\CutiController;
-use App\Http\Controllers\DashboardAdminController;
-use App\Http\Controllers\DiklatController;
-use App\Http\Controllers\MutasiController;
-use App\Http\Controllers\HariBesarController;
-use App\Http\Controllers\RuanganController;
-use App\Http\Controllers\PangkatController;
-use App\Http\Controllers\GolonganController;
-use App\Http\Controllers\KenaikanPangkatController;
 use Carbon\Carbon;
+use App\Exports\STRExport;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SIPController;
 use App\Http\Controllers\STRController;
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\CutiController;
+use App\Http\Controllers\DiklatController;
+use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\GolonganController;
+use App\Http\Controllers\HariBesarController;
+
+use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\KenaikanPangkatController;
 
 
 /*
@@ -31,5 +32,8 @@ use App\Http\Controllers\PegawaiController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('pegawai.login');
+    return redirect()->route('admin.login');
 });
+
+
+

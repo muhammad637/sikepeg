@@ -12,10 +12,11 @@ use App\Models\Notifikasi;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\DB;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class CutiController extends Controller
 {
@@ -140,11 +141,11 @@ class CutiController extends Controller
                     $query->whereBetween('mulai_cuti', [$request->mulai_cuti, $request->selesai_cuti])
                         ->orWhereBetween('selesai_cuti', [$request->mulai_cuti, $request->selesai_cuti]);
                 })->get();
-                // Validasi periode cuti agar tidak bersinggungan dengan cuti yang sudah ada
-                $validasi = Carbon::parse($cuti->mulai_cuti) <= Carbon::parse($request->mulai_cuti) && Carbon::parse($cuti->selesai_cuti) >= Carbon::parse($request->selesai_cuti);
-                
-                // Jika terdapat data cuti yang bersinggungan atau validasi gagal, tampilkan pesan error dan redirect
-                if ($dataCuti->count() > 0  || $validasi) {
+            // Validasi periode cuti agar tidak bersinggungan dengan cuti yang sudah ada
+            $validasi = Carbon::parse($cuti->mulai_cuti) <= Carbon::parse($request->mulai_cuti) && Carbon::parse($cuti->selesai_cuti) >= Carbon::parse($request->selesai_cuti);
+
+            // Jika terdapat data cuti yang bersinggungan atau validasi gagal, tampilkan pesan error dan redirect
+            if ($dataCuti->count() > 0  || $validasi) {
                 // return [$dataCuti, $validasi];
                 alert()->error('Gagal', 'testing');
                 return redirect()->back()->withInput();
@@ -218,9 +219,10 @@ class CutiController extends Controller
      */
     public function edit(Cuti $cuti)
     {
+        // return $cuti->formLanjutan;
         // Fetch all employees and pass it along with the leave data to the view
         $pegawai = Pegawai::all();
-        
+
         // Return the view with the necessary data
         return view('pages.cuti.edit', compact('pegawai', 'cuti'));
     }
@@ -239,7 +241,7 @@ class CutiController extends Controller
         if (!$pegawaiUpdate) {
             return redirect()->back()->with('error', 'Pegawai dengan ID yang dimasukkan tidak ada');
         }
-    
+
         // Validate user input
         $validatedData = $request->validate([
             'jenis_cuti' => 'required',
@@ -249,52 +251,52 @@ class CutiController extends Controller
             'jumlah_hari' => 'required|integer',
             'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
         ]);
-    
+
         try {
             // Check the leave status
             if (in_array($cuti->status, ['disetujui', 'ditolak'])) {
                 return redirect()->back()->with('error', 'Data cuti tidak dapat diubah karena sudah disetujui atau ditolak');
             }
-    
+
             // Begin database transaction
             DB::beginTransaction();
-    
+
             // Check if the updated employee is the same as the employee related to the leave
-            if ($pegawaiUpdate->id !== $cuti->pegawai_id) {
-                // Find previous leave for the same employee
-                $cutiPegawai = Cuti::where('pegawai_id', $request->pegawai_id)->orderBy('selesai_cuti', 'desc')->first();
-    
-                // Check if the leave period is still valid
-                if ($cutiPegawai && $cutiPegawai->selesai_cuti >= $request->selesai_cuti) {
-                    DB::rollBack();
-                    return redirect()->back()->with('error', 'Periode cuti masih berlaku, mohon periksa kembali data pegawai')->withInput();
-                }
-    
-                // Add the number of leave days to the annual leave balance of the previous employee
-                $cuti->pegawai->update([
-                    'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
-                ]);
-    
-                // Check and update annual leave balance for the updated employee
-                if ($request->jenis_cuti === 'cuti tahunan') {
-                    if ($pegawaiUpdate->sisa_cuti_tahunan >= $request->jumlah_hari) {
-                        $pegawaiUpdate->update([
-                            'sisa_cuti_tahunan' => $pegawaiUpdate->sisa_cuti_tahunan - $request->jumlah_hari,
-                        ]);
-                    } else {
-                        DB::rollBack();
-                        return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $pegawaiUpdate->nama_lengkap . ' telah habis pada tahun ini')->withInput();
-                    }
-                } elseif ($request->jenis_cuti === 'cuti besar') {
-                    if ($pegawaiUpdate->sisa_cuti_tahunan !== 0) {
-                        $pegawaiUpdate->update(['sisa_cuti_tahunan' => 0]);
-                    } else {
-                        DB::rollBack();
-                        return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $pegawaiUpdate->nama_lengkap . ' telah habis pada tahun ini')->withInput();
-                    }
-                }
-            }
-    
+            // if ($pegawaiUpdate->id !== $cuti->pegawai_id) {
+            //     // Find previous leave for the same employee
+            //     $cutiPegawai = Cuti::where('pegawai_id', $request->pegawai_id)->orderBy('selesai_cuti', 'desc')->first();
+
+            //     // Check if the leave period is still valid
+            //     if ($cutiPegawai && $cutiPegawai->selesai_cuti >= $request->selesai_cuti) {
+            //         DB::rollBack();
+            //         return redirect()->back()->with('error', 'Periode cuti masih berlaku, mohon periksa kembali data pegawai')->withInput();
+            //     }
+
+            //     // Add the number of leave days to the annual leave balance of the previous employee
+            //     $cuti->pegawai->update([
+            //         'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
+            //     ]);
+
+            //     // Check and update annual leave balance for the updated employee
+            //     if ($request->jenis_cuti === 'cuti tahunan') {
+            //         if ($pegawaiUpdate->sisa_cuti_tahunan >= $request->jumlah_hari) {
+            //             $pegawaiUpdate->update([
+            //                 'sisa_cuti_tahunan' => $pegawaiUpdate->sisa_cuti_tahunan - $request->jumlah_hari,
+            //             ]);
+            //         } else {
+            //             DB::rollBack();
+            //             return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $pegawaiUpdate->nama_lengkap . ' telah habis pada tahun ini')->withInput();
+            //         }
+            //     } elseif ($request->jenis_cuti === 'cuti besar') {
+            //         if ($pegawaiUpdate->sisa_cuti_tahunan !== 0) {
+            //             $pegawaiUpdate->update(['sisa_cuti_tahunan' => 0]);
+            //         } else {
+            //             DB::rollBack();
+            //             return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $pegawaiUpdate->nama_lengkap . ' telah habis pada tahun ini')->withInput();
+            //         }
+            //     }
+            // }
+
             // Handle annual leave for the same employee
             if ($request->jenis_cuti === 'cuti tahunan' && $cuti->jenis_cuti === 'cuti tahunan') {
                 $cuti->pegawai->update([
@@ -308,7 +310,7 @@ class CutiController extends Controller
                 } elseif ($cuti->jenis_cuti === 'cuti besar') {
                     $cuti->pegawai->update(['sisa_cuti_tahunan' => 12]);
                 }
-    
+
                 if ($request->jenis_cuti === 'cuti tahunan') {
                     if ($cuti->pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
                         $cuti->pegawai->update(['sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan - $request->jumlah_hari]);
@@ -325,19 +327,19 @@ class CutiController extends Controller
                     }
                 }
             }
-    
+
             // Update leave data
             $cuti->update($request->all());
-    
+
             // Create notification
             $notif = Notifikasi::notif('cuti', 'Data cuti pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
             $createNotif = Notifikasi::create($notif);
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($pegawaiUpdate->id);
-    
+
             DB::commit();
             alert()->success('Berhasil', 'Data cuti pegawai berhasil diupdate oleh ' . auth()->user()->name);
-    
+
             if ($request->has('histori_cuti')) {
                 return redirect()->route('admin.cuti.histori-cuti.index')->with('success', 'Data cuti berhasil diupdate');
             }
@@ -347,9 +349,9 @@ class CutiController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
-    
-    
-    
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -364,8 +366,8 @@ class CutiController extends Controller
     public function historiCuti(Request $request)
     {
         if ($request->ajax()) {
-            $cuti = Cuti::query()->orderBy('selesai_cuti', 'desc');
-            $cuti = Cuti::query();
+            $cuti = Cuti::query()->orderBy('created_at', 'desc');
+            // $cuti = Cuti::query();
             if ($request->input('tahun') != null) {
                 $cuti = $cuti->where('mulai_cuti', 'like', '%' . $request->tahun . '%');
             }
@@ -397,15 +399,32 @@ class CutiController extends Controller
                     $tanggal_selesai = Carbon::parse($item->selesai_cuti)->format('Ymd');
                     $tanggal_saat_ini = now()->format('Ymd');
                     $status = null;
-                    if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini) {
-                        $status = 'aktif';
-                    } elseif ($tanggal_mulai >= $tanggal_saat_ini) {
-                        $status = 'pending';
+                    // if ($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini && $item->status_cuti == 'disetujui') {
+                    //    $status = 'berjalan';
+                    // } elseif ($tanggal_mulai >= $tanggal_saat_ini) {
+                    //     $status = 'pending';
+                    // } else {
+                    //     $status = 'nonaktif';
+                    // }
+                    if ($item->status_cuti == 'disetujui') {
+                        if (($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini)) {
+                            $status = '<i class="fa fa-toggle-on" aria-hidden="true"></i>';
+                        } else {
+                            $status = '<i class="fa fa-toggle-off" aria-hidden="true"></i>';
+                        }
+                    } else if ($item->status_cuti == 'pending') {
+                        if (($tanggal_mulai <= $tanggal_saat_ini && $tanggal_selesai >= $tanggal_saat_ini)) {
+                            $status = '<i class="fa fa-pause" aria-hidden="true"></i>';
+                        } else if (($tanggal_mulai >= $tanggal_saat_ini)) {
+                            $status = '<i class="fa fa-toggle-off"></i>';
+                        }
+                        $status = '<i class="fa fa-times-circle"></i>';
                     } else {
-                        $status = 'nonaktif';
+                        $status = '<i class="fa fa-times-circle"></i>';
                     }
+
                     // return 'tes';
-                    return '<button class="btn  text-white btn-' . ($status == 'aktif' ? 'success' : ($status == 'pending' ? 'warning'  : 'secondary')) . ' border-0">' . $status . '</button>';
+                    return '<button class="btn  text-white btn-' . ($item->status_cuti == 'disetujui' ? 'success' : ($item->status_cuti == 'pending' ? 'warning'  : 'danger')) . ' border-0">' .  $item->status_cuti . ' ' . $status . '</button>';
                 })
                 ->filterColumn('status_tombol', function ($query, $keyword) {
                     if (Str::contains('pending', $keyword)) {
@@ -418,10 +437,8 @@ class CutiController extends Controller
                     }
                 })
                 ->addColumn('aksi', 'pages.cuti.histori-cuti.part.aksi')
-                // ->addColumn('surat', 'pages.cuti.part.surat')
                 ->rawColumns(['nama_pegawai', 'mulai_cuti', 'selesai_cuti', 'sisa_cuti', 'status_tombol', 'aksi'])
                 ->toJson();
-            // return $dataCuti;
         }
         return view('pages.cuti.histori-cuti.index', [
             'pegawai' => Pegawai::orderBy('nama_lengkap', 'asc')->get(),
@@ -538,4 +555,25 @@ class CutiController extends Controller
         }
         return $this->dataLaporan($cuti->get(), $request);
     }
+
+    public function validasi(Request $request, Cuti $cuti)
+    {
+        $cuti->update([
+            'formLanjutan' => [
+                'n2' => $request->n2 ?? 0,
+                'n1' => $request->n1 ?? 0,
+                'n' => $request->n ?? 0,
+                'cutiBesar' => $request->cutiBesar ?? 0,
+                'cutiSakit' => $request->cutiSakit ?? 0,
+                'cutiMelahirkan' => $request->cutiMelahirkan ?? 0,
+                'cutiKareanaAlasanPenting' => $request->cutiKareanaAlasanPenting ?? 0,
+                'cutiDiLuarTanggunganNegara' => $request->cutiDiLuarTanggunganNegara ?? 0,
+            ]
+        ]);
+
+        return redirect()->back();
+    }
+   
+
+    
 }

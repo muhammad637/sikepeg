@@ -11,10 +11,13 @@ class Cuti extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+     protected $casts = [
+        'formLanjutan' => 'array',
+    ];
    
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
-
 }
