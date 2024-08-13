@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Jabatan;
+use App\Models\Cuti;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SIPController;
@@ -38,6 +39,8 @@ Route::get('/tes-123', function () {
     return redirect()->route('previewDokumen', ['folder' => 'cuti', 'namaFile' => 'VR7mNwBbIAYhRYoP.pdf']);
 });
 
+Route::get('tesDok/{cuti:id}', [Pdfcontroller::class, 'generateDok']);
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest:admin', 'guest:pegawai'])->group(function () {
         Route::view('/login', 'auth.admin.login')->name('login');
@@ -47,6 +50,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/previewDokumen', [PDFController::class, 'previewDokumenCuti'])->name('previewDokumen');
+        Route::get('/downloadDokumen', [PDFController::class, 'download'])->name('downloadDokumen');
 
         Route::get('/home', [DashboardAdminController::class, 'index'])->name('home.index');
         Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard.index');

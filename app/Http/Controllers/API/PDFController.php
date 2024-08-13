@@ -33,17 +33,18 @@ class PDFController extends Controller
             ->header('Content-disposition', 'attachment; filename="'.$data->filename.'"');
        
     }
-    public function tes()
-    {
-        $fileName = 'biodata.pdf';
-        $filePath = public_path($fileName); // Menggunakan public_path() untuk mendapatkan path lengkap
+    
 
-        if (file_exists($filePath)) {
-            return response()->file($filePath);
-        } else {
-            return response()->json(['message' => 'File not found'], 404);
-        }
+    public function download(Request $r){
+        $path = 'dokumen/'.$r->folder.'/'.$r->namaFile;
+        $data = Gdrive::get($path);
+        return response($data->file, 200)
+            ->header('Content-Type', $data->ext)
+            ->header('Content-disposition', 'attachment; filename="' . $data->filename . '"');
+
     }
+
+    public function generateDokumenCuti(){}
 
 
 }

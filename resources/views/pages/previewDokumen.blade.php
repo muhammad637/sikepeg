@@ -48,7 +48,7 @@
                     <img src="data:{{ $file['type'] }};base64,{{ $file['content'] }}" alt="{{ $file['name'] }}">
                 @elseif(strpos($file['type'], 'pdf') !== false)
                     <!-- Menampilkan PDF -->
-                    <iframe src="data:application/pdf;base64,{{ $file['content'] }}" frameborder="0"></iframe>
+                    <iframe src="data:application/pdf;base64,{{ $file['content'] }}" frameborder="0" scrolling="auto"></iframe>
                 @else
                     <!-- Menampilkan file dengan jenis lain -->
                     <p>File type tidak didukung untuk pratinjau.</p>

@@ -16,6 +16,7 @@ use App\Http\Controllers\API\MutasiController;
 use App\Http\Controllers\API\JabatanController;
 use App\Http\Controllers\API\KenaikanPangkatController;
 use App\Http\Controllers\API\SIPControllerAPI;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,12 +34,18 @@ use App\Http\Controllers\API\SIPControllerAPI;
 // });
 // Route::middleware('')
 // Route::resource('/pegawai', PegawaiController::class);
-Route::post('/user', [UserController::class, 'store']);
 
 
 
 // downloadPDF
 Route::get('/testing-upload', [DownloadPDFController::class, 'uploadTes']);
+// testing download
+// Route::get('testing-download', function(){
+//     $data = Gdrive::get('dokumen/cuti/2024 08 11 22 11 09 Bukti Cuti.pdf');
+//     return response($data->file, 200)
+//         ->header('Content-Type', $data->ext)
+//         ->header('Content-disposition', 'attachment; filename="' . $data->filename . '"');
+// });
 
 Route::get('/downloadPdf', [DownloadPDFController::class, 'download']);
 Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
@@ -48,9 +55,7 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
     Route::middleware(['guest:pegawai', 'guest:admin'])->group(function () {
     });
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/testing2', function () {
-            return response()->json(['data' => "testingoy"]);
-        });
+      
 
         // cuti
         Route::get('/cuti/riwayat', [CutiController::class, 'index'])->name('cuti.riwayat');

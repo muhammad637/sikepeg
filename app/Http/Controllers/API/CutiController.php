@@ -104,9 +104,6 @@ class CutiController extends Controller
                 }
             }
 
-            $fileName = Str::random(16) . '.' . $request->file('link_cuti')->getClientOriginalExtension();
-            Gdrive::put('dokumen/cuti/' . $fileName, $request->file('link_cuti'));
-
             $create = Cuti::create([
                 'pegawai_id' => auth()->user()->id,
                 'jenis_cuti' => $request->jenis_cuti,
@@ -136,7 +133,12 @@ class CutiController extends Controller
     {
         try {
             //code...
+            // return [
+            //     $r->all(),
+            //     $r->file('link_cuti'),
+            //     $_FILES['link_cuti'],
 
+            // ];
             $cuti =  Cuti::find($id);
             $validatedData = $r->validate([
                 'link_cuti' => 'file'
@@ -159,13 +161,11 @@ class CutiController extends Controller
                 );
             }
 
-
-            if ($r->hasFile($r->statusCuti) && $cuti->status_cuti == null) {
-
-                if ($cuti->status_cuti != null) {
+            if ($_FILES && $cuti->status_cuti == 'pending') {
+                if ($cuti->link_cuti != null) {
                     GDrive::delete('dokumen/cuti/' . $cuti->link_cuti);
                 }
-                $fileName = Carbon::now() . ' - Bukti Cuti' . '.' . $r->file('link_cuti')->getClientOriginalExtension();
+                $fileName = Carbon::now()->format('Y m d H i s') . ' Bukti Cuti' . '.' . $r->file('link_cuti')->getClientOriginalExtension();
                 Gdrive::put('dokumen/cuti/' . $fileName, $r->file('link_cuti'));
 
                 $cuti->update([
@@ -176,7 +176,6 @@ class CutiController extends Controller
                     'message' => 'data berhasil di update'
                 ]);
             }
-
             return response()->json([
                 'status' => 'success',
                 'message' => 'tidak ada perubahan data cuti'
@@ -191,5 +190,5 @@ class CutiController extends Controller
     }
 
 
-    public function generateDokument(){}
+    public function generateDokument() {}
 }

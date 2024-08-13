@@ -47,7 +47,7 @@
             <span>Jabatan</span></a>
     </li>
 
-     <li class="nav-item">
+     {{-- <li class="nav-item">
          <a class="nav-link collapsed {{ Request::routeIs('admin.cuti.*') || Request::routeIs('admin.histori-cuti.*') ? 'font-weight-bold text-white' : '' }}" href="#" data-toggle="collapse" data-target="#CutiCollapse"
              aria-expanded="true" aria-controls="CuetiCollapse">
              <i class="fas fa-calendar-week {{ Request::routeIs('admin.cuti*') || Request::routeIs('admin.histori-cuti*') ? 'text-white' : '' }}"></i>
@@ -64,6 +64,11 @@
                      href="{{ route('admin.cuti.histori-cuti.index') }}">Histori Cuti</a>
              </div>
          </div>
+     </li> --}}
+     <li class="nav-item {{ Request::routeIs('admin.cuti.histori-cuti.*') ? 'active' : '' }}">
+         <a class="nav-link" href="{{ route('admin.cuti.histori-cuti.index') }}">
+             <i class="fas fa-calendar-week"></i>
+             <span>Cuti</span></a>
      </li>
 
      <li class="nav-item">

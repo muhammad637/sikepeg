@@ -18,8 +18,7 @@
                         <label for="select2" class="col-sm-4 col-form-label">Pegawai</label>
                         <div class="col-sm-8">
                             <select name="pegawai_id" class="form-control " 
-                            {{-- id="select2"  --}}
-                            disabled>
+                            id="select2" >
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $cuti->pegawai_id === $item->id ? 'selected' : '' }}>
@@ -38,5 +37,6 @@
 @endsection
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    @livewireScripts
+    @livewireScripts   
+    @include('sweetalert::alert')
 @endpush

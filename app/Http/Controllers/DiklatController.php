@@ -108,6 +108,7 @@ class DiklatController extends Controller
 
     public function edit(Diklat $diklat)
     {
+        return $diklat;
         return view('pages.diklat.edit', [
             'results' => Pegawai::all(),
             'diklat' => $diklat,
@@ -152,6 +153,7 @@ class DiklatController extends Controller
 
     public function store(Request $request)
     {
+        return $request->all();
         // Validasi data input
         $validatedData = $request->validate([
             'nama_diklat' => 'required',

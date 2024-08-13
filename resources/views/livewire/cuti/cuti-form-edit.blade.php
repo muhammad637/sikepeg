@@ -155,31 +155,19 @@
                 <div class="row mb-3">
                     <label for="status_cuti" class="col-sm-4 col-form-label">Dokumen Cuti</label>
                     <div class="col-sm-8">
-                        @if ($cuti->status_cuti == 'disetujui')
-                            <div class="row">
-                                <div class="col">
-                                    {{-- <input type="text" class="form-control" id="jumlah_hari" name="status_cuti"
-                                        value="{{ $cuti->status_cuti }}" readonly> --}}
-                                    <a href="{{route('admin.previewDokumen',
-                                    ['folder' => 'cuti', 'namaFile' => $cuti->link_cuti])}}">tes</a>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="jumlah_hari" name="status_cuti"
-                                        value="{{ $cuti->status_cuti }}" readonly>
-                                </div>
-                            </div>
+                        @if ($cuti->link_cuti != null)
+                            <a target="popup"
+                                onclick="window.open(`{{ route('admin.previewDokumen', ['folder' => 'cuti', 'namaFile' => $cuti->link_cuti]) }}`,'name','width=600,height=400')"
+                                class="btn btn-primary mr-1" style="cursor: pointer">
+                                <i class="fas fa-file-alt text-white"></i> Lihat
+                            </a>
+                            <a target="_blank" style="cursor: pointer"
+                                href="{{ route('admin.downloadDokumen', ['folder' => 'cuti', 'namaFile' => $cuti->link_cuti]) }}"  class="btn btn-primary mr-1">
+                                <i class="fas fa-file-alt text-white"></i> Download
+                            </a>
                         @else
-                            <select name="status_cuti" id="status_cuti" class="form-control"
-                                wire:model="status_cuti"
-                                {{ $status_tipe == 'thl' && empty($cuti['validasi']) ? 'disabled' : '' }} required>
-                                <option value="pending" {{ $status_cuti == 'pending' ? 'selected' : '' }}>Pending
-                                </option>
-                                <option value="disetujui" {{ $status_cuti == 'disetujui' ? 'selected' : '' }}>
-                                    Disetujui
-                                </option>
-                                <option value="ditolak" {{ $status_cuti == 'ditolak' ? 'selected' : '' }}>Ditolak
-                                </option>
-                            </select>
+                            <input type="text" class="form-control" id="jumlah_hari" name="jumlah_hari"
+                                value="dokumen tidak ada" readonly>
                         @endif
                     </div>
                     <span
@@ -241,59 +229,72 @@
                 <form action="{{ route('admin.cuti.data-cuti.formLanjutan', ['cuti' => $cuti]) }}" method="POST">
                     @csrf
                     @method('GET')
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="n2">N2</label>
-                                <input type="number" class="form-control" id="n2" name="n2"
-                                    value="{{ $cuti['formLanjutan']['n2'] ?? 0 }}">
-                            </div>
 
-                            <div class="form-group">
-                                <label for="n1">N1</label>
-                                <input type="number" class="form-control" id="n1" name="n1"
-                                    value="{{ $cuti['formLanjutan']['n1'] ?? 0 }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="n">N</label>
-                                <input type="number" class="form-control" id="n" name="n"
-                                    value="{{ $cuti['formLanjutan']['n'] ?? 0 }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="cutiBesar">Cuti Besar</label>
-                                <input type="number" class="form-control" id="cutiBesar" name="cutiBesar"
-                                    value="{{ $cuti['formLanjutan']['cutiBesar'] ?? 0 }}">
-                            </div>
+                    <div class="form-group row">
+                        <label for="n2" class="col-sm-4 col-form-label">N2</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="n2" name="n2"
+                                value="{{ $cuti['formLanjutan']['n2'] ?? 0 }}">
                         </div>
+                    </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="cutiSakit">Cuti Sakit</label>
-                                <input type="number" class="form-control" id="cutiSakit" name="cutiSakit"
-                                    value="{{ $cuti['formLanjutan']['cutiSakit'] ?? 0 }}">
-                            </div>
+                    <div class="form-group row">
+                        <label for="n1" class="col-sm-4 col-form-label">N1</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="n1" name="n1"
+                                value="{{ $cuti['formLanjutan']['n1'] ?? 0 }}">
+                        </div>
+                    </div>
 
-                            <div class="form-group">
-                                <label for="cutiMelahirkan">Cuti Melahirkan</label>
-                                <input type="number" class="form-control" id="cutiMelahirkan" name="cutiMelahirkan"
-                                    value="{{ $cuti['formLanjutan']['cutiMelahirkan'] ?? 0 }}">
-                            </div>
+                    <div class="form-group row">
+                        <label for="n" class="col-sm-4 col-form-label">N</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="n" name="n"
+                                value="{{ $cuti['formLanjutan']['n'] ?? 0 }}">
+                        </div>
+                    </div>
 
-                            <div class="form-group">
-                                <label for="cutiKareanaAlasanPenting">Cuti Karena Alasan Penting</label>
-                                <input type="number" class="form-control" id="cutiKareanaAlasanPenting"
-                                    name="cutiKareanaAlasanPenting"
-                                    value="{{ $cuti['formLanjutan']['cutiKareanaAlasanPenting'] ?? 0 }}">
-                            </div>
+                    <div class="form-group row">
+                        <label for="cutiBesar" class="col-sm-4 col-form-label">Cuti Besar</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="cutiBesar" name="cutiBesar"
+                                value="{{ $cuti['formLanjutan']['cutiBesar'] ?? 0 }}">
+                        </div>
+                    </div>
 
-                            <div class="form-group">
-                                <label for="cutiDiLuarTanggunganNegara">Cuti di Luar Tanggungan Negara</label>
-                                <input type="number" class="form-control" id="cutiDiLuarTanggunganNegara"
-                                    name="cutiDiLuarTanggunganNegara"
-                                    value="{{ $cuti['formLanjutan']['cutiDiLuarTanggunganNegara'] ?? 0 }}">
-                            </div>
+                    <div class="form-group row">
+                        <label for="cutiSakit" class="col-sm-4 col-form-label">Cuti Sakit</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="cutiSakit" name="cutiSakit"
+                                value="{{ $cuti['formLanjutan']['cutiSakit'] ?? 0 }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cutiMelahirkan" class="col-sm-4 col-form-label">Cuti Melahirkan</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="cutiMelahirkan" name="cutiMelahirkan"
+                                value="{{ $cuti['formLanjutan']['cutiMelahirkan'] ?? 0 }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cutiKareanaAlasanPenting" class="col-sm-4 col-form-label">Cuti Karena Alasan
+                            Penting</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="cutiKareanaAlasanPenting"
+                                name="cutiKareanaAlasanPenting"
+                                value="{{ $cuti['formLanjutan']['cutiKareanaAlasanPenting'] ?? 0 }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cutiDiLuarTanggunganNegara" class="col-sm-4 col-form-label">Cuti di Luar
+                            Tanggungan Negara</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="cutiDiLuarTanggunganNegara"
+                                name="cutiDiLuarTanggunganNegara"
+                                value="{{ $cuti['formLanjutan']['cutiDiLuarTanggunganNegara'] ?? 0 }}">
                         </div>
                     </div>
 
@@ -306,6 +307,7 @@
         </div>
     </div>
 </div>
+
 
 
 @push('script')

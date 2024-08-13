@@ -13,14 +13,19 @@
                     class="fas fa-folder-open"></i> Riwayat Cuti Pegawai</a>
         </div>
     </div> --}}
-    <a href="{{route('admin.cuti.show', ['cuti' => $model->id]) }}" class="btn btn-info mr-1"> <i
-                    class="far fa-envelope-open"></i></a>
-    <a target="popup" onclick="window.open(`{{ $model->link_cuti }}`,'name','width=600,height=400')"
-        class="btn btn-primary mr-1" style="cursor: pointer">
-        <i class="fas fa-file-alt text-white"></i>
-    </a>
+    <a href="{{ route('admin.cuti.show', ['cuti' => $model->id]) }}" class="btn btn-info mr-1"> <i
+            class="far fa-envelope-open"></i></a>
+    @if ($model->link_cuti != null)
+        <a target="popup"
+            onclick="window.open(`{{ route('admin.previewDokumen', ['folder' => 'cuti', 'namaFile' => $model->link_cuti]) }}`,'name','width=600,height=400')"
+            class="btn btn-primary mr-1" style="cursor: pointer">
+            <i class="fas fa-file-alt text-white"></i>
+        </a>
+    @else
+        <a href="#" class="btn btn-secondary mr-1"> <i class="fas fa-file-alt text-white"></i> </a>
+    @endif
     <a href="{{ route('admin.cuti.histori-cuti.editRiwayat', ['cuti' => $model->id]) }}" class="btn btn-warning"><i
             class="fas fa-pen "></i></a>
-    
-        </div>
+
+</div>
 </div>
