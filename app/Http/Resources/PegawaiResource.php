@@ -50,6 +50,7 @@ class PegawaiResource extends JsonResource
             'tmt_pppk' => $this->tmt_pppk,
             'tmt_pangkat_terakhir' => $this->tmt_pangkat_terakhir,
             'pangkat_golongan_id' => $this->pangkat_golongan_id,
+            'pangkat_golongan' => $this->pangkatGolongan->nama,
             'sekolah' => $this->sekolah,
             'jenis_tenaga' => $this->jenis_tenaga,
             'niPtt_pkThl' => $this->niPtt_pkThl,

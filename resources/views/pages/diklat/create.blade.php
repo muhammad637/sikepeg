@@ -9,8 +9,8 @@
     <h1 class="" style="color:black;font-weight:bold;">Diklat</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Diklat</h4>
-        <hr class="font-weight-bold">
-        <form action="{{ route('admin.diklat.store') }}" method="post">
+        <hr class="font-weight-bold"> 
+        <form action="{{ route('admin.diklat.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-sm-12 col-xl-12">
@@ -92,9 +92,14 @@
                     <div class="row mb-3">
                         <label for="link_sertifikat" class="col-sm-4 col-form-label">Link Sertifikat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputPassword3" name="link_sertifikat">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="fileInput" name="link_sertifikat"
+                                    required>
+                                <label class="custom-file-label" for="fileInput">Pilih file</label>
+                            </div>
                         </div>
                     </div>
+                    
         </form>
         <div class="text-right">
             <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
@@ -128,8 +133,8 @@
                     var tanggalAkhir = new Date(tanggal_selesai);
                     var selisihMilidetik = tanggalAkhir - tanggalAwal;
                     var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
-                     $('#jumlah-hari').val(jumlahHari)
-                     $('#jumlah-jam').val(jumlahHari*5)
+                    $('#jumlah-hari').val(jumlahHari)
+                    $('#jumlah-jam').val(jumlahHari * 5)
                 }
             })
             $('#tanggal_selesai').on('change', function() {
@@ -140,8 +145,8 @@
                     var tanggalAkhir = new Date(tanggal_selesai);
                     var selisihMilidetik = tanggalAkhir - tanggalAwal;
                     var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
-                     $('#jumlah-hari').val(jumlahHari)
-                     $('#jumlah-jam').val(jumlahHari*5)
+                    $('#jumlah-hari').val(jumlahHari)
+                    $('#jumlah-jam').val(jumlahHari * 5)
                 }
             })
             $('#jumlah-hari').on('change', function() {
@@ -149,7 +154,12 @@
                 let jam = jumlah_hari * 5
                 $('#jumlah-jam').val(jam)
             })
-
+            $('.custom-file-input').on('change', function(event) {
+                var inputFile = event.currentTarget;
+                $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name);
+            });
             // $('.nip').val('tes')
         });
     </script>

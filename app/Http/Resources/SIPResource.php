@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SIPResource extends JsonResource
@@ -20,10 +21,11 @@ class SIPResource extends JsonResource
         'pegawai_id' => $this->pegawai_id,
         'no_str' => $this->no_str,
         'no_sip' => $this->no_sip,
+        'status_sip' => $this->status_sip,
         'no_rekomendasi' => $this->no_rekomendasi,
         'penerbit_sip' => $this->penerbit_sip,
-        'tanggal_terbit_sip' => $this->tanggal_terbit_sip,
-        'masa_berakhir_sip' => $this->masa_berakhir_sip,
+        'tanggal_terbit_sip' => Carbon::parse($this->tanggal_terbit_sip)->format('d/m/Y'),
+        'masa_berakhir_sip' => Carbon::parse($this->masa_berakhir_sip)->format('d/m/Y'),
         'tempat_praktik' => $this->tempat_praktik,
         'link_sip' => $this->link_sip,
         'alamat_sip' => $this->alamat_sip,

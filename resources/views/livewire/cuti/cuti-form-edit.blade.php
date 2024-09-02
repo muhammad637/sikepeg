@@ -50,8 +50,9 @@
                                     Sakit</option>
                                 <option value="cuti melahirkan"
                                     {{ $jenis_cuti == 'cuti melahirkan' ? 'selected' : '' }}>Cuti Melahirkan</option>
-                                <option value="cuti alasan penting"
-                                    {{ $jenis_cuti == 'cuti alasan penting' ? 'selected' : '' }}>Cuti Karena Alasan
+                                <option value="cuti karena alasan penting"
+                                    {{ $jenis_cuti == 'cuti karena alasan penting' ? 'selected' : '' }}>Cuti Karena
+                                    Alasan
                                     Penting</option>
                                 <option value="cuti di luar tanggungan negara"
                                     {{ $jenis_cuti == 'cuti di luar tanggungan negara' ? 'selected' : '' }}>Cuti di Luar
@@ -69,7 +70,8 @@
                                 <option value="cuti sakit" {{ $jenis_cuti == 'cuti sakit' ? 'selected' : '' }}>Cuti
                                     Sakit</option>
                                 <option value="cuti alasan penting"
-                                    {{ $jenis_cuti == 'cuti alasan penting' ? 'selected' : '' }}>Cuti Alasan Penting
+                                    {{ $jenis_cuti == 'cuti karena alasan penting' ? 'selected' : '' }}>Cuti Karena
+                                    Alasan Penting
                                 </option>
                                 <option value="cuti melahirkan"
                                     {{ $jenis_cuti == 'cuti melahirkan' ? 'selected' : '' }}>Cuti Melahirkan</option>
@@ -116,7 +118,7 @@
 
                 <!-- Modal Button -->
                 <div class="row mb-3">
-                    <label for="status_cuti" class="col-sm-4 col-form-label">Isi Form Lanjutan Pengajuan Cuti</label>
+                    <label for="status_cuti" class="col-sm-4 col-form-label">Isi Catatan Cuti Pegawai</label>
                     <div class="col-sm-8">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formlanjutan">
                             Buka Formulir
@@ -135,8 +137,7 @@
                                 value="{{ $cuti->status_cuti }}" readonly>
                         @else
                             <select name="status_cuti" id="status_cuti" class="form-control"
-                                wire:model="status_cuti"
-                                {{ $status_tipe == 'thl' && empty($cuti['validasi']) ? 'disabled' : '' }} required>
+                                wire:model="status_cuti" required>
                                 <option value="pending" {{ $status_cuti == 'pending' ? 'selected' : '' }}>Pending
                                 </option>
                                 <option value="disetujui" {{ $status_cuti == 'disetujui' ? 'selected' : '' }}>
@@ -147,9 +148,7 @@
                             </select>
                         @endif
                     </div>
-                    <span
-                        class="text-danger text-center {{ $status_tipe == 'thl' && empty($cuti['validasi']) ? 'd-block' : 'd-none' }}">*Tolong
-                        isi form lanjutan nya terlebih dahulu sebelum memvalidasi cuti</span>
+
                 </div>
 
                 <div class="row mb-3">
@@ -157,37 +156,29 @@
                     <div class="col-sm-8">
                         @if ($cuti->link_cuti != null)
                             <a target="popup"
-                                onclick="window.open(`{{ route('admin.previewDokumen', ['folder' => 'cuti', 'namaFile' => $cuti->link_cuti]) }}`,'name','width=600,height=400')"
+                                onclick="window.open(`{{ route('admin.previewDokumen', ['path' => $cuti->link_cuti]) }}`,'name','width=600,height=400')"
                                 class="btn btn-primary mr-1" style="cursor: pointer">
                                 <i class="fas fa-file-alt text-white"></i> Lihat
                             </a>
                             <a target="_blank" style="cursor: pointer"
-                                href="{{ route('admin.downloadDokumen', ['folder' => 'cuti', 'namaFile' => $cuti->link_cuti]) }}"  class="btn btn-primary mr-1">
+                                href="{{ route('admin.downloadDokumen', ['path' => $cuti->link_cuti]) }}"
+                                class="btn btn-primary mr-1">
                                 <i class="fas fa-file-alt text-white"></i> Download
                             </a>
                         @else
-                            <input type="text" class="form-control" id="jumlah_hari" name="jumlah_hari"
+                            <input type="text" class="form-control" id="link_cuti" name="link_cuti"
                                 value="dokumen tidak ada" readonly>
                         @endif
                     </div>
                     <span
-                        class="text-danger text-center {{ $status_tipe == 'thl' && empty($cuti['validasi']) ? 'd-block' : 'd-none' }}">*Tolong
-                        isi form lanjutan nya terlebih dahulu sebelum memvalidasi cuti</span>
+                        class="text-danger text-center {{ $status_tipe == 'thl' && empty($cuti['formlanjutan']) ? 'd-block' : 'd-none' }}">*Tolong
+                        isi catatan cuti nya terlebih dahulu sebelum memvalidasi cuti</span>
                 </div>
                 <!-- Button Actions -->
                 <div class="text-right">
-                    @if ($mulai_cuti < now()->format('Y-m-d'))
-                        <a href="{{ route('admin.cuti.histori-cuti.index') }}"
-                            class="btn bg-warning text-white">Tutup</a>
-                    @else
-                        <a href="{{ route('admin.cuti.data-cuti-aktif.index') }}"
-                            class="btn bg-warning text-white">Tutup</a>
-                    @endif
-                    @if ($mulai_cuti <= $selesai_cuti)
-                        <button class="btn btn-info" type="submit">Simpan</button>
-                    @else
-                        <button class="btn btn-info" type="button" disabled>Simpan</button>
-                    @endif
+                    <a href="{{ route('admin.cuti.histori-cuti.index') }}"
+                        class="btn bg-warning text-white">Tutup</a>
+                    <button class="btn btn-info" type="submit">Simpan</button>
                 </div>
             </form>
         </div>
@@ -220,7 +211,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Formulir Lanjutan</h5>
+                <h5 class="modal-title">Catatan Cuti</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -229,28 +220,58 @@
                 <form action="{{ route('admin.cuti.data-cuti.formLanjutan', ['cuti' => $cuti]) }}" method="POST">
                     @csrf
                     @method('GET')
-
-                    <div class="form-group row">
-                        <label for="n2" class="col-sm-4 col-form-label">N2</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="n2" name="n2"
-                                value="{{ $cuti['formLanjutan']['n2'] ?? 0 }}">
+                    @if ($cuti->pegawai->status_tipe != 'thl')
+                        <div class="form-group row">
+                            <label for="n2" class="col-sm-4 col-form-label">N2</label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" id="n2" name="sisaN2"
+                                            value="{{ $cuti['formLanjutan']['n2']['sisa'] ?? 0 }}">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="n2"
+                                            name="keteranganN2"
+                                            value="{{ $cuti['formLanjutan']['n2']['keterangan'] ?? '' }}"
+                                            placeholder="keterangan">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="n1" class="col-sm-4 col-form-label">N1</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="n1" name="n1"
-                                value="{{ $cuti['formLanjutan']['n1'] ?? 0 }}">
+                        <div class="form-group row">
+                            <label for="n1" class="col-sm-4 col-form-label">N1</label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" id="Sisan1" name="sisaN1"
+                                            value="{{ $cuti['formLanjutan']['n1']['sisa'] ?? 0 }}">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="Keten1"
+                                            name="keteranganN1" placeholder="keterangan"
+                                            value="{{ $cuti['formLanjutan']['n1']['keterangan'] ?? '' }}">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @endif
+
 
                     <div class="form-group row">
                         <label for="n" class="col-sm-4 col-form-label">N</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="n" name="n"
-                                value="{{ $cuti['formLanjutan']['n'] ?? 0 }}">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="number" class="form-control" id="n" name="sisaN"
+                                        value="{{ $cuti['formLanjutan']['n']['sisa'] ?? 0 }}">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="form-control" id="n" name="keteranganN"
+                                        value="{{ $cuti['formLanjutan']['n']['keterangan'] ?? '' }}"
+                                        placeholder="keterangan">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -283,8 +304,8 @@
                             Penting</label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control" id="cutiKareanaAlasanPenting"
-                                name="cutiKareanaAlasanPenting"
-                                value="{{ $cuti['formLanjutan']['cutiKareanaAlasanPenting'] ?? 0 }}">
+                                name="cutiKarenaAlasanPenting"
+                                value="{{ $cuti['formLanjutan']['cutiKarenaAlasanPenting'] ?? 0 }}">
                         </div>
                     </div>
 

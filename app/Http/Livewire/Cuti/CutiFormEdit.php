@@ -1,18 +1,20 @@
 <?php
+
 namespace App\Http\Livewire\Cuti;
 
 use Carbon\Carbon;
-use App\Models\Pegawai;
 use App\Models\Cuti;
+use App\Models\Pegawai;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Carbon\CarbonPeriod;
 use App\Models\HariBesar;
+use Livewire\WithFileUploads;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class CutiFormEdit extends Component
 {
-    use WithFileUploads;
+    // use WithFileUploads;
 
     public $cuti;
     public $no_hp;
@@ -34,30 +36,43 @@ class CutiFormEdit extends Component
 
     public function mount($cuti)
     {
-        $this->tanggal_saat_ini = Carbon::now()->format('Y-m-d');
-        $this->tanggal_sebelumnya = Carbon::now()->subDays(11)->format('Y-m-d');
+        try {
+            //code...
+            $this->tanggal_saat_ini = Carbon::now()->format('Y-m-d');
+            $this->tanggal_sebelumnya = Carbon::now()->subDays(11)->format('Y-m-d');
 
-        if ($cuti) {
-            $this->cuti = $cuti;
-            $this->status_cuti = $cuti->status_cuti ?? 'pending';
-            $this->jenis_cuti = old('jenis_cuti', $cuti->jenis_cuti);
-            $this->alasan_cuti = old('alasan_cuti', $cuti->alasan_cuti);
-            $this->mulai_cuti = old('mulai_cuti', Carbon::parse($cuti->mulai_cuti)->format('Y-m-d'));
-            $this->selesai_cuti = old('selesai_cuti', Carbon::parse($cuti->selesai_cuti)->format('Y-m-d'));
-            $this->jumlah_hari = old('jumlah_hari', $cuti->jumlah_hari);
-            // $this->link_cuti = old('link_cuti', $cuti->link_cuti);
-            $pegawai = Pegawai::find($cuti->pegawai_id);
-        } else {
-            $pegawai = Pegawai::find($this->pegawai);
+            if ($cuti) {
+                $this->cuti = $cuti;
+                $this->status_cuti = $cuti->status_cuti ?? 'pending';
+                $this->jenis_cuti = old('jenis_cuti', $cuti->jenis_cuti);
+                $this->alasan_cuti = old('alasan_cuti', $cuti->alasan_cuti);
+                $this->mulai_cuti = old('mulai_cuti', Carbon::parse($cuti->mulai_cuti)->format('Y-m-d'));
+                $this->selesai_cuti = old('selesai_cuti', Carbon::parse($cuti->selesai_cuti)->format('Y-m-d'));
+                $this->jumlah_hari = old('jumlah_hari', $cuti->jumlah_hari);
+                // $this->link_cuti = old('link_cuti', $cuti->link_cuti);
+                $pegawai = Pegawai::find($cuti->pegawai_id);
+            } else {
+                $pegawai = Pegawai::find($this->pegawai);
+            }
+
+            if ($pegawai) {
+                $this->status_tipe = old('status_tipe', $pegawai->status_tipe);
+                $this->sisa_cuti_tahunan_saat_ini = $pegawai->sisa_cuti_tahunan;
+                $this->no_hp = old('no_hp', $pegawai->no_wa);
+                $this->alamat = old('alamat', $pegawai->alamat);
+                // return redirect()->route('admin.cuti.data-cuti-aktif.index'); // Adjust the route as needed
+
+                // Alert::success('success', $pegawai->nama_lengkap);
+
+                // $this->link_cuti = old('link_cuti', $pegawai->link_cuti);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            return $th->getMessage();
         }
 
-        if ($pegawai) {
-            $this->status_tipe = old('status_tipe', $pegawai->status_tipe);
-            $this->sisa_cuti_tahunan_saat_ini = $pegawai->sisa_cuti_tahunan;
-            $this->no_hp = old('no_hp', $pegawai->no_wa);
-            $this->alamat = old('alamat', $pegawai->alamat);
-            // $this->link_cuti = old('link_cuti', $pegawai->link_cuti);
-        }
+       
     }
 
     public function updatedMulaiCuti()
@@ -72,6 +87,7 @@ class CutiFormEdit extends Component
 
     public function updatedPegawai($value)
     {
+
         $pegawai = Pegawai::find($value);
         if ($pegawai) {
             $this->no_hp = $pegawai->no_wa;
@@ -109,34 +125,37 @@ class CutiFormEdit extends Component
 
     public function save()
     {
-        $this->validate([
-         
-            'jenis_cuti' => 'required|string',
-            'alasan_cuti' => 'required|string',
-            'mulai_cuti' => 'required|date',
-            'selesai_cuti' => 'required|date',
-            'jumlah_hari' => 'required|integer|min:1',
-            'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
-            // 'link_cuti' => 'file|max:1024', // 1MB Max
-        ]);
 
-        $cuti = Cuti::find($this->cuti->id);
-        $cuti->status_cuti = $this->status_cuti;
-        $cuti->jenis_cuti = $this->jenis_cuti;
-        $cuti->alasan_cuti = $this->alasan_cuti;
-        $cuti->mulai_cuti = $this->mulai_cuti;
-        $cuti->selesai_cuti = $this->selesai_cuti;
-        $cuti->jumlah_hari = $this->jumlah_hari;
+        try {
+            //code...
+            $this->validate([
 
-        // if ($this->link_cuti) {
-        //     $cuti->link_cuti = $this->link_cuti->store('cuti_files');
-        // }
-        // $path = $this->link_cuti->store('cuti', 's3');
+                'jenis_cuti' => 'required|string',
+                'alasan_cuti' => 'required|string',
+                'mulai_cuti' => 'required|date',
+                'selesai_cuti' => 'required|date',
+                'jumlah_hari' => 'required|integer|min:1',
+                'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
+                // 'link_cuti' => 'file|max:1024', // 1MB Max
+            ]);
 
-        $cuti->save();
+            $cuti = Cuti::find($this->cuti->id);
+            $cuti->status_cuti = $this->status_cuti;
+            $cuti->jenis_cuti = $this->jenis_cuti;
+            $cuti->alasan_cuti = $this->alasan_cuti;
+            $cuti->mulai_cuti = $this->mulai_cuti;
+            $cuti->selesai_cuti = $this->selesai_cuti;
+            $cuti->jumlah_hari = $this->jumlah_hari;
+            $cuti->save();
 
-        session()->flash('message', 'Status cuti berhasil diperbarui.');
-        return redirect()->route('admin.cuti.data-cuti-aktif.index'); // Adjust the route as needed
+            session()->flash('message', 'Status cuti berhasil diperbarui.');
+            return redirect()->route('admin.cuti.data-cuti-aktif.index'); // Adjust the route as needed
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $th->getMessage();
+        }
+
+      
     }
 
     public function render()

@@ -18,34 +18,24 @@ class PDFController extends Controller
 {
     public function download(Request $r)
     {
-        $path = 'dokumen/' . $r->folder . '/' . $r->namaFile;
+        $path = $r->path;
         $data = Gdrive::get($path);
         return response($data->file, 200)
             ->header('Content-Type', $data->ext)
             ->header('Content-disposition', 'attachment; filename="' . $data->filename . '"');
     }
-    public function previewDokumenCuti(Request $r)
+    public function previewDokumen(Request $r)
     {
-        // return $r->all();
-        $path = 'dokumen/' . $r->folder . '/' . $r->namaFile;
-        // Ambil data file dari Google Drive berdasarkan nama file yang ada di model Post
-        // $data = Gdrive::get('image/' . $cuti->image_name);
+        $path = $r->path;
         $dokumen = Gdrive::get($path);
-
-        // Buat respons dengan file yang diambil dari Google Drive dan atur header Content-Type
-        // $fileResponse = response($data->file, 200)
-        //     ->header('Content-Type', $data->ext);
         $dokResponse = response($dokumen->file, 200)
             ->header('Content-Type', $dokumen->ext);
-
-        // Kembalikan respons JSON dengan data file dan judul cuti
-
         return view('pages.previewDokumen', [
             'title' => 'preview dokumen ',
             'file' => [
                 'content' => base64_encode($dokumen->file),
                 'type' => $dokumen->ext,
-                'name' => $r->namaFile
+                'path' => $r->path
             ],
         ]);
     }
@@ -114,13 +104,19 @@ class PDFController extends Controller
 
     public function generateDok(Cuti $cuti)
     {
-       
+        // return $cuti->pegawai->status_tipe;
+        // $html = view('pages.generateCuti.thl', ['data' => $cuti])->render();
+        if($cuti->pegawai->status_tipe == 'thl'){
+            $html = view('pages.generateCuti.thl', ['data' => $cuti])->render();
+        }else{
+            $html = view('pages.generateCuti.pppk', ['data' => $cuti])->render();
 
-        // Load HTML content
-        $html = view('pages.generateCuti.pppk', ['data' => $cuti])->render();
-        // Kembalikan konten HTML yang dihasilkan
+        }
         return response($html, 200)
-        ->header('Content-Type', 'text/html');
-        // return $html;
+            ->header('Content-Type', 'text/html');
+        // $html = view('pages.generateCuti.thl', ['data' => $cuti])->render();
+        $mpdf->WriteHTML($html);
+
+       
     }
 }

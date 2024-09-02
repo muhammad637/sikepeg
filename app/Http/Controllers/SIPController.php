@@ -42,11 +42,24 @@ class SIPController extends Controller
                     return Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('d-m-Y');
                 })
                 ->addColumn('status', function ($item) {
-                    $data = Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('Y-m-d') > now()->format('Y-m-d');
-                    // dd($data);
-                    $status = $data ? 'aktif' : 'nonaktif';
-                    $warna = $data == true ? 'btn-success' : 'btn-secondary';
-                    return "<button class='btn " . $warna . "'>$status</button>";
+                    $saatIni = now()->format('Ymd');
+                    $masaBerlaku = Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('Ymd');
+                    $data = Carbon::parse($item->sip[0]->masa_berakhir_sip)->format('Ymd') > now()->format('Ymd');
+                    if ($item->sip[0]->status_sip == 'disetujui') {
+                        $status = $data ? '<i class="fa fa-toggle-on" aria-hidden="true"></i>' :
+                            '<i class="fa fa-toggle-off" aria-hidden="true"></i>';
+                    } elseif ($item->sip[0]->status_sip == 'pending') {
+                        if ($saatIni < $masaBerlaku) {
+                            $status = '<i class="fa fa-pause" aria-hidden="true"></i>';
+                        } elseif ($saatIni >= $masaBerlaku) {
+                        $status = '<i class="fa fa-toggle-off text-danger" aria-hidden="true"></i>';
+                        }
+                    } else {
+                    $status = '<i class="fa fa-times-circle"></i>';
+
+                    }
+                    $warna = $item->sip[0]->status_sip == 'disetujui' ? 'success' : ($item->sip[0]->status_sip == 'pending' ? 'warning'  : 'danger');
+                    return "<button class='btn btn-" . $warna . "'>" . $item->sip[0]->status_sip . " " . $status . "</button>";
                 })
                 ->addColumn('nama-ruangan', function ($item) {
                     return $item->ruangan->nama_ruangan;
@@ -175,7 +188,7 @@ class SIPController extends Controller
             'penerbit_sip' => 'required',
             'tanggal_terbit_sip' => 'required',
             'masa_berakhir_sip' => 'required',
-            'link_sip' => 'required',
+            'status_sip' => 'required'
         ]);
         $sipCreate = $sip->update([
             'no_sip' => $request->no_sip,
@@ -184,7 +197,7 @@ class SIPController extends Controller
             'penerbit_sip' => $request->penerbit_sip,
             'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
             'masa_berakhir_sip' => $request->masa_berakhir_sip,
-            'link_sip' => $request->link_sip
+            'status_sip' => $request->status_sip
         ]);
         // return $sip;
         $notif = Notifikasi::notif('sip', 'data STR pegawai ' . $sip->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');

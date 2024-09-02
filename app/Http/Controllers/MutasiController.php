@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\Export;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 
 
@@ -160,6 +162,8 @@ class MutasiController extends Controller
 
             // Mendapatkan record Mutasi terbaru untuk Pegawai
             $mutasi = Mutasi::where('pegawai_id', $pegawai->id)->orderBy('tanggal_sk', 'desc')->first();
+            $path = 'dokumen/mutasi/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $request->file('link_sk')->getClientOriginalExtension();
+            Gdrive::put($path, $request->file('link_sk'));
 
             // Menangani mutasi internal
             if ($request->jenis_mutasi == 'internal') {
@@ -167,7 +171,7 @@ class MutasiController extends Controller
                     // Memperbarui ruangan_id Pegawai jika mutasi terbaru sebelum atau sama dengan tanggal mutasi baru
                     Carbon::parse($mutasi->tanggal_sk) <= Carbon::parse($request->tanggal_sk) ? $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]) : null;
                 } else {
-                   $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]);
+                    $pegawai->update(['ruangan_id' => $ruangan_tujuan_id]);
                 }
 
                 // Validasi data request untuk mutasi internal
@@ -191,7 +195,8 @@ class MutasiController extends Controller
                     'ruangan_tujuan_id' => $ruangan_tujuan_id,
                     'no_sk' => $request->no_sk,
                     'tanggal_sk' => $request->tanggal_sk,
-                    'link_sk' => $request->link_sk,
+                    'link_sk' => $path,
+
                 ]);
             } else {
                 // Menonaktifkan Pegawai untuk mutasi non-internal
@@ -211,7 +216,16 @@ class MutasiController extends Controller
                 );
 
                 // Membuat record Mutasi baru untuk mutasi non-internal
-                $mutasi = Mutasi::create(request()->all());
+                $mutasi = Mutasi::create([
+                    'pegawai_id' => $request->pegawai_id,
+                    'instansi_awal' => $request->instansi_awal,
+                    'instansi_tujuan' => $request->instansi_tujuan,
+                    'ruangan_tujuan_id' => $ruangan_tujuan_id,
+                    'no_sk' => $request->no_sk,
+                    'tanggal_sk' => $request->tanggal_sk,
+                    'link_sk' => $path,
+                    'jenis_mutasi' => 'eksternal'
+                ]);
             }
 
             // Membuat notifikasi untuk tindakan mutasi
@@ -322,7 +336,6 @@ class MutasiController extends Controller
                     'jenis_mutasi' => $request->jenis_mutasi,
                     'no_sk' => $request->no_sk,
                     'tanggal_sk' => $request->tanggal_sk,
-                    'link_sk' => $request->link_sk,
                     'ruangan_awal_id' => $ruangan_awal_id,
                     'ruangan_tujuan_id' => $ruangan_tujuan_id,
                     'instansi_awal' => null,
@@ -346,11 +359,11 @@ class MutasiController extends Controller
                     'tanggal_berlaku' => $request->tanggal_berlaku,
                     'no_sk' => $request->no_sk,
                     'tanggal_sk' => $request->tanggal_sk,
-                    'link_sk' => $request->link_sk,
                     'ruangan_awal_id' => null,
                     'ruangan_tujuan_id' => null,
                     'instansi_awal' => $request->instansi_awal,
-                    'instansi_tujuan' => $request->instansi_tujuan
+                    'instansi_tujuan' => $request->instansi_tujuan,
+                    'jenis_mutasi' => 'eksternal'
                 ]);
             }
 
@@ -495,5 +508,30 @@ class MutasiController extends Controller
         }
         // return $mutasi->get();
         return $this->dataLaporan($mutasi->get(), $request);
+    }
+
+    public function updateDokumenSertifikat(Request $request, Mutasi $mutasi)
+    {
+        if ($request->hasFile('link_sk')) {
+            $file = $request->file('link_sk');
+            $path = 'dokumen/mutasi/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Mengunggah file ke Google Drive
+            Gdrive::put($path, $file);
+
+            // Menghapus file lama jika ada
+            if (!empty($mutasi->link_sk)) {
+                Gdrive::delete($mutasi->link_sk);
+            }
+
+            // Memperbarui database dengan nama file baru
+            $mutasi->update([
+                'link_sk' => $path
+            ]);
+            Alert::success('success', 'serttifikat berhasil di update');
+            return redirect()->back()->with('success', 'Sertifikat berhasil diupdate');
+        }
+        Alert::error('error', 'Tidak ada file yang diunggah');
+        return redirect()->back()->with('error', 'Tidak ada file yang diunggah');
     }
 }

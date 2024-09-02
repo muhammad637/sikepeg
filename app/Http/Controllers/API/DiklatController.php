@@ -13,7 +13,7 @@ use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class DiklatController extends Controller
 {
-    
+
     // Function index
     public function index()
     {
@@ -42,14 +42,15 @@ class DiklatController extends Controller
                 'tahun' => 'required',
                 'tanggal_mulai' => 'required|date',
                 'tanggal_selesai' => 'required|date',
-                'jumlah_hari' => 'required|integer', 'link_pengajuan_diklat' => 'required|file'
+                'jumlah_hari' => 'required|integer',
+                'link_pengajuan_diklat' => 'required|file'
 
             ]);
-           
 
 
-            $fileName = time() . '_' . md5(uniqid()) . '.' . $request->file('link_pengajuan_diklat')->getClientOriginalExtension();
-            Gdrive::put('dokumen/diklat/' . $fileName, $request->file('link_pengajuan_diklat'));
+
+            $path = time() . '_' . md5(uniqid()) . '.' . $request->file('link_pengajuan_diklat')->getClientOriginalExtension();
+            Gdrive::put('dokumen/diklat/' . $path, $request->file('link_pengajuan_diklat'));
 
             // Simpan data diklat tanpa link dokumen
             $diklat = Diklat::create([
@@ -66,7 +67,8 @@ class DiklatController extends Controller
                 'tanggal_sertifikat' => null,
                 'link_sertifikat' => null,
                 'ruangan_id' => auth()->user()->ruangan->id,
-                'status' => 'pending', 'link_pengajuan_diklat' => $fileName,
+                'status' => 'pending',
+                'link_pengajuan_diklat' => $path,
 
             ]);
 
@@ -118,11 +120,11 @@ class DiklatController extends Controller
             }
 
             // Upload file baru ke Google Drive
-            $fileName = Str::random(16) . '.' . $request->file('link_sertifikat')->getClientOriginalExtension();
-            Gdrive::put('dokumen/diklat/' . $fileName, $request->file('link_sertifikat'));
+            $path = Str::random(16) . '.' . $request->file('link_sertifikat')->getClientOriginalExtension();
+            Gdrive::put('dokumen/diklat/' . $path, $request->file('link_sertifikat'));
 
             // Update data diklat dengan nama file baru
-            $diklat->link_sertifikat = $fileName;
+            $diklat->link_sertifikat = $path;
             $diklat->no_sertifikat = $request->no_sertifikat;
             $diklat->tanggal_sertifikat = $request->tanggal_sertifikat;
             $diklat->save();

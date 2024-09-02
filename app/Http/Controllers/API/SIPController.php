@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\API;
 
+use Carbon\Carbon;
 use App\Models\SIP;
 use App\Models\Admin;
 use App\Models\Notifikasi;
@@ -10,7 +11,7 @@ use App\Http\Resources\SIPResource;
 use App\Http\Controllers\Controller;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
-class SIPControllerAPI extends Controller
+class SIPController extends Controller
 {
     public function index()
     {
@@ -36,15 +37,14 @@ class SIPControllerAPI extends Controller
                 'tanggal_terbit_sip' => 'required|date',
                 'masa_berakhir_sip' => 'required|date',
                 'tempat_praktik' => 'required',
-                'link_sip' => 'required|mimes:pdf',
+                'link_sip' => 'required',
                 'alamat_sip' => 'required',
             ], [
                 'alamat_sip.required' => 'Alamat tidak boleh kosong'
             ]);
 
-            $fileName = Str::random(16) . '.' . $request->file('link_sip')->getClientOriginalExtension();
-            Gdrive::put('dokumen/sip/' . $fileName, $request->file('link_sip'));
-            
+            $path = 'dokumen/sip/' .Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $request->file('link_sip')->getClientOriginalExtension();
+            Gdrive::put($path, $request->file('link_sip'));
             $sip = SIP::create([
                 'pegawai_id' => auth()->user()->id,
                 'no_sip' => $request->no_sip,
@@ -54,7 +54,7 @@ class SIPControllerAPI extends Controller
                 'tanggal_terbit_sip' => $request->tanggal_terbit_sip,
                 'masa_berakhir_sip' => $request->masa_berakhir_sip,
                 'tempat_praktik' => $request->tempat_praktik,
-                'link_sip' => $fileName,
+                'link_sip' => $path,
                 'alamat_sip' => $request->alamat_sip
             ]);
 

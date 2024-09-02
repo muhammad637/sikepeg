@@ -46,13 +46,13 @@ class   STRController extends Controller
             ->addColumn('tanggal-berakhir-str', function($item){
                 return ($item->str[0]->masa_berakhir_str);
             })
-            ->addColumn('status', function($item){
-                $data =($item->str[0]->masa_berakhir_str);
-                // dd($data);
-                $status = $data ? 'aktif' : 'nonaktif';
-                $warna = $data == true ? 'btn-success' : 'btn-secondary';
-                return "<button class='btn ".$warna."'>$status</button>";
-            })
+                ->addColumn('status', function ($item) {
+                    // Memeriksa status dan menentukan warna tombol yang sesuai
+                    $status = $item->str[0]->status_str;
+                    $warna = $status == 'disetujui' ? 'btn-success' : ($status == 'pending' ? 'btn-warning' : 'btn-secondary');
+                    return "<button class='btn " . $warna . "'>".$status."</button>";
+                    
+                })
             ->addColumn('nama-ruangan',function($item){
                 return $item->ruangan->nama_ruangan;
             })
@@ -74,11 +74,11 @@ class   STRController extends Controller
      */
     public function create()
     {
-        $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->doesntHave('str')->get();
-        // return auth()->user();
-        return view('pages.str.create', [
-            'results' => $results
-        ]);
+        // $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->doesntHave('str')->get();
+        // // return auth()->user();
+        // return view('pages.str.create', [
+        //     'results' => $results
+        // ]);
     }
 
     /**
@@ -174,7 +174,7 @@ class   STRController extends Controller
                 'no_sertikom' => 'required',
                 'tanggal_terbit_str' => 'required',
                 'masa_berakhir_str' => 'required',
-                'link_str' => 'required',
+                'status_str' => 'required',
             ]);
             $strUpdate = $str->update([
                 'pegawai_id' => $request->pegawai_id,
@@ -184,8 +184,8 @@ class   STRController extends Controller
                 'no_sertikom' => $request->no_sertikom,
                 'penerbit_str' => $request->penerbit_str,
                 'tanggal_terbit_str' => $request->tanggal_terbit_str,
-                'masa_berakhir_str' => $request->masa_berakhir_str,
-                'link_str' => $request->link_str
+                'masa_berakhir_str' => 'seumur hidup',
+                'status_str' => $request->status_str,
             ]);
         // return $str;
         $notif = Notifikasi::notif('str', 'data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');

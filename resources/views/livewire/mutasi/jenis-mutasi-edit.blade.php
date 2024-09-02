@@ -184,18 +184,21 @@
             </div>
         </div>
     </div>
-    <div class="mb-4">
-        <div class="row gap-5">
-            <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">
-                <label for="" class="form-label">
-                    <p class="mb-0 mt-md-2 mt-0">Upload Link SK</p>
-                </label>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-8">
-                <input type="text" class="form-control @error('link_sk') is-invalid @enderror " id="link_sk"
-                    aria-describedby="link_sk" name="link_sk" autocomplete="false"
-                    placeholder="Masukkan Link Upload SK" wire:model='link_sk' required>
-            </div>
+    <div class="row mb-3">
+        <label for="tanggal_sertifikat" class="col-sm-4 col-form-label">Dokumen SK</label>
+
+        <div class="col-sm-8">
+
+            <a target="popup"
+                onclick="window.open(`{{ route('admin.previewDokumen', ['path' => $mutasi->link_sk]) }}`,'name','width=600,height=400')"
+                class="btn btn-primary mr-1" style="cursor: pointer">
+                <i class="fas fa-file-alt text-white"></i> Lihat
+            </a>
+
+            <!-- Large modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#myModal">Update</button>
+
         </div>
     </div>
 </div>
@@ -237,6 +240,19 @@
                     }
                 })
             })
+
+            $('#myModal form').on('submit', function(event) {
+                // Menambahkan animasi spinner dan menonaktifkan tombol
+                $('#modalButtonText').addClass('d-none');
+                $('#modalSpinner').removeClass('d-none');
+                $('#modalSubmitBtn').attr('disabled', true);
+            });
+            $('form').on('submit', function(event) {
+                // Menambahkan animasi spinner dan menonaktifkan tombol
+                $('#buttonText').addClass('d-none');
+                $('#spinner').removeClass('d-none');
+                $('#submitBtn').attr('disabled', true);
+            });
         });
     </script>
 @endpush

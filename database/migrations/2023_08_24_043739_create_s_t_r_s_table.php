@@ -23,9 +23,9 @@ return new class extends Migration
             $table->string('penerbit_str')->nullable();
             $table->string('tanggal_terbit_str');
             $table->string('masa_berakhir_str');
-            $table->string('link_str');
+            $table->string('link_str')->nullable();
             $table->enum('status_str',
-            ['diterima, ditolak', 'pending'])->default('pending');
+            ['disetujui', 'ditolak', 'pending'])->default('pending');
             $table->timestamps();
         });
     }

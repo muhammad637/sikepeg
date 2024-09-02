@@ -10,7 +10,7 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Tambah Data Demosi</h4>
         <hr class="font-weight-bold">
-        <form action="{{ route('admin.jabatan.store') }}" method="post">
+        <form action="{{ route('admin.jabatan.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <input type="hidden" value="demosi" name="type">
             <div class="row align-items-end">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
 
-                    
+
 
                     <div class="row mb-3">
                         <label for="penyelenggara" class="col-sm-4 col-form-label">Tanggal Berlaku<span
@@ -76,11 +76,14 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="uploadLinkSK" class="col-sm-4 col-form-label">Upload Link SK<span
+                        <label for="link_sertifikat" class="col-sm-4 col-form-label">Upload Link SK<span
                                 class="text-danger">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="uploadLinkSK" name="link_sk" required
-                                value="{{ old('link_sk') }}">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="fileInput" name="link_sk"
+                                    required>
+                                <label class="custom-file-label" for="fileInput">Pilih file</label>
+                            </div>
                         </div>
                     </div>
         </form>
@@ -98,4 +101,19 @@
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     @livewireScripts
+    <script>
+        $(document).ready(function() {
+
+            // alert('oke')
+            $('#pegawai').select2();
+
+            $('.custom-file-input').on('change', function(event) {
+                var inputFile = event.currentTarget;
+                $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name);
+            });
+            // $('.nip').val('tes')
+        });
+    </script>
 @endpush

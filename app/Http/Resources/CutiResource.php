@@ -30,6 +30,7 @@ class CutiResource extends JsonResource
             'status_cuti' => $this->status_cuti ?? 'pending',
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'sisa_cuti' => $this->pegawai->sisa_cuti_tahunan
         ];
     }
 }

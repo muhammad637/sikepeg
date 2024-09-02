@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\API;
 
+use Carbon\Carbon;
 use App\Models\STR;
 use App\Models\Admin;
 use App\Models\Notifikasi;
@@ -24,19 +25,21 @@ class STRController extends Controller
     public function store(Request $request)
     {
         try {
+            // return $request->all();
             $validatedData = $request->validate([
                 'no_str' => 'required',
+                'no_sip' => 'required',
                 'penerbit_str' => 'required',
-                'tanggal_terbit_str' => 'required|date',
+                'tanggal_terbit_str' => 'required',
                 'no_sertikom' => 'required',
                 'kompetensi' => 'required',
                 'masa_berakhir_str' => 'required',
-                'link_str' => 'required|mimes:pdf',
+                'link_str' => 'required',
             ]);
+            // return $validatedData;
 
-            $fileName = time() . '_' . md5(uniqid()). '.' . $request->file('link_str')->getClientOriginalExtension();
-            
-            Gdrive::put('dokumen/str/' . $fileName, $request->file('link_str'));
+            $path = 'dokumen/str/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $request->file('link_str')->getClientOriginalExtension();
+            Gdrive::put($path, $request->file('link_str'));
 
             $str = STR::create([
                 'pegawai_id' => auth()->user()->id,
@@ -47,7 +50,7 @@ class STRController extends Controller
                 'penerbit_str' => $request->penerbit_str,
                 'tanggal_terbit_str' => $request->tanggal_terbit_str,
                 'masa_berakhir_str' => $request->masa_berakhir_str,
-                'link_str' => $fileName
+                'link_str' => $path
             ]);
 
             $notif = Notifikasi::notif('str', 'Data STR pegawai ' . $str->pegawai->nama_lengkap . ' berhasil dibuat oleh ' . auth()->user()->name, 'bg-success', 'fas fa-folder-plus');

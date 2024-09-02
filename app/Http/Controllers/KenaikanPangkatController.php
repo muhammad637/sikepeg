@@ -16,6 +16,8 @@ use App\Models\PangkatGolongan;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class KenaikanPangkatController extends Controller
 {
@@ -162,6 +164,8 @@ class KenaikanPangkatController extends Controller
                 $pangkat_golongan_id = $pangkat_golongan->id;
             }
 
+
+
             // Validasi data input untuk kenaikan pangkat
             $validatedData = $request->validate([
                 'pegawai_id' => '',
@@ -172,6 +176,8 @@ class KenaikanPangkatController extends Controller
                 'penerbit_sk' => 'required'
             ]);
 
+            $path = 'dokumen/kenaikanPangkat/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $request->file('link_sk')->getClientOriginalExtension();
+            Gdrive::put($path, $request->file('link_sk'));
             // Buat objek KenaikanPangkat
             $kenaikanpangkat = KenaikanPangkat::create([
                 'pegawai_id' => $request->pegawai_id,
@@ -183,7 +189,7 @@ class KenaikanPangkatController extends Controller
                 'no_sk' => $request->no_sk,
                 'tanggal_sk' => $request->tanggal_sk,
                 'penerbit_sk' => $request->penerbit_sk,
-                'link_sk' => $request->link_sk,
+                'link_sk' => $path,
                 'pangkat_golongan_sebelumnya_id' => $request->pangkat_golongan_sebelumnya_id,
                 'tmt_sebelumnya' => $pegawai->tmt_pangkat_terakhir,
             ]);
@@ -408,5 +414,31 @@ class KenaikanPangkatController extends Controller
         }
         // return $mutasi->get();
         return $this->dataLaporan($kenaikan_pangkat->get());
+    }
+    public function updateDokumenSertifikat(Request $request, KenaikanPangkat $kenaikan_pangkat)
+    {
+        
+        if ($request->hasFile('link_sk')) {
+            $file = $request->file('link_sk');
+            $path = 'dokumen/kenaikanPangkat/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Mengunggah file ke Google Drive
+            Gdrive::put($path, $file);
+
+            // Menghapus file lama jika ada
+            if (!empty($kenaikan_pangkat->link_sk)) {
+                Gdrive::delete($kenaikan_pangkat->link_sk);
+            }
+
+            // Memperbarui database dengan nama file baru
+            $kenaikan_pangkat->update([
+                'link_sk' => $path
+            ]);
+            Alert::success('success', 'serttifikat berhasil di update');
+
+            return redirect()->back()->with('success', 'Sertifikat berhasil diupdate');
+        }
+        Alert::error('error', 'Tidak ada file yang diunggah');
+        return redirect()->back()->with('error', 'Tidak ada file yang diunggah');
     }
 }

@@ -15,7 +15,7 @@ use App\Http\Controllers\API\DownloadPDFController;
 use App\Http\Controllers\API\MutasiController;
 use App\Http\Controllers\API\JabatanController;
 use App\Http\Controllers\API\KenaikanPangkatController;
-use App\Http\Controllers\API\SIPControllerAPI;
+use App\Http\Controllers\API\ProfileController;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 /*
@@ -29,39 +29,29 @@ use Yaza\LaravelGoogleDriveStorage\Gdrive;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-// Route::middleware('')
-// Route::resource('/pegawai', PegawaiController::class);
 
-
-
-// downloadPDF
-Route::get('/testing-upload', [DownloadPDFController::class, 'uploadTes']);
-// testing download
-// Route::get('testing-download', function(){
-//     $data = Gdrive::get('dokumen/cuti/2024 08 11 22 11 09 Bukti Cuti.pdf');
-//     return response($data->file, 200)
-//         ->header('Content-Type', $data->ext)
-//         ->header('Content-disposition', 'attachment; filename="' . $data->filename . '"');
-// });
-
-Route::get('/downloadPdf', [DownloadPDFController::class, 'download']);
 Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
     Route::post('/login', [AuthController::class, 'loginHandler'])->name('login_handler');
 
     // Route::get('/downloadPdf', [DownloadPDFController::class, 'download']);
-    Route::middleware(['guest:pegawai', 'guest:admin'])->group(function () {
-    });
+    Route::middleware(['guest:pegawai', 'guest:admin'])->group(function () {});
     Route::middleware('auth:sanctum')->group(function () {
-      
+        Route::get(
+            '/preview-dokumen',
+            [PDFController::class, 'previewDokumen']
+        );
+        Route::get('/download-dokumen', [PDFController::class, 'download']);
+        
+        // profile
+        Route::get('/profile', [ProfileController::class,'index']);
+
+        // notifikasi
+        Route::get('/notifikasi', [ProfileController::class,'notifikasi']);
 
         // cuti
         Route::get('/cuti/riwayat', [CutiController::class, 'index'])->name('cuti.riwayat');
-        Route::post('/cuti/store',[CutiController::class,'store']);
-        Route::post('/cuti/{cuti:id}',[CutiController::class,'update']);
-
+        Route::post('/cuti/store', [CutiController::class, 'store']);
+        Route::post('/cuti/{cuti:id}', [CutiController::class, 'update']);
 
         // diklat
         Route::get('/diklat/riwayat', [DiklatController::class, 'index'])->name('diklat.riwayat');
@@ -83,17 +73,16 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
         Route::post('/str/store', [STRController::class, 'store']);
 
         // SIP
-        Route::get('/sip/riwayat', [SIPControllerAPI::class, 'index'])->name('sip.riwayat');
-        Route::post('/sip/store', [SIPControllerAPI::class, 'store']);
+        Route::get('/sip/riwayat', [SIPController::class, 'index'])->name('sip.riwayat');
+        Route::post('/sip/store', [SIPController::class, 'store']);
 
 
-        Route::post('/downloadPDF', [PDFController::class, 'downloadPDF']);
         Route::get('/testing', [PDFController::class, 'tes']);
 
         // downloadPDF
-        Route::get('/downloadPDF', [PDFController::class, 'downloadPDF']);
-        
+        Route::get('/downloadPDF', [PDFController::class, 'download']);
+
         // logout
-        Route::get('/logout', [AuthController::class, 'logoutHandler'])->name('logout_handler');
+        Route::post('/logout', [AuthController::class, 'logoutHandler'])->name('logout_handler');
     });
 });

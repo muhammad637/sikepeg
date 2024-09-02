@@ -82,7 +82,6 @@
                             <th scope="col">Tahun</th>
                             <th scope="col">Nomer Sertifikat</th>
                             <th scope="col">Sertifikat</th>
-                            <th scope="col">Status</th> <!-- Kolom Status Ditambahkan -->
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -283,10 +282,7 @@
                         data: 'surat',
                         name: 'surat'
                     },
-                    {
-                        data: 'status_diklat', // Kolom Status Ditambahkan
-                        name: 'status_diklat'
-                    },
+                    
                     {
                         data: 'aksi',
                         name: 'aksi'

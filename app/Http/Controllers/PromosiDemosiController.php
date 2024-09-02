@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Cuti;
 use App\Models\Admin;
+use App\Models\Diklat;
 use App\Exports\Export;
 use App\Models\Pegawai;
 use App\Models\Ruangan;
@@ -14,7 +15,9 @@ use Illuminate\Http\Request;
 use App\Models\PromosiDemosi;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class PromosiDemosiController extends Controller
 {
@@ -33,6 +36,7 @@ class PromosiDemosiController extends Controller
      */
     public function index(Request $request)
     {
+        // return PromosiDemosi::all();
         $jabatan_terakhir = Pegawai::whereHas('promosiDemosi')->with(['promosiDemosi' => function ($q) {
             $q->orderBy('created_at', 'desc');
         }])->get();
@@ -96,6 +100,7 @@ class PromosiDemosiController extends Controller
     }
     public function store(Request $request)
     {
+        // return [$request->all(), $_FILES];
         // Cari pegawai berdasarkan pegawai_id yang diberikan
         $pegawai = Pegawai::find($request->pegawai_id);
 
@@ -111,6 +116,11 @@ class PromosiDemosiController extends Controller
             'ruangan_id' => $request->ruanganbaru_id
         ]);
 
+        $path = 'dokumen/jabatan/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $request->file('link_sk')->getClientOriginalExtension();
+        // return $path;
+        Gdrive::put($path, $request->file('link_sk'));
+
+
         // Buat objek PromosiDemosi dengan data yang diberikan
         $promosiDemosi =  PromosiDemosi::create([
             'pegawai_id' => $request->pegawai_id,
@@ -121,7 +131,7 @@ class PromosiDemosiController extends Controller
             'tanggal_berlaku' => $request->tanggal_berlaku,
             'no_sk' => $request->no_sk,
             'tanggal_sk' => $request->tanggal_sk,
-            'link_sk' => $request->link_sk
+            'link_sk' => $path
         ]);
 
         // Buat notifikasi untuk tindakan promosi/demosi
@@ -203,7 +213,6 @@ class PromosiDemosiController extends Controller
             'tanggal_berlaku' => $request->tanggal_berlaku,
             'no_sk' => $request->no_sk,
             'tanggal_sk' => $request->tanggal_sk,
-            'link_sk' => $request->link_sk
         ]);
         $notif = Notifikasi::notif(
             'jabatan',
@@ -226,13 +235,16 @@ class PromosiDemosiController extends Controller
      */
     public function destroy(PromosiDemosi $promosiDemosi)
     {
+
         //
+        return $promosiDemosi->link_sk;
         $pegawai = Pegawai::with(['promosiDemosi' => function ($item) {
             $item->orderBy('tanggal_berlaku', 'desc');
         }])->find($promosiDemosi->pegawai_id);
         if ($pegawai->promosiDemosi[0]->id == $promosiDemosi->id) {
             $pegawai->update(['jabatan', $promosiDemosi->jabatan_sebelumnya]);
         }
+        Gdrive::delete($promosiDemosi->link_sk);
         $notif = Notifikasi::notif(
             'jabatan',
             $promosiDemosi->type . '  pegawai ' . $promosiDemosi->pegawai->nama_lengkap . ' berhasil  dihapus oleh ' . auth()->user()->name,
@@ -328,5 +340,32 @@ class PromosiDemosiController extends Controller
         }
         // return $promosiDemosi->get();
         return $this->dataLaporan($promosiDemosi->get(), $request);
+    }
+
+    public function updateDokumenSertifikat(Request $request, PromosiDemosi $promosiDemosi)
+    {
+
+        if ($request->hasFile('link_sk')) {
+            $file = $request->file('link_sk');
+            $path = 'dokumen/jabatan/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+           
+            // Mengunggah file ke Google Drive
+            Gdrive::put($path, $file);
+
+            // Menghapus file lama jika ada
+            if (!empty($promosiDemosi->link_sk)) {
+                Gdrive::delete($promosiDemosi->link_sk);
+            }
+
+            // Memperbarui database dengan nama file baru
+            $promosiDemosi->update([
+                'link_sk' => $path
+            ]);
+            Alert::success('success', 'serttifikat berhasil di update');
+
+            return redirect()->back()->with('success', 'Sertifikat berhasil diupdate');
+        }
+        Alert::error('error', 'Tidak ada file yang diunggah');
+        return redirect()->back()->with('error', 'Tidak ada file yang diunggah');
     }
 }

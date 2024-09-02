@@ -23,6 +23,9 @@ use App\Http\Controllers\DashboardAdminController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\KenaikanPangkatController;
 use App\Http\Controllers\MasterDataKenaikanPangkatController;
+use Barryvdh\DomPDF\PDF;
+
+use Illuminate\Support\Facades\App;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,12 +38,8 @@ use App\Http\Controllers\MasterDataKenaikanPangkatController;
 |
 */
 
-Route::get('/tes-123', function () {
-    return redirect()->route('previewDokumen', ['folder' => 'cuti', 'namaFile' => 'VR7mNwBbIAYhRYoP.pdf']);
-});
 
 Route::get('tesDok/{cuti:id}', [Pdfcontroller::class, 'generateDok']);
-
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest:admin', 'guest:pegawai'])->group(function () {
         Route::view('/login', 'auth.admin.login')->name('login');
@@ -49,7 +48,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/previewDokumen', [PDFController::class, 'previewDokumenCuti'])->name('previewDokumen');
+        Route::get('/previewDokumen', [PDFController::class, 'previewDokumen'])->name('previewDokumen');
         Route::get('/downloadDokumen', [PDFController::class, 'download'])->name('downloadDokumen');
 
         Route::get('/home', [DashboardAdminController::class, 'index'])->name('home.index');
@@ -120,12 +119,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/edit/{cuti:id}', [CutiController::class, 'editRiwayat'])->name('editRiwayat');
             });
         });
-
-        Route::get('/mutasi/export-excel', [MutasiController::class, 'export_excel'])->name('mutasi.export-excel');
+        Route::prefix('mutasi')->name('mutasi.')->group(function () {
+            Route::get('/export-excel', [MutasiController::class, 'export_excel'])->name('export-excel');
+            Route::get('/history/{pegawai:id}', [MutasiController::class, 'history'])->name('history');
+            Route::get('/edit-history/{mutasi:id}', [MutasiController::class, 'historyEdit'])->name('history-edit');
+            Route::get('/show-history/{mutasi:id}', [MutasiController::class, 'historyShow'])->name('history-show');
+            Route::put('/update-dokumen-sertifikat/{mutasi:id}', [MutasiController::class, 'updateDokumenSertifikat'])->name('update-dok');
+        });
         Route::resource('/mutasi', MutasiController::class);
-        Route::get('/mutasi/history/{pegawai:id}', [MutasiController::class, 'history'])->name('mutasi.history');
-        Route::get('/mutasi/edit-history/{mutasi:id}', [MutasiController::class, 'historyEdit'])->name('mutasi.history-edit');
-        Route::get('/mutasi/show-history/{mutasi:id}', [MutasiController::class, 'historyShow'])->name('mutasi.history-show');
 
         Route::prefix('diklat')->name('diklat.')->group(function () {
             Route::get('/riwayat/{pegawai:id}', [DiklatController::class, 'riwayat'])->name('riwayat');
@@ -134,7 +135,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/export-all', [DiklatController::class, 'exportAll'])->name('export-all');
             Route::get('/export-year', [DiklatController::class, 'exportYear'])->name('export-year');
             Route::get('/export-year-range', [DiklatController::class, 'exportYearRange'])->name('export-range');
-            Route::post('/diklat/{diklat}/validate', [DiklatController::class, 'validateDiklat'])->name('admin.diklat.validate');
+            // Route::post('/diklat/{diklat}/validate', [DiklatController::class, 'validateDiklat'])->name('admin.diklat.validate');
+            Route::put('/update-dokumen-sertifikat/{diklat:id}', [DiklatController::class, 'updateDokumenSertifikat'])->name('update-dok');
         });
         Route::resource('/diklat', DiklatController::class);
 
@@ -156,6 +158,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/delete/{promosiDemosi:id}', [PromosiDemosiController::class, 'destroy'])->name('destroy');
             Route::get('/export-semua-jabatan', [PromosiDemosiController::class, 'export_excel'])->name('export-semua-jabatan');
             Route::get('/riwayat-jabatan/{pegawai:id}', [PromosiDemosiController::class, 'riwayat'])->name('riwayat');
+            Route::put('/update-dokumen-sertifikat/{promosiDemosi:id}', [PromosiDemosiController::class, 'updateDokumenSertifikat'])->name('update-dok');
         });
 
         // kenaikan pangkat
@@ -172,6 +175,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/lihat-riwayat/{kenaikan_pangkat:id}', [KenaikanPangkatController::class, 'lihatRiwayat'])->name('lihat-riwayat');
             Route::get('/edit-riwayat/{kenaikan_pangkat:id}', [KenaikanPangkatController::class, 'editRiwayat'])->name('edit-riwayat');
             Route::get('/riwayat/{pegawai:id}/create', [KenaikanPangkatController::class, 'createriwayat'])->name('createriwayat');
+            Route::put('/update-dokumen-sertifikat/{kenaikan_pangkat:id}', [KenaikanPangkatController::class, 'updateDokumenSertifikat'])->name('update-dok');
         });
         Route::prefix('master-data')->name('master-data.')->group(function () {
             Route::prefix('admin-management')->name('admin-management.')->group(function () {

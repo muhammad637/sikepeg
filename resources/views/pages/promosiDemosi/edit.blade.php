@@ -66,8 +66,10 @@
                                 class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <select name="type" class="form-control" id="">
-                                <option value="promosi" {{$promosiDemosi->type == 'promosi' ? 'selected' : ''}}>Promosi</option>
-                                <option value="demosi" {{$promosiDemosi->type == 'demosi' ? 'selected' : ''}}>Demosi</option>
+                                <option value="promosi" {{ $promosiDemosi->type == 'promosi' ? 'selected' : '' }}>Promosi
+                                </option>
+                                <option value="demosi" {{ $promosiDemosi->type == 'demosi' ? 'selected' : '' }}>Demosi
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -96,31 +98,103 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="uploadLinkSK" class="col-sm-4 col-form-label">Upload Link SK<span
-                                class="text-danger">*</span></label>
+                        <label for="tanggal_sertifikat" class="col-sm-4 col-form-label">Dokumen SK</label>
+
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="uploadLinkSK" name="link_sk" required
-                                value="{{ old('link_sk', $promosiDemosi->link_sk) }}">
+
+                            <a target="popup"
+                                onclick="window.open(`{{ route('admin.previewDokumen', ['path' => $promosiDemosi->link_sk]) }}`,'name','width=600,height=400')"
+                                class="btn btn-primary mr-1" style="cursor: pointer">
+                                <i class="fas fa-file-alt text-white"></i> Lihat
+                            </a>
+
+                            <!-- Large modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#myModal">Update</button>
+
                         </div>
                     </div>
+                    <div class="text-right">
+                        <a href="{{ route('admin.jabatan.index') }}" class="btn bg-warning text-white">Tutup</a>
+                        <button class="btn btn-success" type="submit">Kirim</button>
+                    </div>
+                </div>
+            </div>
         </form>
-        <div class="text-right">
-            <a href="{{ route('admin.jabatan.index') }}" class="btn bg-warning text-white">Tutup</a>
-            <button class="btn btn-success" type="submit">Kirim</button>
-        </div>
+    </div>
 
-    </div>
-    </div>
-    </form>
+
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="{{ route('admin.jabatan.update-dok', ['promosiDemosi' => $promosiDemosi]) }}"
+                        method="post" enctype="multipart/form-data">
+                        @csrf
+                        @method('put')
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Dokumen Sertifikat
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <label for="link_sertifikat" class="col-sm-4 col-form-label">Upload</label>
+                                <div class="col-sm-8">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="fileInput" name="link_sk"
+                                            required>
+                                        <label class="custom-file-label" for="fileInput">Pilih
+                                            file</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="modalSubmitBtn" type="submit" class="btn btn-primary">
+                                <span id="modalButtonText">Submit</span>
+                                <span id="modalSpinner" class="spinner-border spinner-border-sm d-none" role="status"
+                                    aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.container-fluid -->
 @endsection
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
-    $(document).ready(function(){
-       $('#ruangan-baru-selected').select2()
-    })
+        $(document).ready(function() {
+            $('#ruangan-baru-selected').select2()
 
+            $('.custom-file-input').on('change', function(event) {
+                var inputFile = event.currentTarget;
+                $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name);
+            });
+            $('#myModal form').on('submit', function(event) {
+                // Menambahkan animasi spinner dan menonaktifkan tombol
+                $('#modalButtonText').addClass('d-none');
+                $('#modalSpinner').removeClass('d-none');
+                $('#modalSubmitBtn').attr('disabled', true);
+            });
+            $('form').on('submit', function(event) {
+                // Menambahkan animasi spinner dan menonaktifkan tombol
+                $('#buttonText').addClass('d-none');
+                $('#spinner').removeClass('d-none');
+                $('#submitBtn').attr('disabled', true);
+            });
+        })
     </script>
-    @endpush
+@endpush

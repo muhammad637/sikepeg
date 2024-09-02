@@ -132,14 +132,9 @@ class CutiController extends Controller
     public function update(Request $r, $id)
     {
         try {
-            //code...
-            // return [
-            //     $r->all(),
-            //     $r->file('link_cuti'),
-            //     $_FILES['link_cuti'],
-
-            // ];
+           
             $cuti =  Cuti::find($id);
+            $pegawai = $cuti->pegawai;
             $validatedData = $r->validate([
                 'link_cuti' => 'file'
             ]);
@@ -160,22 +155,27 @@ class CutiController extends Controller
                     401
                 );
             }
-
+            
             if ($_FILES && $cuti->status_cuti == 'pending') {
                 if ($cuti->link_cuti != null) {
-                    GDrive::delete('dokumen/cuti/' . $cuti->link_cuti);
+                    GDrive::delete($cuti->link_cuti);
                 }
-                $fileName = Carbon::now()->format('Y m d H i s') . ' Bukti Cuti' . '.' . $r->file('link_cuti')->getClientOriginalExtension();
-                Gdrive::put('dokumen/cuti/' . $fileName, $r->file('link_cuti'));
+                $path = 'dokumen/cuti/'.Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $r->file('link_cuti')->getClientOriginalExtension();
+                Gdrive::put($path, $r->file('link_cuti'));
 
                 $cuti->update([
-                    'link_cuti' => $fileName
+                    'link_cuti' => $path
                 ]);
+                $notif = Notifikasi::notif('cuti', 'Data cuti pegawai ' . $pegawai->nama_lengkap . ' berhasil diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');
+                $createNotif = Notifikasi::create($notif);
+                $createNotif->admin()->sync(Admin::adminId());
+                $createNotif->pegawai()->attach($pegawai->id);
                 return response()->json([
                     'status' => 'success',
                     'message' => 'data berhasil di update'
                 ]);
             }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'tidak ada perubahan data cuti'

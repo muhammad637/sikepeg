@@ -46,9 +46,15 @@ class AuthController extends Controller
 
     public function logoutHandler()
     {
-        $user = Auth::guard('pegawai')->user();
-        $user->tokens()->delete();
-        Auth::guard('pegawai')->logout();
-        return response()->json(['message' => 'anda sudah logout di sistem'], 200);
+
+        try {
+            //code...
+            $user = auth()->user();
+            $user->tokens()->delete();
+            Auth::guard('pegawai')->logout();
+            return response()->json(['status' => 'success', 'message' => 'anda sudah logout di sistem'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'error', 'message' => $th->getMessage()], 200);
+        }
     }
 }

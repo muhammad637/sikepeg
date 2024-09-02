@@ -95,8 +95,12 @@
                     <label for="link_sertifikat" class="col-sm-4 col-form-label">Link Sertifikat</label>
                     <div class="col-sm-8">
 
-                        <input type="text" class="form-control" id="inputPassword3"
-                            value="{{ $diklat->link_sertifikat }}" name="link_sertifikat" readonly>
+                       <a target="popup"
+                                onclick="window.open(`{{ route('admin.previewDokumen', ['path' => $diklat->link_sertifikat]) }}`,'name','width=600,height=400')"
+                                class="btn btn-primary mr-1" style="cursor: pointer">
+                                <i class="fas fa-file-alt text-white"></i> Lihat
+                            </a>
+
                     </div>
                 </div>
                 <div class="text-right">

@@ -10,7 +10,8 @@
     <div class="card p-4 mx-lg-5 mb-5 ">
         <h4 class="m-0 font-weight-bold text-dark">Form Edit Data Diklat</h4>
         <hr class="font-weight-bold">
-        <form action="{{ route('admin.diklat.update', ['diklat' => $diklat->id]) }}" method="post">
+        <form action="{{ route('admin.diklat.update', ['diklat' => $diklat->id]) }}" method="post"
+            enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="row">
@@ -20,8 +21,9 @@
                             <span class="mb-0 text-dark ">Pegawai</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                            <input type="text" class="form-control" id="nama_pegawai" value="{{ old('nama_pegawai',$diklat->pegawai->nama_lengkap) }}"
-                                name="nama_pegawai" readonly>
+                            <input type="text" class="form-control" id="nama_pegawai"
+                                value="{{ old('nama_pegawai', $diklat->pegawai->nama_lengkap) }}" name="nama_pegawai"
+                                readonly>
                             {{-- <input class="form-control" id="pegawai" name="pegawai_id"
                                 value="{{ $diklat->pegawai->nama_depan }} {{ $diklat->pegawai->nama_belakang }}" readonly> --}}
                         </div>
@@ -39,15 +41,16 @@
                     <div class="row mb-3">
                         <label for="nama_ruangan" class="col-sm-4 col-form-label">Nama Ruangan</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="nama_ruangan" value="{{ old('nama_ruangan',$diklat->ruangan->nama_ruangan) }}"
-                                name="nama_ruangan" readonly>
+                            <input type="text" class="form-control" id="nama_ruangan"
+                                value="{{ old('nama_ruangan', $diklat->ruangan->nama_ruangan) }}" name="nama_ruangan"
+                                readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="nama_diklat" class="col-sm-4 col-form-label">Nama Diklat</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="nama_diklat" value="{{ old('nama_diklat',$diklat->nama_diklat) }}"
-                                name="nama_diklat">
+                            <input type="text" class="form-control" id="nama_diklat"
+                                value="{{ old('nama_diklat', $diklat->nama_diklat) }}" name="nama_diklat">
                         </div>
                     </div>
 
@@ -81,7 +84,7 @@
                         <label for="penyelenggara" class="col-sm-4 col-form-label">Penyelenggara</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ 'penyelenggara',$diklat->penyelenggara }}" name="penyelenggara">
+                                value="{{ 'penyelenggara', $diklat->penyelenggara }}" name="penyelenggara">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -103,44 +106,91 @@
                         <div class="col-sm-8">
 
                             <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ old('no_sertifikat',$diklat->no_sertifikat) }}" name="no_sertifikat">
+                                value="{{ old('no_sertifikat', $diklat->no_sertifikat) }}" name="no_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="tanggal_sertifikat" class="col-sm-4 col-form-label">Tanggal Sertifikat</label>
                         <div class="col-sm-8">
-
                             <input type="date" class="form-control" id="inputPassword3"
                                 value="{{ old('tanggal_sertifikat', $diklat->tanggal_sertifikat) }}"
                                 name="tanggal_sertifikat">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="link_sertifikat" class="col-sm-4 col-form-label">Link Sertifikat</label>
+                        <label for="tanggal_sertifikat" class="col-sm-4 col-form-label">Dokumen Sertifikat</label>
+
                         <div class="col-sm-8">
 
-                            <input type="text" class="form-control" id="inputPassword3"
-                                value="{{ old('link_sertifikat',$diklat->link_sertifikat) }}" name="link_sertifikat">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="status_diklat" class="col-sm-4 col-form-label">Status Diklat</label>
-                        <div class="col-sm-8">
-                            <select name="status_diklat" id="status_diklat" class="form-control">
-                                <option value="pending" {{ $diklat->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="diterima" {{ $diklat->status == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                                <option value="ditolak" {{ $diklat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                            </select>
+                            <a target="popup"
+                                onclick="window.open(`{{ route('admin.previewDokumen', ['path' => $diklat->link_sertifikat]) }}`,'name','width=600,height=400')"
+                                class="btn btn-primary mr-1" style="cursor: pointer">
+                                <i class="fas fa-file-alt text-white"></i> Lihat
+                            </a>
+
+                            <!-- Large modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#myModal">Update</button>
+
+
                         </div>
                     </div>
                     <div class="text-right">
                         <a href="{{ route('admin.diklat.index') }}" class="btn bg-warning text-white">Tutup</a>
-                        <button class="btn btn-success" type="submit">Kirim</button>
+                        <button id="submitBtn" class="btn btn-success" type="submit">
+                            <span id="buttonText">Kirim</span>
+                            <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status"
+                                aria-hidden="true"></span>
+                        </button>
                     </div>
 
                 </div>
             </div>
         </form>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="{{ route('admin.diklat.update-dok', ['diklat' => $diklat]) }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('put')
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Dokumen Sertifikat
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <label for="link_sertifikat" class="col-sm-4 col-form-label">Upload</label>
+                                <div class="col-sm-8">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="fileInput"
+                                            name="link_sertifikat" required>
+                                        <label class="custom-file-label" for="fileInput">Pilih
+                                            file</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="modalSubmitBtn" type="submit" class="btn btn-primary">
+                                <span id="modalButtonText">Submit</span>
+                                <span id="modalSpinner" class="spinner-border spinner-border-sm d-none" role="status"
+                                    aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.container-fluid -->
 @endsection
@@ -150,9 +200,8 @@
     <script>
         $(document).ready(function() {
             // alert('oke')
-            $('#status').select2()
             $('#select2').select2();
-              $('#tanggal_mulai').on('change', function() {
+            $('#tanggal_mulai').on('change', function() {
                 let tanggal_mulai = $('#tanggal_mulai').val()
                 console.log("Jumlah Hari Antara Kedua Tanggal: " + jumlahHari +
                     " hari");
@@ -162,8 +211,8 @@
                     var tanggalAkhir = new Date(tanggal_selesai);
                     var selisihMilidetik = tanggalAkhir - tanggalAwal;
                     var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
-                     $('#jumlah-hari').val(jumlahHari)
-                     $('#jumlah-jam').val(jumlahHari*5)
+                    $('#jumlah-hari').val(jumlahHari)
+                    $('#jumlah-jam').val(jumlahHari * 5)
                 }
             })
             $('#tanggal_selesai').on('change', function() {
@@ -174,8 +223,8 @@
                     var tanggalAkhir = new Date(tanggal_selesai);
                     var selisihMilidetik = tanggalAkhir - tanggalAwal;
                     var jumlahHari = 1 + (selisihMilidetik / (1000 * 60 * 60 * 24));
-                     $('#jumlah-hari').val(jumlahHari)
-                     $('#jumlah-jam').val(jumlahHari*5)
+                    $('#jumlah-hari').val(jumlahHari)
+                    $('#jumlah-jam').val(jumlahHari * 5)
                 }
             })
             $('#jumlah-hari').on('change', function() {
@@ -183,7 +232,24 @@
                 let jam = jumlah_hari * 5
                 $('#jumlah-jam').val(jam)
             })
-
+            $('.custom-file-input').on('change', function(event) {
+                var inputFile = event.currentTarget;
+                $(inputFile).parent()
+                    .find('.custom-file-label')
+                    .html(inputFile.files[0].name);
+            });
+            $('#myModal form').on('submit', function(event) {
+                // Menambahkan animasi spinner dan menonaktifkan tombol
+                $('#modalButtonText').addClass('d-none');
+                $('#modalSpinner').removeClass('d-none');
+                $('#modalSubmitBtn').attr('disabled', true);
+            });
+            $('form').on('submit', function(event) {
+                // Menambahkan animasi spinner dan menonaktifkan tombol
+                $('#buttonText').addClass('d-none');
+                $('#spinner').removeClass('d-none');
+                $('#submitBtn').attr('disabled', true);
+            });
             // $('.nip').val('tes')
         });
     </script>

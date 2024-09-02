@@ -8,12 +8,14 @@ use App\Models\Admin;
 use App\Models\Diklat;
 use App\Exports\Export;
 use App\Models\Pegawai;
+use App\Models\Ruangan;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use App\Models\Ruangan;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 class DiklatController extends Controller
 {
@@ -129,7 +131,6 @@ class DiklatController extends Controller
                 'tahun' => 'required',
                 'no_sertifikat' => 'required',
                 'tanggal_sertifikat' => 'required',
-                'link_sertifikat' => 'required',
             ]);
             $diklat->update(
                 [
@@ -144,7 +145,6 @@ class DiklatController extends Controller
                     'tahun' => $request->tahun,
                     'no_sertifikat' => $request->no_sertifikat,
                     'tanggal_sertifikat' => $request->tanggal_sertifikat,
-                    'link_sertifikat' => $request->link_sertifikat,
                 ]
             );
             $notif = Notifikasi::notif('diklat', 'data diklat  pegawai ' . $diklat->pegawai->nama_lengkap . ' berhasil  diupdate oleh ' . auth()->user()->name, 'bg-success', 'fas fa-chalkboard-teacher');
@@ -162,6 +162,32 @@ class DiklatController extends Controller
         }
     }
 
+    public function updateDokumenSertifikat(Request $request, Diklat $diklat)
+    {
+        if ($request->hasFile('link_sertifikat')) {
+            $file = $request->file('link_sertifikat');
+            $path = 'dokumen/diklat /' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // Mengunggah file ke Google Drive
+            Gdrive::put($path, $file);
+
+            // Menghapus file lama jika ada
+            if (!empty($diklat->link_sertifikat)) {
+                Gdrive::delete($diklat->link_sertifikat);
+            }
+
+            // Memperbarui database dengan nama file baru
+            $diklat->update([
+                'link_sertifikat' => $path
+            ]);
+            Alert::success('success', 'serttifikat berhasil di update');
+
+            return redirect()->back()->with('success', 'Sertifikat berhasil diupdate');
+        }
+        Alert::error('error', 'Tidak ada file yang diunggah');
+        return redirect()->back()->with('error', 'Tidak ada file yang diunggah');
+    }
+
 
     public function store(Request $request)
     {
@@ -175,9 +201,12 @@ class DiklatController extends Controller
             'tahun' => 'required',
             'no_sertifikat' => 'required',
             'tanggal_sertifikat' => 'required|date',
-            'link_sertifikat' => 'required',
+            'link_sertifikat' => 'required|file|mimes:pdf',
             'ruangan_id' => 'required'
         ]);
+
+        $path = 'dokumen/diklat/' . Carbon::now()->format('YmdHis') . '_' . uniqid() . '.' . $request->file('link_sertifikat')->getClientOriginalExtension();
+        Gdrive::put($path, $request->file('link_sertifikat'));
         $diklat = Diklat::create([
             'pegawai_id' => $request->pegawai_id,
             'nama_diklat' => $request->nama_diklat,
@@ -190,7 +219,7 @@ class DiklatController extends Controller
             'tahun' => $request->tahun,
             'no_sertifikat' => $request->no_sertifikat,
             'tanggal_sertifikat' => $request->tanggal_sertifikat,
-            'link_sertifikat' => $request->link_sertifikat,
+            'link_sertifikat' => $path,
             'ruangan_id' => $request->ruangan_id
         ]);
 
@@ -265,9 +294,18 @@ class DiklatController extends Controller
 
     public function destroy(Diklat $diklat)
     {
-        $diklat->delete();
-        alert()->success('data diklat berhasil dihapus');
-        return redirect()->back();
+        try {
+            //code...
+            if ($diklat->link_sertifikat) {
+                Gdrive::delete($diklat->link_sertifikat);
+            }
+            $diklat->delete();
+            alert()->success('data diklat berhasil dihapus');
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return alert()->error('data diklat gagal dihapus', $th->getMessage());
+        }
     }
     private function dataLaporan($diklats)
     {

@@ -106,7 +106,7 @@
                             <label for="inputEmail3" class="col-sm-4 col-form-label">Masa
                                 Berlaku</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputEmail3"
+                                <input type="text" class="form-control" id="inputEmail3"
                                     value="{{ $str->masa_berakhir_str }}" readonly>
                             </div>
                         </div>

@@ -41,11 +41,11 @@
         <h1>{{ $title }}</h1>
 
         <div class="file-preview">
-            <p class="file-name">File Name: {{ $file['name'] }}</p>
+            <p class="file-name">Path: {{ $file['path'] }}</p>
             <div class="file-content">
-                @if(strpos($file['type'], 'image') !== false)
+                @if(strpos($file['type'], 'jpg') !== false)
                     <!-- Menampilkan gambar -->
-                    <img src="data:{{ $file['type'] }};base64,{{ $file['content'] }}" alt="{{ $file['name'] }}">
+                    <img src="data:{{ $file['type'] }};base64,{{ $file['content'] }}" alt="{{ $file['path'] }}">
                 @elseif(strpos($file['type'], 'pdf') !== false)
                     <!-- Menampilkan PDF -->
                     <iframe src="data:application/pdf;base64,{{ $file['content'] }}" frameborder="0" scrolling="auto"></iframe>

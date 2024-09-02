@@ -1,10 +1,10 @@
-@extends('main',['title'=>'Edit SIP'])
+@extends('main', ['title' => 'Edit SIP'])
 
 @section('content')
-@push('style-css')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
-@livewireStyles
-@endpush
+    @push('style-css')
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+        @livewireStyles
+    @endpush
     <!-- Begin Page Content -->
     <h1 class="" style="color:black;font-weight:bold;">SIP</h1>
     <div class="card p-4 mx-lg-5 mb-5 ">
@@ -20,14 +20,15 @@
                             <span class="mb-0 text-dark ">Nama</span>
                         </div>
                         <div class="col-sm-8 text-secondary">
-                           <select class="form-control" id="select2" name="pegawai_id">
-                            <option value="">Pilih Nama Pegawai</option>
-                            @foreach ($results as $pegawai)
-                            <option value="{{ $pegawai->id }}" {{ $sip->pegawai->id == $pegawai->id ? 'selected' : '' }}>
-                                {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
-                            </option>
-                            @endforeach
-                        </select>
+                            <select class="form-control" id="select2" name="pegawai_id">
+                                <option value="">Pilih Nama Pegawai</option>
+                                @foreach ($results as $pegawai)
+                                    <option value="{{ $pegawai->id }}"
+                                        {{ $sip->pegawai->id == $pegawai->id ? 'selected' : '' }}>
+                                        {{ $pegawai->nama_lengkap ?? $pegawai->nama_depan }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     @livewire('pegawai.search-pegawai', ['dokumen' => 'sip', 'pegawaiEdit' => $sip->pegawai_id])
@@ -41,8 +42,8 @@
                     <div class="row mb-3">
                         <label for="noRegister" class="col-sm-4 col-form-label">No Rekomendasi</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" value="{{ old('no_rekomendasi', $sip->no_rekomendasi) }}"
-                                required name="no_rekomendasi">
+                            <input type="text" class="form-control"
+                                value="{{ old('no_rekomendasi', $sip->no_rekomendasi) }}" required name="no_rekomendasi">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -55,8 +56,8 @@
                     <div class="row mb-3">
                         <label for="penerbitSIP" class="col-sm-4 col-form-label">Penerbit SIP</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" value="{{ old('penerbit_sip', $sip->penerbit_sip) }}" required
-                                name="penerbit_sip">
+                            <input type="text" class="form-control" value="{{ old('penerbit_sip', $sip->penerbit_sip) }}"
+                                required name="penerbit_sip">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -79,15 +80,42 @@
                                 required name="masa_berakhir_sip">
                         </div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-4 mb-2  fw-italic text-end">
-                            <span class="mb-0 text-dark " style="text-decoration: none;">Link Dokumen SIP</span>
+                    <div class="row mb-3">
+                        <label for="dokumen_sip" class="col-sm-4 col-form-label">Dokumen SIP</label>
+                        <div class="col-sm-8">
+                            @if ($sip->link_sip != null)
+                                <a target="popup"
+                                    onclick="window.open(`{{ route('admin.previewDokumen', ['path'=> $sip->link_sip]) }}`,'name','width=600,height=400')"
+                                    class="btn btn-primary mr-1" style="cursor: pointer">
+                                    <i class="fas fa-file-alt text-white"></i> Lihat
+                                </a>
+                                <a target="_blank" style="cursor: pointer"
+                                    href="{{ route('admin.downloadDokumen', ['path'=> $sip->link_sip]) }}"
+                                    class="btn btn-primary mr-1">
+                                    <i class="fas fa-file-alt text-white"></i> Download
+                                </a>
+                            @else
+                                <input type="text" class="form-control" id="jumlah_hari" name="jumlah_hari"
+                                    value="dokumen tidak ada" readonly>
+                            @endif
                         </div>
-                        <div class="col-sm-8 text-secondary">
-                            <input type="text" class="form-control" value="{{ old('link_sip', $sip->link_sip) }}"
-                                required name="link_sip">
-                        </div>
+
                     </div>
+                    <div class="row mb-3">
+                        <label for="dokumen_sip" class="col-sm-4 col-form-label"> <b>Status STR</b></label>
+                        <div class="col-sm-8">
+                            <select name="status_sip" id="" class="form-control">
+                                <option value="pending" {{ $sip->status_sip == 'pending' ? 'selected' : '' }}>Pending
+                                </option>
+                                <option value="disetujui" {{ $sip->status_sip == 'disetujui' ? 'selected' : '' }}>Disetujui
+                                </option>
+                                <option value="ditolak" {{ $sip->status_sip == 'ditolak' ? 'selected' : '' }}>Ditolak
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
                     <div class="text-right">
                         <a href="{{ route('admin.sip.index') }}" class="btn btn-warning text-white">Tutup</a>
                         <button class="btn btn-success text-white" type="submit">Simpan</button>
@@ -98,8 +126,8 @@
         </form>
     </div>
     <!-- /.container-fluid -->
-   @push('script')
-@livewireScripts
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-@endpush
+    @push('script')
+        @livewireScripts
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    @endpush
 @endsection

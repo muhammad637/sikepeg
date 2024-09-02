@@ -241,20 +241,24 @@ class CutiController extends Controller
         if (!$pegawaiUpdate) {
             return redirect()->back()->with('error', 'Pegawai dengan ID yang dimasukkan tidak ada');
         }
+        
+        
+        
+       
 
-        // Validate user input
-        $validatedData = $request->validate([
-            'jenis_cuti' => 'required',
-            'alasan_cuti' => 'required',
-            'mulai_cuti' => 'required|date',
-            'selesai_cuti' => 'required|date',
-            'jumlah_hari' => 'required|integer',
-            'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
-        ]);
+    
 
         try {
             // Check the leave status
-            
+            // Validate user input
+            $validatedData = $request->validate([
+                'jenis_cuti' => 'required',
+                'alasan_cuti' => 'required',
+                'mulai_cuti' => 'required|date',
+                'selesai_cuti' => 'required|date',
+                'jumlah_hari' => 'required|integer',
+                'status_cuti' => 'required|string|in:pending,disetujui,ditolak',
+            ]);
 
             if ($cuti->status_cuti != 'pending') {
                 Alert::error('Submit Gagal', 'Data Cuti sudah di validasi');
@@ -262,7 +266,7 @@ class CutiController extends Controller
             }
 
             // Begin database transaction
-            DB::beginTransaction();
+            // DB::beginTransaction();
             // Handle annual leave for the same employee
             if ($request->jenis_cuti === 'cuti tahunan' && $cuti->jenis_cuti === 'cuti tahunan') {
                 $cuti->pegawai->update([
@@ -302,15 +306,16 @@ class CutiController extends Controller
             $createNotif->admin()->sync(Admin::adminId());
             $createNotif->pegawai()->attach($pegawaiUpdate->id);
 
-            DB::commit();
-            alert()->success('Berhasil', 'Data cuti pegawai berhasil diupdate oleh ' . auth()->user()->name);
+            // DB::commit();
+            Alert::success('Berhasil', 'Data cuti pegawai berhasil diupdate oleh ' . auth()->user()->name);
 
-            if ($request->has('histori_cuti')) {
+            // if ($request->has('histori_cuti')) {
                 return redirect()->route('admin.cuti.histori-cuti.index')->with('success', 'Data cuti berhasil diupdate');
-            }
-            return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'Data cuti berhasil diupdate');
+            // }
+            // return redirect()->route('admin.cuti.data-cuti-aktif.index')->with('success', 'Data cuti berhasil diupdate');
         } catch (\Throwable $th) {
-            DB::rollBack();
+            // DB::rollBack();
+            return [$request->all(), $th->getMessage()];
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
@@ -523,19 +528,22 @@ class CutiController extends Controller
 
     public function validasi(Request $request, Cuti $cuti)
     {
-        $cuti->update([
-            'formLanjutan' => [
-                'n2' => $request->n2 ?? 0,
-                'n1' => $request->n1 ?? 0,
-                'n' => $request->n ?? 0,
-                'cutiBesar' => $request->cutiBesar ?? 0,
-                'cutiSakit' => $request->cutiSakit ?? 0,
-                'cutiMelahirkan' => $request->cutiMelahirkan ?? 0,
-                'cutiKarenaAlasanPenting' => $request->cutiKareanaAlasanPenting ?? 0,
-                'cutiDiLuarTanggunganNegara' => $request->cutiDiLuarTanggunganNegara ?? 0,
-            ]
-        ]);
 
+        if (isset($request)) {
+            $cuti->update([
+                'formLanjutan' => [
+                    'n2' => ['sisa' => $request->sisaN2 ?? '', 'keterangan' => $request->keteranganN2 ?? ''],
+                    'n1' => ['sisa' => $request->sisaN1 ?? '', 'keterangan' => $request->keteranganN1 ?? ''],
+                    'n' => ['sisa' => $request->sisaN ?? '', 'keterangan' => $request->keteranganN ?? ''],
+                    'cutiBesar' => $request->cutiBesar ?? '',
+                    'cutiSakit' => $request->cutiSakit ?? '',
+                    'cutiMelahirkan' => $request->cutiMelahirkan ?? '',
+                    'cutiKarenaAlasanPenting' => $request->cutiKarenaAlasanPenting ?? '',
+                    'cutiDiLuarTanggunganNegara' => $request->cutiDiLuarTanggunganNegara ?? '',
+                ]
+            ]);
+            Alert::success('success', 'catatan cuti berhasil ditambahkan');
+        }
         return redirect()->back();
     }
 }

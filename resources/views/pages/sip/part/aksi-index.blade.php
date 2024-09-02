@@ -10,9 +10,9 @@
              <a class='dropdown-item' href="{{ route('admin.sip.show', [$model->sip[0]->id]) }}">Detail SIP</a>
          </div>
      </div>
-      <a href="{{ $model->sip[0]->link_str }}/view" class="btn btn-success mr-1" target="_blank">
+      {{-- <a href="{{ $model->sip[0]->link_str }}/view" class="btn btn-success mr-1" target="_blank">
                                             <i class="fas fa-link"></i>
-                                        </a>
+                                        </a> --}}
      <a href="{{ route('admin.sip.edit',['sip' => $model->sip[0]]) }}" class='btn text-white btn-warning mr-1'><i
              class='fas fa-pen'></i></a>
  </div>

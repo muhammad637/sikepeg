@@ -10,9 +10,9 @@
              <a class='dropdown-item' href="{{ route('admin.str.show', [$model->str[0]->id]) }}">Detail STR</a>
          </div>
      </div>
-      <a href="{{ $model->str[0]->link_str }}/view" class="btn btn-success mr-1" target="_blank">
+      {{-- <a href="{{ $model->str[0]->link_str }}/view" class="btn btn-success mr-1" target="_blank">
                                             <i class="fas fa-link"></i>
-                                        </a>
+                                        </a> --}}
      <a href="{{ route('admin.str.edit',['str' => $model->str[0]]) }}" class='btn text-white btn-warning mr-1'><i
              class='fas fa-pen'></i></a>
  </div>
