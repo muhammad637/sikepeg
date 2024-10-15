@@ -38,8 +38,9 @@
 
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">No. STR</label>
+                        
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3"
+                            <input type="text" class="form-control" id="inputPassword3"
                                 value="{{ old('no_str', $str->no_str) }}" name="no_str" required>
                         </div>
                     </div>
@@ -54,7 +55,7 @@
                     <div class="row mb-3">
                         <label for="noSTR" class="col-sm-4 col-form-label">No. Sertifikat Kompetensi</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="inputPassword3"
+                            <input type="text" class="form-control" id="inputPassword3"
                                 value="{{ old('no_sertikom', $str->no_sertikom) }}" name="no_sertikom">
                         </div>
                     </div>

@@ -954,7 +954,7 @@
                             </p>
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:normal;'>
-                                <u><span style='font-family:  "Times New Roman",serif;'>(BUDI PRIYAMBONO,
+                                <u><span style='font-family:  "Times New Roman",serif;'>(BUDI PRIYAMBODO,
                                         S.STP)</span></u><span
                                     style='font-family:"Times New Roman",serif;'><br>&nbsp;NIP
                                     19801024 19992 1 002</span>
@@ -989,7 +989,7 @@
                             style="width: 49.6717%; border-top: none; border-bottom: none; border-left: none; border-image: initial; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>Pilih salah satu dengan member tanda
+                                <span style='font-family:"Times New Roman",serif;'>Pilih salah satu dengan memberi tanda
                                     centang (v)</span>
                             </p>
                         </td>

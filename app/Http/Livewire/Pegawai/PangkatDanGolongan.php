@@ -73,9 +73,10 @@ class PangkatDanGolongan extends Component
         $this->status_tipe = old('status_tipe', null);
         if ($this->status_tipe == 'pns' || $this->status_tipe == 'pppk') {
             $this->pangkat_golongan = PangkatGolongan::where('jenis', $this->status_tipe)->get();
+            $this->pangkat_golongan_id = old('pangkat_golongan_id', null);
+            $this->nama_pangkat_golongan = old('nama_pangkat_golongan', null);
         }
-        $this->pangkat_golongan_id = old('pangkat_golongan_id', null);
-        $this->nama_pangkat_golongan = old('nama_pangkat_golongan', null);
+        
 
         $this->sekolah = old('sekolah', null);
         // nakes

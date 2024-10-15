@@ -237,18 +237,14 @@ class CutiController extends Controller
     public function update(Request $request, Cuti $cuti)
     {
         // Find the employee to be updated
-        $pegawaiUpdate = Pegawai::find($request->pegawai_id);
+        $pegawaiUpdate = Pegawai::find($cuti->pegawai_id);
+        // return $pegawaiUpdate;
         if (!$pegawaiUpdate) {
             return redirect()->back()->with('error', 'Pegawai dengan ID yang dimasukkan tidak ada');
         }
-        
-        
-        
-       
-
-    
-
         try {
+            // return $request->all();
+
             // Check the leave status
             // Validate user input
             $validatedData = $request->validate([
@@ -268,37 +264,51 @@ class CutiController extends Controller
             // Begin database transaction
             // DB::beginTransaction();
             // Handle annual leave for the same employee
-            if ($request->jenis_cuti === 'cuti tahunan' && $cuti->jenis_cuti === 'cuti tahunan') {
-                $cuti->pegawai->update([
-                    'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari - $request->jumlah_hari,
-                ]);
-            } elseif ($request->jenis_cuti !== $cuti->jenis_cuti) {
-                if ($cuti->jenis_cuti === 'cuti tahunan') {
-                    $cuti->pegawai->update([
-                        'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
-                    ]);
-                } elseif ($cuti->jenis_cuti === 'cuti besar') {
-                    $cuti->pegawai->update(['sisa_cuti_tahunan' => 12]);
-                }
+            // if ($request->jenis_cuti === 'cuti tahunan' && $cuti->jenis_cuti === 'cuti tahunan') {
+            //     $cuti->pegawai->update([
+            //         'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari - $request->jumlah_hari,
+            //     ]);
+            // } elseif ($request->jenis_cuti !== $cuti->jenis_cuti) {
+            //     if ($cuti->jenis_cuti === 'cuti tahunan') {
+            //         $cuti->pegawai->update([
+            //             'sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan + $cuti->jumlah_hari,
+            //         ]);
+            //     } elseif ($cuti->jenis_cuti === 'cuti besar') {
+            //         $cuti->pegawai->update(['sisa_cuti_tahunan' => 12]);
+            //     }
 
-                if ($request->jenis_cuti === 'cuti tahunan') {
-                    if ($cuti->pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
-                        $cuti->pegawai->update(['sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan - $request->jumlah_hari]);
-                    } else {
-                        DB::rollBack();
-                        return redirect()->back()->with('error', 'Cuti tahunan pegawai kurang dari ' . $request->jumlah_hari . ', mohon masukkan kembali hari libur pegawai');
-                    }
-                } elseif ($request->jenis_cuti === 'cuti besar') {
-                    if ($cuti->pegawai->sisa_cuti_tahunan !== 0) {
-                        $cuti->pegawai->update(['sisa_cuti_tahunan' => 0]);
-                    } else {
-                        DB::rollBack();
-                        return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $cuti->pegawai->nama_lengkap . ' telah habis pada tahun ini');
-                    }
+            //     if ($request->jenis_cuti === 'cuti tahunan') {
+            //         if ($cuti->pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
+            //             $cuti->pegawai->update(['sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan - $request->jumlah_hari]);
+            //         } else {
+            //             DB::rollBack();
+            //             return redirect()->back()->with('error', 'Cuti tahunan pegawai kurang dari ' . $request->jumlah_hari . ', mohon masukkan kembali hari libur pegawai');
+            //         }
+            //     } elseif ($request->jenis_cuti === 'cuti besar') {
+            //         if ($cuti->pegawai->sisa_cuti_tahunan !== 0) {
+            //             $cuti->pegawai->update(['sisa_cuti_tahunan' => 0]);
+            //         } else {
+            //             DB::rollBack();
+            //             return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $cuti->pegawai->nama_lengkap . ' telah habis pada tahun ini');
+            //         }
+            //     }
+            // }
+            if ($request->jenis_cuti === 'cuti tahunan') {
+                if ($cuti->pegawai->sisa_cuti_tahunan >= $request->jumlah_hari) {
+                    $cuti->pegawai->update(['sisa_cuti_tahunan' => $cuti->pegawai->sisa_cuti_tahunan - $request->jumlah_hari]);
+                } else {
+                    // DB::rollBack();
+                    return redirect()->back()->with('error', 'Cuti tahunan pegawai kurang dari ' . $request->jumlah_hari . ', mohon masukkan kembali hari libur pegawai');
+                }
+            } elseif ($request->jenis_cuti === 'cuti besar') {
+                if ($cuti->pegawai->sisa_cuti_tahunan !== 0) {
+                    $cuti->pegawai->update(['sisa_cuti_tahunan' => 0]);
+                } else {
+                    // DB::rollBack();
+                    return redirect()->back()->with('error', 'Cuti tahunan pegawai ' . $cuti->pegawai->nama_lengkap . ' telah habis pada tahun ini');
                 }
             }
             // Update leave data
-            $cuti->update($request->all());
 
             // Create notification
             $notif = Notifikasi::notif('cuti', 'Data cuti pegawai ' . $pegawaiUpdate->nama_lengkap . ' berhasil divalidasi oleh ' . auth()->user()->name, 'bg-success', 'fas fa-calendar-week');

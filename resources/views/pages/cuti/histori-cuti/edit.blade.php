@@ -18,7 +18,7 @@
                     <div class="row mb-3">
                         <label for="select2" class="col-sm-4 col-form-label">Pegawai</label>
                         <div class="col-sm-8">
-                            <select name="pegawai_id" class="form-control " id="select2" >
+                            <select name="pegawai_id" class="form-control " id="select2" disabled>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $cuti->pegawai_id === $item->id ? 'selected' : '' }}>

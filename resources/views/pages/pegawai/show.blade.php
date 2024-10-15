@@ -141,8 +141,8 @@
                                         <td scope="col">{{ $pegawai->status_tipe == 'pns' ? date_diff(date_create($pegawai->tmt_pns),date_create('now'))->y : ($pegawai->status_tipe == 'pppk' ? date_diff(date_create($pegawai->tmt_pppk),date_create('now'))->y : date_diff(date_create($pegawai->tanggal_masuk),date_create('now'))->y) }} Tahun</td>
                                     </tr>
                                     <tr>
-                                        <th scope="col" class="judul-text">Cuti Tahunan</th>
-                                        <td scope="col">{{ $pegawai->cuti_tahunan }} hari</td>
+                                        <th scope="col" class="judul-text">Sisa Cuti Tahunan</th>
+                                        <td scope="col">{{ $pegawai->sisa_cuti_tahunan }} hari</td>
                                     </tr>
                                     <!--<tr>-->
                                     <!--    <th scope="col" class="judul-text">Sisa Cuti Tahunan</th>-->

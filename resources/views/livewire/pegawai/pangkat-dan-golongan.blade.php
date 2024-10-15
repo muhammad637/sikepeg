@@ -220,6 +220,7 @@
                 </div>
             </div>
         </div>
+        {{-- {{$pangkat_golongan_id ?? 'tidak ada'}} --}}
         <div class="mb-4 {{ $pangkat_golongan_id == 'pangkat_golongan_lainnya' ? 'd-show' : 'd-none' }}">
             <div class="row gap-5">
                 <div class="col-md-5 col-sm-5 col-lg-5 col-xl-4">

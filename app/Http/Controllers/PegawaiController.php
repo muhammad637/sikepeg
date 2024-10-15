@@ -257,8 +257,8 @@ class PegawaiController extends Controller
             $masa_kerja = $this->lama($request->tanggal_masuk);
             // Menggabungkan data khusus untuk pegawai 'non asn'
             $data = array_merge([
-                'cuti_tahunan' => $request->cuti_tahunan,
-                'sisa_cuti_tahunan' => $request->cuti_tahunan,
+                'cuti_tahunan' => 12,
+                'sisa_cuti_tahunan' => 12,
                 'masa_kerja' => $masa_kerja,
                 'status_tipe' => 'thl'
             ], $data);

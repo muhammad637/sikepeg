@@ -16,7 +16,9 @@
                 <div class="col-sm-12 col-xl-12">
                     <div class="row mb-3">
                         <label for="select2" class="col-sm-4 col-form-label">Pegawai</label>
+                        {{-- <input type="text" value="{{$cuti->pegawai->nama_lengkap}}"> --}}
                         <div class="col-sm-8">
+                        <input type="text" value="{{$cuti->pegawai->nama_lengkap}}" class="form-select">
                             <select name="pegawai_id" class="form-control " id="select2" disabled>
                                 @foreach ($pegawai as $item)
                                     <option value="{{ $item->id }}"

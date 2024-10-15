@@ -43,7 +43,7 @@
                         <label for="inputEmail3" class="col-sm-4 col-form-label">Pangkat / Golongan</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="inputEmail3"
-                                value="{{ $kenaikan_pangkat->pangkat ? $kenaikan_pangkat->pangkat->nama_pangkat.' / '.$kenaikan_pangkat->golongan->nama_golongan : $kenaikan_pangkat->golongan->nama_golongan}}"
+                                value="{{ $kenaikan_pangkat->pangkatGolongan ? $kenaikan_pangkat->pangkatGolongan->nama : '--'}}"
                                 readonly>
                         </div>
                     </div>

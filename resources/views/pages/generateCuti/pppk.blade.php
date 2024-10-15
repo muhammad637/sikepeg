@@ -230,7 +230,8 @@
                             style="width: 503pt;border: 1pt solid windowtext;padding: 0cm 5.4pt;vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>I. DATA PEGAWAI</span></p>
+                                <span style='font-family:"Times New Roman",serif;'>I. DATA PEGAWAI</span>
+                            </p>
                         </td>
                     </tr>
                     <tr>
@@ -238,25 +239,29 @@
                             style="width: 63.4pt; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt; vertical-align: middle;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>Nama</span></p>
+                                <span style='font-family:"Times New Roman",serif;'>Nama</span>
+                            </p>
                         </td>
                         <td
                             style="width: 46.4977%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>{{ $data->pegawai->nama_lengkap }}</span></p>
+                                <span
+                                    style='font-family:"Times New Roman",serif;'>{{ $data->pegawai->nama_lengkap }}</span>
+                            </p>
                         </td>
                         <td
                             style="width: 16.0395%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>NIP</span></p>
+                                <span style='font-family:"Times New Roman",serif;'>NIP</span>
+                            </p>
                         </td>
                         <td
                             style="width: 23.6028%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Times New Roman",sans-serif;line-height:  normal;'>
-                                {{$data->pegawai->nip_nippk}}</p>
+                                {{ $data->pegawai->nip_nippk }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -264,27 +269,30 @@
                             style="width: 63.4pt;border-right: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-left: 1pt solid windowtext;border-image: initial;border-top: none;padding: 0cm 5.4pt;vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>Jabatan</span></p>
+                                <span style='font-family:"Times New Roman",serif;'>Jabatan</span>
+                            </p>
                         </td>
                         <td
                             style="width: 46.4977%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Times New Roman",sans-serif;line-height:  normal;'>
-                                {{$data->pegawai->jabatan}}</p>
+                                {{ $data->pegawai->jabatan }}</p>
                         </td>
                         <td
                             style="width: 16.0395%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>Masa kerja</span></p>
+                                <span style='font-family:"Times New Roman",serif;'>Masa kerja</span>
+                            </p>
                         </td>
                         <td
                             style="width: 23.6028%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                 <span
+                                <span
                                     style='font-family:"Times New Roman",serif;'>&nbsp;{{ $data->pegawai->status_tipe == 'pns' ? date_diff(date_create($data->pegawai->tmt_pns), date_create('now'))->y : ($data->pegawai->status_tipe == 'pppk' ? date_diff(date_create($data->pegawai->tmt_pppk), date_create('now'))->y : date_diff(date_create($data->pegawai->tanggal_masuk), date_create('now'))->y) }}
-                                    Tahun</span></p>
+                                    Tahun</span>
+                            </p>
                         </td>
                     </tr>
                     <tr>
@@ -292,13 +300,16 @@
                             style="width: 63.4pt;border-right: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-left: 1pt solid windowtext;border-image: initial;border-top: none;padding: 0cm 5.4pt;vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>Unit kerja</span></p>
+                                <span style='font-family:"Times New Roman",serif;'>Unit kerja</span>
+                            </p>
                         </td>
                         <td colspan="3"
                             style="width: 439.6pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0cm 5.4pt;vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>&nbsp;{{$data->pegawai->ruangan->nama_ruangan}}</span></p>
+                                <span
+                                    style='font-family:"Times New Roman",serif;'>&nbsp;{{ $data->pegawai->ruangan->nama_ruangan }}</span>
+                            </p>
                         </td>
                     </tr>
                 </tbody>
@@ -1173,7 +1184,7 @@
                             </p>
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:normal;'>
-                                <u><span style='font-family:  "Times New Roman",serif;'>(BUDI PRIYAMBONO,
+                                <u><span style='font-family:  "Times New Roman",serif;'>(BUDI PRIYAMBODO,
                                         S.STP)</span></u><span
                                     style='font-family:"Times New Roman",serif;'><br>&nbsp;NIP
                                     19801024 19992 1 002</span>
@@ -1208,7 +1219,8 @@
                             style="width: 49.6717%; border-top: none; border-bottom: none; border-left: none; border-image: initial; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>Pilih salah satu dengan member tanda
+                                <span style='font-family:"Times New Roman",serif;'>Pilih salah satu dengan memberi
+                                    tanda
                                     centang (v)</span>
                             </p>
                         </td>
@@ -1225,7 +1237,7 @@
                             style="width: 49.6717%; border-top: none; border-bottom: none; border-left: none; border-image: initial; border-right: 1pt solid windowtext; padding: 0cm 5.4pt; vertical-align: top;">
                             <p
                                 style='margin-top:0cm;margin-right:0cm;margin-bottom:.0001pt;margin-left:0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:  normal;'>
-                                <span style='font-family:"Times New Roman",serif;'>Di isi oleh pejabat yang menagani
+                                <span style='font-family:"Times New Roman",serif;'>Di isi oleh pejabat yang menangani
                                     bidang
                                     kepegawaian sebelum pegawai Non PNS mengajukan cuti</span>
                             </p>

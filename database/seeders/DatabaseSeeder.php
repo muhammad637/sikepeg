@@ -42,12 +42,12 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         PangkatGolongan::factory(5)->create();
-        $this->call(PegawaiSeeder::class);
-        Pegawai::factory(20)->create();
-        STR::factory(40)->create();
-        SIP::factory(40)->create();
-        $this->call(MutasiSeeder::class);
-        Cuti::factory(100)->create();
+        // $this->call(PegawaiSeeder::class);
+        // Pegawai::factory(20)->create();
+        // STR::factory(40)->create();
+        // SIP::factory(40)->create();
+        // $this->call(MutasiSeeder::class);
+        // Cuti::factory(100)->create();
     //    $this->call(DiklatSeeder::class);
     }
 }

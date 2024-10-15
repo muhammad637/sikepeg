@@ -82,7 +82,7 @@ Route::prefix('pegawai')->name('api.pegawai.')->group(function () {
         // downloadPDF
         Route::get('/downloadPDF', [PDFController::class, 'download']);
 
-        // logout
+        // logoutphp
         Route::post('/logout', [AuthController::class, 'logoutHandler'])->name('logout_handler');
     });
 });

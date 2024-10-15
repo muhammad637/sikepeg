@@ -13,7 +13,8 @@ class JabatanController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $jabatan = PromosiDemosi::where('pegawai_id', $user)->get()->orderBy('created_at', 'desc');
+        $jabatan = PromosiDemosi::where('pegawai_id', $user->id)->orderBy('created_at', 'desc')->get();
+        // return PromosiDemosi::orderBy('created_at', 'desc')->get();
         $data = JabatanResource::collection($jabatan);
         $response = response()->json(
             [

@@ -12,8 +12,10 @@ class KenaikanPangkatController extends Controller
     //
     public function index()
     {
-        $user = auth()->user;
-        $kenaikanPangkat = KenaikanPangkat::where('pegawai_id', $user)->get()->orderBy('updated_at', 'desc');
+        $user = auth()->user();
+        // return $user->id;
+        $kenaikanPangkat = KenaikanPangkat::where('pegawai_id', $user->id)->orderBy('updated_at', 'desc')->get();
+        // return $kenaikanPangkat;
         return response()->json([
             'status' => 'success',
             'messsage' => 'Data Kenaikan Pangkat Pegawai Berhasil Di tampilkan',

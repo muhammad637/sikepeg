@@ -146,7 +146,7 @@ class   STRController extends Controller
     public function edit(STR $str)
     {
         $results = Pegawai::where('status_tenaga', 'asn')->where('jenis_tenaga', 'nakes')->get();
-
+        // return $str;
         return view('pages.str.edit', [
             'str' => $str,
             'results' => $results

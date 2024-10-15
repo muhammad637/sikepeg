@@ -18,7 +18,7 @@ class CutiController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $cuti = Cuti::where('pegawai_id', $user->id)->orderBy('created_at', 'desc')->take(5)->get();
+        $cuti = Cuti::where('pegawai_id', $user->id)->orderBy('created_at', 'desc')->get();
         $data = CutiResource::collection($cuti);
 
         return response()->json([
